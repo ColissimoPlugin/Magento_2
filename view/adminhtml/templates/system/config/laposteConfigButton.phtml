@@ -1,0 +1,16 @@
+<?php /* @var $block \LaPoste\Colissimo\Block\System\Config\LaposteConfigButton */ ?>
+
+<script>
+    require([
+        'jquery',
+        'prototype'
+    ], function (jQuery) {
+
+        jQuery('#LaPosteConfigBtn').click(function () {
+            window.location = '<?php echo $block->urlLaPoste; ?>';
+        });
+
+    });
+</script>
+
+<?php echo $block->getButtonHtml(); ?>

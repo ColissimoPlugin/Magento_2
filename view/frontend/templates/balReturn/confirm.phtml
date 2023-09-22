@@ -1,0 +1,24 @@
+<div class="lpc_balreturn">
+    <h1 class="page-title"><?php echo __('MailBox picking return'); ?></h1>
+
+    <h2 class="lpc_balreturn_subtitle"><?php echo __('Retrieval address'); ?></h2>
+    <div>
+        <?php echo __('Address from which the return will be from:'); ?>
+        <div>
+            <?php echo $this->formatFormAddress(); ?>
+        </div>
+
+        <?php if ($this->sendPickUpConfirmation()) {
+            ?>
+            <div>
+                <b><?php echo __('Your PickUp has been confirmed.'); ?></b>
+            </div>
+            <div>
+                <?php echo __('Your return tracking number is:'); ?>
+                <?php echo $this->getReturnTrackingNumber(); ?>
+            </div>
+            <?php
+        } ?>
+
+    </div>
+</div>

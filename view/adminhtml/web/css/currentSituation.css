@@ -1,0 +1,14 @@
+.lpc_anomaly_icon::before{
+    font-family: 'Admin Icons';
+    margin-right: 5px;
+}
+
+.lpc_anomaly_delay::before{
+    content: '\e623';
+    color: #eb5202;
+}
+
+.lpc_anomaly_status::before{
+    content: '\e620';
+    color: #e22626;
+}

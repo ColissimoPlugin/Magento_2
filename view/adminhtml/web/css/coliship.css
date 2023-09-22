@@ -1,0 +1,9 @@
+#lpc_coliship_export{
+    border-bottom: 1px solid #e3e3e3;
+    padding-bottom: 3rem;
+    margin-bottom: 2rem;
+}
+
+#lpc_coliship_export form div.admin__field, #lpc_coliship_export .lpc_coliship_export_fmtFileExample_button, #lpc_coliship_import form div.admin__field{
+    padding-left: 3rem;
+}

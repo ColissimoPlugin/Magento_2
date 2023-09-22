@@ -1,0 +1,641 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="carriers">
+            <tab>sales</tab>
+            <resource>LaPoste_Colissimo::colissimo_config</resource>
+            <group id="lpc_group" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label">
+                <label>La Poste Colissimo</label>
+                <field id="advanced_config" translate="label" type="button" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>La Poste Colissimo</label>
+                    <frontend_model>LaPoste\Colissimo\Block\System\Config\LaposteConfigButton</frontend_model>
+                </field>
+                <field id="prices_config" translate="label" type="button" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Prices</label>
+                    <frontend_model>LaPoste\Colissimo\Block\System\Config\PricesConfigButton</frontend_model>
+                </field>
+                <field id="display_logo" translate="label comment" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Display shipping methods logo on checkout</label>
+                    <comment>Choose to add the shipping methods logo next to the method name in the checkout</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="domiciless_enable" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Colissimo Domicile without signature</label>
+                    <comment>Enable the Colissimo Domicile without signature mode</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="domiciless_label" translate="label" type="text" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Name</label>
+                    <depends>
+                        <field id="carriers/lpc_group/domiciless_enable">1</field>
+                    </depends>
+                </field>
+                <field id="domiciless_free" translate="label comment" type="select" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Free shipping</label>
+                    <comment>Should the shipping method be free</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="carriers/lpc_group/domiciless_enable">1</field>
+                    </depends>
+                </field>
+                <field id="domicileas_enable" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Colissimo Domicile with signature</label>
+                    <comment>Enable the Colissimo Domicile with signature mode</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="domicileas_label" translate="label" type="text" sortOrder="21" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Name</label>
+                    <depends>
+                        <field id="carriers/lpc_group/domicileas_enable">1</field>
+                    </depends>
+                </field>
+                <field id="domicileas_free" translate="label comment" type="select" sortOrder="22" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Free shipping</label>
+                    <comment>Should the shipping method be free</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="carriers/lpc_group/domicileas_enable">1</field>
+                    </depends>
+                </field>
+                <field id="domicileas_sendingservice_AT" translate="label comment" type="select" sortOrder="23" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sending service for Austria</label>
+                    <source_model>\LaPoste\Colissimo\Model\Config\Source\SendingService</source_model>
+                    <depends>
+                        <field id="carriers/lpc_group/domicileas_enable">1</field>
+                    </depends>
+                </field>
+                <field id="domicileas_sendingservice_DE" translate="label comment" type="select" sortOrder="24" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sending service for Germany</label>
+                    <source_model>\LaPoste\Colissimo\Model\Config\Source\SendingService</source_model>
+                    <depends>
+                        <field id="carriers/lpc_group/domicileas_enable">1</field>
+                    </depends>
+                </field>
+                <field id="domicileas_sendingservice_IT" translate="label comment" type="select" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sending service for Italy</label>
+                    <source_model>\LaPoste\Colissimo\Model\Config\Source\SendingService</source_model>
+                    <depends>
+                        <field id="carriers/lpc_group/domicileas_enable">1</field>
+                    </depends>
+                </field>
+                <field id="domicileas_sendingservice_LU" translate="label comment" type="select" sortOrder="26" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sending service for Luxembourg</label>
+                    <source_model>\LaPoste\Colissimo\Model\Config\Source\SendingService</source_model>
+                    <depends>
+                        <field id="carriers/lpc_group/domicileas_enable">1</field>
+                    </depends>
+                </field>
+                <field id="domicileasddp_enable" translate="label comment" type="select" sortOrder="27" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Colissimo Domicile with signature - DDP Option</label>
+                    <comment>This delivery method will allow you to set the shipment 'Colissimo with Signature with DDP' which is only valid and will be displayed for the United Kingdom. It is restricted to commercial shipments between 160€ and 1050€ included.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="domicileasddp_label" translate="label" type="text" sortOrder="28" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Name</label>
+                    <depends>
+                        <field id="carriers/lpc_group/domicileasddp_enable">1</field>
+                    </depends>
+                </field>
+                <field id="domicileasddp_free" translate="label comment" type="select" sortOrder="29" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Free shipping</label>
+                    <comment>Should the shipping method be free</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="carriers/lpc_group/domicileasddp_enable">1</field>
+                    </depends>
+                </field>
+                <field id="pr_enable" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Colissimo Point Retrait</label>
+                    <comment>Enable the Colissimo Point Retrait mode</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="pr_label" translate="label" type="text" sortOrder="31" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Name</label>
+                    <depends>
+                        <field id="carriers/lpc_group/pr_enable">1</field>
+                    </depends>
+                </field>
+                <field id="pr_free" translate="label comment" type="select" sortOrder="32" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Free shipping</label>
+                    <comment>Should the shipping method be free</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="carriers/lpc_group/pr_enable">1</field>
+                    </depends>
+                </field>
+                <field id="expert_enable" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Colissimo International</label>
+                    <comment>Enable the Colissimo International mode</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="expert_label" translate="label" type="text" sortOrder="41" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Name</label>
+                    <depends>
+                        <field id="carriers/lpc_group/expert_enable">1</field>
+                    </depends>
+                </field>
+                <field id="expert_free" translate="label comment" type="select" sortOrder="42" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Free shipping</label>
+                    <comment>Should the shipping method be free</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="carriers/lpc_group/expert_enable">1</field>
+                    </depends>
+                </field>
+                <field id="expert_sendingservice_AT" translate="label comment" type="select" sortOrder="43" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sending service for Austria</label>
+                    <source_model>\LaPoste\Colissimo\Model\Config\Source\SendingService</source_model>
+                    <depends>
+                        <field id="carriers/lpc_group/expert_enable">1</field>
+                    </depends>
+                </field>
+                <field id="expert_sendingservice_DE" translate="label comment" type="select" sortOrder="44" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sending service for Germany</label>
+                    <source_model>\LaPoste\Colissimo\Model\Config\Source\SendingService</source_model>
+                    <depends>
+                        <field id="carriers/lpc_group/expert_enable">1</field>
+                    </depends>
+                </field>
+                <field id="expert_sendingservice_IT" translate="label comment" type="select" sortOrder="45" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sending service for Italy</label>
+                    <source_model>\LaPoste\Colissimo\Model\Config\Source\SendingService</source_model>
+                    <depends>
+                        <field id="carriers/lpc_group/expert_enable">1</field>
+                    </depends>
+                </field>
+                <field id="expert_sendingservice_LU" translate="label comment" type="select" sortOrder="46" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sending service for Luxembourg</label>
+                    <source_model>\LaPoste\Colissimo\Model\Config\Source\SendingService</source_model>
+                    <depends>
+                        <field id="carriers/lpc_group/expert_enable">1</field>
+                    </depends>
+                </field>
+                <field id="expertddp_enable" translate="label comment" type="select" sortOrder="47" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Colissimo International - DDP Option</label>
+                    <comment>This delivery method will allow you to set the shipment 'Colissimo International - DDP Option' which is valid and will be displayed only for the following countries: Australia, Bahrain, Canada, China, Egypt, Hong Kong, Indonesia, Japan, Kuwait, Mexico, Oman, Philippines, Saudi Arabia, Singapore, South Africa, South Korea, Switzerland, Thailand, United Arab Emirates, United Kingdom, USA</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="expertddp_label" translate="label" type="text" sortOrder="48" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Name</label>
+                    <depends>
+                        <field id="carriers/lpc_group/expertddp_enable">1</field>
+                    </depends>
+                </field>
+                <field id="expertddp_free" translate="label comment" type="select" sortOrder="49" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Free shipping</label>
+                    <comment>Should the shipping method be free</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="carriers/lpc_group/expertddp_enable">1</field>
+                    </depends>
+                </field>
+                <!--
+                <field id="flash_maxHour" translate="label comment" type="select" sortOrder="49" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Colissimo Flash Maximum hour</label>
+                    <comment>The Colissimo Flash method (J+1) will not be available past this hour.</comment>
+                    <source_model>\LaPoste\Colissimo\Model\Config\Source\FlashHours</source_model>
+                </field>
+                <field id="flashss_enable" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Colissimo Flash without signature</label>
+                    <comment>Enable the Colissimo Flash without signature mode</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="flashss_label" translate="label" type="text" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Name</label>
+                    <depends>
+                        <field id="carriers/lpc_group/flashss_enable">1</field>
+                    </depends>
+                </field>
+                <field id="flashss_free" translate="label comment" type="select" sortOrder="52" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Free shipping</label>
+                    <comment>Should the shipping method be free</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="carriers/lpc_group/flashss_enable">1</field>
+                    </depends>
+                </field>
+                <field id="flashas_enable" translate="label comment" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Colissimo Flash with signature</label>
+                    <comment>Enable the Colissimo Flash with signature mode</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="flashas_label" translate="label" type="text" sortOrder="61" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Name</label>
+                    <depends>
+                        <field id="carriers/lpc_group/flashas_enable">1</field>
+                    </depends>
+                </field>
+                <field id="flashas_free" translate="label comment" type="select" sortOrder="62" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Free shipping</label>
+                    <comment>Should the shipping method be free</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="carriers/lpc_group/flashas_enable">1</field>
+                    </depends>
+                </field>
+                -->
+            </group>
+        </section>
+        <section id="lpc_advanced" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="800" translate="label">
+            <label>La Poste Colissimo Advanced Setup</label>
+            <tab>sales</tab>
+            <resource>LaPoste_Colissimo::colissimo_config</resource>
+            <group id="lpc_general" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="1" translate="label">
+                <label>General configuration</label>
+                <field id="id_webservices" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="1" translate="label comment" type="text">
+                    <label>ID</label>
+                    <comment>ID of your account for La Poste webservices</comment>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="pwd_webservices" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="2" translate="label comment" type="password">
+                    <label>Password</label>
+                    <comment>Password to connect to La Poste webservices and use the module</comment>
+                    <validate>required-entry</validate>
+                </field>
+                <!--<field id="parent_id_webservices" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="3" translate="label comment" type="text">
+                    <label>Parent account ID</label>
+                    <comment>If you use an advanced account, please enter the parent account ID</comment>
+                </field>-->
+                <!--<field id="idCheck" translate="label comment" type="button" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <frontend_model>LaPoste\Colissimo\Block\System\Config\IdCheck</frontend_model>
+                    <label>ID validation</label>
+                    <comment>Check that IDs are valid.</comment>
+                </field>-->
+                <field id="coliship_link" translate="label comment" type="label" sortOrder="4" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label></label>
+                    <frontend_model>LaPoste\Colissimo\Block\System\Config\ColishipLink</frontend_model>
+                </field>
+            </group>
+            <group id="lpc_labels" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="2" translate="label">
+                <label>Labels</label>
+                <field id="isUsingColiShip" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="1" translate="label comment" type="select">
+                    <label>Delegate label generation to ColiShip?</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If enabled, this module will not automatically generate label for each Colissimo shipment.</comment>
+                </field>
+                <field id="fmtFileExample" translate="label comment" type="button" showInDefault="1" sortOrder="1.5" showInWebsite="0" showInStore="0">
+                    <frontend_model>LaPoste\Colissimo\Block\System\Config\Field\FmtFileExample</frontend_model>
+                    <label>Retrieve an example of Colissimo FMT file.</label>
+                    <depends>
+                        <field id="lpc_advanced/lpc_labels/isUsingColiShip">1</field>
+                    </depends>
+                </field>
+                <field id="outwardPrintFormat" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Outward label print format</label>
+                    <source_model>LaPoste\Colissimo\Model\Config\Source\PrintFormats</source_model>
+                    <depends>
+                        <field id="isUsingColiShip">0</field>
+                    </depends>
+                </field>
+                <field id="orderStatusForGeneration" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="3" translate="label comment" type="multiselect">
+                    <label>Order status to generate label</label>
+                    <source_model>LaPoste\Colissimo\Model\Config\Source\OrderStatusWithoutNew</source_model>
+                    <comment>Order status where a label can be generated.</comment>
+                </field>
+                <field id="orderStatusAfterGeneration" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="4" translate="label comment" type="select">
+                    <label>Order status after label generation</label>
+                    <source_model>LaPoste\Colissimo\Model\Config\Source\OrderStatus</source_model>
+                    <comment>Order status to apply after successful final label generation (be sure to use a status with COMPLETE state)</comment>
+                </field>
+                <field id="orderStatusAfterPartialExpedition" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="4" translate="label comment" type="select">
+                    <label>Order status when order is partially shipped</label>
+                    <source_model>LaPoste\Colissimo\Model\Config\Source\OrderStatus</source_model>
+                    <comment>Order status to apply after successful label generation for partial shipping.</comment>
+                </field>
+                <!--
+                <field id="orderStatusAfterCarrierSend" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="5" translate="label comment" type="select">
+                    <label>Order status after giving parcel to carrier</label>
+                    <source_model>LaPoste\Colissimo\Model\Config\Source\OrderStatus</source_model>
+                    <comment>Order status to apply when the parcel has been delivered to the carrier.</comment>
+                    <depends>
+                        <field id="isUsingColiShip">0</field>
+                    </depends>
+                </field>-->
+                <field id="sendTrackingEmail" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="6" translate="label comment" type="select">
+                    <label>Send tracking email</label>
+                    <comment>Send the tracking link in an email to customer on label or bordereau generation.</comment>
+                    <source_model>LaPoste\Colissimo\Model\Config\Source\TrackingEmail</source_model>
+                    <depends>
+                        <field id="isUsingColiship">0</field>
+                    </depends>
+                </field>
+                <field id="isUsingCashOnDelivery" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="7" translate="label comment" type="select">
+                    <label>Use cash on delivery?</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If enabled, each label generation will use cash on delivery feature by default.</comment>
+                    <depends>
+                        <field id="isUsingColiShip">0</field>
+                    </depends>
+                </field>
+                <field id="isUsingInsurance" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="8" translate="label comment" type="select">
+                    <label>Use Colissimo Insurance for outward label?</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If enabled, each outward label generation will use Colissimo Insurance feature by default.</comment>
+                    <depends>
+                        <field id="isUsingColiShip">0</field>
+                    </depends>
+                </field>
+                <field id="averagePreparationDelay" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="9" translate="label comment" type="text">
+                    <label>Average preparation delay</label>
+                    <comment>Your average delay for preparation of a shipment, in days.</comment>
+                    <validate>validate-number validate-zero-or-greater</validate>
+                    <depends>
+                        <field id="isUsingColiShip">0</field>
+                    </depends>
+                </field>
+                <field id="registeredMailLevel" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label comment" type="select">
+                    <label>Registered mail level</label>
+                    <source_model>LaPoste\Colissimo\Model\Config\Source\RegisteredMailLevel</source_model>
+                    <depends>
+                        <field id="isUsingColiShip">0</field>
+                    </depends>
+                </field>
+                <field id="isUsingCustomsDeclarations" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="11" translate="label comment" type="select">
+                    <label>Use Customs Declarations?</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If enabled, each label generation will ask Colissimo to generate and handle the Customs Declarations by default.</comment>
+                    <depends>
+                        <field id="isUsingColiShip">0</field>
+                    </depends>
+                </field>
+                <field id="defaultHsCode" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="12" translate="label comment" type="text">
+                    <label>Default HS code</label>
+                    <comment>You can define specific HS code per product in the product attribute 'Product HS Code'. If not, the default code will be used.</comment>
+                    <depends>
+                        <field id="isUsingCustomsDeclarations">1</field>
+                    </depends>
+                </field>
+                <field id="defaultCustomsCategory" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="13" translate="label comment" type="select">
+                    <label>Default customs Category</label>
+                    <source_model>LaPoste\Colissimo\Model\Config\Source\CustomsCategory</source_model>
+                    <comment>Define the nature of the shipment</comment>
+                    <depends>
+                        <field id="isUsingCustomsDeclarations">1</field>
+                    </depends>
+                </field>
+                <field id="isFtd" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="14" translate="label comment" type="select">
+                    <label>Are parcels free of taxes and fees?</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>For french overseas destinations only (except St-Pierre-et-Miquelon)</comment>
+                    <depends>
+                        <field id="isUsingCustomsDeclarations">1</field>
+                    </depends>
+                </field>
+                <field id="eoriNumber" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="15" translate="label" type="text">
+                    <label>EORI number</label>
+                    <depends>
+                        <field id="isUsingCustomsDeclarations">1</field>
+                    </depends>
+                </field>
+                <field id="eoriUkNumber" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="16" translate="label comment" type="text">
+                    <label>UK EORI number</label>
+                    <comment>EORI number for delivery to United Kingdom</comment>
+                    <depends>
+                        <field id="isUsingCustomsDeclarations">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="lpc_return_labels" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="3" translate="label">
+                <label>Return labels</label>
+                <field id="returnLabelPrintFormat" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Return label print format</label>
+                    <source_model>LaPoste\Colissimo\Model\Config\Source\PrintFormats</source_model>
+                </field>
+                <field id="createReturnLabelWithOutward" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Automatically create return label at the same time as the outward label</label>
+                    <comment>If you don't activate this option, you can still manually create return labels on order shipping page</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="showServiceInformation" translate="label comment" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show service information on return label</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="serviceInformation" translate="label" type="text" sortOrder="4" showInStore="1" showInWebsite="1" showInDefault="1">
+                    <label>Service information</label>
+                    <depends>
+                        <field id="showServiceInformation">1</field>
+                    </depends>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="showOrderRef" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show order reference on return label</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="isUsingInsuranceInward" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="6" translate="label comment" type="select">
+                    <label>Use Colissimo Insurance for inward label?</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If enabled, each inward label generation will use Colissimo Insurance feature by default.</comment>
+                    <depends>
+                        <field id="isUsingColiShip">0</field>
+                    </depends>
+                </field>
+                <field id="nbDaysForPurge" translate="label comment" type="text" sortOrder="7" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Number of days to consider a return label for purging (days)</label>
+                    <comment>Delay before deleting return label BLOB from database. Use 0 or leave empty to disable this purge.</comment>
+                </field>
+                <field id="availableToCustomer" translate="label" type="select" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Label creation is available to client</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="sendReturnLabelEmail" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="9" translate="label comment" type="select">
+                    <label>Send return label email</label>
+                    <comment>Send label in an email to customer on return label generation.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="lpc_pr_front" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="4" translate="label">
+                <label>Relay point</label>
+                <field id="prAutoSelect" translate="label comment" sortOrder="10" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Automatically select the nearest relay point</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>When the user selects the relay method during the checkout, it will automatically propose a relay point based on the shipping address</comment>
+                </field>
+                <field id="choosePRDisplayMode" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Display mode</label>
+                    <comment>Choose between the standard display mode from Colissimo (Widget) and the customizable ones (Google Maps or Open Street Maps)</comment>
+                    <source_model>LaPoste\Colissimo\Model\Config\Source\PRDisplayMode</source_model>
+                </field>
+                <field id="prCustomizeWidget" translate="label comment" sortOrder="20" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Customize widget</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If enabled, you can customize font and font color of the Colissimo widget</comment>
+                    <depends>
+                        <field id="lpc_advanced/lpc_pr_front/choosePRDisplayMode">widget</field>
+                    </depends>
+                </field>
+                <field id="prAddressTextColor" translate="label" sortOrder="30" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Colour of the selected pickup point in the list and on the map</label>
+                    <frontend_model>LaPoste\Colissimo\Block\System\Config\ColorPicker</frontend_model>
+                    <depends>
+                        <field id="lpc_advanced/lpc_pr_front/prCustomizeWidget">1</field>
+                        <field id="lpc_advanced/lpc_pr_front/choosePRDisplayMode">widget</field>
+                    </depends>
+                </field>
+                <field id="prListTextColor" translate="label" sortOrder="40" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Information icons color</label>
+                    <frontend_model>LaPoste\Colissimo\Block\System\Config\ColorPicker</frontend_model>
+                    <depends>
+                        <field id="lpc_advanced/lpc_pr_front/prCustomizeWidget">1</field>
+                        <field id="lpc_advanced/lpc_pr_front/choosePRDisplayMode">widget</field>
+                    </depends>
+                </field>
+                <field id="prDisplayFont" translate="label comment" sortOrder="50" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Font</label>
+                    <comment>Font for texts inside the widget</comment>
+                    <source_model>LaPoste\Colissimo\Model\Config\Source\PRDisplayFont</source_model>
+                    <depends>
+                        <field id="lpc_advanced/lpc_pr_front/prCustomizeWidget">1</field>
+                        <field id="lpc_advanced/lpc_pr_front/choosePRDisplayMode">widget</field>
+                    </depends>
+                </field>
+                <field id="showInternational" translate="label" sortOrder="70" showInWebsite="1" showInStore="1" showInDefault="1" type="select">
+                    <label>Show international Relay Points</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="lpc_advanced/lpc_pr_front/choosePRDisplayMode" separator=",">gmaps,leaflet</field>
+                    </depends>
+                </field>
+                <field id="lpc_google_maps_api_key" translate="label comment" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1" type="text">
+                    <label>Google Maps API Key</label>
+                    <comment>This key is needed to display the selection map</comment>
+                    <depends>
+                        <field id="lpc_advanced/lpc_pr_front/choosePRDisplayMode">gmaps</field>
+                    </depends>
+                </field>
+                <field id="maxRelayPoint" translate="label" sortOrder="82" showInDefault="1" showInWebsite="1" showInStore="1" type="text">
+                    <label>Maximum number of displayed relays</label>
+                    <depends>
+                        <field id="lpc_advanced/lpc_pr_front/choosePRDisplayMode" separator=",">gmaps,leaflet</field>
+                    </depends>
+                </field>
+                <field id="chooseRelayType" translate="label" type="multiselect" sortOrder="84" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Type of displayed relays</label>
+                    <source_model>LaPoste\Colissimo\Model\Config\Source\ChooseRelayType</source_model>
+                    <depends>
+                        <field id="lpc_advanced/lpc_pr_front/choosePRDisplayMode" separator=",">gmaps,leaflet</field>
+                    </depends>
+                </field>
+                <field id="prDefaultMobileDisplay" translate="label comment" sortOrder="86" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default display in mobile</label>
+                    <comment>When the user is on a mobile device with GoogleMaps or Leaflet, the default display can be the list of relays or the map and the list.</comment>
+                    <source_model>LaPoste\Colissimo\Model\Config\Source\PRDefaultMobileDisplay</source_model>
+                    <depends>
+                        <field id="lpc_advanced/lpc_pr_front/choosePRDisplayMode" separator=",">gmaps,leaflet</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="lpc_bal" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="7" translate="label">
+                <label>MailBox pick-up</label>
+                <field id="allowMailBoxPickUp" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Allow MailBox Pickup</label>
+                    <comment>When activated, customers will be allowed to automatically create return labels and use them to return the parcel from their MailBox.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="lpc_ddp" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="8" translate="label">
+                <label>Delivery Duty Paid</label>
+                <field id="extracost_au" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Option price for Australia</label>
+                </field>
+                <field id="extracost_bh" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Option price for Bahrain</label>
+                </field>
+                <field id="extracost_ca" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Option price for Canada</label>
+                </field>
+                <field id="extracost_cn" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Option price for China</label>
+                </field>
+                <field id="extracost_eg" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Option price for Egypt</label>
+                </field>
+                <field id="extracost_hk" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Option price for Hong Kong</label>
+                </field>
+                <field id="extracost_id" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Option price for Indonesia</label>
+                </field>
+                <field id="extracost_jp" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Option price for Japan</label>
+                </field>
+                <field id="extracost_kw" translate="label" type="text" sortOrder="9" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Option price for Kuwait</label>
+                </field>
+                <field id="extracost_mx" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Option price for Mexico</label>
+                </field>
+                <field id="extracost_om" translate="label" type="text" sortOrder="11" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Option price for Oman</label>
+                </field>
+                <field id="extracost_ph" translate="label" type="text" sortOrder="12" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Option price for Philippines</label>
+                </field>
+                <field id="extracost_sa" translate="label" type="text" sortOrder="13" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Option price for Saudi Arabia</label>
+                </field>
+                <field id="extracost_sg" translate="label" type="text" sortOrder="14" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Option price for Singapore</label>
+                </field>
+                <field id="extracost_za" translate="label" type="text" sortOrder="15" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Option price for South Africa</label>
+                </field>
+                <field id="extracost_kr" translate="label" type="text" sortOrder="16" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Option price for South Korea</label>
+                </field>
+                <field id="extracost_ch" translate="label" type="text" sortOrder="17" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Option price for Switzerland</label>
+                </field>
+                <field id="extracost_th" translate="label" type="text" sortOrder="18" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Option price for Thailand</label>
+                </field>
+                <field id="extracost_ae" translate="label" type="text" sortOrder="19" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Option price for United Arab Emirates</label>
+                </field>
+                <field id="extracost_gb" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Option price for United Kingdom</label>
+                </field>
+                <field id="extracost_us" translate="label" type="text" sortOrder="21" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Option price for United States</label>
+                </field>
+                <field id="ddp_description" translate="label" type="text" sortOrder="21" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Message displayed when selecting the delivery method</label>
+                </field>
+            </group>
+            <group id="lpc_debug" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="9" translate="label">
+                <label>Debug and Development</label>
+                <field id="debugMode" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Debug Mode</label>
+                    <comment>This option should only be activated shortly to debug this module.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="keepDaysOfLog" translate="label comment" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Log information lifetime (days)</label>
+                    <comment>Delay before deleting log information. Use 0 or leave empty to disable.</comment>
+                </field>
+                <field id="seeLogs" translate="label" type="button" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>See last logs</label>
+                    <frontend_model>LaPoste\Colissimo\Block\System\Config\Field\SeeLastLogsButton</frontend_model>
+                </field>
+                <field id="lpc_status_page" translate="label" type="label" sortOrder="4" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Colissimo services</label>
+                    <frontend_model>LaPoste\Colissimo\Block\System\Config\StatusPageLink</frontend_model>
+                </field>
+                <field id="colissimoSupport" translate="label" type="label" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Colissimo support</label>
+                    <frontend_model>LaPoste\Colissimo\Block\System\Config\Field\ColissimoSupport</frontend_model>
+                </field>
+                <field id="contactUs" translate="label" type="button" sortOrder="6" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Plugin support</label>
+                    <frontend_model>LaPoste\Colissimo\Block\System\Config\Field\ContactUsButton</frontend_model>
+                </field>
+            </group>
+            <group id="lpc_videos" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+                <label>Video tutorials</label>
+                <field id="video_tutorials" type="button" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <frontend_model>LaPoste\Colissimo\Block\System\Config\Field\Videos</frontend_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

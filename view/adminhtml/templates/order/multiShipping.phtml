@@ -1,0 +1,54 @@
+<?php
+/**
+ * @var $block \LaPoste\Colissimo\Block\Adminhtml\Order\MultiShipping
+ * @var $csp   \Magento\Csp\Api\InlineUtilInterface
+ */
+
+
+if ($block->isOmShipment()) {
+    $data = $block->getMultiShippingData();
+    $readonly = empty($data['amount']) ? '' : 'readonly';
+    $checked = empty($data['amount']) ? '' : 'checked';
+    $maxValue = max(2, min($block->getOrderQty(), 4));
+    ?>
+    <section class="admin__page-section">
+        <div id="colissimo_multi_parcels">
+            <div class="admin__page-section-title">
+                <span class="title"><?php echo __('Colissimo Multi Parcels'); ?></span>
+            </div>
+            <div class="admin__field">
+                <label for="lpc_use_multi_parcels"><?php echo __('Use the multi-parcels shipping'); ?></label>
+                <input type="checkbox"
+                       name="lpcMultiShipping[lpc_use_multi_parcels]"
+                       id="lpc_use_multi_parcels" <?php echo empty($checked) ? '' : ' onclick="return false;" ' . $checked; ?> ><br />
+                <label for="lpc_multi_parcels_amount">
+                    <span><?php echo __('Number of parcels'); ?></span>
+                </label>
+                <input type="number"
+                       min="2"
+                       max="<?php echo $maxValue; ?>"
+                       name="lpcMultiShipping[lpc_multi_parcels_amount]"
+                       id="lpc_multi_parcels_amount"
+                       value="<?php echo intval($data['amount']); ?>" <?php echo $readonly; ?>><br />
+            </div>
+            <?php if (!empty($block->getShipment()->getId())) { ?>
+                <div class="lpc_add_data_button admin__field">
+                    <input type="hidden" name="lpcMultiShipping[shipment_id]" value="<?php echo $block->getShipment()->getId(); ?>">
+                    <input type="hidden" name="lpcMultiShipping[order_id]" value="<?php echo $block->getOrderFromShipment()->getId(); ?>">
+                    <?= $block->getChildHtml('submit_multiShipping') ?>
+                </div>
+            <?php } ?>
+        </div>
+        <script>
+            require(['prototype'], function () {
+                submitMultiShipping = function () {
+                    submitAndReloadArea($('colissimo_multi_parcels').parentNode, '<?php echo $block->escapeJs($block->getSubmitUrl()); ?>');
+                };
+                if ($('submit_multiShipping_button')) {
+                    $('submit_multiShipping_button').observe('click', submitMultiShipping);
+                }
+            });
+        </script>
+    </section>
+    <?php
+}

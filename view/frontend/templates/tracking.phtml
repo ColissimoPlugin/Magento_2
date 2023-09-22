@@ -1,0 +1,103 @@
+<div class="lpc_tracking_logo">
+    <img src="<?php echo $this->getViewFileUrl('LaPoste_Colissimo::images/Colissimo_logo.png'); ?>"
+         alt="Logo colissimo" />
+</div>
+
+<h2 class="lpc_tracking_title"><?php echo __('Tracking information for order'); ?>
+    <b>#<?php echo $this->getOrder()->getIncrementId(); ?></b></h2>
+<p class="lpc_tracking_method">
+    <?php echo __('Shipping method:'); ?> <b><?php echo $this->getOrder()->getShippingDescription(); ?></b>
+</p>
+
+<?php foreach ($this->getTracks() as $track) {
+    $status = $this->getStatusForTrack($track);
+    $trackingNumber = $status->parcel->parcelNumber; ?>
+
+    <hr class="lpc_tracking_separator">
+
+    <div class="lpc_tracking_summary">
+        <table>
+            <thead>
+                <tr>
+                    <th><?php echo __('Tracking number'); ?></th>
+                    <th><?php echo __('Status'); ?></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="lpc_tracking_tracknumber"><?php echo $trackingNumber; ?></td>
+                    <td><?php echo $this->getMainStatus($status); ?></td>
+                    <td>
+                        <a target="_blank"
+                           href="https://www.laposte.fr/particulier/modification-livraison?code=<?php echo $trackingNumber; ?>"><?php echo __('Change your shipping information and options'); ?></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="lpc_tracking_message">
+        <?php echo !empty($status->message->message) ? $status->message->message : ''; ?>
+    </div>
+
+    <h3><?php echo __('Status history'); ?></h3>
+    <div class="lpc_tracking_events">
+        <table>
+            <thead>
+                <tr>
+                    <th><?php echo __('Status Date'); ?></th>
+                    <th><?php echo __('Status'); ?></th>
+                    <th><?php echo __('Localisation'); ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                foreach ($status->parcel->event as $event) {
+                    ?>
+                    <tr>
+                        <td><?php echo $this->formatDate($event->date, IntlDateFormatter::SHORT); ?></td>
+                        <td><?php echo $event->labelLong; ?></td>
+                        <td><?php echo isset($event->siteCity) ? $event->siteCity : '-'; ?></td>
+                    </tr>
+                    <?php
+                } // foreach $event
+                ?>
+            </tbody>
+        </table>
+    </div>
+
+    <h3><?php echo __('Timeline'); ?></h3>
+    <div class="lpc_tracking_events lpc_tracking_timeline">
+        <table>
+            <thead>
+                <tr>
+                    <th><?php echo __('Step number'); ?></th>
+                    <th><?php echo __('Status'); ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $stepNumber = 0;
+                foreach ($status->parcel->step as $step) {
+                    if (empty($step->labelShort) && empty($step->labelLong)) {
+                        continue;
+                    }
+                    $classActive = '';
+                    if ('STEP_STATUS_ACTIVE' === $step->status) {
+                        $classActive = 'lpc_active_step';
+                    }
+                    $stepNumber ++;
+                    ?>
+                    <tr class="<?php echo $classActive; ?>">
+                        <td><?php echo $stepNumber; ?></td>
+                        <td><?php echo empty($step->labelLong) ? $step->labelShort : $step->labelLong; ?></td>
+                    </tr>
+                    <?php
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
+    <?php
+} // foreach $track

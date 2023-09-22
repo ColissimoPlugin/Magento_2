@@ -1,0 +1,11 @@
+<?php
+/**
+ * @var \LaPoste\Colissimo\Block\Adminhtml\Shipment\Label\AbstractLabel $block
+ */
+?>
+
+<iframe type="application/pdf"
+        src="<?= $block->getDataUsingMethod('pdf_path') ?>"
+        id="lpc-label-pdf"
+        width="100%" height="100%">
+</iframe>

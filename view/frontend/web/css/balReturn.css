@@ -1,0 +1,23 @@
+.lpc_balreturn .lpc_balreturn_shipping_address, .lpc_balreturn .lpc_balreturn_return_address{
+    margin-left: 20px;
+}
+
+.lpc_balreturn .lpc_balreturn_address{
+    margin-top: 20px;
+}
+
+.lpc_balreturn .lpc_balreturn_address label{
+    margin: 8px 0 8px 0;
+    display: inline-block;
+    font-weight: 600;
+}
+
+.lpc_balreturn .lpc_balreturn_subtitle, .lpc_balreturn .lpc_balreturn_withseparator{
+    border-bottom: 1px solid #c6c6c6;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+
+.lpc_balreturn_btn{
+    margin: 15px 0 10px 0;
+}

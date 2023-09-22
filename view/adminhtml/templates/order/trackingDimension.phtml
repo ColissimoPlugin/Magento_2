@@ -1,0 +1,66 @@
+<?php
+/**
+ * @var $block \LaPoste\Colissimo\Block\Adminhtml\Order\TrackingDimension
+ * @var $csp   \Magento\Csp\Api\InlineUtilInterface
+ */
+
+if ($block->isDdpMethod()) {
+    $ddpData = $block->getDdpData();
+    ?>
+    <section class="admin__page-section">
+        <div id="colissimo_ddp">
+            <div class="admin__page-section-title">
+                <span class="title"><?php echo __('Colissimo information for DDP'); ?></span>
+            </div>
+            <div class="admin__page-section-item-title">
+                <span class="title"><?php echo __('Extra information needed for Colissimo DDP delivery methods'); ?></span>
+            </div>
+            <div class="admin__field">
+                <label for="lpc_ddp_description">
+                    <span><?php echo __('Generic description of articles in English'); ?></span>
+                </label>
+                <input type="text"
+                       id="lpc_ddp_description"
+                       name="lpcDdp[lpc_ddp_description]"
+                       width="500"
+                       style="width: 500px;"
+                       value="<?php echo $block->escapeHtmlAttr($ddpData['description']); ?>">
+            </div>
+            <div class="admin__field">
+                <label for="lpc_ddp_length">
+                    <span><?php echo __('Package length (cm)'); ?></span>
+                </label>
+                <input type="number" id="lpc_ddp_length" class="admin__field-option" name="lpcDdp[lpc_ddp_length]" value="<?php echo $ddpData['length']; ?>">
+            </div>
+            <div class="admin__field">
+                <label for="lpc_ddp_width">
+                    <span><?php echo __('Package width (cm)'); ?></span>
+                </label>
+                <input type="number" id="lpc_ddp_width" class="admin__field-option" name="lpcDdp[lpc_ddp_width]" value="<?php echo $ddpData['width']; ?>">
+            </div>
+            <div class="admin__field">
+                <label for="lpc_ddp_height">
+                    <span><?php echo __('Package height (cm)'); ?></span>
+                </label>
+                <input type="number" id="lpc_ddp_height" class="admin__field-option" name="lpcDdp[lpc_ddp_height]" value="<?php echo $ddpData['height']; ?>">
+            </div>
+
+            <?php if (!empty($block->getShipment()->getId())) { ?>
+                <div class="lpc_add_data_button admin__field">
+                    <input type="hidden" name="lpcDdp[shipment_id]" value="<?php echo $block->getShipment()->getId(); ?>">
+                    <?= $block->getChildHtml('submit_ddp') ?>
+                </div>
+            <?php } ?>
+        </div>
+        <script>
+            require(['prototype'], function () {
+                submitDdp = function () {
+                    submitAndReloadArea($('colissimo_ddp').parentNode, '<?php echo $block->escapeJs($block->getSubmitUrl()); ?>');
+                };
+                if ($('submit_ddp_button')) {
+                    $('submit_ddp_button').observe('click', submitDdp);
+                }
+            });
+        </script>
+    </section>
+<?php } ?>

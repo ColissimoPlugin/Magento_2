@@ -1,0 +1,18 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="sales_order_shipment_renderers"/>
+
+    <body>
+        <referenceBlock name="shipment_items">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">LaPoste_Colissimo::balReturn/link.phtml</argument>
+            </action>
+
+            <block class="LaPoste\Colissimo\Block\ReturnLabel"
+                   name="shipment.print.return.label.link"
+                   as="returnLabelLink"
+                   template="LaPoste_Colissimo::returnLabel.phtml"/>
+        </referenceBlock>
+    </body>
+</page>
+

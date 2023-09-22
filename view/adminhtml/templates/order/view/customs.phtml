@@ -1,0 +1,99 @@
+<?php
+/**
+ * @var $block \LaPoste\Colissimo\Block\Adminhtml\Order\View\Tab\CustomsTab
+ */
+
+$customsNeeded = $block->isDocumentsNeeded();
+echo '<div class="fieldset-wrapper order-information">';
+
+if ($customsNeeded) {
+    $documentsTypes = $block->getDocumentTypes();
+    $sentDocuments = $block->getSentDocuments();
+    $trackingNumbers = $block->getParcelNumbers();
+    $parcelShipmentRelations = $block->getParcelShipmentRelations();
+    $ajaxUrl = $block->getAjaxUrlSendDocuments();
+    ?>
+
+    <div>
+        <h2><?php echo __('Customs documents'); ?></h2>
+    </div>
+    <div class="lpc__admin__order_banner__content lpc__admin__order_banner__send_documents">
+        <div style="margin-bottom: 1rem;">
+            <?php echo __('In accordance with the customs regulation, it is necessary to provide documents related to the parcels for the customs.'); ?>
+            <br />
+            <?php echo __('It is possible to send these documents through the parcel tracking tool or using the module from here.'); ?>
+        </div>
+        <template id="lpc__admin__order_banner__send_documents__template">
+            <tr>
+                <td>
+                    <select class="lpc__admin__order_banner__document__type">
+                        <?php
+                        foreach ($documentsTypes as $documentType => $description) {
+                            echo '<option value="' . $documentType . '">' . $description . '</option>';
+                        }
+                        ?>
+                    </select>
+                </td>
+                <td>
+                    <input
+                        type="file"
+                        name="lpc__customs_document[__PARCELNUMBER__][__TYPE__][]"
+                        class="lpc__admin__order_banner__document__file"
+                        disabled="disabled" />
+                </td>
+            </tr>
+        </template>
+        <table class="admin__table-secondary">
+            <thead>
+                <?php foreach ($trackingNumbers as $outwardTrackingNumber) { ?>
+                    <tr>
+                        <th><?php echo $outwardTrackingNumber; ?></th>
+                        <td class="lpc__admin__order_banner__send_documents__container">
+                            <img class="processing"
+                                 style="display: none;"
+                                 alt="Send customs documents spinner"
+                                 src="<?php echo $block->getViewFileUrl('images/process_spinner.gif') ?>" />
+
+                            <form data-lpc-formkey="<?php echo $block->getFormKey(); ?>"
+                                  data-lpc-ajaxurl="<?php echo $ajaxUrl; ?>"
+                                  data-lpc-shipmentid="<?php echo intval($parcelShipmentRelations[$outwardTrackingNumber]); ?>">
+                                <table>
+                                    <tbody class="lpc__admin__order_banner__send_documents__listing">
+                                        <?php
+                                        if (!empty($sentDocuments[$outwardTrackingNumber])) {
+                                            foreach ($sentDocuments[$outwardTrackingNumber] as $oneDocument) {
+                                                ?>
+                                                <tr class="lpc__customs__sent__document">
+                                                    <td>
+                                                        <?php echo $documentsTypes[$oneDocument['documentType']]; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $oneDocument['documentName']; ?>
+                                                    </td>
+                                                </tr>
+                                                <?php
+                                            }
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+                                <div class="lpc__buttons__container">
+                                    <button type="button"
+                                            class="lpc__admin__order_banner__send_documents__more"
+                                            data-lpc-parcelnumber="<?php echo $outwardTrackingNumber; ?>">
+                                        <?php echo __('Add an other document'); ?>
+                                    </button>
+                                    <button type="submit" class="action-secondary lpc__admin__order_banner__send_documents__listing__send_button">
+                                        <?php echo __('Submit the documents'); ?>
+                                    </button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                <?php } ?>
+            </thead>
+        </table>
+    </div>
+    <?php
+}
+echo '</div>';

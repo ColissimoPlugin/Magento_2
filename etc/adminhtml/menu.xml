@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<!--
+  ~ /*******************************************************
+  ~  * Copyright (C) 2018 La Poste.
+  ~  *
+  ~  * This file is part of La Poste - Colissimo module.
+  ~  *
+  ~  * La Poste - Colissimo module can not be copied and/or distributed without the express
+  ~  * permission of La Poste.
+  ~  *******************************************************/
+  ~
+  -->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add
+            id="LaPoste_Colissimo::Colissimo"
+            title="Colissimo"
+            translate="title"
+            module="LaPoste_Colissimo"
+            sortOrder="35"
+            parent="Magento_Sales::sales"
+            resource="LaPoste_Colissimo::shipment"/>
+
+        <add
+            id="LaPoste_Colissimo::current_situation_dashboard"
+            title="Dashboard"
+            translate="title"
+            module="LaPoste_Colissimo"
+            sortOrder="10"
+            parent="LaPoste_Colissimo::Colissimo"
+            action="laposte_colissimo/currentSituation"
+            resource="LaPoste_Colissimo::shipment"/>
+
+        <add
+            id="LaPoste_Colissimo::shipment"
+            title="Shipments"
+            translate="title"
+            module="LaPoste_Colissimo"
+            sortOrder="20"
+            parent="LaPoste_Colissimo::Colissimo"
+            action="laposte_colissimo/shipment"
+            resource="LaPoste_Colissimo::shipment"/>
+
+        <add
+            id="LaPoste_Colissimo::bordereau"
+            title="Bordereaux"
+            translate="title"
+            module="LaPoste_Colissimo"
+            sortOrder="30"
+            parent="LaPoste_Colissimo::Colissimo"
+            action="laposte_colissimo/bordereau"
+            resource="LaPoste_Colissimo::shipment"/>
+
+        <add
+            id="LaPoste_Colissimo::laposte_prices_entity"
+            title="Price ranges"
+            translate="title"
+            module="LaPoste_Colissimo"
+            sortOrder="40"
+            resource="Magento_Backend::content"
+            parent="LaPoste_Colissimo::Colissimo"
+            action="laposte_colissimo/prices/index"/>
+        <add
+            id="LaPoste_Colissimo::coliship"
+            title="Coliship"
+            translate="title"
+            module="LaPoste_Colissimo"
+            sortOrder="50"
+            parent="LaPoste_Colissimo::Colissimo"
+            action="laposte_colissimo/coliship"
+            resource="LaPoste_Colissimo::shipment"/>
+    </menu>
+</config>

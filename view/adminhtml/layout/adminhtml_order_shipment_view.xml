@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="extra_shipment_info">
+            <block class="LaPoste\Colissimo\Block\Adminhtml\Order\CustomInsurance" name="lpc_shipment_custom_insurance" template="LaPoste_Colissimo::order/customInsurance.phtml" before="inventory_shipment"/>
+            <block class="LaPoste\Colissimo\Block\Adminhtml\Order\TrackingDimension" name="lpc_shipment_dimension" template="LaPoste_Colissimo::order/trackingDimension.phtml" before="inventory_shipment"/>
+            <block class="LaPoste\Colissimo\Block\Adminhtml\Order\MultiShipping" name="lpc_shipment_multi_shipping" template="LaPoste_Colissimo::order/multiShipping.phtml" before="inventory_shipment"/>
+        </referenceBlock>
+    </body>
+</page>

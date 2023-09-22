@@ -1,0 +1,79 @@
+.lpc_tracking_summary table tr{
+    font-size: 120%;
+}
+
+.lpc_tracking_summary table th{
+    text-align: center;
+}
+
+.lpc_tracking_summary table th:nth-child(2), .lpc_tracking_summary table td:nth-child(2){
+    border-left: 1px solid lightgrey;
+    border-right: 1px solid lightgrey;
+}
+
+.lpc_tracking_tracknumber{
+    color: #2fb5d1;
+    font-size: 150%;
+    font-weight: bold;
+}
+
+div.lpc_tracking_message{
+    margin: 1em;
+    font-weight: bold;
+    border-left: 3px solid #8888;
+    padding-left: 1em;
+}
+
+.lpc_tracking_events, .lpc_tracking_summary{
+    box-shadow: 1px 1px 1em #888;
+    margin: 1em;
+    padding: 2em;
+}
+
+.lpc_tracking_events th,
+.lpc_tracking_events td{
+    border-left: 1px solid #000;
+}
+
+.lpc_tracking_events th:first-child,
+.lpc_tracking_events td:first-child{
+    border-left: none;
+}
+
+.lpc_tracking_events tbody td{
+    border-top: 1px solid #000;
+}
+
+.lpc_tracking_logo{
+    text-align: center;
+}
+
+h2.lpc_tracking_title{
+    margin-top: 0;
+}
+
+.lpc_tracking_method{
+    margin-bottom: 3em;
+}
+
+.lpc_tracking_separator{
+    margin: 3em 0;
+}
+
+.lpc_active_step{
+    background-color: #f8f8f8;
+}
+
+.lpc_tracking_timeline th{
+    min-width: 100px;
+}
+
+@media all and (max-width: 640px){
+    .lpc_tracking_summary table th{
+        font-size: 14px;
+    }
+
+    .lpc_tracking_summary table td, .lpc_tracking_tracknumber{
+        font-size: 12px;
+    }
+}

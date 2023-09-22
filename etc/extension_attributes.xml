@@ -1,0 +1,9 @@
+<config>
+    <extension_attributes for="Magento\Sales\Api\Data\OrderInterface">
+        <attribute code="lpcRelayId" type="string"/>
+        <attribute code="lpcRelayType" type="string"/>
+    </extension_attributes>
+    <extension_attributes for="Magento\Quote\Api\Data\ShippingMethodInterface">
+        <attribute code="colissimoDescription" type="string"/>
+    </extension_attributes>
+</config>

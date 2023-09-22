@@ -1,0 +1,45 @@
+<?php
+/**
+ * @var \LaPoste\Colissimo\Block\Coliship\Import $block
+ */
+?>
+
+<div id="lpc_coliship_import">
+    <form action="<?php echo $block->getImportUrl(); ?>"
+          method="POST"
+          enctype="multipart/form-data">
+
+
+        <input type="hidden"
+               name="form_key"
+               value="<?= $block->getFormKey(); ?>">
+
+        <fieldset class="fiedset admin__fieldset">
+            <legend class="legend admin__legend"><?= __('Import'); ?></legend>
+            <div class="admin__field field field-import_file  required _required">
+                <label class="label admin__field-label"
+                       for="import_file"
+                <span><?= __('Select File to Import'); ?></span></label>
+                <div class="admin__field-control control">
+                    <input id="import_file"
+                           name="import_file"
+                           value=""
+                           title="<?= __('Select File to Import'); ?>"
+                           class="input-file required-entry _required"
+                           type="file">
+
+                    <div class="note admin__field-note"><?= __('Only CSV files are accepted'); ?></div>
+                </div>
+            </div>
+            <div class="admin__field field">
+                <div class="admin__field-control control">
+                    <button type="submit"
+                            class="action export primary lpc_coliship">
+                        <?php echo __('Import ColiShip File'); ?>
+                    </button>
+                </div>
+            </div>
+        </fieldset>
+
+    </form>
+</div>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="lpc_order_tracking"
+              label="Order - Tracking url"
+              file="lpcOrderTracking.html"
+              type="html"
+              module="LaPoste_Colissimo"
+              area="frontend"/>
+    <template id="lpc_order_return_label"
+              label="Order - Return label"
+              file="lpcOrderReturnLabel.html"
+              type="html"
+              module="LaPoste_Colissimo"
+              area="frontend"/>
+</config>

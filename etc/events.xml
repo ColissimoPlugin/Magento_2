@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="sales_order_save_after">
+        <observer name="LaPoste_Colissimo::generateLabelOnOrderStateChange"
+                  instance="LaPoste\Colissimo\Observer\GenerateLabelOnOrderStateChange"/>
+    </event>
+    <event name="sales_order_place_before">
+        <observer name="setRelayInformationOrderLpc"
+                  instance="LaPoste\Colissimo\Observer\SetRelayInformationOrder"/>
+    </event>
+    <event name="colissimo_coliship_import_after">
+        <observer name="sendTrackingUrlEmailAfterColissimoImport"
+                  instance="LaPoste\Colissimo\Observer\SendUrlTrackingEmail"/>
+    </event>
+    <event name="lpc_generate_inward_label_after">
+        <observer name="sendEmailWithLabel"
+                  instance="LaPoste\Colissimo\Observer\SendReturnLabelEmail"/>
+    </event>
+    <event name="lpc_generate_outward_label_after">
+        <observer name="sendTrackingUrlEmailAfterLabelGeneration"
+                  instance="LaPoste\Colissimo\Observer\SendUrlTrackingEmail"/>
+    </event>
+    <event name="lpc_generate_bordereau_after">
+        <observer name="sendTrackingUrlEmailAfterBordereauGeneration"
+                  instance="LaPoste\Colissimo\Observer\SendUrlTrackingEmail"/>
+    </event>
+</config>

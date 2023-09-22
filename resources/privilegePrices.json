@@ -1,0 +1,2757 @@
+{
+  "ZFR": {
+    "domiciless": [
+      {
+        "weight_min": 0,
+        "weight_max": 251,
+        "price": "6.26"
+      },
+      {
+        "weight_min": 251,
+        "weight_max": 501,
+        "price": "7.04"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 751,
+        "price": "7.87"
+      },
+      {
+        "weight_min": 751,
+        "weight_max": 1001,
+        "price": "8.54"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "9.58"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 3001,
+        "price": "10.51"
+      },
+      {
+        "weight_min": 3001,
+        "weight_max": 4001,
+        "price": "11.46"
+      },
+      {
+        "weight_min": 4001,
+        "weight_max": 5001,
+        "price": "12.38"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 6001,
+        "price": "12.96"
+      },
+      {
+        "weight_min": 6001,
+        "weight_max": 7001,
+        "price": "13.86"
+      },
+      {
+        "weight_min": 7001,
+        "weight_max": 8001,
+        "price": "14.77"
+      },
+      {
+        "weight_min": 8001,
+        "weight_max": 9001,
+        "price": "15.70"
+      },
+      {
+        "weight_min": 9001,
+        "weight_max": 10001,
+        "price": "16.61"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 11001,
+        "price": "17.19"
+      },
+      {
+        "weight_min": 11001,
+        "weight_max": 12001,
+        "price": "18.08"
+      },
+      {
+        "weight_min": 12001,
+        "weight_max": 13001,
+        "price": "18.97"
+      },
+      {
+        "weight_min": 13001,
+        "weight_max": 14001,
+        "price": "19.89"
+      },
+      {
+        "weight_min": 14001,
+        "weight_max": 15001,
+        "price": "20.78"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 16001,
+        "price": "21.67"
+      },
+      {
+        "weight_min": 16001,
+        "weight_max": 17001,
+        "price": "22.56"
+      },
+      {
+        "weight_min": 17001,
+        "weight_max": 18001,
+        "price": "23.46"
+      },
+      {
+        "weight_min": 18001,
+        "weight_max": 19001,
+        "price": "24.37"
+      },
+      {
+        "weight_min": 19001,
+        "weight_max": 20001,
+        "price": "25.25"
+      },
+      {
+        "weight_min": 20001,
+        "weight_max": 21001,
+        "price": "25.9"
+      },
+      {
+        "weight_min": 21001,
+        "weight_max": 22001,
+        "price": "26.78"
+      },
+      {
+        "weight_min": 22001,
+        "weight_max": 23001,
+        "price": "27.68"
+      },
+      {
+        "weight_min": 23001,
+        "weight_max": 24001,
+        "price": "28.57"
+      },
+      {
+        "weight_min": 24001,
+        "weight_max": 25001,
+        "price": "29.44"
+      },
+      {
+        "weight_min": 25001,
+        "weight_max": 26001,
+        "price": "30.34"
+      },
+      {
+        "weight_min": 26001,
+        "weight_max": 27001,
+        "price": "31.22"
+      },
+      {
+        "weight_min": 27001,
+        "weight_max": 28001,
+        "price": "32.11"
+      },
+      {
+        "weight_min": 28001,
+        "weight_max": 29001,
+        "price": "33.02"
+      },
+      {
+        "weight_min": 29001,
+        "weight_max": 30001,
+        "price": "33.88"
+      }
+    ],
+    "domicileas": [
+      {
+        "weight_min": 0,
+        "weight_max": 251,
+        "price": "7.26"
+      },
+      {
+        "weight_min": 251,
+        "weight_max": 501,
+        "price": "8.04"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 751,
+        "price": "8.87"
+      },
+      {
+        "weight_min": 751,
+        "weight_max": 1001,
+        "price": "9.54"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "10.58"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 3001,
+        "price": "11.51"
+      },
+      {
+        "weight_min": 3001,
+        "weight_max": 4001,
+        "price": "12.46"
+      },
+      {
+        "weight_min": 4001,
+        "weight_max": 5001,
+        "price": "13.38"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 6001,
+        "price": "13.96"
+      },
+      {
+        "weight_min": 6001,
+        "weight_max": 7001,
+        "price": "14.86"
+      },
+      {
+        "weight_min": 7001,
+        "weight_max": 8001,
+        "price": "15.77"
+      },
+      {
+        "weight_min": 8001,
+        "weight_max": 9001,
+        "price": "16.70"
+      },
+      {
+        "weight_min": 9001,
+        "weight_max": 10001,
+        "price": "17.61"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 11001,
+        "price": "18.19"
+      },
+      {
+        "weight_min": 11001,
+        "weight_max": 12001,
+        "price": "19.08"
+      },
+      {
+        "weight_min": 12001,
+        "weight_max": 13001,
+        "price": "19.97"
+      },
+      {
+        "weight_min": 13001,
+        "weight_max": 14001,
+        "price": "20.89"
+      },
+      {
+        "weight_min": 14001,
+        "weight_max": 15001,
+        "price": "21.78"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 16001,
+        "price": "22.67"
+      },
+      {
+        "weight_min": 16001,
+        "weight_max": 17001,
+        "price": "23.56"
+      },
+      {
+        "weight_min": 17001,
+        "weight_max": 18001,
+        "price": "24.46"
+      },
+      {
+        "weight_min": 18001,
+        "weight_max": 19001,
+        "price": "25.37"
+      },
+      {
+        "weight_min": 19001,
+        "weight_max": 20001,
+        "price": "26.25"
+      },
+      {
+        "weight_min": 20001,
+        "weight_max": 21001,
+        "price": "26.9"
+      },
+      {
+        "weight_min": 21001,
+        "weight_max": 22001,
+        "price": "27.78"
+      },
+      {
+        "weight_min": 22001,
+        "weight_max": 23001,
+        "price": "28.68"
+      },
+      {
+        "weight_min": 23001,
+        "weight_max": 24001,
+        "price": "29.57"
+      },
+      {
+        "weight_min": 24001,
+        "weight_max": 25001,
+        "price": "30.44"
+      },
+      {
+        "weight_min": 25001,
+        "weight_max": 26001,
+        "price": "31.34"
+      },
+      {
+        "weight_min": 26001,
+        "weight_max": 27001,
+        "price": "32.22"
+      },
+      {
+        "weight_min": 27001,
+        "weight_max": 28001,
+        "price": "33.11"
+      },
+      {
+        "weight_min": 28001,
+        "weight_max": 29001,
+        "price": "34.02"
+      },
+      {
+        "weight_min": 29001,
+        "weight_max": 30001,
+        "price": "34.88"
+      }
+    ],
+    "pr": [
+      {
+        "weight_min": 0,
+        "weight_max": 251,
+        "price": "4.76"
+      },
+      {
+        "weight_min": 251,
+        "weight_max": 501,
+        "price": "5.54"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 751,
+        "price": "6.37"
+      },
+      {
+        "weight_min": 751,
+        "weight_max": 1001,
+        "price": "7.04"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "8.08"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 3001,
+        "price": "9.01"
+      },
+      {
+        "weight_min": 3001,
+        "weight_max": 4001,
+        "price": "9.96"
+      },
+      {
+        "weight_min": 4001,
+        "weight_max": 5001,
+        "price": "10.88"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 6001,
+        "price": "11.46"
+      },
+      {
+        "weight_min": 6001,
+        "weight_max": 7001,
+        "price": "12.36"
+      },
+      {
+        "weight_min": 7001,
+        "weight_max": 8001,
+        "price": "13.27"
+      },
+      {
+        "weight_min": 8001,
+        "weight_max": 9001,
+        "price": "14.20"
+      },
+      {
+        "weight_min": 9001,
+        "weight_max": 10001,
+        "price": "15.11"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 11001,
+        "price": "15.69"
+      },
+      {
+        "weight_min": 11001,
+        "weight_max": 12001,
+        "price": "16.58"
+      },
+      {
+        "weight_min": 12001,
+        "weight_max": 13001,
+        "price": "17.47"
+      },
+      {
+        "weight_min": 13001,
+        "weight_max": 14001,
+        "price": "18.39"
+      },
+      {
+        "weight_min": 14001,
+        "weight_max": 15001,
+        "price": "19.28"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 16001,
+        "price": "20.17"
+      },
+      {
+        "weight_min": 16001,
+        "weight_max": 17001,
+        "price": "21.06"
+      },
+      {
+        "weight_min": 17001,
+        "weight_max": 18001,
+        "price": "21.96"
+      },
+      {
+        "weight_min": 18001,
+        "weight_max": 19001,
+        "price": "22.87"
+      },
+      {
+        "weight_min": 19001,
+        "weight_max": 20001,
+        "price": "23.75"
+      },
+      {
+        "weight_min": 20001,
+        "weight_max": 21001,
+        "price": "24.4"
+      },
+      {
+        "weight_min": 21001,
+        "weight_max": 22001,
+        "price": "25.28"
+      },
+      {
+        "weight_min": 22001,
+        "weight_max": 23001,
+        "price": "26.18"
+      },
+      {
+        "weight_min": 23001,
+        "weight_max": 24001,
+        "price": "27.07"
+      },
+      {
+        "weight_min": 24001,
+        "weight_max": 25001,
+        "price": "27.94"
+      },
+      {
+        "weight_min": 25001,
+        "weight_max": 26001,
+        "price": "28.84"
+      },
+      {
+        "weight_min": 26001,
+        "weight_max": 27001,
+        "price": "29.72"
+      },
+      {
+        "weight_min": 27001,
+        "weight_max": 28001,
+        "price": "30.61"
+      },
+      {
+        "weight_min": 28001,
+        "weight_max": 29001,
+        "price": "31.52"
+      },
+      {
+        "weight_min": 29001,
+        "weight_max": 30001,
+        "price": "32.38"
+      }
+    ]
+  },
+  "Z1": {
+    "domicileas": [
+      {
+        "weight_min": 0,
+        "weight_max": 501,
+        "price": "9.01"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 1001,
+        "price": "11.00"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "11.77"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 3001,
+        "price": "12.63"
+      },
+      {
+        "weight_min": 3001,
+        "weight_max": 4001,
+        "price": "13.49"
+      },
+      {
+        "weight_min": 4001,
+        "weight_max": 5001,
+        "price": "14.27"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 6001,
+        "price": "15.06"
+      },
+      {
+        "weight_min": 6001,
+        "weight_max": 7001,
+        "price": "15.85"
+      },
+      {
+        "weight_min": 7001,
+        "weight_max": 8001,
+        "price": "16.64"
+      },
+      {
+        "weight_min": 8001,
+        "weight_max": 9001,
+        "price": "17.44"
+      },
+      {
+        "weight_min": 9001,
+        "weight_max": 10001,
+        "price": "18.23"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 15001,
+        "price": "22.75"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 20001,
+        "price": "27.28"
+      },
+      {
+        "weight_min": 20001,
+        "weight_max": 25001,
+        "price": "31.81"
+      },
+      {
+        "weight_min": 25001,
+        "weight_max": 30001,
+        "price": "36.34"
+      }
+    ],
+    "pr": [
+      {
+        "weight_min": 0,
+        "weight_max": 501,
+        "price": "8.00"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 1001,
+        "price": "9.98"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "10.76"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 3001,
+        "price": "11.61"
+      },
+      {
+        "weight_min": 3001,
+        "weight_max": 4001,
+        "price": "12.47"
+      },
+      {
+        "weight_min": 4001,
+        "weight_max": 5001,
+        "price": "13.26"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 6001,
+        "price": "14.05"
+      },
+      {
+        "weight_min": 6001,
+        "weight_max": 7001,
+        "price": "14.83"
+      },
+      {
+        "weight_min": 7001,
+        "weight_max": 8001,
+        "price": "15.63"
+      },
+      {
+        "weight_min": 8001,
+        "weight_max": 9001,
+        "price": "16.42"
+      },
+      {
+        "weight_min": 9001,
+        "weight_max": 10001,
+        "price": "17.22"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 15001,
+        "price": "21.73"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 20001,
+        "price": "26.26"
+      }
+    ]
+  },
+  "Z2": {
+    "domicileas": [
+      {
+        "weight_min": 0,
+        "weight_max": 501,
+        "price": "10.35"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 1001,
+        "price": "13.16"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "14.72"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 3001,
+        "price": "15.68"
+      },
+      {
+        "weight_min": 3001,
+        "weight_max": 4001,
+        "price": "16.54"
+      },
+      {
+        "weight_min": 4001,
+        "weight_max": 5001,
+        "price": "17.44"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 6001,
+        "price": "18.28"
+      },
+      {
+        "weight_min": 6001,
+        "weight_max": 7001,
+        "price": "19.26"
+      },
+      {
+        "weight_min": 7001,
+        "weight_max": 8001,
+        "price": "20.09"
+      },
+      {
+        "weight_min": 8001,
+        "weight_max": 9001,
+        "price": "20.94"
+      },
+      {
+        "weight_min": 9001,
+        "weight_max": 10001,
+        "price": "21.80"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 15001,
+        "price": "26.50"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 20001,
+        "price": "31.08"
+      },
+      {
+        "weight_min": 20001,
+        "weight_max": 25001,
+        "price": "35.65"
+      },
+      {
+        "weight_min": 25001,
+        "weight_max": 30001,
+        "price": "40.25"
+      }
+    ],
+    "domicileasddp": [
+      {
+        "weight_min": 0,
+        "weight_max": 501,
+        "price": "10.35"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 1001,
+        "price": "13.16"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "14.72"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 3001,
+        "price": "15.68"
+      },
+      {
+        "weight_min": 3001,
+        "weight_max": 4001,
+        "price": "16.54"
+      },
+      {
+        "weight_min": 4001,
+        "weight_max": 5001,
+        "price": "17.44"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 6001,
+        "price": "18.28"
+      },
+      {
+        "weight_min": 6001,
+        "weight_max": 7001,
+        "price": "19.26"
+      },
+      {
+        "weight_min": 7001,
+        "weight_max": 8001,
+        "price": "20.09"
+      },
+      {
+        "weight_min": 8001,
+        "weight_max": 9001,
+        "price": "20.94"
+      },
+      {
+        "weight_min": 9001,
+        "weight_max": 10001,
+        "price": "21.80"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 15001,
+        "price": "26.50"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 20001,
+        "price": "31.08"
+      },
+      {
+        "weight_min": 20001,
+        "weight_max": 25001,
+        "price": "35.65"
+      },
+      {
+        "weight_min": 25001,
+        "weight_max": 30001,
+        "price": "40.25"
+      }
+    ],
+    "pr": [
+      {
+        "weight_min": 0,
+        "weight_max": 501,
+        "price": "9.33"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 1001,
+        "price": "12.15"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "13.70"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 3001,
+        "price": "14.67"
+      },
+      {
+        "weight_min": 3001,
+        "weight_max": 4001,
+        "price": "15.52"
+      },
+      {
+        "weight_min": 4001,
+        "weight_max": 5001,
+        "price": "16.42"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 6001,
+        "price": "17.27"
+      },
+      {
+        "weight_min": 6001,
+        "weight_max": 7001,
+        "price": "18.24"
+      },
+      {
+        "weight_min": 7001,
+        "weight_max": 8001,
+        "price": "19.08"
+      },
+      {
+        "weight_min": 8001,
+        "weight_max": 9001,
+        "price": "19.93"
+      },
+      {
+        "weight_min": 9001,
+        "weight_max": 10001,
+        "price": "20.78"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 15001,
+        "price": "25.49"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 20001,
+        "price": "30.07"
+      }
+    ]
+  },
+  "Z3": {
+    "domicileas": [
+      {
+        "weight_min": 0,
+        "weight_max": 501,
+        "price": "11.53"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 1001,
+        "price": "14.33"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "16.03"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 3001,
+        "price": "17.47"
+      },
+      {
+        "weight_min": 3001,
+        "weight_max": 4001,
+        "price": "19.24"
+      },
+      {
+        "weight_min": 4001,
+        "weight_max": 5001,
+        "price": "21.02"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 6001,
+        "price": "27.68"
+      },
+      {
+        "weight_min": 6001,
+        "weight_max": 7001,
+        "price": "29.26"
+      },
+      {
+        "weight_min": 7001,
+        "weight_max": 8001,
+        "price": "30.74"
+      },
+      {
+        "weight_min": 8001,
+        "weight_max": 9001,
+        "price": "32.21"
+      },
+      {
+        "weight_min": 9001,
+        "weight_max": 10001,
+        "price": "33.66"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 15001,
+        "price": "42.00"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 20001,
+        "price": "50.20"
+      },
+      {
+        "weight_min": 20001,
+        "weight_max": 25001,
+        "price": "58.45"
+      },
+      {
+        "weight_min": 25001,
+        "weight_max": 30001,
+        "price": "60.79"
+      }
+    ],
+    "pr": [
+      {
+        "weight_min": 0,
+        "weight_max": 501,
+        "price": "10.52"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 1001,
+        "price": "13.32"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "15.01"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 3001,
+        "price": "16.45"
+      },
+      {
+        "weight_min": 3001,
+        "weight_max": 4001,
+        "price": "18.22"
+      },
+      {
+        "weight_min": 4001,
+        "weight_max": 5001,
+        "price": "20.01"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 6001,
+        "price": "26.67"
+      },
+      {
+        "weight_min": 6001,
+        "weight_max": 7001,
+        "price": "28.25"
+      },
+      {
+        "weight_min": 7001,
+        "weight_max": 8001,
+        "price": "29.72"
+      },
+      {
+        "weight_min": 8001,
+        "weight_max": 9001,
+        "price": "31.20"
+      },
+      {
+        "weight_min": 9001,
+        "weight_max": 10001,
+        "price": "32.65"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 15001,
+        "price": "40.98"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 20001,
+        "price": "49.19"
+      }
+    ]
+  },
+  "Z4": {
+    "domicileas": [
+      {
+        "weight_min": 0,
+        "weight_max": 501,
+        "price": "13.51"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 1001,
+        "price": "16.53"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "18.19"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 3001,
+        "price": "19.95"
+      },
+      {
+        "weight_min": 3001,
+        "weight_max": 4001,
+        "price": "22.32"
+      },
+      {
+        "weight_min": 4001,
+        "weight_max": 5001,
+        "price": "26.98"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 6001,
+        "price": "30.52"
+      },
+      {
+        "weight_min": 6001,
+        "weight_max": 7001,
+        "price": "34.78"
+      },
+      {
+        "weight_min": 7001,
+        "weight_max": 8001,
+        "price": "39.94"
+      },
+      {
+        "weight_min": 8001,
+        "weight_max": 9001,
+        "price": "42.93"
+      },
+      {
+        "weight_min": 9001,
+        "weight_max": 10001,
+        "price": "46.59"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 15001,
+        "price": "63.02"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 20001,
+        "price": "73.93"
+      },
+      {
+        "weight_min": 20001,
+        "weight_max": 25001,
+        "price": "87.57"
+      },
+      {
+        "weight_min": 25001,
+        "weight_max": 30001,
+        "price": "101.60"
+      }
+    ],
+    "pr": [
+      {
+        "weight_min": 0,
+        "weight_max": 501,
+        "price": "12.50"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 1001,
+        "price": "15.51"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "17.18"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 3001,
+        "price": "18.94"
+      },
+      {
+        "weight_min": 3001,
+        "weight_max": 4001,
+        "price": "21.30"
+      },
+      {
+        "weight_min": 4001,
+        "weight_max": 5001,
+        "price": "25.97"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 6001,
+        "price": "29.51"
+      },
+      {
+        "weight_min": 6001,
+        "weight_max": 7001,
+        "price": "33.76"
+      },
+      {
+        "weight_min": 7001,
+        "weight_max": 8001,
+        "price": "38.93"
+      },
+      {
+        "weight_min": 8001,
+        "weight_max": 9001,
+        "price": "41.91"
+      },
+      {
+        "weight_min": 9001,
+        "weight_max": 10001,
+        "price": "45.58"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 15001,
+        "price": "62.00"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 20001,
+        "price": "72.92"
+      }
+    ]
+  },
+  "Z5": {
+    "domicileas": [
+      {
+        "weight_min": 0,
+        "weight_max": 501,
+        "price": "26.59"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 1001,
+        "price": "29.40"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "40.32"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 3001,
+        "price": "51.22"
+      },
+      {
+        "weight_min": 3001,
+        "weight_max": 4001,
+        "price": "58.70"
+      },
+      {
+        "weight_min": 4001,
+        "weight_max": 5001,
+        "price": "62.66"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 6001,
+        "price": "80.10"
+      },
+      {
+        "weight_min": 6001,
+        "weight_max": 7001,
+        "price": "92.73"
+      },
+      {
+        "weight_min": 7001,
+        "weight_max": 8001,
+        "price": "102.74"
+      },
+      {
+        "weight_min": 8001,
+        "weight_max": 9001,
+        "price": "107.07"
+      },
+      {
+        "weight_min": 9001,
+        "weight_max": 10001,
+        "price": "112.40"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 15001,
+        "price": "164.58"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 20001,
+        "price": "180.25"
+      },
+      {
+        "weight_min": 20001,
+        "weight_max": 25001,
+        "price": "231.37"
+      },
+      {
+        "weight_min": 25001,
+        "weight_max": 30001,
+        "price": "266.64"
+      }
+    ]
+  },
+  "Z6": {
+    "domicileas": [
+      {
+        "weight_min": 0,
+        "weight_max": 501,
+        "price": "30.49"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 1001,
+        "price": "35.87"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "49.26"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 3001,
+        "price": "62.91"
+      },
+      {
+        "weight_min": 3001,
+        "weight_max": 4001,
+        "price": "76.30"
+      },
+      {
+        "weight_min": 4001,
+        "weight_max": 5001,
+        "price": "87.72"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 6001,
+        "price": "100.78"
+      },
+      {
+        "weight_min": 6001,
+        "weight_max": 7001,
+        "price": "113.95"
+      },
+      {
+        "weight_min": 7001,
+        "weight_max": 8001,
+        "price": "127.02"
+      },
+      {
+        "weight_min": 8001,
+        "weight_max": 9001,
+        "price": "140.38"
+      },
+      {
+        "weight_min": 9001,
+        "weight_max": 10001,
+        "price": "153.45"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 15001,
+        "price": "212.62"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 20001,
+        "price": "273.08"
+      },
+      {
+        "weight_min": 20001,
+        "weight_max": 25001,
+        "price": "332.24"
+      },
+      {
+        "weight_min": 25001,
+        "weight_max": 30001,
+        "price": "391.41"
+      }
+    ]
+  },
+  "OM1": {
+    "domiciless": [
+      {
+        "weight_min": 0,
+        "weight_max": 501,
+        "price": "10.17"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 1001,
+        "price": "15.42"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "21.01"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 3001,
+        "price": "26.62"
+      },
+      {
+        "weight_min": 3001,
+        "weight_max": 4001,
+        "price": "32.22"
+      },
+      {
+        "weight_min": 4001,
+        "weight_max": 5001,
+        "price": "36.17"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 6001,
+        "price": "43.44"
+      },
+      {
+        "weight_min": 6001,
+        "weight_max": 7001,
+        "price": "49.01"
+      },
+      {
+        "weight_min": 7001,
+        "weight_max": 8001,
+        "price": "53.37"
+      },
+      {
+        "weight_min": 8001,
+        "weight_max": 9001,
+        "price": "58.69"
+      },
+      {
+        "weight_min": 9001,
+        "weight_max": 10001,
+        "price": "65.06"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 15001,
+        "price": "91.16"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 20001,
+        "price": "117.31"
+      },
+      {
+        "weight_min": 20001,
+        "weight_max": 25001,
+        "price": "146.75"
+      },
+      {
+        "weight_min": 25001,
+        "weight_max": 30001,
+        "price": "177.33"
+      }
+    ],
+    "domicileas": [
+      {
+        "weight_min": 0,
+        "weight_max": 501,
+        "price": "13.88"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 1001,
+        "price": "17.79"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "23.99"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 3001,
+        "price": "30.19"
+      },
+      {
+        "weight_min": 3001,
+        "weight_max": 4001,
+        "price": "35.08"
+      },
+      {
+        "weight_min": 4001,
+        "weight_max": 5001,
+        "price": "40.70"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 6001,
+        "price": "48.78"
+      },
+      {
+        "weight_min": 6001,
+        "weight_max": 7001,
+        "price": "54.98"
+      },
+      {
+        "weight_min": 7001,
+        "weight_max": 8001,
+        "price": "58.50"
+      },
+      {
+        "weight_min": 8001,
+        "weight_max": 9001,
+        "price": "64.43"
+      },
+      {
+        "weight_min": 9001,
+        "weight_max": 10001,
+        "price": "70.36"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 15001,
+        "price": "99.99"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 20001,
+        "price": "124.67"
+      },
+      {
+        "weight_min": 20001,
+        "weight_max": 25001,
+        "price": "152.18"
+      },
+      {
+        "weight_min": 25001,
+        "weight_max": 30001,
+        "price": "180.92"
+      }
+    ]
+  },
+  "OM2": {
+    "domiciless": [
+      {
+        "weight_min": 0,
+        "weight_max": 501,
+        "price": "12.08"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 1001,
+        "price": "18.76"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "33.35"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 3001,
+        "price": "47.91"
+      },
+      {
+        "weight_min": 3001,
+        "weight_max": 4001,
+        "price": "59.78"
+      },
+      {
+        "weight_min": 4001,
+        "weight_max": 5001,
+        "price": "73.72"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 6001,
+        "price": "91.68"
+      },
+      {
+        "weight_min": 6001,
+        "weight_max": 7001,
+        "price": "106.25"
+      },
+      {
+        "weight_min": 7001,
+        "weight_max": 8001,
+        "price": "117.64"
+      },
+      {
+        "weight_min": 8001,
+        "weight_max": 9001,
+        "price": "129.51"
+      },
+      {
+        "weight_min": 9001,
+        "weight_max": 10001,
+        "price": "143.45"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 15001,
+        "price": "219.21"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 20001,
+        "price": "278.75"
+      },
+      {
+        "weight_min": 20001,
+        "weight_max": 25001,
+        "price": "344.45"
+      },
+      {
+        "weight_min": 25001,
+        "weight_max": 30001,
+        "price": "412.87"
+      }
+    ],
+    "domicileas": [
+      {
+        "weight_min": 0,
+        "weight_max": 501,
+        "price": "20.36"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 1001,
+        "price": "25.19"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "39.19"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 3001,
+        "price": "55.18"
+      },
+      {
+        "weight_min": 3001,
+        "weight_max": 4001,
+        "price": "66.66"
+      },
+      {
+        "weight_min": 4001,
+        "weight_max": 5001,
+        "price": "80.56"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 6001,
+        "price": "98.77"
+      },
+      {
+        "weight_min": 6001,
+        "weight_max": 7001,
+        "price": "111.16"
+      },
+      {
+        "weight_min": 7001,
+        "weight_max": 8001,
+        "price": "122.24"
+      },
+      {
+        "weight_min": 8001,
+        "weight_max": 9001,
+        "price": "136.13"
+      },
+      {
+        "weight_min": 9001,
+        "weight_max": 10001,
+        "price": "150.01"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 15001,
+        "price": "225.92"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 20001,
+        "price": "285.17"
+      },
+      {
+        "weight_min": 20001,
+        "weight_max": 25001,
+        "price": "350.81"
+      },
+      {
+        "weight_min": 25001,
+        "weight_max": 30001,
+        "price": "419.23"
+      }
+    ]
+  },
+  "BE": {
+    "domiciless": [
+      {
+        "weight_min": 0,
+        "weight_max": 501,
+        "price": "8.37"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 1001,
+        "price": "10.33"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "11.09"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 3001,
+        "price": "11.94"
+      },
+      {
+        "weight_min": 3001,
+        "weight_max": 4001,
+        "price": "12.78"
+      },
+      {
+        "weight_min": 4001,
+        "weight_max": 5001,
+        "price": "13.55"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 6001,
+        "price": "14.34"
+      },
+      {
+        "weight_min": 6001,
+        "weight_max": 7001,
+        "price": "15.11"
+      },
+      {
+        "weight_min": 7001,
+        "weight_max": 8001,
+        "price": "15.89"
+      },
+      {
+        "weight_min": 8001,
+        "weight_max": 9001,
+        "price": "16.67"
+      },
+      {
+        "weight_min": 9001,
+        "weight_max": 10001,
+        "price": "17.46"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 15001,
+        "price": "21.91"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 20001,
+        "price": "26.37"
+      },
+      {
+        "weight_min": 20001,
+        "weight_max": 25001,
+        "price": "30.83"
+      },
+      {
+        "weight_min": 25001,
+        "weight_max": 30001,
+        "price": "35.29"
+      }
+    ],
+    "domicileas": [
+      {
+        "weight_min": 0,
+        "weight_max": 501,
+        "price": "8.88"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 1001,
+        "price": "10.83"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "11.60"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 3001,
+        "price": "12.44"
+      },
+      {
+        "weight_min": 3001,
+        "weight_max": 4001,
+        "price": "13.29"
+      },
+      {
+        "weight_min": 4001,
+        "weight_max": 5001,
+        "price": "14.06"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 6001,
+        "price": "14.84"
+      },
+      {
+        "weight_min": 6001,
+        "weight_max": 7001,
+        "price": "15.61"
+      },
+      {
+        "weight_min": 7001,
+        "weight_max": 8001,
+        "price": "16.40"
+      },
+      {
+        "weight_min": 8001,
+        "weight_max": 9001,
+        "price": "17.18"
+      },
+      {
+        "weight_min": 9001,
+        "weight_max": 10001,
+        "price": "17.96"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 15001,
+        "price": "22.41"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 20001,
+        "price": "26.87"
+      },
+      {
+        "weight_min": 20001,
+        "weight_max": 25001,
+        "price": "31.34"
+      },
+      {
+        "weight_min": 25001,
+        "weight_max": 30001,
+        "price": "35.80"
+      }
+    ],
+    "pr": [
+      {
+        "weight_min": 0,
+        "weight_max": 501,
+        "price": "7.87"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 1001,
+        "price": "9.82"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "10.59"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 3001,
+        "price": "11.43"
+      },
+      {
+        "weight_min": 3001,
+        "weight_max": 4001,
+        "price": "12.28"
+      },
+      {
+        "weight_min": 4001,
+        "weight_max": 5001,
+        "price": "13.05"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 6001,
+        "price": "13.83"
+      },
+      {
+        "weight_min": 6001,
+        "weight_max": 7001,
+        "price": "14.60"
+      },
+      {
+        "weight_min": 7001,
+        "weight_max": 8001,
+        "price": "15.39"
+      },
+      {
+        "weight_min": 8001,
+        "weight_max": 9001,
+        "price": "16.17"
+      },
+      {
+        "weight_min": 9001,
+        "weight_max": 10001,
+        "price": "16.95"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 15001,
+        "price": "21.40"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 20001,
+        "price": "25.86"
+      }
+    ]
+  },
+  "CH": {
+    "domiciless": [
+      {
+        "weight_min": 0,
+        "weight_max": 501,
+        "price": "11.08"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 1001,
+        "price": "13.90"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "15.60"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 3001,
+        "price": "17.05"
+      },
+      {
+        "weight_min": 3001,
+        "weight_max": 4001,
+        "price": "18.83"
+      },
+      {
+        "weight_min": 4001,
+        "weight_max": 5001,
+        "price": "20.62"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 6001,
+        "price": "27.32"
+      },
+      {
+        "weight_min": 6001,
+        "weight_max": 7001,
+        "price": "28.90"
+      },
+      {
+        "weight_min": 7001,
+        "weight_max": 8001,
+        "price": "30.39"
+      },
+      {
+        "weight_min": 8001,
+        "weight_max": 9001,
+        "price": "31.87"
+      },
+      {
+        "weight_min": 9001,
+        "weight_max": 10001,
+        "price": "33.33"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 15001,
+        "price": "41.70"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 20001,
+        "price": "49.95"
+      },
+      {
+        "weight_min": 20001,
+        "weight_max": 25001,
+        "price": "58.24"
+      },
+      {
+        "weight_min": 25001,
+        "weight_max": 30001,
+        "price": "60.59"
+      }
+    ],
+    "domicileas": [
+      {
+        "weight_min": 0,
+        "weight_max": 501,
+        "price": "11.59"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 1001,
+        "price": "14.41"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "16.11"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 3001,
+        "price": "17.56"
+      },
+      {
+        "weight_min": 3001,
+        "weight_max": 4001,
+        "price": "19.33"
+      },
+      {
+        "weight_min": 4001,
+        "weight_max": 5001,
+        "price": "21.13"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 6001,
+        "price": "27.82"
+      },
+      {
+        "weight_min": 6001,
+        "weight_max": 7001,
+        "price": "29.41"
+      },
+      {
+        "weight_min": 7001,
+        "weight_max": 8001,
+        "price": "30.89"
+      },
+      {
+        "weight_min": 8001,
+        "weight_max": 9001,
+        "price": "32.37"
+      },
+      {
+        "weight_min": 9001,
+        "weight_max": 10001,
+        "price": "33.83"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 15001,
+        "price": "42.21"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 20001,
+        "price": "50.45"
+      },
+      {
+        "weight_min": 20001,
+        "weight_max": 25001,
+        "price": "58.74"
+      },
+      {
+        "weight_min": 25001,
+        "weight_max": 30001,
+        "price": "61.10"
+      }
+    ]
+  },
+  "CN": {
+    "domicileas": [
+      {
+        "weight_min": 0,
+        "weight_max": 501,
+        "price": "26.19"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 1001,
+        "price": "28.97"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "39.72"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 3001,
+        "price": "50.46"
+      },
+      {
+        "weight_min": 3001,
+        "weight_max": 4001,
+        "price": "57.83"
+      },
+      {
+        "weight_min": 4001,
+        "weight_max": 5001,
+        "price": "61.72"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 6001,
+        "price": "78.91"
+      },
+      {
+        "weight_min": 6001,
+        "weight_max": 7001,
+        "price": "91.35"
+      },
+      {
+        "weight_min": 7001,
+        "weight_max": 8001,
+        "price": "101.21"
+      },
+      {
+        "weight_min": 8001,
+        "weight_max": 9001,
+        "price": "105.47"
+      },
+      {
+        "weight_min": 9001,
+        "weight_max": 10001,
+        "price": "110.73"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 15001,
+        "price": "162.14"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 20001,
+        "price": "177.57"
+      },
+      {
+        "weight_min": 20001,
+        "weight_max": 25001,
+        "price": "227.93"
+      },
+      {
+        "weight_min": 25001,
+        "weight_max": 30001,
+        "price": "262.67"
+      }
+    ]
+  },
+  "DE": {
+    "domicileas": [
+      {
+        "weight_min": 0,
+        "weight_max": 501,
+        "price": "9.06"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 1001,
+        "price": "11.05"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "11.83"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 3001,
+        "price": "12.69"
+      },
+      {
+        "weight_min": 3001,
+        "weight_max": 4001,
+        "price": "13.55"
+      },
+      {
+        "weight_min": 4001,
+        "weight_max": 5001,
+        "price": "14.34"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 6001,
+        "price": "15.14"
+      },
+      {
+        "weight_min": 6001,
+        "weight_max": 7001,
+        "price": "15.93"
+      },
+      {
+        "weight_min": 7001,
+        "weight_max": 8001,
+        "price": "16.73"
+      },
+      {
+        "weight_min": 8001,
+        "weight_max": 9001,
+        "price": "17.53"
+      },
+      {
+        "weight_min": 9001,
+        "weight_max": 10001,
+        "price": "18.32"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 15001,
+        "price": "22.86"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 20001,
+        "price": "27.41"
+      },
+      {
+        "weight_min": 20001,
+        "weight_max": 25001,
+        "price": "31.97"
+      },
+      {
+        "weight_min": 25001,
+        "weight_max": 30001,
+        "price": "36.52"
+      }
+    ],
+    "pr": [
+      {
+        "weight_min": 0,
+        "weight_max": 501,
+        "price": "8.05"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 1001,
+        "price": "10.04"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "10.82"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 3001,
+        "price": "11.68"
+      },
+      {
+        "weight_min": 3001,
+        "weight_max": 4001,
+        "price": "12.54"
+      },
+      {
+        "weight_min": 4001,
+        "weight_max": 5001,
+        "price": "13.33"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 6001,
+        "price": "14.13"
+      },
+      {
+        "weight_min": 6001,
+        "weight_max": 7001,
+        "price": "14.92"
+      },
+      {
+        "weight_min": 7001,
+        "weight_max": 8001,
+        "price": "15.72"
+      },
+      {
+        "weight_min": 8001,
+        "weight_max": 9001,
+        "price": "16.52"
+      },
+      {
+        "weight_min": 9001,
+        "weight_max": 10001,
+        "price": "17.31"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 15001,
+        "price": "21.85"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 20001,
+        "price": "26.40"
+      }
+    ]
+  },
+  "ES": {
+    "domicileas": [
+      {
+        "weight_min": 0,
+        "weight_max": 501,
+        "price": "10.20"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 1001,
+        "price": "12.97"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "14.50"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 3001,
+        "price": "15.45"
+      },
+      {
+        "weight_min": 3001,
+        "weight_max": 4001,
+        "price": "16.29"
+      },
+      {
+        "weight_min": 4001,
+        "weight_max": 5001,
+        "price": "17.18"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 6001,
+        "price": "18.01"
+      },
+      {
+        "weight_min": 6001,
+        "weight_max": 7001,
+        "price": "18.97"
+      },
+      {
+        "weight_min": 7001,
+        "weight_max": 8001,
+        "price": "19.79"
+      },
+      {
+        "weight_min": 8001,
+        "weight_max": 9001,
+        "price": "20.63"
+      },
+      {
+        "weight_min": 9001,
+        "weight_max": 10001,
+        "price": "21.47"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 15001,
+        "price": "26.11"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 20001,
+        "price": "30.62"
+      },
+      {
+        "weight_min": 20001,
+        "weight_max": 25001,
+        "price": "35.12"
+      },
+      {
+        "weight_min": 25001,
+        "weight_max": 30001,
+        "price": "39.65"
+      }
+    ],
+    "pr": [
+      {
+        "weight_min": 0,
+        "weight_max": 501,
+        "price": "9.19"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 1001,
+        "price": "11.96"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "13.49"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 3001,
+        "price": "14.44"
+      },
+      {
+        "weight_min": 3001,
+        "weight_max": 4001,
+        "price": "15.28"
+      },
+      {
+        "weight_min": 4001,
+        "weight_max": 5001,
+        "price": "16.17"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 6001,
+        "price": "17.00"
+      },
+      {
+        "weight_min": 6001,
+        "weight_max": 7001,
+        "price": "17.96"
+      },
+      {
+        "weight_min": 7001,
+        "weight_max": 8001,
+        "price": "18.78"
+      },
+      {
+        "weight_min": 8001,
+        "weight_max": 9001,
+        "price": "19.62"
+      },
+      {
+        "weight_min": 9001,
+        "weight_max": 10001,
+        "price": "20.46"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 15001,
+        "price": "25.10"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 20001,
+        "price": "29.61"
+      }
+    ]
+  },
+  "GB": {
+    "domicileas": [
+      {
+        "weight_min": 0,
+        "weight_max": 501,
+        "price": "10.40"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 1001,
+        "price": "13.23"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "14.79"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 3001,
+        "price": "15.76"
+      },
+      {
+        "weight_min": 3001,
+        "weight_max": 4001,
+        "price": "16.62"
+      },
+      {
+        "weight_min": 4001,
+        "weight_max": 5001,
+        "price": "17.53"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 6001,
+        "price": "18.38"
+      },
+      {
+        "weight_min": 6001,
+        "weight_max": 7001,
+        "price": "19.35"
+      },
+      {
+        "weight_min": 7001,
+        "weight_max": 8001,
+        "price": "20.19"
+      },
+      {
+        "weight_min": 8001,
+        "weight_max": 9001,
+        "price": "21.05"
+      },
+      {
+        "weight_min": 9001,
+        "weight_max": 10001,
+        "price": "21.91"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 15001,
+        "price": "26.64"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 20001,
+        "price": "31.24"
+      },
+      {
+        "weight_min": 20001,
+        "weight_max": 25001,
+        "price": "35.83"
+      },
+      {
+        "weight_min": 25001,
+        "weight_max": 30001,
+        "price": "40.45"
+      }
+    ],
+    "pr": [
+      {
+        "weight_min": 0,
+        "weight_max": 501,
+        "price": "9.39"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 1001,
+        "price": "12.22"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "13.78"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 3001,
+        "price": "14.75"
+      },
+      {
+        "weight_min": 3001,
+        "weight_max": 4001,
+        "price": "15.61"
+      },
+      {
+        "weight_min": 4001,
+        "weight_max": 5001,
+        "price": "16.52"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 6001,
+        "price": "17.37"
+      },
+      {
+        "weight_min": 6001,
+        "weight_max": 7001,
+        "price": "18.34"
+      },
+      {
+        "weight_min": 7001,
+        "weight_max": 8001,
+        "price": "19.18"
+      },
+      {
+        "weight_min": 8001,
+        "weight_max": 9001,
+        "price": "20.04"
+      },
+      {
+        "weight_min": 9001,
+        "weight_max": 10001,
+        "price": "20.90"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 15001,
+        "price": "25.63"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 20001,
+        "price": "30.23"
+      }
+    ]
+  },
+  "IT": {
+    "domicileas": [
+      {
+        "weight_min": 0,
+        "weight_max": 501,
+        "price": "10.25"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 1001,
+        "price": "13.03"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "14.57"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 3001,
+        "price": "15.53"
+      },
+      {
+        "weight_min": 3001,
+        "weight_max": 4001,
+        "price": "16.38"
+      },
+      {
+        "weight_min": 4001,
+        "weight_max": 5001,
+        "price": "17.27"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 6001,
+        "price": "18.10"
+      },
+      {
+        "weight_min": 6001,
+        "weight_max": 7001,
+        "price": "19.07"
+      },
+      {
+        "weight_min": 7001,
+        "weight_max": 8001,
+        "price": "19.89"
+      },
+      {
+        "weight_min": 8001,
+        "weight_max": 9001,
+        "price": "20.73"
+      },
+      {
+        "weight_min": 9001,
+        "weight_max": 10001,
+        "price": "21.58"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 15001,
+        "price": "26.24"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 20001,
+        "price": "30.77"
+      },
+      {
+        "weight_min": 20001,
+        "weight_max": 25001,
+        "price": "35.30"
+      },
+      {
+        "weight_min": 25001,
+        "weight_max": 30001,
+        "price": "39.85"
+      }
+    ],
+    "pr": [
+      {
+        "weight_min": 0,
+        "weight_max": 501,
+        "price": "9.24"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 1001,
+        "price": "12.02"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "13.56"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 3001,
+        "price": "14.52"
+      },
+      {
+        "weight_min": 3001,
+        "weight_max": 4001,
+        "price": "15.37"
+      },
+      {
+        "weight_min": 4001,
+        "weight_max": 5001,
+        "price": "16.26"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 6001,
+        "price": "17.09"
+      },
+      {
+        "weight_min": 6001,
+        "weight_max": 7001,
+        "price": "18.06"
+      },
+      {
+        "weight_min": 7001,
+        "weight_max": 8001,
+        "price": "18.88"
+      },
+      {
+        "weight_min": 8001,
+        "weight_max": 9001,
+        "price": "19.72"
+      },
+      {
+        "weight_min": 9001,
+        "weight_max": 10001,
+        "price": "20.57"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 15001,
+        "price": "25.23"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 20001,
+        "price": "29.76"
+      }
+    ]
+  },
+  "US": {
+    "domicileas": [
+      {
+        "weight_min": 0,
+        "weight_max": 501,
+        "price": "25.93"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 1001,
+        "price": "28.67"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "39.32"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 3001,
+        "price": "49.95"
+      },
+      {
+        "weight_min": 3001,
+        "weight_max": 4001,
+        "price": "57.24"
+      },
+      {
+        "weight_min": 4001,
+        "weight_max": 5001,
+        "price": "61.10"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 6001,
+        "price": "78.11"
+      },
+      {
+        "weight_min": 6001,
+        "weight_max": 7001,
+        "price": "90.43"
+      },
+      {
+        "weight_min": 7001,
+        "weight_max": 8001,
+        "price": "100.19"
+      },
+      {
+        "weight_min": 8001,
+        "weight_max": 9001,
+        "price": "104.41"
+      },
+      {
+        "weight_min": 9001,
+        "weight_max": 10001,
+        "price": "109.61"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 15001,
+        "price": "160.50"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 20001,
+        "price": "175.78"
+      },
+      {
+        "weight_min": 20001,
+        "weight_max": 25001,
+        "price": "225.63"
+      },
+      {
+        "weight_min": 25001,
+        "weight_max": 30001,
+        "price": "260.02"
+      }
+    ]
+  }
+}

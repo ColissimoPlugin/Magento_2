@@ -1,0 +1,7 @@
+<script>
+    require([
+        'prototype'
+    ], function () {
+        window.allOptions = JSON.parse('<?php echo $block->getAllOptions(); ?>');
+    });
+</script>

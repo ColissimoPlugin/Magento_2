@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<csp_whitelist xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Csp:etc/csp_whitelist.xsd">
+    <policies>
+        <policy id="script-src">
+            <values>
+                <value id="googlemapsscript" type="host">https://maps.googleapis.com</value>
+                <value id="googlescript" type="host">https://www.google.com</value>
+                <value id="googlestaticscript" type="host">https://www.gstatic.com</value>
+                <value id="colissimows" type="host">https://ws.colissimo.fr</value>
+                <value id="colissimowidgetmapbox" type="host">https://api.mapbox.com</value>
+            </values>
+        </policy>
+        <policy id="img-src">
+            <values>
+                <value id="googlemapsimages" type="host">https://maps.googleapis.com</value>
+                <value id="googlemapsimagestatics" type="host">https://maps.gstatic.com</value>
+                <value id="colissimows" type="host">https://ws.colissimo.fr</value>
+                <value id="pickupleafletmap" type="host">https://*.tile.openstreetmap.fr</value>
+            </values>
+        </policy>
+        <policy id="style-src">
+            <values>
+                <value id="googlemapscss" type="host">https://fonts.googleapis.com</value>
+                <value id="colissimows" type="host">https://ws.colissimo.fr</value>
+                <value id="colissimowidgetmapbox" type="host">https://api.mapbox.com</value>
+            </values>
+        </policy>
+        <policy id="font-src">
+            <values>
+                <value id="googlemapsfont" type="host">https://fonts.gstatic.com</value>
+                <value id="colissimowidgetfonts" type="host">https://ws.colissimo.fr</value>
+            </values>
+        </policy>
+        <policy id="connect-src">
+            <values>
+                <value id="colissimows" type="host">https://ws.colissimo.fr</value>
+                <value id="colissimows" type="host">https://maps.googleapis.com</value>
+                <value id="colissimows" type="host">https://nominatim.openstreetmap.org</value>
+            </values>
+        </policy>
+        <policy id="frame-src">
+            <values>
+                <value id="youtubevideos" type="host">https://www.youtube.com</value>
+            </values>
+        </policy>
+    </policies>
+</csp_whitelist>

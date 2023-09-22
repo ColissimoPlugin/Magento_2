@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="LaPoste_Colissimo::css/customs.css"/>
+        <script src="LaPoste_Colissimo::js/customs.js"/>
+    </head>
+    <body>
+        <referenceBlock name="order_additional_info">
+            <block class="LaPoste\Colissimo\Block\Adminhtml\Order\View\LpcRelayId" name="lpc_relay_id" template="LaPoste_Colissimo::order/view/lpc_relay_id.phtml"/>
+        </referenceBlock>
+        <referenceContainer name="left">
+            <referenceBlock name="sales_order_tabs">
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">customs_tab</argument>
+                    <argument name="block" xsi:type="string">LaPoste\Colissimo\Block\Adminhtml\Order\View\Tab\CustomsTab</argument>
+                </action>
+            </referenceBlock>
+        </referenceContainer>
+    </body>
+</page>

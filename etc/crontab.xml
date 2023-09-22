@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="lpc_cron">
+        <job name="colissimo_update_tracking_status"
+             instance="LaPoste\Colissimo\Cron\UpdateTrackingStatus"
+             method="execute">
+            <schedule>0 8-19 * * *</schedule>
+        </job>
+        <job name="colissimo_clean_logs"
+             instance="LaPoste\Colissimo\Cron\TruncateLogs"
+             method="execute">
+            <schedule>0 1 * * *</schedule>
+        </job>
+        <job name="colissimo_purge_old_labels"
+             instance="LaPoste\Colissimo\Cron\PurgeOldReturnLabels"
+             method="execute">
+            <schedule>10 1 * * *</schedule>
+        </job>
+        <job name="colissimo_purge_label_folder"
+             instance="LaPoste\Colissimo\Cron\PurgeLabelFolder"
+             method="execute">
+            <schedule>0 */10 * * *</schedule>
+        </job>
+    </group>
+</config>

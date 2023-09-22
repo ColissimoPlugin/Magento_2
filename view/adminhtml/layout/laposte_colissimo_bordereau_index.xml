@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+    /*******************************************************
+     * Copyright (C) 2018 La Poste.
+     *
+     * This file is part of La Poste - Colissimo module.
+     *
+     * La Poste - Colissimo module can not be copied and/or distributed without the express
+     * permission of La Poste.
+     *******************************************************/
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <uiComponent name="laposte_colissimo_bordereau_listing"/>
+        </referenceContainer>
+    </body>
+</page>
+

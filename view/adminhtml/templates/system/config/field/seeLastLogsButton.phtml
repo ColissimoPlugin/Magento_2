@@ -1,0 +1,40 @@
+<?php /* @var $block \LaPoste\Colissimo\Block\System\Config\Field\SeeLastLogsButton */ ?>
+
+<script>
+    require([
+        'jquery',
+        'Magento_Ui/js/modal/modal'
+    ], function ($, modal) {
+
+        var options = {
+            type: 'popup',
+            responsive: true,
+            innerScroll: true,
+            title: $.mage.__('See last logs'),
+            buttons: [
+                {
+                    text: $.mage.__('Close'),
+                    class: '',
+                    click: function () {
+                        this.closeModal();
+                    }
+                }
+            ]
+        };
+
+        var modal = modal(options, $('#lpc_last_logs'));
+
+        $('#lpc_see_last_logs').click(function () {
+            $('#lpc_last_logs').modal('openModal');
+        });
+
+    });
+</script>
+
+<?php echo $block->getButtonHtml(); ?>
+
+<div id="lpc_last_logs" style="display: none;">
+    <pre>
+        <?php echo $this->getLastLines(); ?>
+    </pre>
+</div>

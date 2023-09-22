@@ -1,0 +1,50 @@
+<?xml version="1.0" ?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <table name="laposte_prices_entity" resource="default" engine="innodb" comment="laposte_prices_entity Table">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity Id"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <column xsi:type="varchar" name="method" nullable="false"/>
+        <column xsi:type="varchar" name="area" nullable="false"/>
+        <column xsi:type="float" name="weight_min" nullable="false"/>
+        <column xsi:type="float" name="weight_max" nullable="true"/>
+        <column xsi:type="float" name="price_min" nullable="false"/>
+        <column xsi:type="float" name="price_max" nullable="true"/>
+        <column xsi:type="float" name="price" nullable="false"/>
+    </table>
+    <table name="laposte_colissimo_bordereau" resource="default" engine="innodb" comment="LPC Bordereau Table">
+        <column xsi:type="smallint" name="entity_id" nullable="false" identity="true" comment="Bordereau Id"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <column xsi:type="varchar" name="bordereau_number" length="64" nullable="false" comment="Numero du bordereau"/>
+        <column xsi:type="varchar" name="code_site_pch" length="64" nullable="false" comment="Code de site de prise en charge"/>
+        <column xsi:type="smallint" name="number_of_parcels" nullable="false" comment="Nombre de colis"/>
+        <column xsi:type="text" name="parcels_numbers" nullable="false" comment="Numeros des colis"/>
+        <column xsi:type="datetime" name="publishing_date" nullable="false" comment="Date de generation du bordereau"/>
+    </table>
+    <table name="sales_order">
+        <column xsi:type="varchar" name="lpc_relay_id" nullable="true" comment="ID du point relais Colissimo" length="255"/>
+        <column xsi:type="varchar" name="lpc_relay_type" nullable="true" comment="Type de relais Colissimo" length="255"/>
+        <column xsi:type="smallint" name="lpc_multi_parcels_amount" nullable="true" comment="La Poste Colissimo number of parcels"/>
+    </table>
+    <table name="sales_shipment">
+        <column xsi:type="mediumblob" name="lpc_return_label" nullable="true" comment="La Poste Colissimo return label"/>
+        <column xsi:type="tinyint" name="lpc_label_cn_23" nullable="true" comment="La Poste Colissimo using CN23"/>
+        <column xsi:type="text" name="lpc_label_docs" nullable="true" comment="La Poste Colissimo customs documents sent"/>
+        <column xsi:type="text" name="lpc_ddp_description" nullable="true" comment="La Poste Colissimo DDP general description"/>
+        <column xsi:type="smallint" name="lpc_ddp_length" nullable="true" comment="La Poste Colissimo DDP packaage length"/>
+        <column xsi:type="smallint" name="lpc_ddp_width" nullable="true" comment="La Poste Colissimo DDP package width"/>
+        <column xsi:type="smallint" name="lpc_ddp_height" nullable="true" comment="La Poste Colissimo DDP package height"/>
+        <column xsi:type="text" name="lpc_label_error" nullable="true" comment="La Poste Colissimo last label error"/>
+        <column xsi:type="varchar" name="lpc_insurance_amount" length="10" nullable="true" comment="La Poste Colissimo insurance amount"/>
+        <column xsi:type="smallint" name="lpc_multi_parcels_number" nullable="true" comment="La Poste Colissimo parcel number"/>
+        <column xsi:type="varchar" name="lpc_shipping_type" length="25" nullable="true" comment="La Poste Colissimo shipping type"/>
+    </table>
+    <table name="sales_shipment_track">
+        <column xsi:type="varchar" name="lpc_last_event_code" nullable="true" comment="La Poste Colissimo last event code" length="255"/>
+        <column xsi:type="datetime" name="lpc_last_event_date" nullable="true" comment="La Poste Colissimo last event date"/>
+        <column xsi:type="tinyint" name="lpc_is_delivered" nullable="true" default="0" comment="La Poste Colissimo return label"/>
+    </table>
+</schema>

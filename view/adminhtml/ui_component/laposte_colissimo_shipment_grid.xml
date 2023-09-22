@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">laposte_colissimo_shipment_grid.laposte_colissimo_shipment_grid_data_source</item>
+            <item name="deps" xsi:type="string">laposte_colissimo_shipment_grid.laposte_colissimo_shipment_grid_data_source</item>
+        </item>
+        <item name="spinner" xsi:type="string">laposte_colissimo_shipment_columns</item>
+        <item name="acl" xsi:type="string">LaPoste_Colissimo::shipment</item>
+        <item name="buttons" xsi:type="array">
+            <item name="add" xsi:type="array">
+                <item name="name" xsi:type="string">add</item>
+                <item name="label" xsi:type="string" translate="true">Update Colissimo Statuses</item>
+                <item name="class" xsi:type="string">secondary</item>
+                <item name="url" xsi:type="string">laposte_colissimo/shipment/updateStatuses</item>
+            </item>
+            <item name="scan" xsi:type="array">
+                <item name="name" xsi:type="string">scan</item>
+                <item name="label" xsi:type="string" translate="true">Bordereau via scan</item>
+                <item name="class" xsi:type="string">secondary</item>
+                <item name="url" xsi:type="string">laposte_colissimo/bordereau/generateViaScan</item>
+            </item>
+        </item>
+    </argument>
+    <dataSource name="laposte_colissimo_shipment_grid_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">LaPoste\Colissimo\Ui\Component\ShipmentDataProvider</argument>
+            <argument name="name" xsi:type="string">laposte_colissimo_shipment_grid_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">entity_id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
+                    <item name="update_url" xsi:type="url" path="mui/index/render"/>
+                </item>
+            </argument>
+        </argument>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <filters name="listing_filters">
+            <filterSelect name="without_label">
+                <argument name="optionsProvider" xsi:type="configurableObject">
+                    <argument name="class" xsi:type="string">LaPoste\Colissimo\Ui\Component\Listing\Column\WithoutLabelOptions</argument>
+                </argument>
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="provider" xsi:type="string">${ $.parentName }</item>
+                        <item name="caption" xsi:type="string" translate="true">Any</item>
+                        <item name="dataScope" xsi:type="string">without_label</item>
+                        <item name="label" xsi:type="string" translate="true">Without label</item>
+                    </item>
+                </argument>
+            </filterSelect>
+            <filterSelect name="store_id">
+                <argument name="optionsProvider" xsi:type="configurableObject">
+                    <argument name="class" xsi:type="string">Magento\Store\Ui\Component\Listing\Column\Store\Options</argument>
+                </argument>
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="provider" xsi:type="string">${ $.parentName }</item>
+                        <item name="imports" xsi:type="array">
+                            <item name="visible" xsi:type="string">ns = ${ $.ns }, componentType = column, index = ${ $.index }:visible</item>
+                        </item>
+                        <item name="caption" xsi:type="string" translate="true">All Store Views</item>
+                        <item name="dataScope" xsi:type="string">store_id</item>
+                        <item name="label" xsi:type="string" translate="true">Purchased From</item>
+                    </item>
+                </argument>
+            </filterSelect>
+        </filters>
+        <massaction name="listing_massaction">
+            <action name="outward_label_generation">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">generate_outward_shipping_labels</item>
+                        <item name="label" xsi:type="string" translate="true">Generate Outward Shipping Labels</item>
+                        <item name="url" xsi:type="url" path="laposte_colissimo/shipment/massGenerationOutwardLabel"/>
+                    </item>
+                </argument>
+            </action>
+            <action name="inward_label_generation">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">generate_inward_shipping_labels</item>
+                        <item name="label" xsi:type="string" translate="true">Generate Inward Shipping Labels</item>
+                        <item name="url" xsi:type="url" path="laposte_colissimo/shipment/massGenerationInwardLabel"/>
+                    </item>
+                </argument>
+            </action>
+            <action name="bordereau_generation">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">generate_bordereau</item>
+                        <item name="label" xsi:type="string" translate="true">Generate a Delivery docket</item>
+                        <item name="url" xsi:type="url" path="laposte_colissimo/shipment/massBordereauGeneration"/>
+                    </item>
+                </argument>
+            </action>
+            <action name="shipment_download">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">download_shipment</item>
+                        <item name="label" xsi:type="string" translate="true">Download shipment related informations</item>
+                        <item name="url" xsi:type="url" path="laposte_colissimo/shipment/massDownloadShipment"/>
+                    </item>
+                </argument>
+            </action>
+            <action name="outward_label_print">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">print_outward_label</item>
+                        <item name="label" xsi:type="string" translate="true">Print outward label</item>
+                        <item name="url" xsi:type="url" path="laposte_colissimo/shipment/massPrintOutwardLabel"/>
+                    </item>
+                </argument>
+            </action>
+            <action name="inward_label_print">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">print_inward_label</item>
+                        <item name="label" xsi:type="string" translate="true">Print inward label</item>
+                        <item name="url" xsi:type="url" path="laposte_colissimo/shipment/massPrintInwardLabel"/>
+                    </item>
+                </argument>
+            </action>
+            <action name="shipment_print">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">print_shipment</item>
+                        <item name="label" xsi:type="string" translate="true">Print shipment related informations</item>
+                        <item name="url" xsi:type="url" path="laposte_colissimo/shipment/massPrintLabels"/>
+                    </item>
+                </argument>
+            </action>
+            <action name="label_delete">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">delete_label</item>
+                        <item name="label" xsi:type="string" translate="true">Delete labels</item>
+                        <item name="url" xsi:type="url" path="laposte_colissimo/shipment/massDeleteLabels"/>
+                    </item>
+                </argument>
+            </action>
+        </massaction>
+        <paging name="listing_paging"/>
+    </listingToolbar>
+    <columns name="laposte_colissimo_shipment_columns">
+        <selectionsColumn name="ids">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="indexField" xsi:type="string">shipment_entity_id</item>
+                </item>
+            </argument>
+        </selectionsColumn>
+        <column name="shipment_increment_id">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Reference</item>
+                </item>
+            </argument>
+        </column>
+        <column name="increment_id">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Order</item>
+                </item>
+            </argument>
+        </column>
+        <column name="created_at" class="Magento\Ui\Component\Listing\Columns\Date">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">dateRange</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/date</item>
+                    <item name="dataType" xsi:type="string">date</item>
+                    <item name="label" xsi:type="string" translate="true">Order Date</item>
+                </item>
+            </argument>
+        </column>
+        <column name="store_id" class="Magento\Store\Ui\Component\Listing\Column\Store">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="sortable" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true">Purchased From</item>
+                </item>
+            </argument>
+        </column>
+        <column name="customer_id" class="LaPoste\Colissimo\Ui\Component\Listing\Column\Customer">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true">Customer</item>
+                </item>
+            </argument>
+        </column>
+        <column name="street">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="label" xsi:type="string" translate="true">Street</item>
+                </item>
+            </argument>
+        </column>
+        <column name="postcode">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="label" xsi:type="string" translate="true">Post Code</item>
+                </item>
+            </argument>
+        </column>
+        <column name="city">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="label" xsi:type="string" translate="true">City</item>
+                </item>
+            </argument>
+        </column>
+        <column name="country_id">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="label" xsi:type="string" translate="true">Country</item>
+                </item>
+            </argument>
+        </column>
+        <column name="status" class="LaPoste\Colissimo\Ui\Component\Listing\Column\ColissimoStatus">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true">Status</item>
+                </item>
+            </argument>
+        </column>
+        <column name="track_number" class="LaPoste\Colissimo\Ui\Component\Listing\Column\TrackNumber">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true">Tracking number</item>
+                </item>
+            </argument>
+        </column>
+        <column name="shipping_description">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true">Shipping Description</item>
+                </item>
+            </argument>
+        </column>
+        <actionsColumn name="actions" class="LaPoste\Colissimo\Ui\Component\Listing\Column\Actions">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="indexField" xsi:type="string">entity_id</item>
+                </item>
+            </argument>
+        </actionsColumn>
+    </columns>
+</listing>

@@ -1,0 +1,16 @@
+<?php /* @var $block \LaPoste\Colissimo\Block\System\Config\PricesConfigButton */ ?>
+
+<script>
+    require([
+        'jquery',
+        'prototype'
+    ], function (jQuery) {
+
+        jQuery('#PricesConfigBtn').click(function () {
+            window.location = '<?php echo $block->urlConfigPrices; ?>';
+        });
+
+    });
+</script>
+
+<?php echo $block->getButtonHtml(); ?>

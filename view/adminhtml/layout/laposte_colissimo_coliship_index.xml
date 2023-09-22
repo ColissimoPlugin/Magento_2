@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!--
+    /*******************************************************
+     * Copyright (C) 2018 La Poste.
+     *
+     * This file is part of La Poste - Colissimo module.
+     *
+     * La Poste - Colissimo module can not be copied and/or distributed without the express
+     * permission of La Poste.
+     *******************************************************/
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="LaPoste_Colissimo::css/coliship.css"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block name="lpc.coliship.wrapper"
+                   class="Magento\Framework\View\Element\Template"
+                   template="LaPoste_Colissimo::coliship/wrapper.phtml">
+
+                <block name="lpc_coliship_export"
+                       class="LaPoste\Colissimo\Block\Coliship\Export"
+                       as="export"
+                       template="LaPoste_Colissimo::coliship/export.phtml">
+
+                    <block name="lpc_coliship_export_fmtFileExample"
+                           as="fmtFileExample"
+                           class="LaPoste\Colissimo\Block\System\Config\Field\FmtFileExample"/>
+                </block>
+
+                <block name="lpc_coliship_import"
+                       as="import"
+                       class="LaPoste\Colissimo\Block\Coliship\Import"
+                       template="LaPoste_Colissimo::coliship/import.phtml"/>
+
+            </block>
+        </referenceContainer>
+    </body>
+</page>
+

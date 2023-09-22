@@ -1,0 +1,151 @@
+<?xml version="1.0" ?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">laposte_prices_entity_form.prices_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">General Information</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+    <settings>
+        <buttons>
+            <button name="back" class="LaPoste\Colissimo\Block\Adminhtml\Prices\Edit\BackButton"/>
+            <button name="delete" class="LaPoste\Colissimo\Block\Adminhtml\Prices\Edit\DeleteButton"/>
+            <button name="save" class="LaPoste\Colissimo\Block\Adminhtml\Prices\Edit\SaveButton"/>
+            <button name="save_and_continue" class="LaPoste\Colissimo\Block\Adminhtml\Prices\Edit\SaveAndContinueButton"/>
+        </buttons>
+        <namespace>laposte_prices_entity_form</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>laposte_prices_entity_form.prices_form_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="prices_form_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <settings>
+            <submitUrl path="*/*/save"/>
+        </settings>
+        <dataProvider name="prices_form_data_source" class="LaPoste\Colissimo\Model\Prices\FormDataProvider">
+            <settings>
+                <requestFieldName>entity_id</requestFieldName>
+                <primaryFieldName>entity_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <fieldset name="general">
+        <settings>
+            <label>General</label>
+        </settings>
+        <field name="method" formElement="select">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Method</label>
+                <dataScope>method</dataScope>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="LaPoste\Colissimo\Ui\Component\Create\Form\Prices\Options"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="area" formElement="select">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Area</label>
+                <dataScope>area</dataScope>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="LaPoste\Colissimo\Ui\Component\Create\Form\Prices\OptionsArea"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="weight_min" formElement="input" sortOrder="20">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">Prices</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Cart weight min</label>
+                <dataScope>weight_min</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+        <field name="weight_max" formElement="input" sortOrder="30">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">Prices</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Cart weight max</label>
+                <dataScope>weight_max</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">false</rule>
+                </validation>
+            </settings>
+        </field>
+        <field name="price_min" formElement="input" sortOrder="40">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">Prices</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Cart price min</label>
+                <dataScope>price_min</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+        <field name="price_max" formElement="input" sortOrder="50">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">Prices</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Cart price max</label>
+                <dataScope>price_max</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">false</rule>
+                </validation>
+            </settings>
+        </field>
+        <field name="price" formElement="input" sortOrder="60">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">Prices</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Price</label>
+                <dataScope>price</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+        <htmlContent name="html_content">
+            <block class="LaPoste\Colissimo\Block\Adminhtml\Prices\Url" template="LaPoste_Colissimo::prices/lpc_prices_edit_url.phtml"
+                   name="custom_js_backend"/>
+        </htmlContent>
+    </fieldset>
+</form>

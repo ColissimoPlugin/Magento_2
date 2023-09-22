@@ -1,0 +1,12 @@
+<?php
+/**
+ *
+ * @var \LaPoste\Colissimo\Block\ReturnLabel $block
+ */
+?>
+
+<?php if ($block->isLabelAvailableToCustomer()): ?>
+    <a href="<?= $block->getReturnLabelPrintLink($block->getShipment()); ?>"
+       class="action"><?= __('Print return label'); ?></a>
+<?php endif; ?>
+

@@ -1,0 +1,14 @@
+.lpc__admin__order_banner__send_documents .lpc__buttons__container{
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.lpc__admin__order_banner__send_documents__container{
+    position: relative;
+}
+
+.lpc__admin__order_banner__send_documents__container .processing{
+    position: absolute;
+    left: calc(50% - 8px);
+    top: calc(50% - 8px);
+}

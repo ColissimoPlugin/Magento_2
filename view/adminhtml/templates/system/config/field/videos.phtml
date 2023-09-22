@@ -1,0 +1,50 @@
+<?php /* @var $block \LaPoste\Colissimo\Block\System\Config\Field\Videos */ ?>
+
+<style>
+    #row_lpc_advanced_lpc_videos_video_tutorials .label{
+        display: none;
+    }
+
+    #row_lpc_advanced_lpc_videos_video_tutorials .value{
+        width: 100%;
+        text-align: center;
+    }
+
+    #row_lpc_advanced_lpc_videos_video_tutorials .lpc_video_tutorial{
+        display: inline-block;
+        margin: 10px 10px 3rem;
+        padding: 1rem;
+        background-color: #efefef;
+    }
+
+    #row_lpc_advanced_lpc_videos_video_tutorials iframe{
+        border: none;
+    }
+
+    #row_lpc_advanced_lpc_videos_video_tutorials .lpc_video_label{
+        text-align: center;
+        font-weight: bold;
+        padding: 1rem;
+    }
+</style>
+
+<div id="lpc_videos">
+    <?php
+    $i = 1;
+    foreach ($block->getVideos() as $videoCode => $videoLabel) {
+        ?>
+        <div class="lpc_video_tutorial">
+            <iframe width="500"
+                    height="280"
+                    src="https://www.youtube.com/embed/<?php echo $videoCode; ?>"
+                    title="<?php echo $videoLabel; ?>"
+                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen>
+            </iframe>
+            <div class="lpc_video_label"><?php echo $i . '. ' . $videoLabel; ?></div>
+        </div>
+        <?php
+        $i ++;
+    }
+    ?>
+</div>

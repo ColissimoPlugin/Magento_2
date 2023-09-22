@@ -1,0 +1,192 @@
+<?xml version="1.0" ?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">laposte_prices_entity_listing.laposte_prices_entity_listing_data_source</item>
+        </item>
+    </argument>
+    <settings>
+        <spinner>laposte_prices_entity_columns</spinner>
+        <deps>
+            <dep>laposte_prices_entity_listing.laposte_prices_entity_listing_data_source</dep>
+        </deps>
+        <buttons>
+            <button name="back">
+                <url path="adminhtml/system_config/edit/section/carriers"/>
+                <class>secondary</class>
+                <label translate="true">Back to configuration</label>
+            </button>
+            <button name="add">
+                <url path="*/*/new"/>
+                <class>primary</class>
+                <label translate="true">Add new Price</label>
+            </button>
+        </buttons>
+    </settings>
+    <dataSource name="laposte_prices_entity_listing_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <aclResource>LaPoste_Colissimo::Prices</aclResource>
+        <dataProvider name="laposte_prices_entity_listing_data_source" class="LaPoste\Colissimo\Model\Prices\ListingDataProvider">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>entity_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>true</sticky>
+        </settings>
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <filters name="listing_filters"/>
+        <paging name="listing_paging"/>
+        <massaction name="listing_massaction">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="selectProvider" xsi:type="string">laposte_prices_entity_listing.laposte_prices_entity_listing.laposte_prices_entity_columns.ids</item>
+                    <item name="indexField" xsi:type="string">entity_id</item>
+                </item>
+            </argument>
+            <action name="delete">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">delete</item>
+                        <item name="label" xsi:type="string" translate="true">Delete</item>
+                        <item name="url" xsi:type="url" path="laposte_colissimo/Prices/MassDelete"/>
+                        <item name="confirm" xsi:type="array">
+                            <item name="title" xsi:type="string" translate="true">Delete items</item>
+                            <item name="message" xsi:type="string" translate="true">Are you sure you want to delete selected items?</item>
+                        </item>
+                    </item>
+                </argument>
+            </action>
+        </massaction>
+    </listingToolbar>
+    <columns name="laposte_prices_entity_columns">
+        <settings>
+            <editorConfig>
+                <param name="selectProvider" xsi:type="string">laposte_prices_entity_listing.laposte_prices_entity_listing.laposte_prices_entity_columns.ids</param>
+                <param name="enabled" xsi:type="boolean">true</param>
+                <param name="indexField" xsi:type="string">entity_id</param>
+                <param name="clientConfig" xsi:type="array">
+                    <item name="saveUrl" xsi:type="url" path="laposte_colissimo/Prices/inlineEdit"/>
+                    <item name="validateBeforeSave" xsi:type="boolean">false</item>
+                </param>
+            </editorConfig>
+            <childDefaults>
+                <param name="fieldAction" xsi:type="array">
+                    <item name="provider" xsi:type="string">laposte_prices_entity_listing.laposte_prices_entity_listing.laposte_prices_entity_columns_editor</item>
+                    <item name="target" xsi:type="string">startEdit</item>
+                    <item name="params" xsi:type="array">
+                        <item name="0" xsi:type="string">${ $.$data.rowIndex }</item>
+                        <item name="1" xsi:type="boolean">true</item>
+                    </item>
+                </param>
+            </childDefaults>
+        </settings>
+        <selectionsColumn name="ids">
+            <settings>
+                <indexField>entity_id</indexField>
+            </settings>
+        </selectionsColumn>
+        <column name="entity_id">
+            <settings>
+                <filter>text</filter>
+                <sorting>asc</sorting>
+                <label translate="true">ID</label>
+            </settings>
+        </column>
+        <column name="method" component="Magento_Ui/js/grid/columns/select">
+            <settings>
+                <options class="LaPoste\Colissimo\Ui\Component\Create\Form\Prices\Options"/>
+                <filter>select</filter>
+                <editor>
+                    <editorType>select</editorType>
+                </editor>
+                <dataType>select</dataType>
+                <label translate="true">Method</label>
+            </settings>
+        </column>
+        <column name="area" component="Magento_Ui/js/grid/columns/select">
+            <settings>
+                <options class="LaPoste\Colissimo\Ui\Component\Create\Form\Prices\OptionsArea"/>
+                <filter>select</filter>
+                <editor>
+                    <editorType>false</editorType>
+                </editor>
+                <dataType>select</dataType>
+                <label translate="true">Area</label>
+            </settings>
+        </column>
+        <column name="weight_min">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Cart weight min</label>
+                <editor>
+                    <editorType>text</editorType>
+                    <validation>
+                        <rule name="required-entry" xsi:type="boolean">true</rule>
+                    </validation>
+                </editor>
+            </settings>
+        </column>
+        <column name="weight_max">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Cart weight max</label>
+                <editor>
+                    <editorType>text</editorType>
+                    <validation>
+                        <rule name="required-entry" xsi:type="boolean">false</rule>
+                    </validation>
+                </editor>
+            </settings>
+        </column>
+        <column name="price_min">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Cart price min</label>
+                <editor>
+                    <editorType>text</editorType>
+                    <validation>
+                        <rule name="required-entry" xsi:type="boolean">true</rule>
+                    </validation>
+                </editor>
+            </settings>
+        </column>
+        <column name="price_max">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Cart price max</label>
+                <editor>
+                    <editorType>text</editorType>
+                    <validation>
+                        <rule name="required-entry" xsi:type="boolean">false</rule>
+                    </validation>
+                </editor>
+            </settings>
+        </column>
+        <column name="price">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Price</label>
+                <editor>
+                    <editorType>text</editorType>
+                    <validation>
+                        <rule name="required-entry" xsi:type="boolean">true</rule>
+                    </validation>
+                </editor>
+            </settings>
+        </column>
+        <actionsColumn name="actions" class="LaPoste\Colissimo\Ui\Component\Listing\Column\PricesActions">
+            <settings>
+                <indexField>entity_id</indexField>
+                <resizeEnabled>false</resizeEnabled>
+                <resizeDefaultWidth>107</resizeDefaultWidth>
+            </settings>
+        </actionsColumn>
+    </columns>
+</listing>

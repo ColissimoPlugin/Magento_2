@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="LaPoste_Colissimo::colissimo_config" title="Module Colissimo"/>
+                        </resource>
+                    </resource>
+                </resource>
+                <resource id="Magento_Sales::sales">
+                    <resource id="Magento_Sales::sales_operation">
+                        <resource id="Magento_Sales::shipment">
+                            <resource id="LaPoste_Colissimo::shipment" title="Colissimo Shipments" translate="title"/>
+                        </resource>
+                    </resource>
+                </resource>
+                <resource id="LaPoste_Colissimo::Prices" title="Prices" sortOrder="10">
+                    <resource id="LaPoste_Colissimo::Prices_save" title="Save Prices" sortOrder="10"/>
+                    <resource id="LaPoste_Colissimo::Prices_delete" title="Delete Prices" sortOrder="20"/>
+                    <resource id="LaPoste_Colissimo::Prices_update" title="Update Prices" sortOrder="30"/>
+                    <resource id="LaPoste_Colissimo::Prices_view" title="View Prices" sortOrder="40"/>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

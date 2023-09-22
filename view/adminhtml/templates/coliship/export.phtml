@@ -1,0 +1,24 @@
+<?php
+/**
+ * @var \LaPoste\Colissimo\Block\Coliship\Export $block
+ */
+?>
+<div id="lpc_coliship_export">
+    <form action="<?php echo $block->getExportUrl(); ?>" method="GET">
+        <fieldset class="fiedset admin__fieldset">
+            <legend class="admin__legend legend"><?= __('Export'); ?></legend>
+            <div class="admin__field field">
+                <div class="admin__field-control control">
+                    <button type="submit"
+                            class="action export primary lpc_coliship">
+                        <?php echo __('Generate ColiShip export'); ?>
+                    </button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+
+    <div class="lpc_coliship_export_fmtFileExample_button">
+        <?= $block->getChildHtml(); ?>
+    </div>
+</div>

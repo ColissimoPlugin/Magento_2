@@ -1,0 +1,68 @@
+<?php
+
+/*******************************************************
+ * Copyright (C) 2018 La Poste.
+ *
+ * This file is part of La Poste - Colissimo module.
+ *
+ * La Poste - Colissimo module can not be copied and/or distributed without the express
+ * permission of La Poste.
+ *******************************************************/
+
+/* @var $block \LaPoste\Colissimo\Block\System\Config\IdCheck */ ?>
+<script>
+    require([
+        'jquery',
+        'prototype'
+    ], function (jQuery) {
+
+        var idCheckSpan = jQuery('#idCheck_span');
+
+        jQuery('#idCheck_button').click(function () {
+            var params = {
+                login: jQuery('#lpc_advanced_lpc_general_id_webservices').val(),
+                password: jQuery('#lpc_advanced_lpc_general_pwd_webservices').val()
+            };
+            new Ajax.Request('<?php echo $block->getAjaxUrl() ?>', {
+                parameters: params,
+                loaderArea: false,
+                asynchronous: true,
+                onCreate: function () {
+                    idCheckSpan.find('.idChecked').hide();
+                    idCheckSpan.find('.idBad').hide();
+                    idCheckSpan.find('.processing').show();
+                    jQuery('#idCheck_message_span').text('');
+                },
+                onComplete: function (response) {
+                    idCheckSpan.find('.processing').hide();
+
+                    var resultText = '';
+                    var json = response.responseJSON;
+                    if (response.status > 200) {
+                        resultText = json.error;
+                        idCheckSpan.find('.idBad').show();
+                    } else {
+                        resultText = json.success;
+                        if (json.isIdOk) {
+                            idCheckSpan.find('.idChecked').show();
+                            idCheckSpan.find('.idBad').hide();
+                        } else {
+                            idCheckSpan.find('.idChecked').hide();
+                            idCheckSpan.find('.idBad').show();
+                        }
+                    }
+                    jQuery('#idCheck_message_span').text(resultText);
+                }
+            });
+        });
+
+    });
+</script>
+
+<?php echo $block->getButtonHtml() ?>
+<span class="idCheck-indicator" id="idCheck_span">
+    <img class="processing" hidden="hidden" alt="idChecking" style="margin:0 5px" src="<?php echo $block->getViewFileUrl('images/process_spinner.gif') ?>" />
+    <img class="idChecked" hidden="hidden" alt="idChecked" style="margin:-3px 5px" src="<?php echo $block->getViewFileUrl('images/rule_component_apply.gif') ?>" />
+    <img class="idBad" hidden="hidden" alt="idBad" style="margin:-3px 5px" src="<?php echo $block->getViewFileUrl('images/rule_component_remove.gif') ?>" />
+    <span id="idCheck_message_span"></span>
+</span>

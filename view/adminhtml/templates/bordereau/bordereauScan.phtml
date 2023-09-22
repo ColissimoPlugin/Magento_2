@@ -1,0 +1,38 @@
+<div id="lpc_scan_bordereau">
+    <div class="lpc_scan_description">
+        <h3><?= __('You can scan the labels. Once finished, you can submit to generate your bordereau.'); ?></h3>
+    </div>
+    <div class="lpc_scan_left">
+        <div class="lpc_scan_code">
+            <input type="text" id="lpc_scan_input" data-mage-init='{"lpcScan":<?php echo $block->getConfigJson(); ?> }'>
+        </div>
+        <div class="lpc_scan_feedback">
+            <span id="lpc_scan_info"></span>
+        </div>
+    </div>
+    <div class="lpc_scan_right">
+        <form method="get" action="<?= $block->escapeUrl($block->getFormAction()); ?>">
+            <div class="lpc_scan_inputAllCodes">
+                <textarea name="lpc_scan_barcodes" id="lpc_scan_barcodes" rows="20" cols="35" readonly></textarea>
+            </div>
+            <div class="actions-toolbar lpc_scan_btnArea">
+                <div class="secondary lpc_reset">
+                    <button type="button" class="action" id="lpc_scan_reset" title="<?php echo __('Reset') ?>">
+                        <span><?php echo __('Reset') ?></span>
+                    </button>
+                </div>
+                <div class="secondary lpc_remove_last">
+                    <button type="button" class="action" id="lpc_scan_remove_last"
+                            title="<?php echo __('Remove last code') ?>">
+                        <span><?php echo __('Remove last code') ?></span>
+                    </button>
+                </div>
+                <div>
+                    <button type="submit" class="action submit primary" title="<?php echo __('Submit') ?>">
+                        <span><?php echo __('Submit') ?></span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

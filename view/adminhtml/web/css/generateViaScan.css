@@ -1,0 +1,49 @@
+#lpc_scan_bordereau input{
+    border-radius: 5px;
+}
+
+#lpc_scan_bordereau .lpc_scan_left{
+    width: 300px;
+    float: left;
+}
+
+#lpc_scan_bordereau .lpc_scan_btnArea div.secondary{
+    float: left;
+}
+
+#lpc_scan_bordereau .lpc_scan_btnArea .lpc_reset{
+    margin: 0 40px 0 20px;
+}
+
+#lpc_scan_bordereau .lpc_scan_btnArea .lpc_remove_last{
+    margin-right: 40px;
+}
+
+#lpc_scan_bordereau .lpc_scan_left .lpc_scan_code{
+    margin: 100px 0 50px 0;
+}
+
+#lpc_scan_bordereau #lpc_scan_input{
+    width: 250px;
+}
+
+#lpc_scan_bordereau .lpc_goodCode{
+    color: forestgreen;
+}
+
+#lpc_scan_bordereau .lpc_wrongCode{
+    color: red;
+}
+
+#lpc_scan_bordereau .lpc_info{
+    color: dodgerblue;
+}
+
+#lpc_scan_bordereau .lpc_scan_inputAllCodes{
+    margin-bottom: 20px;
+}
+
+#lpc_scan_bordereau .lpc_scan_feedback{
+    max-height: 150px;
+    overflow: hidden;
+}

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="empty" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="LaPoste_Colissimo::css/printPdf.css"/>
+        <link src="LaPoste_Colissimo::js/printPdf.js"/>
+    </head>
+    <body>
+        <container name="content">
+            <container name="lpc.mass.label.pdf.wrapper"/>
+        </container>
+    </body>
+</page>
