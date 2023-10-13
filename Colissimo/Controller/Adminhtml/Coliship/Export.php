@@ -87,10 +87,7 @@ class Export extends \Magento\Backend\App\Action
         if (empty($statusesForGeneration)) {
             $orderStatusesForGeneration = [];
         } else {
-            $orderStatusesForGeneration = explode(
-                ',',
-                $this->helperData->getAdvancedConfigValue('lpc_labels/orderStatusForGeneration')
-            );
+            $orderStatusesForGeneration = explode(',', $statusesForGeneration);
         }
 
         if (!empty($orderStatusesForGeneration)) {

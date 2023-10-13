@@ -1,5 +1,20 @@
 # Colissimo Magento 2 Changelog
 
+# 1.3.4
+
+### Fonctionnalités
+
+- Un nouveau projet GitHub a été mis à disposition pour recueillir les suggestions de modifications et ajouts : https://github.com/ColissimoPlugin/Magento_2
+
+### Améliorations
+
+- Les prix par défaut installés à la première activation ont été mis à jour pour suivre la grille tarifaire de 2023
+- Un message informatif a été ajouté pour les comptes Facilité n'ayant pas encore accepté les CGV
+
+### Correctifs
+
+- L'inclusion de scripts a été corrigée pour certaines configurations système sur la page de modification d'une commande
+
 # 1.3.3
 
 ### Fonctionnalités
