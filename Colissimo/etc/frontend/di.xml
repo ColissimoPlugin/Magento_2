@@ -11,4 +11,8 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Checkout\Block\Checkout\LayoutProcessor">
+        <plugin name="add_colissimo_note_field"
+                type="LaPoste\Colissimo\Plugin\Checkout\LayoutProcessorPlugin" sortOrder="10"/>
+    </type>
 </config>

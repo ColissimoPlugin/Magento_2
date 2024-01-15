@@ -1,0 +1,58 @@
+<?php
+$listRelays = $block->getListRelays();
+$openingDays = [
+    'Monday'    => 'horairesOuvertureLundi',
+    'Tuesday'   => 'horairesOuvertureMardi',
+    'Wednesday' => 'horairesOuvertureMercredi',
+    'Thursday'  => 'horairesOuvertureJeudi',
+    'Friday'    => 'horairesOuvertureVendredi',
+    'Saturday'  => 'horairesOuvertureSamedi',
+    'Sunday'    => 'horairesOuvertureDimanche',
+];
+
+foreach ($listRelays as $i => $oneRelay) { ?>
+    <div class="lpc_layer_relay" id="lpc_layer_relay_<?php echo $i; ?>" data-relayindex="<?php echo $i; ?>">
+        <div class="lpc_layer_relay_distance">
+            <img class="lpc_relay_marker" src="<?php echo $block->getViewFileUrl('LaPoste_Colissimo::images/map_marker.png'); ?>">
+            <?php echo __('At') . ' ' . $oneRelay->distanceEnMetre ?> m
+        </div>
+        <div class="lpc_layer_relay_name"><?php echo $oneRelay->nom ?></div>
+        <div class="lpc_layer_relay_address">
+            <span class="lpc_layer_relay_country_code"><?php echo $oneRelay->codePays; ?></span>
+            <span class="lpc_layer_relay_type"><?php echo $oneRelay->typeDePoint; ?></span>
+            <span class="lpc_layer_relay_id"><?php echo $oneRelay->identifiant; ?></span>
+            <span class="lpc_layer_relay_address_street"><?php echo $oneRelay->adresse1; ?></span>
+            <span class="lpc_layer_relay_address_zipcode"><?php echo $oneRelay->codePostal; ?></span><?php echo ' '; ?>
+            <span class="lpc_layer_relay_address_city"><?php echo $oneRelay->localite ?></span>
+            <span class="lpc_layer_relay_latitude"><?php echo $oneRelay->coordGeolocalisationLatitude; ?></span>
+            <span class="lpc_layer_relay_longitude"><?php echo $oneRelay->coordGeolocalisationLongitude; ?></span>
+            <span class="lpc_layer_relay_distance_nb"><?php echo $oneRelay->distanceEnMetre; ?></span>
+            <?php
+            $relayHour = '';
+            $hourContent = '';
+            foreach ($openingDays as $day => $oneDay) {
+                if (empty($oneRelay->$oneDay) || ' ' === $oneRelay->$oneDay || '00:00-00:00 00:00-00:00' === $oneRelay->$oneDay) {
+                    continue;
+                }
+                $relayHour .= '<tr><td>' . ucfirst(__($day)) . '</td><td class="opening_hours">' . $block->formatRelaysOpeningHours($oneRelay->$oneDay) . '</td></tr>';
+                $hourContent .= ucfirst(__($day)) . ' ' . str_replace(' 00:00-00:00', '', $oneRelay->$oneDay) . '<br />';
+            }
+            ?>
+            <span class="lpc_layer_relay_hour"><table><?php echo $hourContent; ?></table></span>
+            <div class="lpc_layer_relay_schedule">
+                <table cellspacing="0" cellpadding="0">
+                    <?php echo $relayHour; ?>
+                </table>
+            </div>
+
+        </div>
+        <div class="lpc_relay_choose_btn">
+            <span class="lpc_show_relay_details"><?php echo __('Display on map') ?></span>
+            <button class="lpc_relay_choose" type="button" data-relayindex="<?php echo $i; ?>"><?php echo __('Choose') ?></button>
+        </div>
+
+    </div>
+    <?php if (($i + 1) < count($listRelays)) { ?>
+        <hr style="width: 100%">
+    <?php } ?>
+<?php } ?>

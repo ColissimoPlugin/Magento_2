@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="LaPoste_Colissimo::css/pricesImport.css"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block name="lpc_prices_import"
+                   as="import"
+                   class="LaPoste\Colissimo\Block\Prices\Import"
+                   template="LaPoste_Colissimo::prices/import.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

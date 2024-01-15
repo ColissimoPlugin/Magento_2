@@ -44,6 +44,9 @@
                 <extracost_gb>10</extracost_gb>
                 <extracost_us>18</extracost_us>
             </lpc_ddp>
+            <lpc_labels>
+                <cn23Number>4</cn23Number>
+            </lpc_labels>
         </lpc_advanced>
     </default>
 </config>

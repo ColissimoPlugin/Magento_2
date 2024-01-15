@@ -24,10 +24,14 @@
         <column xsi:type="text" name="parcels_numbers" nullable="false" comment="Numeros des colis"/>
         <column xsi:type="datetime" name="publishing_date" nullable="false" comment="Date de generation du bordereau"/>
     </table>
+    <table name="quote">
+        <column xsi:type="varchar" name="lpc_shipping_note" nullable="true" comment="La Poste Colissimo shipping note"/>
+    </table>
     <table name="sales_order">
         <column xsi:type="varchar" name="lpc_relay_id" nullable="true" comment="ID du point relais Colissimo" length="255"/>
         <column xsi:type="varchar" name="lpc_relay_type" nullable="true" comment="Type de relais Colissimo" length="255"/>
         <column xsi:type="smallint" name="lpc_multi_parcels_amount" nullable="true" comment="La Poste Colissimo number of parcels"/>
+        <column xsi:type="varchar" name="lpc_shipping_note" nullable="true" comment="La Poste Colissimo shipping note"/>
     </table>
     <table name="sales_shipment">
         <column xsi:type="mediumblob" name="lpc_return_label" nullable="true" comment="La Poste Colissimo return label"/>

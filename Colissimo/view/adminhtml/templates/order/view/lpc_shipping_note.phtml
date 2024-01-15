@@ -1,0 +1,11 @@
+<?php $lpcShippingNote = $block->lpcGetShippingNote();
+if (!empty($lpcShippingNote)) { ?>
+    <div class="admin__page-section-item lpc_shipping_notes_block">
+        <div class="admin__page-section-item-title">
+            <span class="title"><?php echo __('Shipping notes') ?></span>
+        </div>
+        <div class="admin__page-section-item-content">
+            <?php echo $lpcShippingNote; ?>
+        </div>
+    </div>
+<?php } ?>

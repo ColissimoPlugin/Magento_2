@@ -103,10 +103,12 @@ class PricesRepository implements PricesRepositoryInterface
         try {
             $this->resource->save($pricesModel);
         } catch (\Exception $exception) {
-            throw new CouldNotSaveException(__(
-                                                'Could not save the price: %1',
-                                                $exception->getMessage()
-                                            ));
+            throw new CouldNotSaveException(
+                __(
+                    'Could not save the price: %1',
+                    $exception->getMessage()
+                )
+            );
         }
 
         return $pricesModel->getDataModel();

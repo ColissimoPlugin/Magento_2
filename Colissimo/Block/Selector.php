@@ -59,9 +59,8 @@ class Selector extends Template
     public function getGoogleMapsUrl()
     {
         $apiKey = $this->helperData->getAdvancedConfigValue('lpc_pr_front/lpc_google_maps_api_key');
-        $urlGoogleMaps = empty($apiKey) || $apiKey == '0' ? '' : "https://maps.googleapis.com/maps/api/js?key=" . $apiKey;
 
-        return $urlGoogleMaps;
+        return empty($apiKey) || $apiKey == '0' ? '' : 'https://maps.googleapis.com/maps/api/js?key=' . $apiKey;
     }
 
     public function lpcPrView()

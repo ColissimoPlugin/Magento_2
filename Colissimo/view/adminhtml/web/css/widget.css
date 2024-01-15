@@ -1,0 +1,89 @@
+/* Specific CSS for the new widget */
+.lpc-modal .wc-backbone-modal-main{
+    padding-top: 0;
+}
+
+#widget_colissimo_contenu table{
+    margin: 0;
+    border: none;
+}
+
+.widget_colissimo_table_adresse, .widget_colissimo_filtres td, .widget_colissimo_liste td{
+    border: none;
+}
+
+.widget_colissimo_close{
+    display: none;
+}
+
+#widget_colissimo_contenu img{
+    display: inline-block;
+}
+
+/* Search bar */
+#widget_colissimo_table_adresse{
+    width: auto;
+}
+
+#widget_colissimo_table_adresse td{
+    background-color: #F7F7F7;
+}
+
+#widget_colissimo_table_adresse img.widget_colissimo_point_img{
+    height: 18px;
+}
+
+#widget_colissimo_adresse{
+    width: 387px;
+    height: 36px;
+    border: 1px solid #CDCDCD;
+    border-radius: 8px 0 0 8px;
+    margin-right: 0;
+    box-shadow: none;
+    background-color: white;
+    box-sizing: content-box;
+}
+
+.widget_colissimo_table_adresse{
+    vertical-align: middle;
+}
+
+.widget_colissimo_mode_transport{
+    cursor: pointer;
+}
+
+/* Map */
+.mapboxgl-ctrl-attrib-button{
+    padding: 0;
+    background-color: white !important;
+}
+
+/* Filters zone */
+.widget_colissimo_table_filtres td{
+    text-align: center;
+    vertical-align: middle;
+    font-size: 13px;
+}
+
+/* Listing pickup */
+img.widget_colissimo_icone_coche{
+    height: 14px;
+    vertical-align: unset !important;
+}
+
+img.widget_colissimo_icone_img{
+    height: 16px;
+}
+
+.widget_colissimo_selected .widget_colissimo_table td{
+    background-color: #EBEBEB !important;
+}
+
+.widget_colissimo_liste .widget_colissimo_text_bold{
+    margin-bottom: 2px !important;
+    margin-top: 10px !important;
+}
+
+.widget_colissimo_bouton_validation{
+    box-sizing: content-box;
+}

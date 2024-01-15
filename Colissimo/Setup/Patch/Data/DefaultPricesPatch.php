@@ -13,7 +13,7 @@ use LaPoste\Colissimo\Model\PricesRepository;
 
 class DefaultPricesPatch implements DataPatchInterface
 {
-    const DEFAULT_PRICES_PER_ZONE_JSON_FILE = __DIR__ . '/../../../resources/privilegePrices.json';
+    const DEFAULT_PRICES_PER_ZONE_JSON_FILE = __DIR__ . '/../../../resources/defaultPrices.json';
     const UNIT_LBS = 'LBS';
 
     /**

@@ -1,7 +1,9 @@
 var config = {
     map: {
         '*': {
-            lpcScan: 'LaPoste_Colissimo/js/lpcScan'
+            lpcScan: 'LaPoste_Colissimo/js/lpcScan',
+            lpc: 'LaPoste_Colissimo/js/lpc',
+            leaflet: 'LaPoste_Colissimo/js/webservice/leaflet'
         }
     },
     config: {

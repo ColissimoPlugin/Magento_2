@@ -16,10 +16,15 @@
                 <class>secondary</class>
                 <label translate="true">Back to configuration</label>
             </button>
+            <button name="import">
+                <url path="*/*/import"/>
+                <class>secondary</class>
+                <label translate="true">Import prices</label>
+            </button>
             <button name="add">
                 <url path="*/*/new"/>
                 <class>primary</class>
-                <label translate="true">Add new Price</label>
+                <label translate="true">Add new price</label>
             </button>
         </buttons>
     </settings>
@@ -50,6 +55,15 @@
                     <item name="indexField" xsi:type="string">entity_id</item>
                 </item>
             </argument>
+            <action name="export">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">export</item>
+                        <item name="label" xsi:type="string" translate="true">Export</item>
+                        <item name="url" xsi:type="url" path="laposte_colissimo/Prices/MassExport"/>
+                    </item>
+                </argument>
+            </action>
             <action name="delete">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">

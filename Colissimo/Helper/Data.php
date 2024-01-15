@@ -11,18 +11,20 @@
 
 namespace LaPoste\Colissimo\Helper;
 
+use Magento\Config\Model\ResourceModel\Config\Data\CollectionFactory;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Framework\Module\ModuleListInterface;
 use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\Serialize\SerializerInterface;
+use Magento\Framework\App\Config\Storage\WriterInterface;
 
 class Data extends AbstractHelper
 {
     const XML_PATH_ADVANCED = 'lpc_advanced/';
 
-    const MODULE_NAME = "LaPoste_Colissimo";
+    const MODULE_NAME = 'LaPoste_Colissimo';
 
     protected $moduleList;
     /**
@@ -33,6 +35,11 @@ class Data extends AbstractHelper
      * @var SerializerInterface
      */
     protected $serializer;
+    /**
+     * @var CollectionFactory
+     */
+    protected $configCollection;
+    private WriterInterface $configWriter;
 
     /**
      * Data constructor.
@@ -41,15 +48,21 @@ class Data extends AbstractHelper
      * @param ModuleListInterface      $moduleList
      * @param ProductMetadataInterface $productMetadata
      * @param SerializerInterface      $serializer
+     * @param CollectionFactory        $configCollection
+     * @param WriterInterface          $configWriter
      */
     public function __construct(
         Context $context,
         ModuleListInterface $moduleList,
         ProductMetadataInterface $productMetadata,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
+        CollectionFactory $configCollection,
+        WriterInterface $configWriter
     ) {
         $this->moduleList = $moduleList;
         $this->serializer = $serializer;
+        $this->configCollection = $configCollection;
+        $this->configWriter = $configWriter;
         parent::__construct($context);
         $this->productMetadata = $productMetadata;
     }
@@ -61,18 +74,35 @@ class Data extends AbstractHelper
                . (!empty($action) ? '' . "$action/" : '');
     }
 
-    public function getConfigValue($field, $storeId = null)
+    public function getConfigValue($field, $storeId = null, $bypassCache = false)
     {
-        return $this->scopeConfig->getValue(
-            $field,
-            ScopeInterface::SCOPE_STORE,
-            $storeId
-        );
+        if ($bypassCache) {
+            $collection = $this->configCollection->create();
+            $collection->addFieldToFilter('path', ['eq' => $field]);
+            if ($collection->count() > 0) {
+                return $collection->getFirstItem()->getData()['value'];
+            } else {
+                return '';
+            }
+        } else {
+            return $this->scopeConfig->getValue(
+                $field,
+                ScopeInterface::SCOPE_STORE,
+                $storeId
+            );
+        }
     }
 
     public function getAdvancedConfigValue($code, $storeId = null)
     {
-        return $this->getConfigValue(self::XML_PATH_ADVANCED . $code, $storeId);
+        if (strpos($code, 'pwd_webservices') !== false) {
+            $value = $this->getConfigValue(self::XML_PATH_ADVANCED . $code, $storeId, true);
+            $value = base64_decode($value);
+        } else {
+            $value = $this->getConfigValue(self::XML_PATH_ADVANCED . $code, $storeId);
+        }
+
+        return $value;
     }
 
     /**
@@ -149,11 +179,31 @@ class Data extends AbstractHelper
      *
      * @return string
      */
-    public function getCuserInfoText()
+    public function getCuserInfoText(bool $isForColiship = false): string
     {
         $mageVersion = $this->getMgVersion();
         $colissimoVersion = $this->getModuleVersion();
 
-        return "MAG" . $mageVersion . ";" . $colissimoVersion;
+        $cuserInfoTxt = 'MAG' . $mageVersion . ';' . $colissimoVersion;
+
+        if ($isForColiship) {
+            return $cuserInfoTxt . ';CLS';
+        }
+
+        return $cuserInfoTxt;
+    }
+
+    public function getMarkers(): array
+    {
+        $markers = $this->getConfigValue('lpc_advanced/lpc_general/markers', null, true);
+
+        return empty($markers) ? [] : json_decode($markers, \JSON_OBJECT_AS_ARRAY);
+    }
+
+    public function setMarker(string $marker, $value): void
+    {
+        $markers = $this->getMarkers();
+        $markers[$marker] = $value;
+        $this->configWriter->save('lpc_advanced/lpc_general/markers', json_encode($markers));
     }
 }

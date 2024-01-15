@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="LaPoste_Colissimo::css/orderCreate.css"/>
+    </head>
+    <body>
+        <referenceBlock name="content">
+            <block class="LaPoste\Colissimo\Block\Adminhtml\Order\PickupSelection"
+                   name="lpc_shipping_pickup_selection"
+                   template="LaPoste_Colissimo::order/pickupSelection.phtml"/>
+        </referenceBlock>
+    </body>
+</page>

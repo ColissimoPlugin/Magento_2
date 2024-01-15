@@ -582,6 +582,11 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
         $multiShippingData = $this->requestQuery->getParam('lpcMultiShipping');
         $shipmentData = $this->requestQuery->getParam('shipment');
 
+        $shippingInstructions = $request->getOrderShipment()->getOrder()->getLpcShippingNote();
+        if (empty($shippingInstructions)) {
+            $shippingInstructions = $request->getInstructions();
+        }
+
         $payload = $this->generateLabelPayload->resetPayload()
                                               ->withContractNumber(null, $request->getStoreId())
                                               ->withPassword(null, $request->getStoreId())
@@ -592,7 +597,7 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
                                               ->withPreparationDelay($request->getPreparationDelay(), $request->getStoreId())
                                               ->withProductCode($productCode)
                                               ->withOutputFormat($request->getOutputFormat(), $request->getStoreId())
-                                              ->withInstructions($request->getInstructions())
+                                              ->withInstructions($shippingInstructions)
                                               ->withOrderNumber($request->getOrderShipment()->getOrder()->getIncrementId())
                                               ->withPackage($request->getPackageParams(), $request->getPackageItems())
                                               ->withCustomsDeclaration(
@@ -695,6 +700,11 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
             throw new \Exception(__('Inward label not allowed for this destination'));
         }
 
+        $shippingInstructions = $request->getOrderShipment()->getOrder()->getLpcShippingNote();
+        if (empty($shippingInstructions)) {
+            $shippingInstructions = $request->getInstructions();
+        }
+
         $payload = $this->generateLabelPayload->resetPayload()
                                               ->isReturnLabel()
                                               ->withContractNumber(null, $request->getStoreId())
@@ -706,7 +716,7 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
                                               ->withPreparationDelay($request->getPreparationDelay(), $request->getStoreId())
                                               ->withProductCode($productCode)
                                               ->withOutputFormat($request->getOutputFormat(), $request->getStoreId())
-                                              ->withInstructions($request->getInstructions())
+                                              ->withInstructions($shippingInstructions)
                                               ->withOrderNumber($request->getOrderShipment()->getOrder()->getIncrementId())
                                               ->withPackage($request->getPackageParams(), $request->getPackageItems())
                                               ->withCustomsDeclaration(

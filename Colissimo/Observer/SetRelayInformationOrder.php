@@ -1,58 +1,89 @@
 <?php
-/*******************************************************
- * Copyright (C) 2018 La Poste.
- *
- * This file is part of La Poste - Colissimo module.
- *
- * La Poste - Colissimo module can not be copied and/or distributed without the express
- * permission of La Poste.
- *******************************************************/
 
 namespace LaPoste\Colissimo\Observer;
 
+use LaPoste\Colissimo\Helper\Data;
+use LaPoste\Colissimo\Logger\Colissimo;
+use LaPoste\Colissimo\Model\Carrier\Colissimo as ColissimoCarrier;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Checkout\Model\Session;
-use \LaPoste\Colissimo\Logger;
-
+use Magento\Sales\Model\Order;
 
 class SetRelayInformationOrder implements ObserverInterface
 {
+    protected Session $_checkoutSession;
+    protected Colissimo $logger;
+    protected Data $helperData;
 
-    protected $_checkoutSession;
-    protected $colissimoLogger;
-
-    public function __construct(Session $checkoutSession, Logger\Colissimo $logger)
-    {
+    public function __construct(
+        Session $checkoutSession,
+        Colissimo $logger,
+        Data $helperData
+    ) {
         $this->_checkoutSession = $checkoutSession;
-        $this->colissimoLogger = $logger;
+        $this->logger = $logger;
+        $this->helperData = $helperData;
     }
 
     public function execute(Observer $observer)
     {
         $order = $observer->getEvent()->getOrder();
 
-        if ($order) {
-            $shippingAddress = $order->getShippingAddress();
-            $shippingMethod = $order->getShippingMethod();
-            $relayInformation = $this->_checkoutSession->getLpcRelayInformation();
-            $this->_checkoutSession->setLpcRelayInformation([]);
+        if (!$order) {
+            $this->logger->error(__METHOD__, ['Error LPC: Can\'t set relay information in order because could not access order']);
 
-            if ($shippingMethod == 'colissimo_pr') {
-                if (!empty($relayInformation) && array_search("", $relayInformation) === false) {
-                    $order->setLpcRelayId($relayInformation['id']);
-                    $order->setLpcRelayType($relayInformation['type']);
-                    $shippingAddress->setCompany($relayInformation['name']);
-                    $shippingAddress->setStreet($relayInformation['address']);
-                    $shippingAddress->setPostCode($relayInformation['post_code']);
-                    $shippingAddress->setCity($relayInformation['city']);
-                    $shippingAddress->setCountryId($relayInformation['country']);
-                } else {
-                    $this->colissimoLogger->error(__METHOD__, [__('Error LPC : Can\'t set relay information in order because at least one information is missing in session')]);
-                }
+            return;
+        }
+
+        $shippingMethod = $order->getShippingMethod();
+        if ($shippingMethod !== ColissimoCarrier::CODE . '_' . ColissimoCarrier::CODE_SHIPPING_METHOD_RELAY) {
+            return;
+        }
+
+        // Remote IP is null for orders created from the admin part
+        if ($order->getRemoteIp() === null) {
+            $markers = $this->helperData->getMarkers();
+
+            if (empty($markers['admin_order_creation_relay'])) {
+                $relayInformation = [];
+            } else {
+                $relayInformation = [
+                    'id'        => $markers['admin_order_creation_relay']['id'],
+                    'type'      => $markers['admin_order_creation_relay']['type'],
+                    'name'      => $markers['admin_order_creation_relay']['name'],
+                    'address'   => $markers['admin_order_creation_relay']['address'],
+                    'post_code' => $markers['admin_order_creation_relay']['post_code'],
+                    'city'      => $markers['admin_order_creation_relay']['city'],
+                    'country'   => $markers['admin_order_creation_relay']['country'],
+                ];
+
+                $this->helperData->setMarker('admin_order_creation_relay', []);
             }
         } else {
-            $this->colissimoLogger->error(__METHOD__, [__('Error LPC : Can\'t set relay information in order because can\'t access to order')]);
+            $relayInformation = $this->_checkoutSession->getLpcRelayInformation();
+            $this->_checkoutSession->setLpcRelayInformation([]);
+        }
+
+        if (!empty($relayInformation) && !in_array('', $relayInformation)) {
+            $order->setLpcRelayId($relayInformation['id']);
+            $order->setLpcRelayType($relayInformation['type']);
+            $shippingAddress = $order->getShippingAddress();
+            $shippingAddress->setCompany($relayInformation['name']);
+            $shippingAddress->setStreet($relayInformation['address']);
+            $shippingAddress->setPostCode($relayInformation['post_code']);
+            $shippingAddress->setCity($relayInformation['city']);
+            $shippingAddress->setCountryId($relayInformation['country']);
+        } else {
+            $this->logger->error(
+                __METHOD__,
+                [
+                    'Error LPC: Can\'t set relay information in order because at least one information is missing in session',
+                    $order->getCustomerName(),
+                    'Payment method: ' . $order->getPayment()->getMethodInstance()->getTitle(),
+                    $relayInformation,
+                ]
+            );
         }
     }
 }

@@ -135,6 +135,7 @@ if (in_array($lpcPrView, ['gmaps', 'leaflet'])) {
                 'jquery',
                 'jquery/ui'
             ], function (lpc, $) {
+                lpc.lpcSetMapMarker('<?php echo $block->getViewFileUrl('LaPoste_Colissimo::images/map_marker.png'); ?>');
                 window.lpcCallBackFrame = lpc.lpcCallBackFrame;
                 lpc.lpcSetAjaxSetRelayInformationUrl('<?php echo $lpcAjaxSetInformationRelayUrl; ?>');
                 lpc.lpcSetWidgetRelayCountries('<?php echo $lpcWidgetCountry; ?>');

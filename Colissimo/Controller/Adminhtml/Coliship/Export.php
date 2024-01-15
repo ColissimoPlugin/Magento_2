@@ -243,7 +243,7 @@ class Export extends \Magento\Backend\App\Action
             );
 
             /* CuserInfoText pour les statistiques*/
-            $row['tag_users'] = $this->helperData->getCuserInfoText();
+            $row['tag_users'] = $this->helperData->getCuserInfoText(true);
 
             $useFtd = $this->countryHelperOffer->getFtdRequiredForDestination($shippingAddress->getCountryId(), $shippingAddress->getPostcode(), $originCountryId) === true
                       && $this->helperData->getAdvancedConfigValue('lpc_labels/isFtd', $order->getStoreId()) ? 1 : 0;

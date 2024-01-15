@@ -17,8 +17,10 @@ class PrintFormats implements ArrayInterface
     public function toOptionArray()
     {
         $options = [
-            ['value' => 'PDF_A4_300dpi', 'label' => __('PDF format A4 : impression bureautique en PDF, de dimension A4, et de résolution 300dpi')],
-            ['value' => 'PDF_10x15_300dpi', 'label' => __('PDF format 10x15cm : impression bureautique en PDF, de dimension 10cm par 15cm, et de résolution 300dpi')],
+            ['value' => 'PDF_A4_300dpi', 'label' => __('PDF office printing, dimension A4 and resolution of 300dpi')],
+            ['value' => 'PDF_10x15_300dpi', 'label' => __('PDF office printing, dimension 10cm x 15cm, and resolution of 300dpi')],
+            //['value' => 'PDF_10x12_300dpi', 'label' => __('PDF office printing, dimension 10cm x 12cm, and resolution of 300dpi')],
+            //['value' => 'PDF_10x10_300dpi', 'label' => __('PDF office printing, dimension 10cm x 10cm, and resolution of 300dpi')],
         ];
 
         return $options;

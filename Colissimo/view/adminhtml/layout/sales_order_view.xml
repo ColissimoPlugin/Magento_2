@@ -3,10 +3,12 @@
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
         <css src="LaPoste_Colissimo::css/customs.css"/>
+        <css src="LaPoste_Colissimo::css/shippingNotes.css"/>
         <script src="LaPoste_Colissimo::js/customs.js"/>
     </head>
     <body>
         <referenceBlock name="order_additional_info">
+            <block class="LaPoste\Colissimo\Block\Adminhtml\Order\View\LpcShippingNote" name="lpc_shipping_note" template="LaPoste_Colissimo::order/view/lpc_shipping_note.phtml"/>
             <block class="LaPoste\Colissimo\Block\Adminhtml\Order\View\LpcRelayId" name="lpc_relay_id" template="LaPoste_Colissimo::order/view/lpc_relay_id.phtml"/>
         </referenceBlock>
         <referenceContainer name="left">

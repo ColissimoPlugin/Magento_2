@@ -284,3 +284,17 @@
     padding: 0px;
     vertical-align: middle;
 }
+
+/** Shipping notes **/
+#opc-shipping_method [name='shippingAddress.lpc_shipping_note']{
+    display: none;
+}
+
+#opc-shipping_method [name='shippingAddress.lpc_shipping_note'] span{
+    font-weight: bold;
+}
+
+#opc-shipping_method [name='shippingAddress.lpc_shipping_note'] div{
+    margin-top: 5px;
+    margin-bottom: 10px;
+}

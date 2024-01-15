@@ -1,5 +1,28 @@
 # Colissimo Magento 2 Changelog
 
+# 1.3.5
+
+### Fonctionnalités
+
+- Le nombre d'exemplaires de la CN23 est à présent paramétrable dans la configuration
+- Vous pouvez maintenant télécharger les logs Colissimo depuis la configuration du module
+- Il est maintenant possible de paramétrer le format de la CN23 générée, indépendamment du format de l'étiquette
+- Une option a été ajoutée afin de pouvoir importer les règles d'affichage et de prix des méthodes de livraison en utilisant un fichier CSV
+- Vous pouvez à présent exporter vos règles d'affichage et de prix des méthodes de livraison au format CSV, afin de les modifier plus facilement ou les importer sur un autre site
+- Une option a été ajoutée pour permettre aux clients d'indiquer des instructions de livraison sur l'étiquette
+- Il est maintenant possible d'ouvrir la carte des points de retrait lors de l'édition d'une commande depuis la partie admin du site
+
+### Améliorations
+
+- Des logs supplémentaires ont été ajoutés lors de la sélection d'un point de retrait afin de faciliter les interventions en cas de problème
+- Le numéro de version actuel du module est à présent affiché dans la configuration
+- Un formulaire a été ajouté dans la configuration afin de vous permettre de nous fournir un retour sur le module
+- Le mot de passe Colissimo rentré dans la configuration est maintenant encodé dans la base de données pour plus de sécurité
+
+### Correctifs
+
+- L'affichage de l'icône du marqueur a été corrigé lorsque la sélection automatique du point de retrait le plus proche est activée
+
 # 1.3.4
 
 ### Fonctionnalités

@@ -129,8 +129,7 @@ class Import extends Action
             $this->helperData->getAdminRoute('coliship', 'index')
         );
 
-        if (null === $importFile ||
-            'csv' !== \substr($importFile['name'], - 3)) {
+        if (empty($importFile['type']) || 'text/csv' !== $importFile['type']) {
             $this->onError(__('File missing or wrong format (CSV expected)'));
 
             return $resultRedirect;
@@ -220,12 +219,7 @@ class Import extends Action
      */
     public function onError($message)
     {
-        $this->messageManager->addErrorMessage(
-            __('An error occured during import') .
-            ': ' .
-            $message
-        );
-
+        $this->messageManager->addErrorMessage(__('An error occurred during import: ', $message));
         $this->logger->error($message);
     }
 

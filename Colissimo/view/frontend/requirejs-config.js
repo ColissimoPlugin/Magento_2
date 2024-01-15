@@ -8,7 +8,8 @@ var config = {
     config: {
         mixins: {
             'Magento_Checkout/js/view/shipping': {'LaPoste_Colissimo/js/view/shipping': true},
-            'Magento_Checkout/js/action/set-shipping-information': {'LaPoste_Colissimo/js/action/set-shipping-information': true}
+            'Magento_Checkout/js/action/set-shipping-information': {'LaPoste_Colissimo/js/action/set-shipping-information': true},
+            'Magento_Checkout/js/action/place-order': {'LaPoste_Colissimo/js/action/place-order': true}
         }
     }
 };

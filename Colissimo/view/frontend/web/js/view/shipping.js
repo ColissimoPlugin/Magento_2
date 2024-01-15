@@ -9,6 +9,14 @@ define([
 
     const mixin = {
         selectShippingMethod: function (shippingMethod) {
+            // Dispay Colissimo shipping information input
+            if ('colissimo' === shippingMethod.carrier_code) {
+                $('#opc-shipping_method [name=\'shippingAddress.lpc_shipping_note\']').css('display', 'block');
+            } else {
+                $('#opc-shipping_method [name=\'shippingAddress.lpc_shipping_note\']').css('display', 'none');
+            }
+
+            // Display Colissimo relay point selection
             if ('pr' === shippingMethod.method_code && !$('#lpc_chosen_relay').length) {
                 $('<div>').attr('id', 'lpc_chosen_relay').appendTo('#label_method_pr_colissimo');
                 $('<a>').attr('id', 'lpc_change_my_relay').text($.mage.__('Choose my relay')).appendTo('#label_method_pr_colissimo');

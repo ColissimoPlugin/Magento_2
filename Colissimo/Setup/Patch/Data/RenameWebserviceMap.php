@@ -42,7 +42,7 @@ class RenameWebserviceMap implements DataPatchInterface
                 $this->moduleDataSetup->startSetup();
                 $this->configWriter->save(
                     'lpc_advanced/lpc_pr_front/choosePRDisplayMode',
-                    'gmaps',
+                    'gmaps'
                 );
                 $this->moduleDataSetup->endSetup();
             }

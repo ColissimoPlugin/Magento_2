@@ -1,0 +1,8 @@
+#lpc_prices_import form{
+    text-align: center;
+}
+
+#lpc_prices_import .field-import_file{
+    display: inline-block;
+    text-align: left;
+}

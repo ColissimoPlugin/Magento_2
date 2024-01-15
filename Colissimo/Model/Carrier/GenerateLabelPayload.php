@@ -29,6 +29,7 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
     const LABEL_TYPE_CLASSIC = 'CLASSIC';
     const LABEL_TYPE_MASTER = 'MASTER';
     const LABEL_TYPE_FOLLOWER = 'FOLLOWER';
+    const DEFAULT_FORMAT = 'PDF_A4_300dpi';
 
     protected $payload;
 
@@ -556,8 +557,14 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
             $customsArticles[] = $customsArticle;
         }
 
+        $numberOfCopies = $this->helperData->getAdvancedConfigValue(
+            'lpc_labels/cn23Number',
+            $storeId
+        );
+
         $this->payload['letter']['customsDeclarations'] = [
             'includeCustomsDeclarations' => 1,
+            'numberOfCopies'             => empty($numberOfCopies) ? 4 : $numberOfCopies,
             'contents'                   => [
                 'article' => $customsArticles,
             ],
@@ -645,6 +652,16 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
         }
 
         $this->payload['fields']['field'][] = $eoriField;
+
+        // CN23 print format
+        $cn23PrintFormat = $this->helperData->getAdvancedConfigValue('lpc_labels/cn23PrintFormat', $storeId);
+        if (empty($cn23PrintFormat)) {
+            $cn23PrintFormat = self::DEFAULT_FORMAT;
+        }
+        $this->payload['fields']['field'][] = [
+            'key'   => 'OUTPUT_PRINT_TYPE_CN23',
+            'value' => $cn23PrintFormat,
+        ];
 
         return $this;
     }

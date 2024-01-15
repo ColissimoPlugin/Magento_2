@@ -19,10 +19,8 @@ use \LaPoste\Colissimo\Logger;
 
 class SetRelayInformationSession extends Action
 {
-
     protected $_checkoutSession;
     protected $colissimoLogger;
-
 
     /**
      * SetRelayInformationSession constructor.
@@ -40,25 +38,32 @@ class SetRelayInformationSession extends Action
 
     public function execute()
     {
-        $relayInformation = [];
+        $request = $this->getRequest();
 
-        $relayInformation['id'] = $this->getRequest()->getParam('relayId', '');
-        $relayInformation['name'] = $this->getRequest()->getParam('relayName', '');
-        $relayInformation['address'] = $this->getRequest()->getParam('relayAddress', '');
-        $relayInformation['post_code'] = $this->getRequest()->getParam('relayPostCode', '');
-        $relayInformation['city'] = $this->getRequest()->getParam('relayCity', '');
-        $relayInformation['type'] = $this->getRequest()->getParam('relayType', '');
-        $relayInformation['country'] = $this->getRequest()->getParam('relayCountry', '');
+        $relayInformation = [
+            'id'        => $request->getParam('relayId', ''),
+            'name'      => $request->getParam('relayName', ''),
+            'address'   => $request->getParam('relayAddress', ''),
+            'post_code' => $request->getParam('relayPostCode', ''),
+            'city'      => $request->getParam('relayCity', ''),
+            'type'      => $request->getParam('relayType', ''),
+            'country'   => $request->getParam('relayCountry', ''),
+        ];
 
         if (!empty($this->_checkoutSession->getLpcRelayInformation())) {
             $this->_checkoutSession->setLpcRelayInformation([]);
         }
 
-        if (array_search("", $relayInformation) === false) {
+        if (!in_array('', $relayInformation)) {
             $this->_checkoutSession->setLpcRelayInformation($relayInformation);
         } else {
-            $this->colissimoLogger->error(__METHOD__,
-                                          [__('Error LPC : Can\'t set relay information in the session for the order because at least one relay information is empty in request.')]);
+            $this->colissimoLogger->error(
+                __METHOD__,
+                [
+                    'Error LPC: Can\'t set relay information in the session for the order because at least one relay information is empty in request.',
+                    $relayInformation,
+                ]
+            );
         }
     }
 }

@@ -399,6 +399,21 @@
                         <field id="isUsingCustomsDeclarations">1</field>
                     </depends>
                 </field>
+                <field id="cn23Number" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="17" translate="label comment" type="text">
+                    <label>Number of CN23 documents to generate</label>
+                    <comment>Please enter a number between 1 and 4</comment>
+                    <validate>validate-no-empty validate-digits validate-not-negative-number validate-digits-range digits-range-1-4</validate>
+                    <depends>
+                        <field id="isUsingCustomsDeclarations">1</field>
+                    </depends>
+                </field>
+                <field id="cn23PrintFormat" translate="label" type="select" sortOrder="18" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>CN23 print format</label>
+                    <source_model>LaPoste\Colissimo\Model\Config\Source\PrintFormatsCN23</source_model>
+                    <depends>
+                        <field id="isUsingCustomsDeclarations">1</field>
+                    </depends>
+                </field>
             </group>
             <group id="lpc_return_labels" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="3" translate="label">
                 <label>Return labels</label>
@@ -621,15 +636,23 @@
                     <label>See last logs</label>
                     <frontend_model>LaPoste\Colissimo\Block\System\Config\Field\SeeLastLogsButton</frontend_model>
                 </field>
-                <field id="lpc_status_page" translate="label" type="label" sortOrder="4" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="downloadLogs" translate="label comment" type="button" showInDefault="1" sortOrder="4" showInWebsite="0" showInStore="0">
+                    <frontend_model>LaPoste\Colissimo\Block\System\Config\Field\DownloadLogButton</frontend_model>
+                    <label>Download full log</label>
+                </field>
+                <field id="colissimoVersion" translate="label" type="label" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Colissimo module version</label>
+                    <frontend_model>LaPoste\Colissimo\Block\System\Config\Field\ColissimoVersion</frontend_model>
+                </field>
+                <field id="lpc_status_page" translate="label" type="label" sortOrder="6" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Colissimo services</label>
                     <frontend_model>LaPoste\Colissimo\Block\System\Config\StatusPageLink</frontend_model>
                 </field>
-                <field id="colissimoSupport" translate="label" type="label" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="colissimoSupport" translate="label" type="label" sortOrder="7" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Colissimo support</label>
                     <frontend_model>LaPoste\Colissimo\Block\System\Config\Field\ColissimoSupport</frontend_model>
                 </field>
-                <field id="contactUs" translate="label" type="button" sortOrder="6" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="contactUs" translate="label" type="button" sortOrder="8" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Plugin support</label>
                     <frontend_model>LaPoste\Colissimo\Block\System\Config\Field\ContactUsButton</frontend_model>
                 </field>
