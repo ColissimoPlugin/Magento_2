@@ -23,20 +23,6 @@
                     <label translate="true">Ship with: Colissimo Domicile with signature - DDP Option</label>
                 </settings>
             </action>
-            <action name="ship_with_expert">
-                <settings>
-                    <url path="laposte_colissimo/Orders/ChangeShipmentExpert"/>
-                    <type>order_shipment_expert</type>
-                    <label translate="true">Ship with: Colissimo International</label>
-                </settings>
-            </action>
-            <action name="ship_with_expertddp">
-                <settings>
-                    <url path="laposte_colissimo/Orders/ChangeShipmentExpertddp"/>
-                    <type>order_shipment_expertddp</type>
-                    <label translate="true">Ship with: Colissimo International - DDP Option</label>
-                </settings>
-            </action>
         </massaction>
     </listingToolbar>
 </listing>

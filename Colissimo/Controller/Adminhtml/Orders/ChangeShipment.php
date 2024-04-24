@@ -98,7 +98,7 @@ abstract class ChangeShipment extends Action
         /** @var Redirect $resultRedirect */
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
 
-        if (!in_array($shippingMethodCode, Colissimo::METHODS_CODES)) {
+        if (!in_array($shippingMethodCode, array_keys(Colissimo::METHODS_CODES_TRANSLATIONS))) {
             return $resultRedirect->setPath($this->ordersListing);
         }
 

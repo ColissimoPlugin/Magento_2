@@ -25,8 +25,6 @@ use \Magento\Customer\Model\Session;
 use \Magento\Framework\ObjectManagerInterface;
 use \Magento\Framework\Api\SearchCriteriaBuilder;
 use \Magento\Sales\Model\Order;
-use LaPoste\Colissimo\Model\Carrier\GenerateLabelPayload;
-
 
 class Colissimo extends AbstractCarrierOnline implements CarrierInterface
 {
@@ -38,20 +36,7 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
     const CODE_SHIPPING_METHOD_DOMICILE_AS_DDP = 'domicileasddp';
     const CODE_SHIPPING_METHOD_EXPERT = 'expert';
     const CODE_SHIPPING_METHOD_EXPERT_DDP = 'expertddp';
-    const CODE_SHIPPING_METHOD_FLASH_SS = 'flashss';
-    const CODE_SHIPPING_METHOD_FLASH_AS = 'flashas';
     const URL_SUIVI_COLISSIMO = "https://www.laposte.fr/outils/suivre-vos-envois?code={lpc_tracking_number}";
-
-    const METHODS_CODES = [
-        self::CODE_SHIPPING_METHOD_DOMICILE_SS,
-        self::CODE_SHIPPING_METHOD_DOMICILE_AS,
-        self::CODE_SHIPPING_METHOD_DOMICILE_AS_DDP,
-        self::CODE_SHIPPING_METHOD_RELAY,
-        self::CODE_SHIPPING_METHOD_EXPERT,
-        self::CODE_SHIPPING_METHOD_EXPERT_DDP,
-        self::CODE_SHIPPING_METHOD_FLASH_SS,
-        self::CODE_SHIPPING_METHOD_FLASH_AS,
-    ];
 
     const METHODS_CODES_TRANSLATIONS = [
         self::CODE_SHIPPING_METHOD_DOMICILE_SS     => 'Colissimo Domicile without signature',
@@ -60,17 +45,43 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
         self::CODE_SHIPPING_METHOD_RELAY           => 'Colissimo Point Retrait',
         self::CODE_SHIPPING_METHOD_EXPERT          => 'Colissimo International',
         self::CODE_SHIPPING_METHOD_EXPERT_DDP      => 'Colissimo International - DDP Option',
-        self::CODE_SHIPPING_METHOD_FLASH_SS        => 'Colissimo Flash without signature',
-        self::CODE_SHIPPING_METHOD_FLASH_AS        => 'Colissimo Flash with signature',
     ];
 
-    const COUNTRIES_EXPERT_DDP = ['BH', 'CA', 'CN', 'EG', 'HK', 'ID', 'JP', 'KW', 'MX', 'OM', 'PH', 'SA', 'SG', 'ZA', 'KR', 'CH', 'TH', 'AE', 'US'];
-    //const COUNTRIES_EXPERT_DDP = ['AU', 'BH', 'CA', 'CN', 'EG', 'HK', 'ID', 'JP', 'KW', 'MX', 'OM', 'PH', 'SA', 'SG', 'ZA', 'KR', 'CH', 'TH', 'AE', 'US'];
-    const COUNTRIES_DOMICILEAS_DDP = ['GB'];
+    const COUNTRIES_DDP = ['BH', 'CA', 'CN', 'EG', 'GB', 'HK', 'ID', 'JP', 'KW', 'MX', 'OM', 'PH', 'SA', 'SG', 'ZA', 'KR', 'CH', 'TH', 'AE', 'US'];
 
     const DDP_METHODS = [
         self::CODE . '_' . self::CODE_SHIPPING_METHOD_DOMICILE_AS_DDP,
         self::CODE . '_' . self::CODE_SHIPPING_METHOD_EXPERT_DDP,
+    ];
+
+    public const PRODUCT_CODE_RELAY = 'HD';
+    public const PRODUCT_CODE_WITHOUT_SIGNATURE = 'DOM';
+    public const PRODUCT_CODE_WITHOUT_SIGNATURE_OM = 'COM';
+    public const PRODUCT_CODE_WITHOUT_SIGNATURE_INTRA_DOM = 'COLD';
+    public const PRODUCT_CODE_WITH_SIGNATURE = 'DOS';
+    public const PRODUCT_CODE_WITH_SIGNATURE_OM = 'CDS';
+    public const PRODUCT_CODE_WITH_SIGNATURE_INTRA_DOM = 'COL';
+    public const PRODUCT_CODE_RETURN_FRANCE = 'CORE';
+    public const PRODUCT_CODE_RETURN_INT = 'CORI';
+
+    public const ALL_PRODUCT_CODES = [
+        self::PRODUCT_CODE_WITH_SIGNATURE_OM,
+        self::PRODUCT_CODE_WITH_SIGNATURE_INTRA_DOM,
+        self::PRODUCT_CODE_WITHOUT_SIGNATURE_INTRA_DOM,
+        self::PRODUCT_CODE_WITHOUT_SIGNATURE_OM,
+        self::PRODUCT_CODE_RETURN_FRANCE,
+        self::PRODUCT_CODE_RETURN_INT,
+        self::PRODUCT_CODE_WITHOUT_SIGNATURE,
+        self::PRODUCT_CODE_WITH_SIGNATURE,
+        self::PRODUCT_CODE_RELAY,
+    ];
+    public const PRODUCT_CODE_INSURANCE_AVAILABLE = [
+        self::PRODUCT_CODE_WITH_SIGNATURE,
+        self::PRODUCT_CODE_WITH_SIGNATURE_OM,
+        self::PRODUCT_CODE_WITH_SIGNATURE_INTRA_DOM,
+        self::PRODUCT_CODE_RELAY,
+        self::PRODUCT_CODE_RETURN_FRANCE,
+        self::PRODUCT_CODE_RETURN_INT,
     ];
 
     protected $_code = self::CODE;
@@ -227,13 +238,10 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
         $this->requestQuery = $requestQuery;
     }
 
-    /**
-     * @return array
-     */
-    public function getAllowedMethods()
+    public function getAllowedMethods(): array
     {
         $availableMethods = [];
-        foreach (self::METHODS_CODES as $oneMethodCode) {
+        foreach (self::METHODS_CODES_TRANSLATIONS as $oneMethodCode => $methodName) {
             if ($this->helperData->getConfigValue('carriers/lpc_group/' . $oneMethodCode . '_enable')) {
                 $availableMethods[$oneMethodCode] = $this->helperData->getConfigValue('carriers/lpc_group/' . $oneMethodCode . '_label');
             }
@@ -593,7 +601,7 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
                                               ->withCommercialName(null, $request->getStoreId())
                                               ->withCuserInfoText()
                                               ->withSender($sender, $request->getStoreId())
-                                              ->withAddressee($recipient, null, $request->getStoreId())
+                                              ->withAddressee($recipient, null, $request->getStoreId(), $shippingMethodUsed)
                                               ->withPreparationDelay($request->getPreparationDelay(), $request->getStoreId())
                                               ->withProductCode($productCode)
                                               ->withOutputFormat($request->getOutputFormat(), $request->getStoreId())
@@ -705,6 +713,8 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
             $shippingInstructions = $request->getInstructions();
         }
 
+        $shippingMethodUsed = $request->getShippingMethod();
+
         $payload = $this->generateLabelPayload->resetPayload()
                                               ->isReturnLabel()
                                               ->withContractNumber(null, $request->getStoreId())
@@ -715,7 +725,7 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
                                               ->withAddressee($recipient, null, $request->getStoreId())
                                               ->withPreparationDelay($request->getPreparationDelay(), $request->getStoreId())
                                               ->withProductCode($productCode)
-                                              ->withOutputFormat($request->getOutputFormat(), $request->getStoreId())
+                                              ->withOutputFormat($request->getOutputFormat(), $request->getStoreId(), $productCode)
                                               ->withInstructions($shippingInstructions)
                                               ->withOrderNumber($request->getOrderShipment()->getOrder()->getIncrementId())
                                               ->withPackage($request->getPackageParams(), $request->getPackageItems())
@@ -743,7 +753,6 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
                 }
             }
 
-            $shippingMethodUsed = $request->getShippingMethod();
             $payload->withInsuranceValue($total, $productCode, $recipient['countryCode'], $shippingMethodUsed, $recipient['zipCode'], $shipment, $originCountryId);
         }
 
@@ -768,25 +777,27 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
         $destCountryId = $request->getDestCountryId();
         $cartWeight = $request->getPackageWeight();
         $cartPrice = $request->getPackageValue();
+
+        $beforeCoupons = $this->helperData->getConfigValue('carriers/lpc_group/price_before_coupons');
+        if (!$beforeCoupons) {
+            $allItems = $request->getAllItems();
+            if (!empty($allItems[0])) {
+                $quote = $allItems[0]->getQuote();
+                $quote->collectTotals();
+
+                // Get the cart total after coupons are applied
+                $cartPrice = $quote->getGrandTotal();
+            }
+        }
+
         $freeShipping = $request->getFreeShipping();
         if (empty($cartPrice) && !empty($request->getBaseSubtotalWithDiscountInclTax())) {
             $cartPrice = $request->getBaseSubtotalWithDiscountInclTax();
         }
         $destPostCode = $request->getDestPostcode();
 
-        $flashAvailability = $this->flashAvailability($request);
-
-        foreach (self::METHODS_CODES as $oneMethodCode) {
+        foreach (self::METHODS_CODES_TRANSLATIONS as $oneMethodCode => $methodName) {
             if ($this->helperData->getConfigValue('carriers/lpc_group/' . $oneMethodCode . '_enable')) {
-
-                if ($oneMethodCode === self::CODE_SHIPPING_METHOD_FLASH_SS && !$flashAvailability['withoutSignature']) {
-                    continue;
-                }
-
-                if ($oneMethodCode === self::CODE_SHIPPING_METHOD_FLASH_AS && !$flashAvailability['withSignature']) {
-                    continue;
-                }
-
                 $method = $this->getLpcShippingMethod($oneMethodCode, $destCountryId, $destPostCode, $cartPrice, $cartWeight, $originCountryId, $freeShipping);
                 if (!empty($method)) {
                     $result->append($method);
@@ -815,7 +826,7 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
         // DDP for GB must be commercial and between 160€ and 1050€
         $customsCategory = $this->helperData->getAdvancedConfigValue('lpc_labels/defaultCustomsCategory');
         $isCommercialSend = CustomsCategory::COMMERCIAL_SHIPMENT === intval($customsCategory);
-        if (self::CODE_SHIPPING_METHOD_DOMICILE_AS_DDP === $methodCode && ($cartPrice < 160 || $cartPrice > 1050 || !$isCommercialSend)) {
+        if (self::CODE_SHIPPING_METHOD_DOMICILE_AS_DDP === $methodCode && 'GB' === $destCountryId && ($cartPrice < 160 || $cartPrice > 1050 || !$isCommercialSend)) {
             return null;
         }
 
@@ -825,8 +836,7 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
             $method->setPrice(0);
 
             // Add DDP additional price
-            if ((self::CODE_SHIPPING_METHOD_EXPERT_DDP === $methodCode && in_array($destCountryId, self::COUNTRIES_EXPERT_DDP))
-                || (self::CODE_SHIPPING_METHOD_DOMICILE_AS_DDP === $methodCode && in_array($destCountryId, self::COUNTRIES_DOMICILEAS_DDP))) {
+            if (in_array($methodCode, [self::CODE_SHIPPING_METHOD_DOMICILE_AS_DDP, self::CODE_SHIPPING_METHOD_EXPERT_DDP]) && in_array($destCountryId, self::COUNTRIES_DDP)) {
                 $extraCost = $this->helperData->getAdvancedConfigValue('lpc_ddp/extracost_' . strtolower($destCountryId));
                 if (!empty($extraCost)) {
                     $method->setPrice($extraCost);
@@ -859,8 +869,7 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
         $method->setPrice($methodPrice);
 
         // Handle DDP additional price
-        if ((self::CODE_SHIPPING_METHOD_EXPERT_DDP === $methodCode && in_array($destCountryId, self::COUNTRIES_EXPERT_DDP))
-            || (self::CODE_SHIPPING_METHOD_DOMICILE_AS_DDP === $methodCode && in_array($destCountryId, self::COUNTRIES_DOMICILEAS_DDP))) {
+        if (in_array($methodCode, [self::CODE_SHIPPING_METHOD_DOMICILE_AS_DDP, self::CODE_SHIPPING_METHOD_EXPERT_DDP]) && in_array($destCountryId, self::COUNTRIES_DDP)) {
             $extraCost = $this->helperData->getAdvancedConfigValue('lpc_ddp/extracost_' . strtolower($destCountryId));
             if (!empty($extraCost)) {
                 $newPrice = $methodPrice + $extraCost;
@@ -985,54 +994,5 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
         }
 
         return false;
-    }
-
-    private function flashAvailability(RateRequest $request)
-    {
-        $flashAvailability = [
-            'withoutSignature' => false,
-            'withSignature'    => false,
-        ];
-
-        return $flashAvailability;
-
-        $maxHourFlash = new \DateTime($this->helperData->getConfigValue('carriers/lpc_group/flash_maxHour'));
-        $actualHour = new \DateTime($this->timeZone->date()->format('H:i'));
-
-        if (($this->helperData->getConfigValue('carriers/lpc_group/' . self::CODE_SHIPPING_METHOD_FLASH_SS . '_enable') || $this->helperData->getConfigValue(
-                    'carriers/lpc_group/' . self::CODE_SHIPPING_METHOD_FLASH_AS . '_enable'
-                )) && $actualHour < $maxHourFlash) {
-
-            $addressee = [
-                'line2'       => $request->getDestStreet(),
-                'city'        => $request->getDestCity(),
-                'zipCode'     => $request->getDestPostcode(),
-                'countryCode' => $request->getDestCountryId(),
-            ];
-
-            $depositDate = date("c");
-
-            try {
-                $offersAvailable = $this->offersApi->getColissimoOffers($addressee, $depositDate);
-
-                if ($offersAvailable->message->code == '0') {
-                    foreach ($offersAvailable->offers as $oneOffer) {
-                        switch ($oneOffer->productCode) {
-                            case 'J+1':
-                                $flashAvailability['withSignature'] = true;
-                                break;
-                            case 'COLR':
-                                $flashAvailability['withoutSignature'] = true;
-                                break;
-                        }
-                    }
-                } else {
-                    $this->logger->error('Error API check Colissimo Flash availability.' . $offersAvailable->message->type . ': ' . $offersAvailable->message->label);
-                }
-            } catch (\LaPoste\Colissimo\Exception\ApiException $e) {
-            }
-        }
-
-        return $flashAvailability;
     }
 }

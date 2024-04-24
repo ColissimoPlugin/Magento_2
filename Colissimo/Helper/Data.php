@@ -23,8 +23,8 @@ use Magento\Framework\App\Config\Storage\WriterInterface;
 class Data extends AbstractHelper
 {
     const XML_PATH_ADVANCED = 'lpc_advanced/';
-
     const MODULE_NAME = 'LaPoste_Colissimo';
+    const LBS_IN_ONE_KG = 2.20462262185;
 
     protected $moduleList;
     /**
@@ -205,5 +205,29 @@ class Data extends AbstractHelper
         $markers = $this->getMarkers();
         $markers[$marker] = $value;
         $this->configWriter->save('lpc_advanced/lpc_general/markers', json_encode($markers));
+    }
+
+    public function convertWeightToKilogram($weight, $fromUnit, $storeId = null)
+    {
+        if (empty($fromUnit)) {
+            if (empty($storeId)) {
+                $shopUnit = $this->getConfigValue('general/locale/weight_unit');
+            } else {
+                $shopUnit = $this->getConfigValue('general/locale/weight_unit', $storeId);
+            }
+
+            if (strpos($shopUnit, 'lbs') !== false) {
+                $fromUnit = 'LBS';
+            } else {
+                $fromUnit = 'KILOGRAM';
+            }
+        }
+
+        $fromUnit = strtoupper($fromUnit);
+        if (in_array($fromUnit, ['POUND', 'LBS'])) {
+            $weight /= self::LBS_IN_ONE_KG;
+        }
+
+        return (double) $weight;
     }
 }

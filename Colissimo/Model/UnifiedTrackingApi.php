@@ -13,7 +13,6 @@ namespace LaPoste\Colissimo\Model;
 
 use LaPoste\Colissimo\Logger;
 use LaPoste\Colissimo\Helper;
-use LaPoste\Colissimo\Exception;
 use Magento\Framework\Encryption\EncryptorInterface;
 use LaPoste\Colissimo\Api\ColissimoStatus;
 use Magento\Sales\Model\ResourceModel\Order\Shipment\Track\CollectionFactory;
@@ -22,7 +21,6 @@ use Magento\Sales\Api\ShipmentTrackRepositoryInterface;
 class UnifiedTrackingApi implements \LaPoste\Colissimo\Api\UnifiedTrackingApi
 {
     const API_BASE_URL = 'https://ws.colissimo.fr/tracking-timeline-ws/soap/tracking/TrackingTimelineServiceWS';
-
 
     const UPDATE_STATUS_PERIOD = '-15 days';
 
@@ -151,7 +149,7 @@ class UnifiedTrackingApi implements \LaPoste\Colissimo\Api\UnifiedTrackingApi
         // Sort events by date
         usort($response->parcel->event,
             function ($a, $b) {
-                return strtotime($a->date) > strtotime($b->date);
+                return strtotime($a->date) > strtotime($b->date) ? 1 : - 1;
             }
         );
 
@@ -226,7 +224,7 @@ class UnifiedTrackingApi implements \LaPoste\Colissimo\Api\UnifiedTrackingApi
                 $result['success'][$shipmentTrack->getTrackNumber()] = $eventLastCode;
             } catch (\Exception $e) {
 
-                $this->logger->error(__METHOD__ . " can't update status", [
+                $this->logger->error(__METHOD__ . ' can\'t update status', [
                     'shipmentTrack.entity_id'    => $shipmentTrack->getEntityId(),
                     'shipmentTrack.track_number' => $shipmentTrack->getTrackNumber(),
                     'errorMessage'               => $e->getMessage(),

@@ -37,6 +37,16 @@ class AccountApi extends RestApi implements \LaPoste\Colissimo\Api\AccountApi
 
     public function isCgvAccepted(): bool
     {
+        $markers = $this->helperData->getMarkers();
+
+        if (!empty($markers['contractType']) && self::CONTRACT_TYPE_FACILITE !== $markers['contractType']) {
+            return true;
+        }
+
+        if (!empty($markers['acceptedCgv'])) {
+            return true;
+        }
+
         $login = $this->helperData->getAdvancedConfigValue('lpc_general/id_webservices');
         $password = $this->helperData->getAdvancedConfigValue('lpc_general/pwd_webservices');
 
@@ -53,6 +63,9 @@ class AccountApi extends RestApi implements \LaPoste\Colissimo\Api\AccountApi
         }
 
         if (self::CONTRACT_TYPE_FACILITE !== $accountInformation['contractType'] || !empty($accountInformation['cgv']['accepted'])) {
+            $this->helperData->setMarker('contractType', $accountInformation['contractType']);
+            $this->helperData->setMarker('acceptedCgv', !empty($accountInformation['cgv']['accepted']));
+
             return true;
         }
 

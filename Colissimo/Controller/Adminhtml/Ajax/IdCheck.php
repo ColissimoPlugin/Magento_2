@@ -74,7 +74,7 @@ class IdCheck extends Action
                 if (\Magento\Framework\Webapi\Exception::HTTP_UNAUTHORIZED === $e->getCode()) {
                     $this->getResponse()
                          ->representJson(
-                             json_encode(['success' => __('Bad credentials'), 'isIdOk' => false])
+                             json_encode(['success' => __('Bad credentials.'), 'isIdOk' => false])
                          );
 
                     return;

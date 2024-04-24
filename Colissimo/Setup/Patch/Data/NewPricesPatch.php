@@ -70,7 +70,7 @@ class NewPricesPatch implements DataPatchInterface
 
     public function migrateConfigPricesIntoPricesEntity()
     {
-        foreach (Colissimo::METHODS_CODES as $method) {
+        foreach (Colissimo::METHODS_CODES_TRANSLATIONS as $method => $methodName) {
             if (!$this->helperData->getConfigValue('carriers/lpc_group/' . $method . '_enable')) {
                 continue;
             }

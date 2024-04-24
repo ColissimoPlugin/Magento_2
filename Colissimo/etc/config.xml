@@ -8,8 +8,11 @@
                 <model>LaPoste\Colissimo\Model\Carrier\Colissimo</model>
                 <title>Colissimo</title>
                 <max_package_weight>100</max_package_weight>
-                <display_logo>0</display_logo>
             </colissimo>
+            <lpc_group>
+                <display_logo>0</display_logo>
+                <price_before_coupons>1</price_before_coupons>
+            </lpc_group>
         </carriers>
         <lpc_advanced>
             <lpc_pr_front>

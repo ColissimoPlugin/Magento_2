@@ -62,6 +62,13 @@ class SetRelayInformationOrder implements ObserverInterface
             }
         } else {
             $relayInformation = $this->_checkoutSession->getLpcRelayInformation();
+            if (empty($relayInformation)) {
+                if (empty(session_id()) || session_status() !== PHP_SESSION_ACTIVE) {
+                    session_start();
+                }
+                $session = '_SESSION';
+                $relayInformation = $$session['lpc_pickup_information'] ?? [];
+            }
             $this->_checkoutSession->setLpcRelayInformation([]);
         }
 

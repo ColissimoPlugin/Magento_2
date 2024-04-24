@@ -11,6 +11,7 @@ class ListRelays extends Template
     protected $_template = "list_relays.phtml";
 
     private $listRelays;
+    private $overWarning = false;
 
     public function __construct(Context $context, array $data = [])
     {
@@ -32,5 +33,17 @@ class ListRelays extends Template
         $formattedHours = str_replace([' ', ' - 00:00-00:00'], [' - ', ''], $hour);
 
         return $formattedHours;
+    }
+
+    public function setOverWarning($cartWeight)
+    {
+        if ($cartWeight > 20) {
+            $this->overWarning = true;
+        }
+    }
+
+    public function getOverWarning()
+    {
+        return $this->overWarning;
     }
 }

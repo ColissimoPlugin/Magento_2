@@ -30,7 +30,7 @@ class ReturnLabels extends \Magento\Shipping\Model\Shipping
      */
     protected $_request;
 
-    protected $_currentCustomer;
+    protected $currentCustomer;
 
     /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface   $scopeConfig

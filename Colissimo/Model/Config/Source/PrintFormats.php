@@ -9,20 +9,13 @@ use Magento\Framework\Option\ArrayInterface;
 
 class PrintFormats implements ArrayInterface
 {
-
-    /*
-      * Option getter
-      * @return array
-    */
-    public function toOptionArray()
+    public function toOptionArray(): array
     {
-        $options = [
+        return [
             ['value' => 'PDF_A4_300dpi', 'label' => __('PDF office printing, dimension A4 and resolution of 300dpi')],
             ['value' => 'PDF_10x15_300dpi', 'label' => __('PDF office printing, dimension 10cm x 15cm, and resolution of 300dpi')],
-            //['value' => 'PDF_10x12_300dpi', 'label' => __('PDF office printing, dimension 10cm x 12cm, and resolution of 300dpi')],
-            //['value' => 'PDF_10x10_300dpi', 'label' => __('PDF office printing, dimension 10cm x 10cm, and resolution of 300dpi')],
+            ['value' => 'PDF_10x12_300dpi', 'label' => __('PDF office printing, dimension 10cm x 12cm, and resolution of 300dpi')],
+            ['value' => 'PDF_10x10_300dpi', 'label' => __('PDF office printing, dimension 10cm x 10cm, and resolution of 300dpi')],
         ];
-
-        return $options;
     }
 }

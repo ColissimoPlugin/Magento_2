@@ -4,6 +4,7 @@
 namespace LaPoste\Colissimo\Block\Adminhtml\Prices;
 
 use LaPoste\Colissimo\Helper\CountryOffer;
+use LaPoste\Colissimo\Model\Carrier\Colissimo;
 use Magento\Backend\Block\Template;
 use LaPoste\Colissimo\Helper\Data;
 use Magento\Framework\App\ProductMetadataInterface;
@@ -35,11 +36,11 @@ class Url extends Template
 
     public function getAllOptions()
     {
-        $methods = \LaPoste\Colissimo\Model\Carrier\Colissimo::METHODS_CODES;
+        $methods = Colissimo::METHODS_CODES_TRANSLATIONS;
         $version240 = version_compare($this->productMetadata->getVersion(), '2.4.0', '>=');
 
         $allOptions = [];
-        foreach ($methods as $method) {
+        foreach ($methods as $method => $methodName) {
             $options = [];
             foreach ($this->countriesOffer as $zoneKey => $zone) {
                 $optionsGroup = [];

@@ -56,6 +56,11 @@ class SetRelayInformationSession extends Action
 
         if (!in_array('', $relayInformation)) {
             $this->_checkoutSession->setLpcRelayInformation($relayInformation);
+            if (empty(session_id()) || session_status() !== PHP_SESSION_ACTIVE) {
+                session_start();
+            }
+            $session = '_SESSION';
+            $$session['lpc_pickup_information'] = $relayInformation;
         } else {
             $this->colissimoLogger->error(
                 __METHOD__,

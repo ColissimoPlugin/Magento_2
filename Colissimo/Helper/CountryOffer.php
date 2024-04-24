@@ -226,9 +226,9 @@ class CountryOffer extends AbstractHelper
         if ($isReturn) {
             if (true === $productInfo['return']) {
                 if (in_array($destinationCountryId, self::DOM1_COUNTRIES_CODE) && $this->isIntraDOM1($originCountryId, $destinationCountryId)) {
-                    $productInfo['return'] = 'CORE';
+                    $productInfo['return'] = Colissimo::PRODUCT_CODE_RETURN_FRANCE;
                 } else {
-                    $productInfo['return'] = 'CORI';
+                    $productInfo['return'] = Colissimo::PRODUCT_CODE_RETURN_INT;
                 }
             }
 
@@ -242,9 +242,9 @@ class CountryOffer extends AbstractHelper
                 }
                 if (in_array($destinationCountryId, self::DOM1_COUNTRIES_CODE)) {
                     if ($this->isIntraDOM1($originCountryId, $destinationCountryId)) {
-                        return 'COLD';
+                        return Colissimo::PRODUCT_CODE_WITHOUT_SIGNATURE_INTRA_DOM;
                     } else {
-                        return 'COM';
+                        return Colissimo::PRODUCT_CODE_WITHOUT_SIGNATURE_OM;
                     }
                 }
 
@@ -256,20 +256,16 @@ class CountryOffer extends AbstractHelper
                 }
                 if (in_array($destinationCountryId, self::DOM1_COUNTRIES_CODE)) {
                     if ($this->isIntraDOM1($originCountryId, $destinationCountryId)) {
-                        return 'COL';
+                        return Colissimo::PRODUCT_CODE_WITH_SIGNATURE_INTRA_DOM;
                     } else {
-                        return 'CDS';
+                        return Colissimo::PRODUCT_CODE_WITH_SIGNATURE_OM;
                     }
                 }
 
                 return $productInfo[$methodCode];
             case Colissimo::CODE_SHIPPING_METHOD_EXPERT:
             case Colissimo::CODE_SHIPPING_METHOD_EXPERT_DDP:
-                return $productInfo[$methodCode] ? 'DOS' : false;
-            case Colissimo::CODE_SHIPPING_METHOD_FLASH_SS:
-                return $productInfo[$methodCode] ? 'COLR' : false;
-            case Colissimo::CODE_SHIPPING_METHOD_FLASH_AS:
-                return $productInfo[$methodCode] ? 'J+1' : false;
+                return $productInfo[$methodCode] ? Colissimo::PRODUCT_CODE_WITH_SIGNATURE : false;
             case Colissimo::CODE_SHIPPING_METHOD_RELAY:
             default:
                 throw new \Exception('Shipping method not managed');
@@ -337,7 +333,7 @@ class CountryOffer extends AbstractHelper
                 );
             }
 
-            return $request->getOrderShipment()->getOrder()->getLpcRelayType();
+            return Colissimo::PRODUCT_CODE_RELAY;
         }
 
         $countryCode = $isReturn ? $request['shipper_address_country_code'] : $request['recipient_address_country_code'];

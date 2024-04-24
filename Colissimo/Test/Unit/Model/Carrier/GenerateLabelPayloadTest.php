@@ -20,12 +20,7 @@ class GenerateLabelPayloadTest extends \PHPUnit\Framework\TestCase
     protected $helperData;
 
     const ALL_PRODUCT_CODES = [
-        'A2P',
-        'ACCI',
-        'BDP',
-        'BPR',
         'CDS',
-        'CMT',
         'COL',
         'COLD',
         'COLI',
@@ -33,10 +28,8 @@ class GenerateLabelPayloadTest extends \PHPUnit\Framework\TestCase
         'CORE',
         'CORI',
         'DOM',
-        'DOM',
         'DOS',
-        'DOS',
-        'ECO',
+        'HD',
     ];
 
     const SOME_MINIMAL_SENDER = [
@@ -645,13 +638,7 @@ class GenerateLabelPayloadTest extends \PHPUnit\Framework\TestCase
     public function testPickupLocationIdAgainstProductCode()
     {
         $productCodesNeedingPickupLocationIdSet = [
-            'A2P',
-            'BPR',
-            'ACP',
-            'CDI',
-            'CMT',
-            'BDP',
-            'PCS',
+            'HD',
         ];
 
         foreach ($productCodesNeedingPickupLocationIdSet as $productCode) {
@@ -695,18 +682,11 @@ class GenerateLabelPayloadTest extends \PHPUnit\Framework\TestCase
     public function testCommercialNameAgainstProductCode()
     {
         $productCodesNeedingCommercialNameSet = [
-            'A2P',
-            'BPR',
+            'HD',
         ];
 
         $productCodesNeedingPickupLocationIdSet = [
-            'A2P',
-            'BPR',
-            'ACP',
-            'CDI',
-            'CMT',
-            'BDP',
-            'PCS',
+            'HD',
         ];
 
         foreach ($productCodesNeedingCommercialNameSet as $productCode) {

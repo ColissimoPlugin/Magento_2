@@ -24,9 +24,9 @@ class RegisteredMailLevel implements \Magento\Framework\Option\ArrayInterface
     {
         return [
             ['value' => null, 'label' => __('(none)')],
-            ['value' => 'R1', 'label' => __('R1')],
-            ['value' => 'R2', 'label' => __('R2')],
-            ['value' => 'R3', 'label' => __('R3')],
+            ['value' => 'R1', 'label' => 'R1'],
+            ['value' => 'R2', 'label' => 'R2'],
+            ['value' => 'R3', 'label' => 'R3'],
         ];
     }
 
@@ -39,9 +39,9 @@ class RegisteredMailLevel implements \Magento\Framework\Option\ArrayInterface
     {
         return [
             null => __('(none)'),
-            'R1' => __('R1'),
-            'R2' => __('R2'),
-            'R3' => __('R3'),
+            'R1' => 'R1',
+            'R2' => 'R2',
+            'R3' => 'R3',
         ];
     }
 }

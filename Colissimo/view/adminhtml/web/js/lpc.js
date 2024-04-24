@@ -380,7 +380,7 @@ define([
 
     // Add relay information under the shipping method choice
     const lpcAppendChosenRelay = function (nameRelay, addressRelay, zipcodeRelay, cityRelay, distanceRelay, hourRelay, autoSelected = false) {
-        let distanceInfo = `<img class="lpc_relay_marker" src="${lpcMapMarker}"><p class="lpc_selected_relay_distance">${$.mage.__('At')} ${distanceRelay} m</p>`;
+        let distanceInfo = `<img class="lpc_relay_marker" src="${lpcMapMarker}" alt="" /><p class="lpc_selected_relay_distance">${$.mage.__('At')} ${distanceRelay} m</p>`;
         let openHour = `<div class="tooltip-box" style="margin-left: 5px;"><div class="tooltip-text">${hourRelay}</div></div>`;
         let chosenRelay = `${distanceInfo}<div class="lpc_selected_relay_name">${nameRelay}${openHour}</div>`;
         chosenRelay = `${chosenRelay}<span class="lpc_selected_relay_line">${addressRelay}<br>${zipcodeRelay} ${cityRelay}</span>`;

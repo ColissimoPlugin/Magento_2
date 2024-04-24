@@ -56,13 +56,13 @@ interface GenerateLabelPayload
     /**
      * Associate the given Addressee to this payload
      *
-     * @param $addressee array
-     * @param $orderRef
-     * @param $storeId   the store to get default information from, if null defaults to current store
-     *
+     * @param        $addressee array
+     * @param null   $orderRef
+     * @param null   $storeId   the store to get default information from, if null defaults to current store
+     * @param string $shippingMethodUsed
      * @return GenerateLabelPayload
      */
-    public function withAddressee(array $addressee, $orderRef = null, $storeId = null);
+    public function withAddressee(array $addressee, $orderRef = null, $storeId = null, $shippingMethodUsed = '');
 
     /**
      * Associate the given PickupLocationId to this payload
@@ -102,7 +102,7 @@ interface GenerateLabelPayload
      *
      * @return GenerateLabelPayload
      */
-    public function withOutputFormat($ouptutFormat = null, $storeId = null);
+    public function withOutputFormat($ouptutFormat = null, $storeId = null, $productCode = null);
 
     /**
      * Associate the given Order id to this payload.

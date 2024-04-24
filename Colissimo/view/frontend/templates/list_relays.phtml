@@ -10,6 +10,9 @@ $openingDays = [
     'Sunday'    => 'horairesOuvertureDimanche',
 ];
 
+if ($block->getOverWarning()) {
+    echo '<div class="lpc_layer_relay_warning_relay_type">' . __('Only post offices are available for this order') . '</div>';
+}
 foreach ($listRelays as $i => $oneRelay) { ?>
     <div class="lpc_layer_relay" id="lpc_layer_relay_<?php echo $i; ?>" data-relayindex="<?php echo $i; ?>">
         <div class="lpc_layer_relay_distance">

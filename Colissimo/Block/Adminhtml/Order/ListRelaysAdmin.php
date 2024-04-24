@@ -9,6 +9,7 @@ class ListRelaysAdmin extends Template
 {
     protected $_template = 'LaPoste_Colissimo::order/list_relays_admin.phtml';
     private $listRelays;
+    private $overWarning = false;
 
     public function getListRelays()
     {
@@ -23,5 +24,17 @@ class ListRelaysAdmin extends Template
     public function formatRelaysOpeningHours($hour)
     {
         return str_replace([' ', ' - 00:00-00:00'], [' - ', ''], $hour);
+    }
+
+    public function setOverWarning($cartWeight)
+    {
+        if ($cartWeight > 20) {
+            $this->overWarning = true;
+        }
+    }
+
+    public function getOverWarning()
+    {
+        return $this->overWarning;
     }
 }

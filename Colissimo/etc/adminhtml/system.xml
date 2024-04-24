@@ -15,7 +15,12 @@
                     <label>Prices</label>
                     <frontend_model>LaPoste\Colissimo\Block\System\Config\PricesConfigButton</frontend_model>
                 </field>
-                <field id="display_logo" translate="label comment" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="price_before_coupons" translate="label comment" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Calculate shipping cost from the cart price before applying coupons</label>
+                    <comment>If enabled, the shipping cost will be calculated based on the cart price before the coupons are applied.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="display_logo" translate="label comment" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Display shipping methods logo on checkout</label>
                     <comment>Choose to add the shipping methods logo next to the method name in the checkout</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -88,7 +93,7 @@
                 </field>
                 <field id="domicileasddp_enable" translate="label comment" type="select" sortOrder="27" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Colissimo Domicile with signature - DDP Option</label>
-                    <comment>This delivery method will allow you to set the shipment 'Colissimo with Signature with DDP' which is only valid and will be displayed for the United Kingdom. It is restricted to commercial shipments between 160€ and 1050€ included.</comment>
+                    <comment>This delivery method will allow you to set the shipment "Colissimo with Signature with DDP" which is only valid and will be displayed for Australia, Bahrain, Canada, China, Egypt, Hong Kong, Indonesia, Japan, Kuwait, Mexico, Oman, Philippines, Saudi Arabia, Singapore, South Africa, South Korea, Switzerland, Thailand, United Arab Emirates, United Kingdom, United States (USA). For the United Kingdom, it is restricted to commercial shipments between 160€ and 1050€ included.</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="domicileasddp_label" translate="label" type="text" sortOrder="28" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -125,7 +130,7 @@
                     </depends>
                 </field>
                 <field id="expert_enable" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Colissimo International</label>
+                    <label>Colissimo International (Deprecated)</label>
                     <comment>Enable the Colissimo International mode</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
@@ -172,8 +177,8 @@
                     </depends>
                 </field>
                 <field id="expertddp_enable" translate="label comment" type="select" sortOrder="47" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Colissimo International - DDP Option</label>
-                    <comment>This delivery method will allow you to set the shipment 'Colissimo International - DDP Option' which is valid and will be displayed only for the following countries: Australia, Bahrain, Canada, China, Egypt, Hong Kong, Indonesia, Japan, Kuwait, Mexico, Oman, Philippines, Saudi Arabia, Singapore, South Africa, South Korea, Switzerland, Thailand, United Arab Emirates, United Kingdom, USA</comment>
+                    <label>Colissimo International - DDP Option (Deprecated)</label>
+                    <comment>This delivery method will allow you to set the shipment "Colissimo International - DDP Option" which is valid and will be displayed only for the following countries: Australia, Bahrain, Canada, China, Egypt, Hong Kong, Indonesia, Japan, Kuwait, Mexico, Oman, Philippines, Saudi Arabia, Singapore, South Africa, South Korea, Switzerland, Thailand, United Arab Emirates, United Kingdom, USA</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="expertddp_label" translate="label" type="text" sortOrder="48" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -190,58 +195,19 @@
                         <field id="carriers/lpc_group/expertddp_enable">1</field>
                     </depends>
                 </field>
-                <!--
-                <field id="flash_maxHour" translate="label comment" type="select" sortOrder="49" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Colissimo Flash Maximum hour</label>
-                    <comment>The Colissimo Flash method (J+1) will not be available past this hour.</comment>
-                    <source_model>\LaPoste\Colissimo\Model\Config\Source\FlashHours</source_model>
-                </field>
-                <field id="flashss_enable" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Colissimo Flash without signature</label>
-                    <comment>Enable the Colissimo Flash without signature mode</comment>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
-                <field id="flashss_label" translate="label" type="text" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Name</label>
-                    <depends>
-                        <field id="carriers/lpc_group/flashss_enable">1</field>
-                    </depends>
-                </field>
-                <field id="flashss_free" translate="label comment" type="select" sortOrder="52" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Free shipping</label>
-                    <comment>Should the shipping method be free</comment>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <depends>
-                        <field id="carriers/lpc_group/flashss_enable">1</field>
-                    </depends>
-                </field>
-                <field id="flashas_enable" translate="label comment" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Colissimo Flash with signature</label>
-                    <comment>Enable the Colissimo Flash with signature mode</comment>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
-                <field id="flashas_label" translate="label" type="text" sortOrder="61" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Name</label>
-                    <depends>
-                        <field id="carriers/lpc_group/flashas_enable">1</field>
-                    </depends>
-                </field>
-                <field id="flashas_free" translate="label comment" type="select" sortOrder="62" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Free shipping</label>
-                    <comment>Should the shipping method be free</comment>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <depends>
-                        <field id="carriers/lpc_group/flashas_enable">1</field>
-                    </depends>
-                </field>
-                -->
             </group>
         </section>
         <section id="lpc_advanced" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="800" translate="label">
             <label>La Poste Colissimo Advanced Setup</label>
             <tab>sales</tab>
             <resource>LaPoste_Colissimo::colissimo_config</resource>
-            <group id="lpc_general" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="1" translate="label">
+            <group id="lpc_onboarding" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="1" translate="label">
+                <label>Module setup</label>
+                <field id="documentation" type="button" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <frontend_model>LaPoste\Colissimo\Block\System\Config\Field\Onboarding</frontend_model>
+                </field>
+            </group>
+            <group id="lpc_general" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="2" translate="label">
                 <label>General configuration</label>
                 <field id="id_webservices" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="1" translate="label comment" type="text">
                     <label>ID</label>
@@ -271,7 +237,7 @@
                     <frontend_model>LaPoste\Colissimo\Block\System\Config\Cgv</frontend_model>
                 </field>
             </group>
-            <group id="lpc_labels" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="2" translate="label">
+            <group id="lpc_labels" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="3" translate="label">
                 <label>Labels</label>
                 <field id="isUsingColiShip" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="1" translate="label comment" type="select">
                     <label>Delegate label generation to ColiShip?</label>
@@ -415,10 +381,11 @@
                     </depends>
                 </field>
             </group>
-            <group id="lpc_return_labels" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="3" translate="label">
+            <group id="lpc_return_labels" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="4" translate="label">
                 <label>Return labels</label>
                 <field id="returnLabelPrintFormat" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Return label print format</label>
+                    <comment>Return labels for International shipments are only available in PDF A4 format and will ignore this option.</comment>
                     <source_model>LaPoste\Colissimo\Model\Config\Source\PrintFormats</source_model>
                 </field>
                 <field id="createReturnLabelWithOutward" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -463,7 +430,7 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
             </group>
-            <group id="lpc_pr_front" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="4" translate="label">
+            <group id="lpc_pr_front" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="5" translate="label">
                 <label>Relay point</label>
                 <field id="prAutoSelect" translate="label comment" sortOrder="10" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Automatically select the nearest relay point</label>
@@ -524,6 +491,13 @@
                 </field>
                 <field id="maxRelayPoint" translate="label" sortOrder="82" showInDefault="1" showInWebsite="1" showInStore="1" type="text">
                     <label>Maximum number of displayed relays</label>
+                    <depends>
+                        <field id="lpc_advanced/lpc_pr_front/choosePRDisplayMode" separator=",">gmaps,leaflet</field>
+                    </depends>
+                </field>
+                <field id="colissimoVersion" translate="label" type="label" sortOrder="83" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Relay types</label>
+                    <frontend_model>LaPoste\Colissimo\Block\System\Config\Field\RelayTypeInformation</frontend_model>
                     <depends>
                         <field id="lpc_advanced/lpc_pr_front/choosePRDisplayMode" separator=",">gmaps,leaflet</field>
                     </depends>
@@ -657,7 +631,7 @@
                     <frontend_model>LaPoste\Colissimo\Block\System\Config\Field\ContactUsButton</frontend_model>
                 </field>
             </group>
-            <group id="lpc_videos" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+            <group id="lpc_tutorials" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
                 <label>Video tutorials</label>
                 <field id="video_tutorials" type="button" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <frontend_model>LaPoste\Colissimo\Block\System\Config\Field\Videos</frontend_model>

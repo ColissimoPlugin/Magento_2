@@ -12,7 +12,6 @@
 namespace LaPoste\Colissimo\Model\Carrier;
 
 use LaPoste\Colissimo\Model\Config\Source\CustomsCategory;
-use LaPoste\Colissimo\Model\Carrier\Colissimo;
 use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\Message\ManagerInterface;
 
@@ -20,12 +19,13 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
 {
     const MAX_INSURANCE_AMOUNT = 5000;
     const MAX_INSURANCE_AMOUNT_RELAY = 1000;
-    const PRODUCT_CODE_INSURANCE_AVAILABLE = ['DOS', 'COL', 'BPR', 'A2P', 'CDS', 'CORE', 'CORI', 'CORF', 'CMT', 'PCS'];
     const FORCED_ORIGINAL_IDENT = 'A';
     const RETURN_LABEL_LETTER_MARK = 'R';
     const RETURN_TYPE_CHOICE_NO_RETURN = 3;
-    const COUNTRIES_NEEDING_STATE = ['CA', 'US'];
-    const LBS_IN_ONE_KG = 2.20462262185;
+
+    const US_COUNTRY_CODE = 'US';
+    const COUNTRIES_NEEDING_STATE = ['CA', self::US_COUNTRY_CODE];
+
     const LABEL_TYPE_CLASSIC = 'CLASSIC';
     const LABEL_TYPE_MASTER = 'MASTER';
     const LABEL_TYPE_FOLLOWER = 'FOLLOWER';
@@ -155,6 +155,11 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
             ? $payloadCountryCode
             : $this->countryOfferHelper->getMagentoCountryCodeFromSpecificDestination($payloadCountryCode);
 
+        $zipDashPos = strpos($sender['zipCode'], '-');
+        if (self::US_COUNTRY_CODE === $payloadCountryCode && $zipDashPos !== false) {
+            $this->payload['letter']['sender']['address']['zipCode'] = substr($sender['zipCode'], 0, $zipDashPos);
+        }
+
         return $this;
     }
 
@@ -228,19 +233,18 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
         return $this;
     }
 
-    public function withAddressee(array $addressee, $orderRef = null, $storeId = null)
+    public function withAddressee(array $addressee, $orderRef = null, $storeId = null, $shippingMethodUsed = '')
     {
         $this->payload['letter']['addressee'] = [
             'address' => [
-                'companyName'  => $addressee['companyName'] ?? '',
-                'firstName'    => $addressee['firstName'] ?? '',
-                'lastName'     => $addressee['lastName'] ?? '',
-                'line2'        => $addressee['street'],
-                'countryCode'  => $addressee['countryCode'],
-                'city'         => $addressee['city'],
-                'zipCode'      => $addressee['zipCode'],
-                'email'        => $addressee['email'] ?? '',
-                'mobileNumber' => $addressee['mobileNumber'] ?? '',
+                'companyName' => $addressee['companyName'] ?? '',
+                'firstName'   => $addressee['firstName'] ?? '',
+                'lastName'    => $addressee['lastName'] ?? '',
+                'line2'       => $addressee['street'],
+                'countryCode' => $addressee['countryCode'],
+                'city'        => $addressee['city'],
+                'zipCode'     => $addressee['zipCode'],
+                'email'       => $addressee['email'] ?? '',
             ],
         ];
 
@@ -276,6 +280,14 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
                     );
                 }
             }
+
+            $this->payload['letter']['addressee']['address']['mobileNumber'] = $addressee['mobileNumber'] ?? '';
+        } else {
+            if (Colissimo::CODE_SHIPPING_METHOD_RELAY === $shippingMethodUsed) {
+                $this->payload['letter']['addressee']['address']['mobileNumber'] = $addressee['mobileNumber'] ?? '';
+            } else {
+                $this->payload['letter']['addressee']['address']['phoneNumber'] = $addressee['mobileNumber'] ?? '';
+            }
         }
 
         $payloadCountryCode = $this->payload['letter']['addressee']['address']['countryCode'];
@@ -286,6 +298,11 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
 
         if (in_array($payloadCountryCode, self::COUNTRIES_NEEDING_STATE) && !empty($addressee['stateCode'])) {
             $this->payload['letter']['addressee']['address']['stateOrProvinceCode'] = $addressee['stateCode'];
+        }
+
+        $zipDashPos = strpos($addressee['zipCode'], '-');
+        if (self::US_COUNTRY_CODE === $payloadCountryCode && $zipDashPos !== false) {
+            $this->payload['letter']['addressee']['address']['zipCode'] = substr($addressee['zipCode'], 0, $zipDashPos);
         }
 
         return $this;
@@ -305,30 +322,13 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
 
     public function withProductCode($productCode)
     {
-        $allowedProductCodes = [
-            'A2P',
-            'BDP',
-            'BPR',
-            'CDS',
-            'CMT',
-            'COL',
-            'COLD',
-            'COM',
-            'CORE',
-            'CORI',
-            'DOM',
-            'DOM',
-            'DOS',
-            'DOS',
-            'ECO',
-            'J+1',
-            'COLR',
-        ];
-
-        if (!in_array($productCode, $allowedProductCodes, true)) {
+        if (!in_array($productCode, Colissimo::ALL_PRODUCT_CODES, true)) {
             $this->logger->error(
                 'Unknown productCode',
-                ['given' => $productCode, 'known' => $allowedProductCodes]
+                [
+                    'given' => $productCode,
+                    'known' => Colissimo::ALL_PRODUCT_CODES,
+                ]
             );
             throw new \Exception('Unknown Product code!');
         }
@@ -394,13 +394,17 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
         return $this->withDepositDate($depositDate);
     }
 
-    public function withOutputFormat($outputFormat = null, $storeId = null)
+    public function withOutputFormat($outputFormat = null, $storeId = null, $productCode = null)
     {
         if (null === $outputFormat) {
             $outputFormat = $this->helperData->getAdvancedConfigValue(
                 'lpc_labels/outwardPrintFormat',
                 $storeId
             );
+        }
+
+        if ($this->getIsReturnLabel() && Colissimo::PRODUCT_CODE_RETURN_INT === $productCode) {
+            $outputFormat = self::DEFAULT_FORMAT;
         }
 
         $allowedPrintFormats = array_map(
@@ -457,11 +461,11 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
                 }
 
                 $fromWeight = number_format($weight, 2, '.', '');
-                $totalWeight += $this->convertWeightToKilogram($fromWeight, $weightUnit);
+                $totalWeight += $this->helperData->convertWeightToKilogram($fromWeight, $weightUnit);
             }
         } else {
             $fromWeight = number_format($package['weight'], 2, '.', '');
-            $totalWeight = $this->convertWeightToKilogram($fromWeight, $weightUnit);
+            $totalWeight = $this->helperData->convertWeightToKilogram($fromWeight, $weightUnit);
         }
 
 
@@ -532,7 +536,7 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
             }
 
             $fromWeight = number_format($piece['weight'], 2, '.', '');
-            $pieceWeightInKG = $this->convertWeightToKilogram($fromWeight, null, $storeId);
+            $pieceWeightInKG = $this->helperData->convertWeightToKilogram($fromWeight, null, $storeId);
 
             $description = substr($piece['name'], 0, 64);
             $this->articleDescriptions[] = $description;
@@ -766,7 +770,7 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
             $amount = (double) $customAmount;
         }
 
-        if (!in_array($productCode, self::PRODUCT_CODE_INSURANCE_AVAILABLE)) {
+        if (!in_array($productCode, Colissimo::PRODUCT_CODE_INSURANCE_AVAILABLE)) {
             $this->messageManager->addNoticeMessage(__('Insurance is not available for this country and/or shipping method'));
 
             return $this;
@@ -788,8 +792,10 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
             $amount = $maxInsuranceAmount;
 
             $this->messageManager->addNoticeMessage(
-                sprintf(__("The insurance value has been lowered to the maximum value authorized for this sending method: %s"),
-                        $maxInsuranceAmount)
+                sprintf(
+                    __("The insurance value has been lowered to the maximum value authorized for this sending method: %s"),
+                    $maxInsuranceAmount
+                )
             );
         }
 
@@ -808,11 +814,11 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
 
     protected function getMaxInsuranceAmountByProductCode($productCode)
     {
-        if (!in_array($productCode, self::PRODUCT_CODE_INSURANCE_AVAILABLE)) {
+        if (!in_array($productCode, Colissimo::PRODUCT_CODE_INSURANCE_AVAILABLE)) {
             return false;
         }
 
-        return in_array($productCode, ['A2P', 'BPR']) ? self::MAX_INSURANCE_AMOUNT_RELAY : self::MAX_INSURANCE_AMOUNT;
+        return Colissimo::PRODUCT_CODE_RELAY === $productCode ? self::MAX_INSURANCE_AMOUNT_RELAY : self::MAX_INSURANCE_AMOUNT;
     }
 
     public function withRecommendationLevel($recommendation)
@@ -944,9 +950,7 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
 
     protected function checkPickupLocationId()
     {
-        $productCodesNeedingPickupLocationIdSet = ['A2P', 'BPR', 'ACP', 'CDI', 'CMT', 'BDP', 'PCS'];
-
-        if (in_array($this->payload['letter']['service']['productCode'], $productCodesNeedingPickupLocationIdSet)
+        if (Colissimo::PRODUCT_CODE_RELAY === $this->payload['letter']['service']['productCode']
             && (
                 !isset($this->payload['letter']['parcel']['pickupLocationId'])
                 ||
@@ -957,7 +961,7 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
             );
         }
 
-        if (!in_array($this->payload['letter']['service']['productCode'], $productCodesNeedingPickupLocationIdSet)
+        if (Colissimo::PRODUCT_CODE_RELAY !== $this->payload['letter']['service']['productCode']
             && isset($this->payload['letter']['parcel']['pickupLocationId'])) {
             throw new \Magento\Framework\Exception\LocalizedException(
                 __('The ProductCode used requires that a pickupLocationId is *not* set!')
@@ -967,9 +971,7 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
 
     protected function checkCommercialName()
     {
-        $productCodesNeedingCommercialName = ['A2P', 'BPR'];
-
-        if (in_array($this->payload['letter']['service']['productCode'], $productCodesNeedingCommercialName)
+        if (Colissimo::PRODUCT_CODE_RELAY === $this->payload['letter']['service']['productCode']
             && (
                 !isset($this->payload['letter']['service']['commercialName'])
                 ||
@@ -1018,8 +1020,6 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
 
     protected function checkAddresseeAddress()
     {
-        $productCodesNeedingMobileNumber = ['A2P', 'BPR'];
-
         $address = $this->payload['letter']['addressee']['address'];
 
         if (empty($address['companyName'])
@@ -1062,7 +1062,7 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
             );
         }
 
-        if (in_array($this->payload['letter']['service']['productCode'], $productCodesNeedingMobileNumber)
+        if (Colissimo::PRODUCT_CODE_RELAY === $this->payload['letter']['service']['productCode']
             && (
                 !isset($address['mobileNumber'])
                 ||
@@ -1123,7 +1123,7 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
 
     public function withPostalNetwork($countryCode, $productCode, $shippingMethod)
     {
-        if (in_array($countryCode, ['AT', 'DE', 'IT', 'LU']) && in_array($productCode, ['BOS', 'DOS'])) {
+        if (in_array($countryCode, ['AT', 'DE', 'IT', 'LU']) && Colissimo::PRODUCT_CODE_WITH_SIGNATURE === $productCode) {
             if (in_array($shippingMethod, [Colissimo::CODE_SHIPPING_METHOD_EXPERT, Colissimo::CODE_SHIPPING_METHOD_EXPERT_DDP])) {
                 $network = $this->helperData->getConfigValue('carriers/lpc_group/expert_sendingservice_' . $countryCode);
             } else {
@@ -1133,30 +1133,6 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
         }
 
         return $this;
-    }
-
-    private function convertWeightToKilogram($weight, $fromUnit, $storeId = null)
-    {
-        if (empty($fromUnit)) {
-            if (empty($storeId)) {
-                $shopUnit = $this->helperData->getConfigValue('general/locale/weight_unit');
-            } else {
-                $shopUnit = $this->helperData->getConfigValue('general/locale/weight_unit', $storeId);
-            }
-
-            if (strpos($shopUnit, 'lbs') !== false) {
-                $fromUnit = 'LBS';
-            } else {
-                $fromUnit = 'KILOGRAM';
-            }
-        }
-
-        $fromUnit = strtoupper($fromUnit);
-        if (in_array($fromUnit, ['POUND', 'LBS'])) {
-            $weight /= self::LBS_IN_ONE_KG;
-        }
-
-        return (double) $weight;
     }
 
     public function withMultiShipping($order, $shipment, $multiShippingDataFromQuery, $shipmentDataFromQuery)

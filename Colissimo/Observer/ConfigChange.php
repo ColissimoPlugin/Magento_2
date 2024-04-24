@@ -42,6 +42,8 @@ class ConfigChange implements ObserverInterface
 
         $this->configWriter->save('lpc_advanced/lpc_general/pwd_webservices', $encodedNewPassword);
         $this->helperData->setMarker('lpc_encoded_password', $encodedNewPassword);
+        $this->helperData->setMarker('contractType', '');
+        $this->helperData->setMarker('acceptedCgv', false);
 
         return $this;
     }

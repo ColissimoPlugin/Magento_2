@@ -10,6 +10,7 @@
 
 namespace LaPoste\Colissimo\Controller\Adminhtml\Relays;
 
+use Magento\Backend\Model\Session\Quote;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\Exception\LocalizedException;
@@ -28,6 +29,7 @@ class LoadRelaysAdmin extends Action
     protected GenerateRelaysPayload $generateRelaysPayload;
     protected Colissimo $logger;
     protected RelaysApi $relaysApi;
+    protected $sessionQuote;
 
     public function __construct(
         Context $context,
@@ -36,7 +38,8 @@ class LoadRelaysAdmin extends Action
         RelaysApi $relaysApi,
         GenerateRelaysPayload $generateRelaysPayload,
         Colissimo $logger,
-        Data $helperData
+        Data $helperData,
+        Quote $sessionQuote
     ) {
         $this->resultPageFactory = $resultPageFactory;
         $this->resultJsonFactory = $resultJsonFactory;
@@ -44,6 +47,7 @@ class LoadRelaysAdmin extends Action
         $this->logger = $logger;
         $this->relaysApi = $relaysApi;
         $this->helperData = $helperData;
+        $this->sessionQuote = $sessionQuote;
         parent::__construct($context);
     }
 
@@ -101,6 +105,19 @@ class LoadRelaysAdmin extends Action
 
             // Choose displayed relay types
             $relayTypesList = $this->helperData->getAdvancedConfigValue('lpc_pr_front/chooseRelayType');
+
+            // Force Post office type if cart weight > 20kg
+            $storeId = $this->sessionQuote->getQuote()->getStoreId();
+            $items = $this->sessionQuote->getQuote()->getAllItems();
+            $cartWeight = 0;
+            foreach ($items as $item) {
+                $cartWeight += ($item->getWeight() * $item->getQty());
+            }
+            $cartWeight = $this->helperData->convertWeightToKilogram($cartWeight, null, $storeId);
+            if ($cartWeight > 20) {
+                $relayTypesList = 'BDP,BPR';
+            }
+
             if (!empty($relayTypesList)) {
                 $relayTypes = explode(',', $relayTypesList);
                 $listRelaysWS = array_filter($listRelaysWS, function ($relay) use ($relayTypes) {
@@ -127,6 +144,7 @@ class LoadRelaysAdmin extends Action
                                 ->createBlock('LaPoste\Colissimo\Block\Adminhtml\Order\ListRelaysAdmin')
                                 ->setTemplate('LaPoste_Colissimo::order/list_relays_admin.phtml');
             $block->setListRelays($listRelaysWS);
+            $block->setOverWarning($cartWeight);
             $listRelaysHtml = $block->toHtml();
 
             return $resultJson->setData(['html' => $listRelaysHtml, 'success' => 1, 'loadMore' => $loadMore]);

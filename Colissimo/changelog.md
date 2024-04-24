@@ -1,5 +1,27 @@
 # Colissimo Magento 2 Changelog
 
+# 1.4.0
+
+### Fonctionnalités
+
+- Une option a été ajoutée pour choisir si les tarifs de livraison sont calculés avant ou après application des coupons
+
+### Améliorations
+
+- Une nouvelle section a été ajoutée dans les réglages pour aider à la mise en place du module et de ses principales fonctionnalités
+- La méthode de livraison Colissimo Internationale à été dépréciée au profit de l'envoi avec signature (étant la même méthode côté Colissimo)
+- Les codes postaux des États-Unis contenant un tiret sont maintenant acceptés
+- Des formats d'impression pour les étiquettes ont été ajoutés (10x10cm et 10x12cm)
+- Certaines traductions ont été revues
+- Diverses optimisations afin de réduire le nombre d'appels aux services Colissimo
+- Une sécurité a été ajoutée pour gérer les cas où un autre module rentrerait en conflit lors d'une commande en point de retrait
+
+### Correctifs
+
+- Les étiquettes de retour pour l'international utilisent à présent bien le format PDF A4
+- Lors d'une livraison en point de retrait pour un panier de plus de 20kg, les points non éligibles ne sont plus proposés
+- Le champs du numéro de téléphone n'est plus obligatoire pour certaines commandes si la livraison n'est pas en point de retrait
+
 # 1.3.5
 
 ### Fonctionnalités
