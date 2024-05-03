@@ -49,7 +49,7 @@ class PickUpPointApi implements \LaPoste\Colissimo\Api\PickUpPointApi
      */
     protected function query($action, $params = [])
     {
-        $data = http_build_query($params);
+        $data = json_encode($params);
 
         $url = $this->getApiUrl($action);
 
@@ -60,7 +60,7 @@ class PickUpPointApi implements \LaPoste\Colissimo\Api\PickUpPointApi
             $ch,
             [
                 CURLOPT_URL            => $url,
-                CURLOPT_HTTPHEADER     => ['Content-Type: application/x-www-form-urlencoded; charset=utf-8'],
+                CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
                 CURLOPT_POST           => 1,
                 CURLOPT_POSTFIELDS     => $data,
                 CURLOPT_RETURNTRANSFER => true,
