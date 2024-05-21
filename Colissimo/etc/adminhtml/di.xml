@@ -16,6 +16,7 @@
         <arguments>
             <argument name="messages" xsi:type="array">
                 <item name="customMessageNotification" xsi:type="string">LaPoste\Colissimo\Model\System\Message\DeprecatedMethodsNotification</item>
+                <item name="Notification" xsi:type="string">LaPoste\Colissimo\Model\Feedback</item>
             </argument>
         </arguments>
     </type>

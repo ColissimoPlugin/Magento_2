@@ -16,7 +16,6 @@ use LaPoste\Colissimo\Helper\Shipment;
 use LaPoste\Colissimo\Logger\Colissimo;
 use Magento\Framework\App\RequestInterface;
 use Magento\Shipping\Model\Shipping\LabelGenerator;
-use Magento\Backend\Model\Auth\Session;
 
 class GenerateLabelOnOrderStateChange implements \Magento\Framework\Event\ObserverInterface
 {
@@ -41,8 +40,6 @@ class GenerateLabelOnOrderStateChange implements \Magento\Framework\Event\Observ
      */
     protected $shipmentHelper;
 
-    protected $authSession;
-
     /**
      * GenerateLabelOnOrderStateChange constructor.
      *
@@ -57,15 +54,13 @@ class GenerateLabelOnOrderStateChange implements \Magento\Framework\Event\Observ
         Colissimo $logger,
         RequestInterface $request,
         LabelGenerator $labelGenerator,
-        Shipment $shipmentHelper,
-        Session $authSession
+        Shipment $shipmentHelper
     ) {
         $this->helperData = $helperData;
         $this->logger = $logger;
         $this->request = $request;
         $this->labelGenerator = $labelGenerator;
         $this->shipmentHelper = $shipmentHelper;
-        $this->authSession = $authSession;
     }
 
     public function execute(\Magento\Framework\Event\Observer $observer)
@@ -81,7 +76,7 @@ class GenerateLabelOnOrderStateChange implements \Magento\Framework\Event\Observ
                 'lpc_labels/orderStatusForGeneration',
                 $order->getStoreId()
             );
-            if(empty($orderStatusOption)) {
+            if (empty($orderStatusOption)) {
                 return $this;
             }
 
@@ -110,19 +105,6 @@ class GenerateLabelOnOrderStateChange implements \Magento\Framework\Event\Observ
                     'status'             => $order->getStatus(),
                 ]
             );
-
-            $currentUser = $this->authSession->getUser();
-            if (empty($currentUser)) {
-                $this->logger->warning(
-                    'Label not automatically generated because auth session user',
-                    [
-                        'order_id'           => $order->getId(),
-                        'order_increment_id' => $order->getIncrementId(),
-                    ]
-                );
-
-                return $this;
-            }
 
             if ($order->canShip()) {
                 // generate the whole shipment

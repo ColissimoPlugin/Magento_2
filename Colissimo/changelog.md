@@ -1,8 +1,14 @@
 # Colissimo Magento 2 Changelog
 
-# 1.4.1
+# 1.4.2
 
 ### Correctifs
+
+- Un formulaire a été ajouté dans les réglages afin de vous permettre de nous fournir un retour sur le module
+
+# 1.4.1
+
+### Améliorations
 
 - La vérification des identifiants Colissimo dans les réglages et l'affichage du widget Colissimo ont été corrigés
 

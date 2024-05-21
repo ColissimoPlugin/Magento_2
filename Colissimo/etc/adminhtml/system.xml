@@ -637,6 +637,12 @@
                     <frontend_model>LaPoste\Colissimo\Block\System\Config\Field\Videos</frontend_model>
                 </field>
             </group>
+            <group id="lpc_feedback" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="11" translate="label">
+                <label>Module feedback</label>
+                <field id="feedback_form" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <frontend_model>LaPoste\Colissimo\Block\System\Config\Field\Feedback</frontend_model>
+                </field>
+            </group>
         </section>
     </system>
 </config>

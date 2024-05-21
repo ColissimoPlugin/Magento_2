@@ -1,0 +1,35 @@
+<?php /* @var $block \LaPoste\Colissimo\Block\System\Config\Field\Feedback */ ?>
+
+<div data-tf-widget="<?php echo $block->getFormId(); ?>"></div>
+<script src="https://embed.typeform.com/next/embed.js"></script>
+
+<style>
+    #row_lpc_advanced_lpc_feedback_feedback_form .label{
+        display: none;
+    }
+
+    #row_lpc_advanced_lpc_feedback_feedback_form .value{
+        text-align: center;
+        width: 100%;
+    }
+
+    #row_lpc_advanced_lpc_feedback_feedback_form [data-tf-widget]{
+        min-height: 500px;
+    }
+</style>
+
+<?php
+$deadline = new \DateTime('2024-08-01');
+$now = new \DateTime();
+if ($now >= $deadline) {
+    ?>
+    <script type="text/javascript">
+        const feedbackElement = document.getElementById('lpc_advanced_lpc_feedback');
+        if (feedbackElement) {
+            const section = feedbackElement.closest('.section-config');
+            if (section) {
+                section.remove();
+            }
+        }
+    </script>
+<?php } ?>
