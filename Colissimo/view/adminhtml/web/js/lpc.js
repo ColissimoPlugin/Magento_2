@@ -702,8 +702,35 @@ define([
             const lpcRelayCityTmp = point['localite'];
             const lpcRelayTypeTmp = point['typeDePoint'];
             const lpcRelayCountryTmp = point['codePays'];
+            const lpcRelayDistanceTmp = point['distanceEnMetre'];
 
-            lpcChooseRelay(lpcRelayIdTmp, lpcRelayNameTmp, lpcRelayAddressTmp, lpcRelayZipcodeTmp, lpcRelayCityTmp, lpcRelayTypeTmp, lpcRelayCountryTmp);
+            const lpcOpenningHours = {
+                'Lundi': point['horairesOuvertureLundi'],
+                'Mardi': point['horairesOuvertureMardi'],
+                'Mercredi': point['horairesOuvertureMercredi'],
+                'Jeudi': point['horairesOuvertureJeudi'],
+                'Vendredi': point['horairesOuvertureVendredi'],
+                'Samedi': point['horairesOuvertureSamedi'],
+                'Dimanche': point['horairesOuvertureDimanche']
+            };
+
+            let lpcHoursTmp = '';
+            for (let [day, hours] of Object.entries(lpcOpenningHours)) {
+                if (undefined !== hours && ' ' !== hours && '00:00-00:00 00:00-00:00' !== hours) {
+                    lpcHoursTmp += $.mage.__(day) + ' ' + hours.replace(' 00:00-00:00', '') + '<br>';
+                }
+            }
+
+            lpcChooseRelay(lpcRelayIdTmp,
+                lpcRelayNameTmp,
+                lpcRelayAddressTmp,
+                lpcRelayZipcodeTmp,
+                lpcRelayCityTmp,
+                lpcRelayTypeTmp,
+                lpcRelayCountryTmp,
+                lpcRelayDistanceTmp,
+                lpcHoursTmp
+            );
         },
 
         lpcSetWidgetRelayCountries: function (relayCountries) {

@@ -102,55 +102,6 @@ class GenerateLabelPayloadTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('__defaultCommercialName__', $assembly['letter']['service']['commercialName']);
     }
 
-    public function testWithContractNumber()
-    {
-        $this->generateLabelPayload
-            ->withContractNumber('__contractNumber__');
-
-        $assembly = $this->generateLabelPayload->assemble();
-        $this->assertEquals('__contractNumber__', $assembly['contractNumber']);
-    }
-
-    public function testWithContractNumberUsingDefaultConfigurationValue()
-    {
-        $this->helperData
-            ->expects($this->any())
-            ->method('getAdvancedConfigValue')
-            ->with('lpc_general/id_webservices')
-            ->will($this->returnValue('__defaultContractNumber__'));
-
-        $this->generateLabelPayload
-            ->withContractNumber();
-
-        $assembly = $this->generateLabelPayload->assemble();
-        $this->assertEquals('__defaultContractNumber__', $assembly['contractNumber']);
-    }
-
-    public function testWithPassword()
-    {
-        $this->generateLabelPayload
-            ->withPassword('__password__');
-
-        $assembly = $this->generateLabelPayload->assemble();
-        $this->assertEquals('__password__', $assembly['password']);
-    }
-
-    public function testWithPasswordUsingDefaultConfigurationValue()
-    {
-        $this->helperData
-            ->expects($this->any())
-            ->method('getAdvancedConfigValue')
-            ->with('lpc_general/pwd_webservices')
-            ->will($this->returnValue('__defaultPassword__'));
-
-        $this->generateLabelPayload
-            ->withPassword();
-
-        $assembly = $this->generateLabelPayload->assemble();
-        $this->assertEquals('__defaultPassword__', $assembly['password']);
-    }
-
-
     public function testWithPickupLocationId()
     {
         $this->generateLabelPayload

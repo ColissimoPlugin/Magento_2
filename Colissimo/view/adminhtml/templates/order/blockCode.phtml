@@ -1,0 +1,56 @@
+<?php
+/**
+ * @var $block \LaPoste\Colissimo\Block\Adminhtml\Order\BlockCode
+ */
+
+if ($block->isBlockCodeActive()) {
+    $isChecked = $block->getBlockCodeStatus();
+    ?>
+    <section class="admin__page-section">
+        <div id="colissimo_block_code">
+            <div class="admin__page-section-title">
+                <span class="title"><?php echo __('Secured shipping'); ?></span>
+            </div>
+            <div class="admin__field">
+                <label for="lpc_block_code"><?php echo __('Activate blocking code'); ?></label>
+
+                <div class="tooltip-box" data-type="info">
+                    <div class="tooltip-text">
+                        <?php echo __('This parcel will be delivered via a secure service requiring a code. The code will be sent to the customer by email the day before delivery or by SMS on the morning of delivery, and must be given to the delivery person in order to receive the parcel. You can deactivate this option if you do not want secure delivery using a code.'); ?>
+                        <br>
+                        <?php echo __('Please note: If you have not provided the recipient\'s email address and telephone number, the code cannot be sent to the recipient and will block delivery of the parcel.'); ?>
+                    </div>
+                </div>
+
+                <input type="checkbox" id="lpc_block_code" <?php echo $isChecked ? 'checked="checked"' : ''; ?> style="vertical-align: middle;">
+                <input type="hidden" id="lpc_block_code_hidden" name="lpcBlockCode[lpc_block_code]" value="<?php echo $isChecked ? 'enabled' : 'disabled'; ?>">
+            </div>
+            <?php if (!empty($block->getShipment()->getId())) { ?>
+                <div class="lpc_add_data_button admin__field">
+                    <input type="hidden" name="lpcBlockCode[shipment_id]" value="<?php echo $block->getShipment()->getId(); ?>">
+                    <?= $block->getChildHtml('submit_block_code'); ?>
+                </div>
+            <?php } ?>
+        </div>
+
+        <script>
+            require(['prototype'], function () {
+                const blockCodeInput = document.getElementById('lpc_block_code_hidden');
+                document.getElementById('lpc_block_code').addEventListener('change', function () {
+                    if (this.checked) {
+                        blockCodeInput.value = 'enabled';
+                    } else {
+                        blockCodeInput.value = 'disabled';
+                    }
+                });
+
+                if ($('submit_block_code_button')) {
+                    $('submit_block_code_button').observe('click', function () {
+                        submitAndReloadArea($('colissimo_block_code').parentNode, '<?php echo $block->escapeJs($block->getSubmitUrl()); ?>');
+                    });
+                }
+            });
+        </script>
+    </section>
+    <?php
+}

@@ -1,0 +1,12 @@
+<?php /* @var $block \LaPoste\Colissimo\Block\System\Config\Field\BlockCode */ ?>
+
+<input type="checkbox"
+       disabled="disabled"
+    <?php echo $block->isOptionActive() ? ' checked="checked"' : ''; ?> />
+<?php if (!$block->isOptionActive()) { ?>
+    <style>
+        #row_lpc_advanced_lpc_shipping_domicileas_block_code_min, #row_lpc_advanced_lpc_shipping_domicileas_block_code_max{
+            display: none;
+        }
+    </style>
+<?php } ?>

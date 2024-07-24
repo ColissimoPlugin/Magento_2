@@ -14,6 +14,7 @@ namespace LaPoste\Colissimo\Model\Carrier;
 use LaPoste\Colissimo\Model\Config\Source\CustomsCategory;
 use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\Message\ManagerInterface;
+use LaPoste\Colissimo\Model\AccountApi;
 
 class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLabelPayload
 {
@@ -61,6 +62,8 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
 
     protected $messageManager;
 
+    private AccountApi $accountApi;
+
     public function __construct(
         \LaPoste\Colissimo\Model\Config\Source\PrintFormats $printFormats,
         \LaPoste\Colissimo\Model\Config\Source\RegisteredMailLevel $registeredMailLevel,
@@ -72,7 +75,8 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
         \LaPoste\Colissimo\Helper\CountryOffer $countryOfferHelper,
         \Magento\Framework\App\ProductMetadataInterface $productMetadata,
         \Magento\Catalog\Model\ProductRepository $productRepository,
-        \Magento\Framework\Message\ManagerInterface $messageManager
+        \Magento\Framework\Message\ManagerInterface $messageManager,
+        AccountApi $accountApi
     ) {
         $this->payload = [
             'letter' => [
@@ -93,6 +97,7 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
         $this->productMetadata = $productMetadata;
         $this->productRepository = $productRepository;
         $this->messageManager = $messageManager;
+        $this->accountApi = $accountApi;
 
         $this->eoriAdded = false;
     }
@@ -182,52 +187,25 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
         return $this;
     }
 
-    public function withContractNumber($contractNumber = null, $storeId = null)
+    public function withCredentials($storeId = null)
     {
-        if (null === $contractNumber) {
-            $contractNumber = $this->helperData->getAdvancedConfigValue(
-                'lpc_general/id_webservices',
-                $storeId
-            );
-        }
-
-        if (empty($contractNumber)) {
-            unset($this->payload['contractNumber']);
-        } else {
-            $this->payload['contractNumber'] = $contractNumber;
-
-            // Option removed the 15 November 2022 because pickup and bordereau APIs didn't work with it
-
-            /*
-            $parentAccountId = $this->helperData->getAdvancedConfigValue(
-                'lpc_general/parent_id_webservices',
-                $storeId
-            );
-            if (!empty($parentAccountId)) {
-                $this->payload['fields']['field'][] = [
-                    'key'   => 'ACCOUNT_NUMBER',
-                    'value' => $parentAccountId,
-                ];
+        if ('api' !== $this->helperData->getAdvancedConfigValue('lpc_general/connectionMode', $storeId)) {
+            $contractNumber = $this->helperData->getAdvancedConfigValue('lpc_general/id_webservices', $storeId);
+            if (!empty($contractNumber)) {
+                $this->payload['contractNumber'] = $contractNumber;
             }
-            */
+            $password = $this->helperData->getAdvancedConfigValue('lpc_general/pwd_webservices', $storeId);
+            if (!empty($password)) {
+                $this->payload['password'] = $password;
+            }
         }
 
-        return $this;
-    }
-
-    public function withPassword($password = null, $storeId = null)
-    {
-        if (null === $password) {
-            $password = $this->helperData->getAdvancedConfigValue(
-                'lpc_general/pwd_webservices',
-                $storeId
-            );
-        }
-
-        if (empty($password)) {
-            unset($this->payload['password']);
-        } else {
-            $this->payload['password'] = $password;
+        $parentAccountId = $this->helperData->getAdvancedConfigValue('lpc_general/parent_id_webservices', $storeId);
+        if (!empty($parentAccountId)) {
+            $this->payload['fields']['field'][] = [
+                'key'   => 'ACCOUNT_NUMBER',
+                'value' => $parentAccountId,
+            ];
         }
 
         return $this;
@@ -916,6 +894,51 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
             'key'   => 'CUSER_INFO_TEXT_3',
             'value' => 'MAGENTO2',
         ];
+
+        return $this;
+    }
+
+    public function withBlockingCode($shippingMethodUsed, $items, $order, $shipment, $postData, $storeId)
+    {
+        // Blocking code only available for shipping with signature
+        if (!in_array($shippingMethodUsed, [Colissimo::CODE_SHIPPING_METHOD_DOMICILE_AS, Colissimo::CODE_SHIPPING_METHOD_DOMICILE_AS_DDP])) {
+            return $this;
+        }
+
+        // Blocking code is not available on the account
+        $accountInformation = $this->accountApi->getAccountInformation();
+        if (empty($accountInformation['statutCodeBloquant'])) {
+            return $this;
+        }
+
+        // If the label is generated from the shipment creation/edition page, take the shown option into account
+        if (!empty($postData['lpcBlockCode']['lpc_block_code'])) {
+            if ('disabled' === $postData['lpcBlockCode']['lpc_block_code']) {
+                $this->payload['letter']['parcel']['disabledDeliveryBlockingCode'] = '1';
+            }
+
+            return $this;
+        }
+
+        $minimumOrderValue = $this->helperData->getAdvancedConfigValue('lpc_shipping/domicileas_block_code_min', $storeId);
+        $maximumOrderValue = $this->helperData->getAdvancedConfigValue('lpc_shipping/domicileas_block_code_max', $storeId);
+
+        $orderValue = 0;
+        foreach ($items as $piece) {
+            if (empty($piece['currency'])) {
+                // this happens when packages have been created by main magento process
+                $piece = $this->rebuildPiece($piece);
+            }
+
+            $orderValue += $piece['qty'] * floatval($piece['customs_value']);
+        }
+
+        // Follow the general options
+        if (!empty($minimumOrderValue) && $orderValue < $minimumOrderValue) {
+            $this->payload['letter']['parcel']['disabledDeliveryBlockingCode'] = '1';
+        } elseif (!empty($maximumOrderValue) && $orderValue > $maximumOrderValue) {
+            $this->payload['letter']['parcel']['disabledDeliveryBlockingCode'] = '1';
+        }
 
         return $this;
     }

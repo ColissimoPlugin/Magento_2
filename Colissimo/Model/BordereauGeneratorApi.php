@@ -11,6 +11,7 @@
 
 namespace LaPoste\Colissimo\Model;
 
+use \LaPoste\Colissimo\Helper\LpcMTOMSoapClient;
 use Magento\Framework\Event\Manager;
 use Magento\Sales\Model\ResourceModel\Order\Shipment\Track\CollectionFactory;
 
@@ -40,49 +41,43 @@ class BordereauGeneratorApi implements \LaPoste\Colissimo\Api\BordereauGenerator
 
 
     public function generateBordereauByParcelsNumbers(
-        array $parcelNumbers,
-        $login = null,
-        $password = null
+        array $parcelNumbers
     ) {
-        if (null === $login) {
-            $login = $this->helperData->getAdvancedConfigValue('lpc_general/id_webservices');
-        }
-
-        if (null === $password) {
-            $password = $this->helperData->getAdvancedConfigValue('lpc_general/pwd_webservices');
-        }
-
-        $this->logger->debug(
-            __METHOD__ . ' request',
-            [
-                'url'           => self::API_BASE_URL,
-                'login'         => $login,
-                'parcelNumbers' => $parcelNumbers,
-            ]
-        );
-
-
-        $soapClient = new \LaPoste\Colissimo\Helper\LpcMTOMSoapClient(
-            self::API_BASE_URL . '?wsdl',
-            ['exceptions' => true]
-        );
-
-        $request = [
-            'contractNumber'                    => $login,
-            'password'                          => $password,
-            'generateBordereauParcelNumberList' => $parcelNumbers,
+        $dataLogger = [
+            'url'           => self::API_BASE_URL,
+            'parcelNumbers' => $parcelNumbers,
         ];
 
+        $request = [
+            'generateBordereauParcelNumberList' => $parcelNumbers,
+            'exceptions'                        => true,
+        ];
 
+        if ('api' === $this->helperData->getAdvancedConfigValue('lpc_general/connectionMode')) {
+            $apiKey = $this->helperData->getAdvancedConfigValue('lpc_general/api_key');
+            $dataLogger['apiKey'] = $apiKey;
+            $request['stream_context'] = stream_context_create(
+                [
+                    'http' => [
+                        'header' => 'apiKey: ' . $apiKey,
+                    ],
+                ]
+            );
+        } else {
+            $login = $this->helperData->getAdvancedConfigValue('lpc_general/id_webservices');
+            $password = $this->helperData->getAdvancedConfigValue('lpc_general/pwd_webservices');
+            $dataLogger['login'] = $login;
+            $request['contractNumber'] = $login;
+            $request['password'] = $password;
+        }
+
+        $this->logger->debug(__METHOD__ . ' request', $dataLogger);
+
+        $soapClient = new LpcMTOMSoapClient(self::API_BASE_URL . '?wsdl', $request);
         $response = $soapClient->generateBordereauByParcelsNumbers($request);
         $response = $response->return;
 
-        $this->logger->debug(
-            __METHOD__ . ' response',
-            [
-                'response' => $response->messages,
-            ]
-        );
+        $this->logger->debug(__METHOD__ . ' response', ['response' => $response->messages]);
 
 
         if (!empty($response->messages->id)) {
@@ -122,40 +117,42 @@ class BordereauGeneratorApi implements \LaPoste\Colissimo\Api\BordereauGenerator
     }
 
 
-    public function getBordereauByNumber(
-        $bordereauNumber,
-        $login = null,
-        $password = null
-    ) {
-        if (null === $login) {
-            $login = $this->helperData->getAdvancedConfigValue('lpc_general/id_webservices');
-        }
-
-        if (null === $password) {
-            $password = $this->helperData->getAdvancedConfigValue('lpc_general/pwd_webservices');
-        }
-
-        $this->logger->debug(
-            __METHOD__ . ' request',
-            [
-                'url'             => self::API_BASE_URL,
-                'login'           => $login,
-                'bordereauNumber' => $bordereauNumber,
-            ]
-        );
-
-        $soapClient = new \LaPoste\Colissimo\Helper\LpcMTOMSoapClient(
-            self::API_BASE_URL . '?wsdl',
-            ['exceptions' => true]
-        );
-
-        $request = [
-            'contractNumber'  => $login,
-            'password'        => $password,
+    public function getBordereauByNumber($bordereauNumber)
+    {
+        $dataLogger = [
+            'url'             => self::API_BASE_URL,
             'bordereauNumber' => $bordereauNumber,
         ];
 
+        $request = [
+            'bordereauNumber' => $bordereauNumber,
+            'exceptions'      => true,
+        ];
 
+        if ('api' === $this->helperData->getAdvancedConfigValue('lpc_general/connectionMode')) {
+            // Todo: API currently not working via apiKey
+            $apiKey = $this->helperData->getAdvancedConfigValue('lpc_general/api_key');
+            $dataLogger['apiKey'] = $apiKey;
+            $request['stream_context'] = stream_context_create(
+                [
+                    'http' => [
+                        'header' => [
+                            'apiKey: ' => $apiKey,
+                        ],
+                    ],
+                ]
+            );
+        } else {
+            $login = $this->helperData->getAdvancedConfigValue('lpc_general/id_webservices');
+            $password = $this->helperData->getAdvancedConfigValue('lpc_general/pwd_webservices');
+            $dataLogger['login'] = $login;
+            $request['contractNumber'] = $login;
+            $request['password'] = $password;
+        }
+
+        $this->logger->debug(__METHOD__ . ' request', $dataLogger);
+
+        $soapClient = new LpcMTOMSoapClient(self::API_BASE_URL . '?wsdl', $request);
         $response = $soapClient->getBordereauByNumber($request);
         $response = $response->return;
 
@@ -165,7 +162,6 @@ class BordereauGeneratorApi implements \LaPoste\Colissimo\Api\BordereauGenerator
                 'response' => $response->messages,
             ]
         );
-
 
         if (!empty($response->messages->id)) {
             $this->logger->error(

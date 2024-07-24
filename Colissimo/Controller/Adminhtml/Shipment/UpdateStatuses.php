@@ -52,7 +52,7 @@ class UpdateStatuses extends Action
      */
     public function execute()
     {
-        $result = $this->unifiedTrackingApi->updateAllStatuses(null, null, $this->remoteAddress->getRemoteAddress(), null);
+        $result = $this->unifiedTrackingApi->updateAllStatuses($this->remoteAddress->getRemoteAddress(), null);
         $failure = $result['failure'];
 
         if (empty($failure)) {

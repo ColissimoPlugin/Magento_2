@@ -8,7 +8,7 @@ use Magento\Sales\Api\ShipmentRepositoryInterface;
 use Magento\Framework\View\Result\PageFactory;
 use Magento\Framework\Controller\Result\RawFactory;
 
-class AddMultiShippingData extends Action
+class AddBlockCodeStatus extends Action
 {
     /**
      * Authorization level of a basic admin session
@@ -22,7 +22,7 @@ class AddMultiShippingData extends Action
     protected $resultRawFactory;
 
     /**
-     * AddMultiShippingData constructor.
+     * AddBlockCodeStatus constructor.
      *
      * @param Context                     $context
      * @param ShipmentRepositoryInterface $shipmentRepository
@@ -43,18 +43,19 @@ class AddMultiShippingData extends Action
 
     public function execute()
     {
-        $data = $this->getRequest()->getParam('lpcMultiShipping');
+        $data = $this->getRequest()->getParam('lpcBlockCode');
         $shipment = $this->shipmentRepository->get($data['shipment_id']);
-        if (!empty($data['lpc_use_multi_parcels']) && !empty($data['lpc_multi_parcels_amount']) && $data['lpc_multi_parcels_amount'] < 5 && $data['lpc_multi_parcels_amount'] > 1) {
-            $numberOfParcels = $data['lpc_multi_parcels_amount'];
-            $shipment->setDataUsingMethod('lpc_multi_parcels_amount', $numberOfParcels);
-            $shipment->save();
+        $blockCodeStatus = 'enabled';
+        if (!empty($data['lpc_block_code'])) {
+            $blockCodeStatus = $data['lpc_block_code'];
         }
+        $shipment->setDataUsingMethod('lpc_block_code', $blockCodeStatus);
+        $shipment->save();
 
         $resultPage = $this->resultPageFactory->create();
-        $block = $resultPage->getLayout()->getBlock('lpc_shipment_multi_shipping');
+        $block = $resultPage->getLayout()->getBlock('lpc_shipment_block_code');
         if (!$block) {
-            $block = $resultPage->getLayout()->createBlock('\LaPoste\Colissimo\Block\Adminhtml\Order\MultiShipping');
+            $block = $resultPage->getLayout()->createBlock('\LaPoste\Colissimo\Block\Adminhtml\Order\BlockCode');
         }
 
         $resultRaw = $this->resultRawFactory->create();

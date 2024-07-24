@@ -78,7 +78,7 @@ class LoadRelaysAdmin extends Action
         $resultJson = $this->resultJsonFactory->create();
 
         try {
-            $this->generateRelaysPayload->withLogin()->withPassword()->withAddress($address)->withShippingDate()->withOptionInter()->checkConsistency();
+            $this->generateRelaysPayload->withCredentials()->withAddress($address)->withShippingDate()->withOptionInter()->checkConsistency();
             $relaysPayload = $this->generateRelaysPayload->assemble();
 
             $resultWs = $this->relaysApi->getRelays($relaysPayload);

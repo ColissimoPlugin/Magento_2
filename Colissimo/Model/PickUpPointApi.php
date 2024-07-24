@@ -53,7 +53,7 @@ class PickUpPointApi implements \LaPoste\Colissimo\Api\PickUpPointApi
 
         $url = $this->getApiUrl($action);
 
-        $this->logger->debug(__METHOD__, ['url' => $url, 'login' => $params['login']]);
+        $this->logger->debug(__METHOD__, ['url' => $url]);
 
         $ch = curl_init();
         curl_setopt_array(
@@ -92,29 +92,37 @@ class PickUpPointApi implements \LaPoste\Colissimo\Api\PickUpPointApi
                 $this->logger->warning(__METHOD__, [
                     'returnStatus' => $returnStatus,
                 ]);
-                throw new Exception\ApiException(null, $returnStatus);
+                throw new Exception\ApiException('', $returnStatus);
         }
     }
 
-    public function authenticate($login = null, $password = null)
+    public function authenticate()
     {
-        if (null === $login) {
+        $connectionMode = $this->helperData->getAdvancedConfigValue('lpc_general/connectionMode');
+
+        $connectionData = [];
+        $parentAccount = $this->helperData->getAdvancedConfigValue('lpc_general/parent_id_webservices');
+        if (!empty($parentAccount)) {
+            $connectionData['partnerClientCode'] = $parentAccount;
+        }
+
+        if ('login' === $connectionMode) {
             $login = $this->helperData->getAdvancedConfigValue('lpc_general/id_webservices');
-        }
+            $connectionData['login'] = $login;
+            $this->logger->debug(__METHOD__, ['Credentials' => $connectionData]);
 
-        if (null === $password) {
             $password = $this->helperData->getAdvancedConfigValue('lpc_general/pwd_webservices');
+            $connectionData['password'] = $password;
+        } elseif ('api' === $connectionMode) {
+            $apiKey = $this->helperData->getAdvancedConfigValue('lpc_general/api_key');
+            $connectionData = ['apikey' => $apiKey];
+            $this->logger->debug(__METHOD__, ['Credentials' => $connectionData]);
         }
-
-        $this->logger->debug(__METHOD__, ['login' => $login]);
 
         try {
             $response = $this->query(
                 'authenticate.rest',
-                [
-                    'login'    => $login,
-                    'password' => $password,
-                ]
+                $connectionData
             );
         } catch (Exception\ApiException $e) {
             $this->logger->error("Error during authentication. Check your credentials.", [$e]);

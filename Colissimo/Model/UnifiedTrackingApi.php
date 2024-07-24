@@ -71,53 +71,49 @@ class UnifiedTrackingApi implements \LaPoste\Colissimo\Api\UnifiedTrackingApi
         $trackingNumber,
         $ip,
         $lang = null,
-        $login = null,
-        $password = null,
         $storeId = null
     ) {
-        if (null === $login) {
-            $login = $this->helperData->getAdvancedConfigValue(
-                'lpc_general/id_webservices',
-                $storeId
-            );
-        }
-
-        if (null === $password) {
-            $password = $this->helperData->getAdvancedConfigValue(
-                'lpc_general/pwd_webservices',
-                $storeId
-            );
-        }
-
         if (null === $lang) {
             $lang = 'fr_FR';
         }
 
-        $this->logger->debug(
-            __METHOD__ . ' request',
-            [
-                'url'            => self::API_BASE_URL,
-                'login'          => $login,
-                'trackingNumber' => $trackingNumber,
-                'lang'           => $lang,
-                'ip'             => $ip,
-            ]
-        );
-
-        $soapClient = new \SoapClient(
-            self::API_BASE_URL . '?wsdl',
-            ['exceptions' => true]
-        );
+        $dataLogger = [
+            'url'            => self::API_BASE_URL,
+            'trackingNumber' => $trackingNumber,
+            'lang'           => $lang,
+            'ip'             => $ip,
+        ];
 
         $request = [
-            'login'        => $login,
-            'password'     => $password,
             'parcelNumber' => $trackingNumber,
             'ip'           => $ip,
             'lang'         => $lang,
             'profil'       => 'TRACKING_PARTNER',
         ];
 
+        $connectionMode = $this->helperData->getAdvancedConfigValue('lpc_general/connectionMode', $storeId);
+        if ('api' === $connectionMode) {
+            $apiKey = $this->helperData->getAdvancedConfigValue('lpc_general/api_key', $storeId);
+            $dataLogger['apiKey'] = $apiKey;
+            $request['apiKey'] = $apiKey;
+        } else {
+            $login = $this->helperData->getAdvancedConfigValue('lpc_general/id_webservices', $storeId);
+            $password = $this->helperData->getAdvancedConfigValue('lpc_general/pwd_webservices', $storeId);
+            $dataLogger['login'] = $login;
+            $request['login'] = $login;
+            $request['password'] = $password;
+        }
+
+
+        $this->logger->debug(
+            __METHOD__ . ' request',
+            $dataLogger
+        );
+
+        $soapClient = new \SoapClient(
+            self::API_BASE_URL . '?wsdl',
+            ['exceptions' => true]
+        );
 
         $response = $soapClient->timelineCompany($request);
         $response = $response->return;
@@ -156,7 +152,7 @@ class UnifiedTrackingApi implements \LaPoste\Colissimo\Api\UnifiedTrackingApi
         return $response;
     }
 
-    public function updateAllStatuses($login = null, $password = null, $ip = null, $lang = null)
+    public function updateAllStatuses($ip = null, $lang = null)
     {
         $fromDate = date('Y-m-d 00:00:00', strtotime(self::UPDATE_STATUS_PERIOD));
         $collection = $this->shipmentTrackCollectionFactory->create()
@@ -185,8 +181,6 @@ class UnifiedTrackingApi implements \LaPoste\Colissimo\Api\UnifiedTrackingApi
                     $shipmentTrack->getTrackNumber(),
                     $ip,
                     $lang,
-                    $login,
-                    $password,
                     $shipment->getStoreId()
                 );
 

@@ -1,5 +1,23 @@
 # Colissimo Magento 2 Changelog
 
+# 1.5.0
+
+### Fonctionnalités
+
+- Il est à présent possible de s'autentifier avec une clé de connexion Colissimo
+- La fonctionnalité de code sécurisé à la livraison est maintenant paramétrable par commande ou globalement en se basant sur le prix de commande
+- Un lien a été ajouté dans la configuration pour vous rendre sur la page de gestion de vos services Colissimo
+
+### Améliorations
+
+- Le retour des colis pour la Norvège a été activé
+- Il n'est plus nécessaire d'avoir un numéro français pour les envois en point de retrait en France
+- Le lien vers la Colissimo Box vous connecte à présent à votre compte Colissimo
+
+### Correctifs
+
+- L'affichage de la carte des points de retrait en mode Google Maps et Leaflet a été corrigé pour Magento 2.4.7 en modifiant les règles CSP
+
 # 1.4.2
 
 ### Correctifs

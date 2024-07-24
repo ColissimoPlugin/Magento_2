@@ -16,9 +16,20 @@ class CustomsDocumentsApi extends RestApi implements \LaPoste\Colissimo\Api\Carr
 
     public function storeDocument($documentType, $parcelNumber, $document, $documentName)
     {
-        $accountNumber = $this->helperData->getAdvancedConfigValue('lpc_general/id_webservices');
-        $login = $this->helperData->getAdvancedConfigValue('lpc_general/id_webservices');
-        $password = $this->helperData->getAdvancedConfigValue('lpc_general/pwd_webservices');
+        $accountNumber = $this->helperData->getAdvancedConfigValue('lpc_general/parent_id_webservices');
+        if ('api' === $this->helperData->getAdvancedConfigValue('lpc_general/connectionMode')) {
+            $apiKey = $this->helperData->getAdvancedConfigValue('lpc_general/api_key');
+            $credentials = ['apiKey: ' . $apiKey];
+            $dataLogger = ['apiKey' => $apiKey];
+        } else {
+            if (empty($accountNumber)) {
+                $accountNumber = $this->helperData->getAdvancedConfigValue('lpc_general/id_webservices');
+            }
+            $login = $this->helperData->getAdvancedConfigValue('lpc_general/id_webservices');
+            $password = $this->helperData->getAdvancedConfigValue('lpc_general/pwd_webservices');
+            $credentials = ['login: ' . $login, 'password: ' . $password];
+            $dataLogger = ['login' => $login];
+        }
 
         if (function_exists('curl_file_create')) {
             $document = curl_file_create($document);
@@ -44,7 +55,7 @@ class CustomsDocumentsApi extends RestApi implements \LaPoste\Colissimo\Api\Carr
             ]
         );
 
-        $credentials = ['login: ' . $login, 'password: ' . $password];
+        $dataLogger['payload'] = $payload;
 
         try {
             $response = $this->query('storedocument', $payload, self::DATA_TYPE_MULTIPART, $credentials, true, $unsafeFileUpload);
@@ -58,7 +69,7 @@ class CustomsDocumentsApi extends RestApi implements \LaPoste\Colissimo\Api\Carr
             );
 
             if ('000' != $response['errorCode']) {
-                throw new \Exception($response['errors']['code'] . ' - ' . $response['errorLabel'] . ': ' . $response['errors']['message']);
+                throw new \Exception($response['errorCode'] . ' : ' . $response['errorLabel']);
             }
 
             // 50c82f93-015f-3c41-a841-07746eee6510.pdf for example, where 50c82f93-015f-3c41-a841-07746eee6510 is the uuid
@@ -74,14 +85,11 @@ class CustomsDocumentsApi extends RestApi implements \LaPoste\Colissimo\Api\Carr
                     }
                 }
             }
+            $dataLogger['exception'] = implode(', ', $message);
 
             $this->logger->error(
                 'Error during customs documents sending',
-                [
-                    'payload'   => $payload,
-                    'login'     => $login,
-                    'exception' => implode(', ', $message),
-                ]
+                $dataLogger
             );
 
             if (1 < count($message)) {

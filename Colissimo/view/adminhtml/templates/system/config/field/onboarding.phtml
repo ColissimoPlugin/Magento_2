@@ -1,11 +1,7 @@
 <?php /* @var $block \LaPoste\Colissimo\Block\System\Config\Field\Onboarding */ ?>
 
 <?php
-$faciliteUrl = 'https://www.colissimo.entreprise.laposte.fr/contrat-facilite';
-$faciliteForm = 'https://www.colissimo.fr/entreprise/subscription/inscription';
-$privilegeUrl = 'https://www.colissimo.entreprise.laposte.fr/contrat-privilege';
-$privilegeForm = 'https://www.colissimo.entreprise.laposte.fr/contact#edit-votre-besoin-vous-souhaitez-ouvrir-un-compte-colissimo-entreprise';
-$colissimoWebsite = 'https://www.colissimo.entreprise.laposte.fr';
+$urls = $block->getOnboardingUrls();
 ?>
 
 <div id="lpc_onboarding">
@@ -15,9 +11,17 @@ $colissimoWebsite = 'https://www.colissimo.entreprise.laposte.fr';
     <p>
         - <?php
         printf(
+            __('Choose %s best matching your needs.'),
+            '<a target="_blank" href="' . $urls['contractTypes'] . '">' . __('the contract') . '</a>'
+        );
+        ?>
+    </p>
+    <p>
+        - <?php
+        printf(
             __('To register for the <a target="_blank" href="%1$s">Colissimo Facilité</a> option, fill <a target="_blank" href="%2$s">this commercial contact form</a> to create an account and receive your ids within a few days.'),
-            $faciliteUrl,
-            $faciliteForm
+            $urls['faciliteUrl'],
+            $urls['faciliteForm']
         );
         ?>
     </p>
@@ -25,8 +29,8 @@ $colissimoWebsite = 'https://www.colissimo.entreprise.laposte.fr';
         - <?php
         printf(
             __('To register for the <a target="_blank" href="%1$s">Colissimo Privilège</a> option, fill <a target="_blank" href="%2$s">this commercial contact form</a> to be contacted by a sales representative.'),
-            $privilegeUrl,
-            $privilegeForm
+            $urls['privilegeUrl'],
+            $urls['privilegeForm']
         );
         ?>
     </p>
@@ -38,11 +42,11 @@ $colissimoWebsite = 'https://www.colissimo.entreprise.laposte.fr';
     <b>1. <?php echo __('I associate my account to the Colissimo module'); ?></b>
     <p>
         <?php
-        echo __('To connect the module, you must enter your Colissimo ID and password in <a href="#lpc_advanced_lpc_general-head">the "General configuration" section</a> of this page.');
+        echo __('To connect the module, you must enter your Colissimo credentials in <a href="#lpc_advanced_lpc_general-head">the "General configuration" section</a> of this page.');
         echo '<br/>';
         printf(
             __('The ID must be a 6 digits number, this is the one you use to connect to <a target="_blank" href="%s">Colissimo Entreprise</a>.'),
-            $colissimoWebsite
+            $urls['urlConnectedCbox']
         );
         ?>
     </p>

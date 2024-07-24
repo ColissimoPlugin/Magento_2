@@ -15,6 +15,12 @@
             </lpc_group>
         </carriers>
         <lpc_advanced>
+            <lpc_general>
+                <connectionMode>login</connectionMode>
+            </lpc_general>
+            <lpc_shipping>
+                <domicileas_block_code_min>0</domicileas_block_code_min>
+            </lpc_shipping>
             <lpc_pr_front>
                 <prAutoSelect>0</prAutoSelect>
                 <choosePRDisplayMode>widget</choosePRDisplayMode>

@@ -24,31 +24,19 @@ class GenerateRelaysPayload implements \LaPoste\Colissimo\Api\RelaysWebservice\G
         $this->helperData = $helperData;
     }
 
-    public function withLogin($login = null)
+    public function withCredentials()
     {
-        if (null === $login) {
-            $login = $this->helperData->getAdvancedConfigValue('lpc_general/id_webservices');
-        }
-
-        if (empty($login)) {
-            unset($this->payload['accountNumber']);
+        $connectionMode = $this->helperData->getAdvancedConfigValue('lpc_general/connectionMode');
+        if ('api' === $connectionMode) {
+            $this->payload['apikey'] = $this->helperData->getAdvancedConfigValue('lpc_general/api_key');
         } else {
-            $this->payload['accountNumber'] = $login;
+            $this->payload['accountNumber'] = $this->helperData->getAdvancedConfigValue('lpc_general/id_webservices');
+            $this->payload['password'] = $this->helperData->getAdvancedConfigValue('lpc_general/pwd_webservices');
         }
 
-        return $this;
-    }
-
-    public function withPassword($password = null)
-    {
-        if (null === $password) {
-            $password = $this->helperData->getAdvancedConfigValue('lpc_general/pwd_webservices');
-        }
-
-        if (empty($password)) {
-            unset($this->payload['password']);
-        } else {
-            $this->payload['password'] = $password;
+        $parentAccountId = $this->helperData->getAdvancedConfigValue('lpc_general/parent_id_webservices');
+        if (!empty($parentAccountId)) {
+            $this->payload['codTiersPourPartenaire'] = $parentAccountId;
         }
 
         return $this;
@@ -116,8 +104,14 @@ class GenerateRelaysPayload implements \LaPoste\Colissimo\Api\RelaysWebservice\G
 
     protected function checkLogin()
     {
-        if (empty($this->payload['accountNumber']) || empty($this->payload['password'])) {
-            throw new \Magento\Framework\Exception\LocalizedException(__('Login and password required to get relay points'));
+        if ('api' === $this->helperData->getAdvancedConfigValue('lpc_general/connectionMode')) {
+            if (empty($this->payload['apikey'])) {
+                throw new \Magento\Framework\Exception\LocalizedException(__('An API key is required to get relay points'));
+            }
+        } else {
+            if (empty($this->payload['accountNumber']) || empty($this->payload['password'])) {
+                throw new \Magento\Framework\Exception\LocalizedException(__('Login and password required to get relay points'));
+            }
         }
     }
 

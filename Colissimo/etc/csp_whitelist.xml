@@ -17,6 +17,7 @@
                 <value id="googlemapsimagestatics" type="host">https://maps.gstatic.com</value>
                 <value id="colissimows" type="host">https://ws.colissimo.fr</value>
                 <value id="pickupleafletmap" type="host">https://*.tile.openstreetmap.fr</value>
+                <value id="colissimowidgetonyourmap" type="host">https://*.onyourmap.com</value>
             </values>
         </policy>
         <policy id="style-src">
@@ -36,8 +37,10 @@
         <policy id="connect-src">
             <values>
                 <value id="colissimows" type="host">https://ws.colissimo.fr</value>
-                <value id="colissimows" type="host">https://maps.googleapis.com</value>
-                <value id="colissimows" type="host">https://nominatim.openstreetmap.org</value>
+                <value id="colissimomaps" type="host">https://maps.googleapis.com</value>
+                <value id="colissimoleaflet" type="host">https://nominatim.openstreetmap.org</value>
+                <value id="colissimoonyourmap" type="host">https://*.onyourmap.com</value>
+                <value id="colissimomapbox" type="host">https://*.mapbox.com</value>
             </values>
         </policy>
         <policy id="frame-src">

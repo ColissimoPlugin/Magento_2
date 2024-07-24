@@ -45,6 +45,7 @@
         <column xsi:type="varchar" name="lpc_insurance_amount" length="10" nullable="true" comment="La Poste Colissimo insurance amount"/>
         <column xsi:type="smallint" name="lpc_multi_parcels_number" nullable="true" comment="La Poste Colissimo parcel number"/>
         <column xsi:type="varchar" name="lpc_shipping_type" length="25" nullable="true" comment="La Poste Colissimo shipping type"/>
+        <column xsi:type="varchar" name="lpc_block_code" length="10" nullable="true" comment="La Poste Colissimo block code status for signature shipment"/>
     </table>
     <table name="sales_shipment_track">
         <column xsi:type="varchar" name="lpc_last_event_code" nullable="true" comment="La Poste Colissimo last event code" length="255"/>

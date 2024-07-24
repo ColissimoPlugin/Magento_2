@@ -13,7 +13,7 @@ namespace LaPoste\Colissimo\Api;
 
 interface BordereauGeneratorApi
 {
-    public function generateBordereauByParcelsNumbers(array $parcelNumbers, $login = null, $password = null);
+    public function generateBordereauByParcelsNumbers(array $parcelNumbers);
 
-    public function getBordereauByNumber($bordereauNumber, $login = null, $password = null);
+    public function getBordereauByNumber($bordereauNumber);
 }

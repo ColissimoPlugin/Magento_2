@@ -76,7 +76,7 @@
             "ME": {"domiciless": false, "domicileas": "DOS", "domicileasddp": false, "pr": false, "expert": "DOS", "expertddp": false, "return": false, "ftd": false, "cn23": true, "insurance": true},
             "MK": {"domiciless": false, "domicileas": "DOS", "domicileasddp": false, "pr": false, "expert": "DOS", "expertddp": false, "return": false, "ftd": false, "cn23": true, "insurance": true},
             "MT": {"domiciless": false, "domicileas": "DOS", "domicileasddp": false, "pr": false, "expert": "DOS", "expertddp": false, "return": "CORI", "ftd": false, "cn23": false, "insurance": true},
-            "NO": {"domiciless": false, "domicileas": "DOS", "domicileasddp": false, "pr": false, "expert": "DOS", "expertddp": false, "return": false, "ftd": false, "cn23": true, "insurance": true},
+            "NO": {"domiciless": false, "domicileas": "DOS", "domicileasddp": false, "pr": false, "expert": "DOS", "expertddp": false, "return": "CORI", "ftd": false, "cn23": true, "insurance": true},
             "RO": {"domiciless": false, "domicileas": "DOS", "domicileasddp": false, "pr": false, "expert": "DOS", "expertddp": false, "return": "CORI", "ftd": false, "cn23": false, "insurance": true},
             "RS": {"domiciless": false, "domicileas": "DOS", "domicileasddp": false, "pr": false, "expert": "DOS", "expertddp": false, "return": false, "ftd": false, "cn23": true, "insurance": true},
             "TN": {"domiciless": false, "domicileas": "DOS", "domicileasddp": false, "pr": false, "expert": "DOS", "expertddp": false, "return": false, "ftd": false, "cn23": true, "insurance": true},

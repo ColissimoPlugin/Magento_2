@@ -85,8 +85,7 @@ END_HTML;
             $sender['countryCode'] = 'FR';
 
             $payload = $this->generateLabelPayload
-                ->withContractNumber()
-                ->withPassword()
+                ->withCredentials()
                 ->withSender($sender)
                 ->assemble();
 
@@ -137,8 +136,7 @@ END_HTML;
             $sender['countryCode'] = 'FR';
 
             $payload = $this->generateLabelPayload
-                ->withContractNumber()
-                ->withPassword()
+                ->withCredentials()
                 ->withSender($sender)
                 ->assemble();
 

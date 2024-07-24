@@ -80,7 +80,7 @@ class LoadRelays extends Action
         $resultJson = $this->_resultJsonFactory->create();
 
         try {
-            $this->_generateRelaysPayload->withLogin()->withPassword()->withAddress($address)->withShippingDate()->withOptionInter()->checkConsistency();
+            $this->_generateRelaysPayload->withCredentials()->withAddress($address)->withShippingDate()->withOptionInter()->checkConsistency();
             $relaysPayload = $this->_generateRelaysPayload->assemble();
 
             $resultWs = $this->relaysApi->getRelays($relaysPayload);

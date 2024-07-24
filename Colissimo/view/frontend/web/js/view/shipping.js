@@ -51,12 +51,6 @@ define([
                     return false;
                 }
 
-                if (shippingAddress.countryId === 'FR' && !shippingAddress.telephone.match(/^(\+33|0033|\+330|00330|0)(6|7)\d{8}$/)) {
-                    this.errorValidationMessage($.mage.__(
-                        'The mobile number for a French destination must start with +33 or 0, followed by 6 or 7 and be 12 or 10 characters long. For example 06XXXXXXXX or +336XXXXXXXX'));
-                    return false;
-                }
-
                 if (shippingAddress.countryId === 'BE') {
                     var acceptableNumber = true;
 

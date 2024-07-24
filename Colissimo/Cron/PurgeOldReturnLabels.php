@@ -79,8 +79,6 @@ class PurgeOldReturnLabels
                         $trackNumber,
                         self::DUMMY_LOCAL_IP,
                         null,
-                        null,
-                        null,
                         $shipment->getStoreId()
                     );
 

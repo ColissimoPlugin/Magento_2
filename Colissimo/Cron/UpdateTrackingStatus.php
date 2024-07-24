@@ -43,7 +43,7 @@ class UpdateTrackingStatus
     {
         $this->logger->info(__METHOD__);
 
-        $result = $this->unifiedTrackingApi->updateAllStatuses(null, null, self::DUMMY_LOCAL_IP, null);
+        $result = $this->unifiedTrackingApi->updateAllStatuses(self::DUMMY_LOCAL_IP, null);
         $failure = $result['failure'];
 
         if (empty($failure)) {

@@ -16,7 +16,7 @@ use LaPoste\Colissimo\Logger\Colissimo;
 
 class AccountApi extends RestApi implements \LaPoste\Colissimo\Api\AccountApi
 {
-    const API_BASE_URL = 'https://ws.colissimo.fr/api-ewe/';
+    const API_BASE_URL = 'https://ws.colissimo.fr/api-ewe/v1/rest/';
     const CONTRACT_TYPE_FACILITE = 'FACILITE';
 
     protected $logger;
@@ -35,6 +35,37 @@ class AccountApi extends RestApi implements \LaPoste\Colissimo\Api\AccountApi
         return self::API_BASE_URL . $action;
     }
 
+    public function getAutologinURLs(): array
+    {
+        try {
+            $response = $this->query('urlCboxExt');
+
+            if (!empty($response['messageErreur'])) {
+                $this->logger->error(
+                    'Auto login request failed',
+                    [
+                        'method' => __METHOD__,
+                        'error'  => $response['messageErreur'],
+                    ]
+                );
+
+                return [];
+            }
+        } catch (\Exception $e) {
+            $this->logger->error(
+                'Auto login request failed',
+                [
+                    'method' => __METHOD__,
+                    'error'  => $e->getMessage(),
+                ]
+            );
+
+            return [];
+        }
+
+        return $response;
+    }
+
     public function isCgvAccepted(): bool
     {
         $markers = $this->helperData->getMarkers();
@@ -47,15 +78,8 @@ class AccountApi extends RestApi implements \LaPoste\Colissimo\Api\AccountApi
             return true;
         }
 
-        $login = $this->helperData->getAdvancedConfigValue('lpc_general/id_webservices');
-        $password = $this->helperData->getAdvancedConfigValue('lpc_general/pwd_webservices');
-
-        if (empty($login) || empty($password)) {
-            return true;
-        }
-
         // Get contract type
-        $accountInformation = $this->getCgvInformation($login, $password);
+        $accountInformation = $this->getAccountInformation();
 
         // We couldn't get the account information, we can't check the CGV
         if (empty($accountInformation)) {
@@ -72,17 +96,10 @@ class AccountApi extends RestApi implements \LaPoste\Colissimo\Api\AccountApi
         return false;
     }
 
-    public function getCgvInformation(string $login, string $password)
+    public function getAccountInformation()
     {
-        $payload = [
-            'credential' => [
-                'login' => $login,
-                'password' => $password,
-            ],
-        ];
-
         try {
-            $response = $this->query('v1/rest/additionalinformations', $payload);
+            $response = $this->query('additionalinformations');
 
             if (!empty($response['messageErreur'])) {
                 $this->logger->error(
@@ -112,10 +129,44 @@ class AccountApi extends RestApi implements \LaPoste\Colissimo\Api\AccountApi
             ]
         );
 
-        if (empty($response['contractType'])) {
+        if (empty($response['cgv'])) {
             return false;
         }
 
         return $response;
+    }
+
+    public function query(
+        $action,
+        $params = [],
+        $dataType = self::DATA_TYPE_JSON,
+        $credentials = [],
+        $credentialsIntoHeader = false,
+        $unsafeFileUpload = false,
+        $throwError = true
+    ) {
+        if ('api' === $this->helperData->getAdvancedConfigValue('lpc_general/connectionMode')) {
+            $params['credential']['apiKey'] = $this->helperData->getAdvancedConfigValue('lpc_general/api_key');
+        } else {
+            $params['credential']['login'] = $this->helperData->getAdvancedConfigValue('lpc_general/id_webservices');
+            $params['credential']['password'] = $this->helperData->getAdvancedConfigValue('lpc_general/pwd_webservices');
+        }
+
+        $parentAccountId = $this->helperData->getAdvancedConfigValue('lpc_general/parent_id_webservices');
+        if (!empty($parentAccountId)) {
+            $params['partnerClientCode'] = $parentAccountId;
+        }
+
+        $params['tagInfoPartner'] = 'MAGENTO2';
+
+        return parent::query(
+            $action,
+            $params,
+            $dataType,
+            $credentials,
+            $credentialsIntoHeader,
+            $unsafeFileUpload,
+            $throwError
+        );
     }
 }

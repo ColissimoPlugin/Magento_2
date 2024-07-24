@@ -46,6 +46,11 @@ class Selector extends Template
         parent::__construct($context, $data);
     }
 
+    public function getNonce(): string
+    {
+        return '';
+    }
+
     public function lpcAjaxUrlLoadRelaysList()
     {
         return $this->getUrl("lpc/relays/LoadRelays");

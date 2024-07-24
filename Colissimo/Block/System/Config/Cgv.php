@@ -13,7 +13,7 @@ use LaPoste\Colissimo\Model\AccountApi;
  */
 class Cgv extends Field
 {
-    private $accountApi;
+    private AccountApi $accountApi;
 
     public function __construct(
         Context $context,
@@ -31,12 +31,15 @@ class Cgv extends Field
      */
     protected function _getElementHtml(AbstractElement $element)
     {
-        $output = '';
+        if ($this->accountApi->isCgvAccepted()) {
+            $output = '<style>#row_lpc_advanced_lpc_general_cgv{ display: none; }</style>';
+        } else {
+            $urls = $this->accountApi->getAutologinURLs();
+            $accountUrl = $urls['urlConnectedCbox'] ?? 'https://www.colissimo.entreprise.laposte.fr';
 
-        if (!$this->accountApi->isCgvAccepted()) {
             $message = __('We have detected that you have not yet signed the latest version of our GTC. Your consent is necessary in order to continue using Colissimo services. We therefore invite you to sign them on your Colissimo entreprise space, by clicking on the link below:');
-            $message .= '<br/><a href="https://www.colissimo.entreprise.laposte.fr" target="_blank">' . __('Sign the GTC') . '</a>';
-            $output .= '<script>
+            $message .= '<br/><a href="' . $accountUrl . '" target="_blank">' . __('Sign the GTC') . '</a>';
+            $output = '<script>
             require(["jquery"], function ($) {
                 $(document).ready(function () {
                     $(".page-main-actions").after(\'<div id="messages"><div class="messages"><div class="message message-error error"><div data-ui-id="messages-message-error">' . $message . '</div></div></div></div>\');

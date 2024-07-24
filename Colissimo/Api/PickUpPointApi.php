@@ -16,10 +16,7 @@ interface PickUpPointApi
     /**
      * Authenticate against the Colissimo Api, storing the resulting token for next calls.
      *
-     * @param $login    if null, retrieve it from the configuration
-     * @param $password if null, retrieve it from the configuration
-     *
      * Will throw \LaPoste\Colissimo\Exception\ApiException if credential are not OK.
      */
-    public function authenticate($login = null, $password = null);
+    public function authenticate();
 }

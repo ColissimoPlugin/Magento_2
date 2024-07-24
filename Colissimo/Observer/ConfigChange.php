@@ -32,6 +32,11 @@ class ConfigChange implements ObserverInterface
     public function execute(Observer $observer): ConfigChange
     {
         $submittedValues = $this->request->getParam('groups');
+        $connectionMode = $submittedValues['lpc_general']['fields']['connectionMode']['value'];
+        if ('api' === $connectionMode) {
+            return $this;
+        }
+
         $newPassword = $submittedValues['lpc_general']['fields']['pwd_webservices']['value'];
         $encodedNewPassword = base64_encode($newPassword);
 

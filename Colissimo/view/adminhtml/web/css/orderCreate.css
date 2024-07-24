@@ -58,40 +58,6 @@
     font-size: 1rem;
 }
 
-.tooltip-box{
-    position: relative;
-    display: inline-block;
-    color: #666;
-    font-style: normal;
-    height: 16px;
-    line-height: 16px;
-    vertical-align: middle;
-    width: 16px;
-    background-image: url(../images/hour_icon.png);
-    background-repeat: no-repeat;
-    background-size: 16px;
-    padding-bottom: 3px;
-}
-
-.tooltip-box .tooltip-text{
-    visibility: hidden;
-    width: 225px;
-    color: #fff;
-    text-align: center;
-    position: absolute;
-    z-index: 1;
-    font-size: .8em;
-    font-weight: normal;
-    background: #333;
-    border-radius: 3px;
-    padding: 0.618em 1em;
-    box-shadow: 0 1px 3px rgb(0 0 0 / 20%);
-}
-
-.tooltip-box:hover .tooltip-text{
-    visibility: visible;
-}
-
 .lpc_layer_relay_button_choose{
     margin: 1rem;
     float: right;
@@ -247,12 +213,6 @@
 #lpc_modal_relays_display_more{
     float: right;
     max-width: 180px;
-}
-
-@media screen and (max-width: 768px){
-    .tooltip-box{
-        display: none;
-    }
 }
 
 /** Widget **/

@@ -44,23 +44,19 @@ interface UnifiedTrackingApi
         $trackingNumber,
         $ip,
         $lang = null,
-        $login = null,
-        $password = null,
         $storeId = null
     );
 
     /**
      * Retrieve the current state of all the Colissimo parcel currently tracked.
      *
-     * @param      $login    if null, retrieve it from the configuration
-     * @param      $password if null, retrieve it from the configuration
      * @param null $ip
      * @param null $lang
      *
      * Will throw \LaPoste\Colissimo\Exception\ApiException if credential are not OK.
      * @return
      */
-    public function updateAllStatuses($login = null, $password = null, $ip = null, $lang = null);
+    public function updateAllStatuses($ip = null, $lang = null);
 
     /**
      * Encrypt the track_number for usage in the frontend (like for URL)

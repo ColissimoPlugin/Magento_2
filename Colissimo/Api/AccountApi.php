@@ -13,5 +13,9 @@ namespace LaPoste\Colissimo\Api;
 
 interface AccountApi
 {
-    public function isCgvAccepted();
+    public function getAutologinURLs(): array;
+
+    public function isCgvAccepted(): bool;
+
+    public function getAccountInformation();
 }

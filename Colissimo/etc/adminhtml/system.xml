@@ -91,18 +91,18 @@
                         <field id="carriers/lpc_group/domicileas_enable">1</field>
                     </depends>
                 </field>
-                <field id="domicileasddp_enable" translate="label comment" type="select" sortOrder="27" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="domicileasddp_enable" translate="label comment" type="select" sortOrder="28" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Colissimo Domicile with signature - DDP Option</label>
                     <comment>This delivery method will allow you to set the shipment "Colissimo with Signature with DDP" which is only valid and will be displayed for Australia, Bahrain, Canada, China, Egypt, Hong Kong, Indonesia, Japan, Kuwait, Mexico, Oman, Philippines, Saudi Arabia, Singapore, South Africa, South Korea, Switzerland, Thailand, United Arab Emirates, United Kingdom, United States (USA). For the United Kingdom, it is restricted to commercial shipments between 160€ and 1050€ included.</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="domicileasddp_label" translate="label" type="text" sortOrder="28" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="domicileasddp_label" translate="label" type="text" sortOrder="29" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Name</label>
                     <depends>
                         <field id="carriers/lpc_group/domicileasddp_enable">1</field>
                     </depends>
                 </field>
-                <field id="domicileasddp_free" translate="label comment" type="select" sortOrder="29" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="domicileasddp_free" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Free shipping</label>
                     <comment>Should the shipping method be free</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -110,18 +110,18 @@
                         <field id="carriers/lpc_group/domicileasddp_enable">1</field>
                     </depends>
                 </field>
-                <field id="pr_enable" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="pr_enable" translate="label comment" type="select" sortOrder="31" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Colissimo Point Retrait</label>
                     <comment>Enable the Colissimo Point Retrait mode</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="pr_label" translate="label" type="text" sortOrder="31" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="pr_label" translate="label" type="text" sortOrder="32" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Name</label>
                     <depends>
                         <field id="carriers/lpc_group/pr_enable">1</field>
                     </depends>
                 </field>
-                <field id="pr_free" translate="label comment" type="select" sortOrder="32" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="pr_free" translate="label comment" type="select" sortOrder="33" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Free shipping</label>
                     <comment>Should the shipping method be free</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -209,36 +209,54 @@
             </group>
             <group id="lpc_general" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="2" translate="label">
                 <label>General configuration</label>
-                <field id="id_webservices" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="1" translate="label comment" type="text">
-                    <label>ID</label>
-                    <comment>ID of your account for La Poste webservices</comment>
+                <field id="connectionMode" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="1" translate="label comment" type="select">
+                    <label>Connection type</label>
+                    <source_model>LaPoste\Colissimo\Model\Config\Source\ConnectionMode</source_model>
+                    <comment>Choose how you want to connect to Colissimo services.</comment>
+                </field>
+                <field id="id_webservices" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="2" translate="label comment" type="text">
+                    <label>User name</label>
+                    <comment>User name of your account for La Poste webservices</comment>
+                    <depends>
+                        <field id="connectionMode" separator=",">login</field>
+                    </depends>
                     <validate>required-entry</validate>
                 </field>
-                <field id="pwd_webservices" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="2" translate="label comment" type="password">
+                <field id="pwd_webservices" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="3" translate="label comment" type="password">
                     <label>Password</label>
                     <comment>Password to connect to La Poste webservices and use the module</comment>
+                    <depends>
+                        <field id="connectionMode" separator=",">login</field>
+                    </depends>
                     <validate>required-entry</validate>
                 </field>
-                <!--<field id="parent_id_webservices" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="3" translate="label comment" type="text">
-                    <label>Parent account ID</label>
-                    <comment>If you use an advanced account, please enter the parent account ID</comment>
-                </field>-->
+                <field id="api_key" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="4" translate="label" type="password">
+                    <label>Web services application key</label>
+                    <depends>
+                        <field id="connectionMode">api</field>
+                    </depends>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="parent_id_webservices" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="5" translate="label" type="text">
+                    <label>Parent account user name</label>
+                    <comment>The 6 digits number of the parent account, if you are using an advanced Colissimo user or to add customs documents.</comment>
+                </field>
                 <!--<field id="idCheck" translate="label comment" type="button" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
                     <frontend_model>LaPoste\Colissimo\Block\System\Config\IdCheck</frontend_model>
                     <label>ID validation</label>
                     <comment>Check that IDs are valid.</comment>
                 </field>-->
-                <field id="coliship_link" translate="label comment" type="label" sortOrder="4" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="coliship_link" translate="label comment" type="label" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label></label>
                     <frontend_model>LaPoste\Colissimo\Block\System\Config\ColishipLink</frontend_model>
                 </field>
-                <field id="cgv" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="5" translate="label comment" type="text">
+                <field id="cgv" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="6" translate="label comment" type="text">
                     <label></label>
                     <frontend_model>LaPoste\Colissimo\Block\System\Config\Cgv</frontend_model>
                 </field>
             </group>
             <group id="lpc_labels" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="3" translate="label">
-                <label>Labels</label>
+                <label>Outward labels</label>
                 <field id="isUsingColiShip" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="1" translate="label comment" type="select">
                     <label>Delegate label generation to ColiShip?</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -381,7 +399,25 @@
                     </depends>
                 </field>
             </group>
-            <group id="lpc_return_labels" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="4" translate="label">
+            <group id="lpc_shipping" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="4" translate="label">
+                <label>Secured shipping</label>
+                <field id="domicileas_block_code" translate="label comment" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Set secured code during delivery</label>
+                    <comment>To benefit from the secured code during delivery, you must contact your Colissimo advisor and they will activate it for you. This option will be visible in your Colissimo Box enterprise space.</comment>
+                    <frontend_model>\LaPoste\Colissimo\Block\System\Config\Field\BlockCode</frontend_model>
+                </field>
+                <field id="domicileas_block_code_min" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="2" translate="label comment" type="text">
+                    <label>Minimum order value for the secured code</label>
+                    <comment>The secured code will only be activated for orders over the given value.</comment>
+                    <validate>validate-digits validate-not-negative-number</validate>
+                </field>
+                <field id="domicileas_block_code_max" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="3" translate="label comment" type="text">
+                    <label>Maximum order value for the secured code</label>
+                    <comment>The secured code will only be activated for orders under the given value. Keep empty to disable this limitation.</comment>
+                    <validate>validate-digits validate-not-negative-number</validate>
+                </field>
+            </group>
+            <group id="lpc_return_labels" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="5" translate="label">
                 <label>Return labels</label>
                 <field id="returnLabelPrintFormat" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Return label print format</label>
@@ -430,7 +466,7 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
             </group>
-            <group id="lpc_pr_front" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="5" translate="label">
+            <group id="lpc_pr_front" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="6" translate="label">
                 <label>Relay point</label>
                 <field id="prAutoSelect" translate="label comment" sortOrder="10" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Automatically select the nearest relay point</label>

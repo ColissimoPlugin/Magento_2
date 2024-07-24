@@ -34,24 +34,13 @@ interface GenerateLabelPayload
     public function withCommercialName($commercialName = null, $storeId = null);
 
     /**
-     * Associate the given ContractNumber to this payload
+     * Associate the given credentials to this payload
      *
-     * @param $contractNumber string if null, will use default from the configuration
      * @param $storeId        the store to get default information from, if null defaults to current store
      *
      * @return GenerateLabelPayload
      */
-    public function withContractNumber($contractNumber = null, $storeId = null);
-
-    /**
-     * Associate the given Password to this payload
-     *
-     * @param $password string if null, will use default from the configuration
-     * @param $storeId  the store to get default information from, if null defaults to current store
-     *
-     * @return GenerateLabelPayload
-     */
-    public function withPassword($password = null, $storeId = null);
+    public function withCredentials($storeId = null);
 
     /**
      * Associate the given Addressee to this payload
@@ -180,6 +169,12 @@ interface GenerateLabelPayload
      * @return GenerateLabelPayload
      */
     public function withDdp($shipment, $shippingMethod, $recipient);
+
+    /**
+     * Disable blocking code for signature shipments
+     * @return GenerateLabelPayload
+     */
+    public function withBlockingCode($shippingMethodUsed, $items, $order, $shipment, $postData, $storeId);
 
     //Fields
 

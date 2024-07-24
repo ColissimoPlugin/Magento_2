@@ -111,12 +111,17 @@ class LabellingApi implements \LaPoste\Colissimo\Api\Carrier\LabellingApi
 
         $this->logger->debug(__METHOD__, ['url' => $url]);
 
+        $headers = ['Content-Type: application/json'];
+        if ('api' === $this->helperData->getAdvancedConfigValue('lpc_general/connectionMode')) {
+            $headers[] = 'apiKey: ' . $this->helperData->getAdvancedConfigValue('lpc_general/api_key');
+        }
+
         $ch = curl_init();
         curl_setopt_array(
             $ch,
             [
                 CURLOPT_URL            => $url,
-                CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
+                CURLOPT_HTTPHEADER     => $headers,
                 CURLOPT_POST           => 1,
                 CURLOPT_POSTFIELDS     => $dataJson,
                 CURLOPT_RETURNTRANSFER => true,

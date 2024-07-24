@@ -17,16 +17,9 @@ interface GenerateRelaysPayload
     public function withAddress(array $address);
 
     /**
-     * @param null $password
      * @return mixed
      */
-    public function withPassword($password = null);
-
-    /**
-     * @param null $login
-     * @return mixed
-     */
-    public function withLogin($login = null);
+    public function withCredentials();
 
     /**
      * @param \DateTime|null $shippingDate

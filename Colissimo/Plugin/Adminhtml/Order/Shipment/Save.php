@@ -74,6 +74,13 @@ class Save
         }
         $shipment->setDataUsingMethod('lpc_insurance_amount', $insuranceAmount);
 
+        $blockCodeData = $subject->getRequest()->getParam('lpcBlockCode');
+        $blockCodeStatus = 'enabled';
+        if (!empty($blockCodeData['lpc_block_code'])) {
+            $blockCodeStatus = $blockCodeData['lpc_block_code'];
+        }
+        $shipment->setDataUsingMethod('lpc_block_code', $blockCodeStatus);
+
         $multiShippingData = $subject->getRequest()->getParam('lpcMultiShipping');
         $shipmentData = $subject->getRequest()->getParam('shipment');
         $parcelsAmount = $order->getLpcMultiParcelsAmount();

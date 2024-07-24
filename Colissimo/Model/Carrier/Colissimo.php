@@ -546,13 +546,15 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
 
         $shippingMethodUsed = $request->getShippingMethod();
         $itemsForCn23 = $request->getPackageItems();
-        $shippingType = $request->getOrderShipment()->getLpcShippingType();
+        $shipment = $request->getOrderShipment();
+        $order = $shipment->getOrder();
+        $shippingType = $shipment->getLpcShippingType();
 
 
         $postData = $this->requestInterface->getPost();
         if (empty($shippingType) && isset($postData['lpcMultiShipping']['lpc_use_multi_parcels']) && $postData['lpcMultiShipping']['lpc_use_multi_parcels'] === 'on') {
             $parcelsAmount = intval($postData['lpcMultiShipping']['lpc_multi_parcels_amount']);
-            $countShipments = count($request->getOrderShipment()->getOrder()->getShipmentsCollection());
+            $countShipments = count($order->getShipmentsCollection());
             $countShipments ++;
 
             $shippingType = $countShipments === $parcelsAmount ? GenerateLabelPayload::LABEL_TYPE_MASTER : GenerateLabelPayload::LABEL_TYPE_FOLLOWER;
@@ -561,7 +563,7 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
         if ($shippingType === GenerateLabelPayload::LABEL_TYPE_MASTER) {
             $itemsForCn23 = [];
 
-            $orderItems = $request->getOrderShipment()->getOrder()->getAllItems();
+            $orderItems = $order->getAllItems();
             foreach ($orderItems as $item) {
                 $itemPrice = $item->getPrice();
 
@@ -590,14 +592,13 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
         $multiShippingData = $this->requestQuery->getParam('lpcMultiShipping');
         $shipmentData = $this->requestQuery->getParam('shipment');
 
-        $shippingInstructions = $request->getOrderShipment()->getOrder()->getLpcShippingNote();
+        $shippingInstructions = $order->getLpcShippingNote();
         if (empty($shippingInstructions)) {
             $shippingInstructions = $request->getInstructions();
         }
 
         $payload = $this->generateLabelPayload->resetPayload()
-                                              ->withContractNumber(null, $request->getStoreId())
-                                              ->withPassword(null, $request->getStoreId())
+                                              ->withCredentials($request->getStoreId())
                                               ->withCommercialName(null, $request->getStoreId())
                                               ->withCuserInfoText()
                                               ->withSender($sender, $request->getStoreId())
@@ -606,10 +607,10 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
                                               ->withProductCode($productCode)
                                               ->withOutputFormat($request->getOutputFormat(), $request->getStoreId())
                                               ->withInstructions($shippingInstructions)
-                                              ->withOrderNumber($request->getOrderShipment()->getOrder()->getIncrementId())
+                                              ->withOrderNumber($order->getIncrementId())
                                               ->withPackage($request->getPackageParams(), $request->getPackageItems())
                                               ->withCustomsDeclaration(
-                                                  $request->getOrderShipment(),
+                                                  $shipment,
                                                   $itemsForCn23,
                                                   $recipient['countryCode'],
                                                   $recipient['zipCode'],
@@ -619,17 +620,17 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
                                               )
                                               ->withPostalNetwork($recipient['countryCode'], $productCode, $shippingMethodUsed)
                                               ->withDdp(
-                                                  $request->getOrderShipment(),
+                                                  $shipment,
                                                   $shippingMethodUsed,
                                                   $recipient
                                               )
-                                              ->withMultiShipping($request->getOrderShipment()->getOrder(), $request->getOrderShipment(), $multiShippingData, $shipmentData);
+                                              ->withMultiShipping($order, $shipment, $multiShippingData, $shipmentData)
+                                              ->withBlockingCode($shippingMethodUsed, $itemsForCn23, $order, $shipment, $postData, $request->getStoreId());
 
         if ($shippingMethodUsed == self::CODE_SHIPPING_METHOD_RELAY) {
-            $payload->withPickupLocationId($request->getOrderShipment()->getOrder()->getLpcRelayId());
+            $payload->withPickupLocationId($order->getLpcRelayId());
         }
 
-        $postData = $this->requestInterface->getPost();
         $customAmount = null;
         // If creating label when creating shipment in Magento order edition, we get the custom option from POST data
         if (isset($postData['lpcInsurance']['lpc_use_insurance'])) {
@@ -643,7 +644,7 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
 
         // Use insurance if option checked (when in order edition). In other cases only if option enabled in config
         if ((isset($insuranceParam) && $insuranceParam) || (!isset($insuranceParam) && $insuranceConfig)) {
-            $shipment = $request->getOrderShipment();
+            $shipment = $shipment;
             $total = 0;
             foreach ($shipment->getAllItems() as $item) {
                 $orderItem = $item->getOrderItem();
@@ -717,8 +718,7 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
 
         $payload = $this->generateLabelPayload->resetPayload()
                                               ->isReturnLabel()
-                                              ->withContractNumber(null, $request->getStoreId())
-                                              ->withPassword(null, $request->getStoreId())
+                                              ->withCredentials($request->getStoreId())
                                               ->withCommercialName(null, $request->getStoreId())
                                               ->withCuserInfoText()
                                               ->withSender($sender, $request->getStoreId())
