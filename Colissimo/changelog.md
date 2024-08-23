@@ -6,6 +6,12 @@
 
 - Ajout de la compatibilité avec les sites Adobe Commerce
 
+### Correctifs
+
+- Choisir un point de retrait puis changer de méthode de livraison ne conserve plus le nom du point de retrait dans le champ société de l'adresse de livraison
+- Le stock des commandes passées avec une autre méthode de livraison ne sont plus impactés
+- Le nom du client est maintenant bien utilisé dans l'email de suivi à la place de son adresse email
+
 # 1.5.0
 
 ### Fonctionnalités
