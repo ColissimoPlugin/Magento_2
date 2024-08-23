@@ -158,7 +158,7 @@ class SendUrlTrackingEmail implements ObserverInterface
                                              'area'  => \Magento\Framework\App\Area::AREA_FRONTEND,
                                              'store' => $storeId,
                                          ])->setTemplateVars([
-                                                                 'customerName'    => $recipientEmail,
+                                                                 'customerName'    => $recipientName,
                                                                  'orderNumber'     => $orderId,
                                                                  'createdAt'       => $order->getCreatedAt(),
                                                                  'trackingLink'    => $this->getTrackingActionUrl($orderId),

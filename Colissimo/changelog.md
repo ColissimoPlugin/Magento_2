@@ -1,5 +1,11 @@
 # Colissimo Magento 2 Changelog
 
+# 1.5.1
+
+### Améliorations
+
+- Ajout de la compatibilité avec les sites Adobe Commerce
+
 # 1.5.0
 
 ### Fonctionnalités

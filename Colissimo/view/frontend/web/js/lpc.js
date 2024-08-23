@@ -481,9 +481,9 @@ define([
 
         // create modal to display relay choice
         lpcOpenPopupAndMap: function (shippingMethod, modal, quote) {
-            var carrierCode = shippingMethod['carrier_code'];
-            var methodCode = shippingMethod['method_code'];
-            var shippingAddress = quote.shippingAddress();
+            const carrierCode = shippingMethod['carrier_code'];
+            const methodCode = shippingMethod['method_code'];
+            const shippingAddress = quote.shippingAddress();
 
             if (carrierCode !== 'colissimo' || methodCode !== 'pr') {
                 return;
@@ -492,27 +492,27 @@ define([
             if ($('#lpc_layer_relays').length) {
                 lpcModePR = 'lpc_layer_relays';
 
-                var modalOptions = {
+                const modalOptions = {
                     buttons: [],
                     responsive: true,
                     innerScroll: true
                 };
 
-                var $divPopupLpc = $('#lpc_layer_relays');
-                var popup = modal(modalOptions, $divPopupLpc);
+                const $divPopupLpc = $('#lpc_layer_relays');
+                const popup = modal(modalOptions, $divPopupLpc);
 
                 popup.openModal();
 
                 $('#lpc_modal_relays_search_address').val(function () {
-                    return (shippingAddress.street == undefined || shippingAddress.street['0'].length === 0 ? '' : shippingAddress.street['0']);
+                    return shippingAddress.street == undefined || !shippingAddress.street['0'] || shippingAddress.street['0'].length === 0 ? '' : shippingAddress.street['0'];
                 });
 
                 $('#lpc_modal_relays_search_zipcode').val(function () {
-                    return (shippingAddress.postcode == undefined || shippingAddress.postcode.length === 0 ? '' : shippingAddress.postcode);
+                    return shippingAddress.postcode == undefined || shippingAddress.postcode.length === 0 ? '' : shippingAddress.postcode;
                 });
 
                 $('#lpc_modal_relays_search_city').val(function () {
-                    return (shippingAddress.city == undefined || shippingAddress.city.length === 0 ? '' : shippingAddress.city);
+                    return shippingAddress.city == undefined || shippingAddress.city.length === 0 ? '' : shippingAddress.city;
                 });
 
                 $('#lpc_layer_button_search').click();
@@ -521,7 +521,7 @@ define([
             } else if ($('#lpc_layer_widget').length) {
                 lpcModePR = 'lpc_layer_widget';
 
-                var modalOptions = {
+                const modalOptions = {
                     buttons: [],
                     responsive: true,
                     wrapperClass: 'modals-wrapper lpc_modals-wrapper',
@@ -537,12 +537,12 @@ define([
                     }
                 };
 
-                var $divPopupLpc = $('#lpc_layer_widget');
-                var popup = modal(modalOptions, $divPopupLpc);
+                const $divPopupLpc = $('#lpc_layer_widget');
+                const popup = modal(modalOptions, $divPopupLpc);
 
                 popup.openModal();
 
-                var widgetOptions = {
+                const widgetOptions = {
                     'ceLang': 'FR',
                     'ceCountryList': lpcWidgetRelayCountries,
                     'ceCountry': shippingAddress.countryId.length === 0 ? '' : shippingAddress.countryId,
@@ -566,13 +566,13 @@ define([
             } else if ($('#lpc_error_pr').length) {
                 lpcModePR = 'lpc_error_pr';
 
-                var modalOptions = {
+                const modalOptions = {
                     buttons: [],
                     responsive: true
                 };
 
-                var $divPopupLpcError = $('#lpc_error_pr');
-                var popup = modal(modalOptions, $divPopupLpcError);
+                const $divPopupLpcError = $('#lpc_error_pr');
+                const popup = modal(modalOptions, $divPopupLpcError);
 
                 popup.openModal();
             }

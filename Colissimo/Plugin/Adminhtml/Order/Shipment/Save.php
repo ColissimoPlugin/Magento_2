@@ -43,20 +43,24 @@ class Save
         }
 
         $shipment = $this->_coreRegistry->registry('current_shipment');
-        if (empty($shipment)) {
-            $data = $request->getParam('lpcInsurance');
-            if (!empty($data['shipment_id'])) {
-                $shipment = $this->shipmentRepository->get($data['shipment_id']);
-            }
+        $insuranceData = $request->getParam('lpcInsurance');
+        if (empty($shipment) && !empty($insuranceData['shipment_id'])) {
+            $shipment = $this->shipmentRepository->get($insuranceData['shipment_id']);
         }
+
         if (empty($shipment)) {
             return $result;
         }
 
         $order = $this->orderRepository->get($orderId);
         $shippingMethod = $order->getShippingMethod();
+
+        if (strpos($shippingMethod, Colissimo::CODE . '_') !== 0) {
+            return $result;
+        }
+
         if (in_array($shippingMethod, Colissimo::DDP_METHODS)) {
-            $shipmentData = $subject->getRequest()->getParam('lpcDdp');
+            $shipmentData = $request->getParam('lpcDdp');
             $ddpDescription = !empty($shipmentData['lpc_ddp_description']) ? $shipmentData['lpc_ddp_description'] : null;
             $ddpLength = !empty($shipmentData['lpc_ddp_length']) ? $shipmentData['lpc_ddp_length'] : null;
             $ddpWidth = !empty($shipmentData['lpc_ddp_width']) ? $shipmentData['lpc_ddp_width'] : null;
@@ -67,22 +71,21 @@ class Save
             $shipment->setDataUsingMethod('lpc_ddp_height', $ddpHeight);
         }
 
-        $insuranceData = $subject->getRequest()->getParam('lpcInsurance');
         $insuranceAmount = null;
         if (!empty($insuranceData['lpc_use_insurance']) && !empty($insuranceData['lpc_insurance_amount'])) {
             $insuranceAmount = $insuranceData['lpc_insurance_amount'];
         }
         $shipment->setDataUsingMethod('lpc_insurance_amount', $insuranceAmount);
 
-        $blockCodeData = $subject->getRequest()->getParam('lpcBlockCode');
+        $blockCodeData = $request->getParam('lpcBlockCode');
         $blockCodeStatus = 'enabled';
         if (!empty($blockCodeData['lpc_block_code'])) {
             $blockCodeStatus = $blockCodeData['lpc_block_code'];
         }
         $shipment->setDataUsingMethod('lpc_block_code', $blockCodeStatus);
 
-        $multiShippingData = $subject->getRequest()->getParam('lpcMultiShipping');
-        $shipmentData = $subject->getRequest()->getParam('shipment');
+        $multiShippingData = $request->getParam('lpcMultiShipping');
+        $shipmentData = $request->getParam('shipment');
         $parcelsAmount = $order->getLpcMultiParcelsAmount();
         // If we checked the checkbox to use multi shipping or that there is already an amount
         if (!empty($parcelsAmount) || (!empty($multiShippingData['lpc_use_multi_parcels']) && $multiShippingData['lpc_use_multi_parcels'] === 'on')) {
