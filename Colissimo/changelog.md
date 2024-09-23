@@ -5,6 +5,7 @@
 ### Fonctionnalités
 
 - Une nouvelle option a été ajoutée pour que vous puissiez permettre à vos clients d'effectuer un retour sécurisé en bureau de poste
+- Ajout de la compatibilité avec les sites Adobe Commerce
 
 ### Améliorations
 
@@ -13,15 +14,6 @@
 ### Correctifs
 
 - Une erreur pouvant survenir lors de la récupération des informations du compte a été corrigée lorsqu'un utilisateur avancé est utilisé
-
-# 1.5.1
-
-### Améliorations
-
-- Ajout de la compatibilité avec les sites Adobe Commerce
-
-### Correctifs
-
 - Choisir un point de retrait puis changer de méthode de livraison ne conserve plus le nom du point de retrait dans le champ société de l'adresse de livraison
 - Le stock des commandes passées avec une autre méthode de livraison ne sont plus impactés
 - Le nom du client est maintenant bien utilisé dans l'email de suivi à la place de son adresse email
