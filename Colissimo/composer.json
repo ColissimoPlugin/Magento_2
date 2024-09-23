@@ -2,11 +2,7 @@
     "name": "laposte/magento2-colissimo-module",
     "description": "La Poste Colissimo Shipping Method Module",
     "type": "magento2-module",
-<<<<<<< HEAD
-    "version": "1.5.2",
-=======
     "version": "1.6.0",
->>>>>>> develop
     "license": [
     ],
     "autoload": {
