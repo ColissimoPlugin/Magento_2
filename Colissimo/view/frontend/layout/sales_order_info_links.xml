@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="sales.order.info.links">
+            <block class="LaPoste\Colissimo\Block\Frontend\Order\Returnal" name="sales.order.info.links.lpcreturn">
+                <arguments>
+                    <argument name="path" xsi:type="string">lpc/order/returnal</argument>
+                    <argument name="label" xsi:type="string" translate="true">Return products</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

@@ -383,13 +383,23 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
     ) {
         $result = new DataObject();
         try {
+            // Difference between label generation (inward/outward => generateLabel) and secured return (generateToken)
+            $isSecuredReturn = false;
+            $contentResponseName = 'labelV2Response';
+
+            if (!empty($request->getIsSecuredReturn())) {
+                $isSecuredReturn = true;
+                $contentResponseName = 'tokenV2Response';
+            }
+
             // call Api
-            [$shipmentDataInfo, $labelBinary, $cn23Binary] = $this->labellingApi->generateLabel($labelGenerationPayload);
+            [$shipmentDataInfo, $labelBinary, $cn23Binary] = $this->labellingApi->generateLabel($labelGenerationPayload, $isSecuredReturn);
 
             // parse result
             $parcelNumber = null;
-            if ($shipmentDataInfo->labelV2Response) {
-                $parcelNumber = $shipmentDataInfo->labelV2Response->parcelNumber;
+
+            if ($shipmentDataInfo->$contentResponseName) {
+                $parcelNumber = $shipmentDataInfo->$contentResponseName->parcelNumber;
             }
 
             // store info
@@ -418,8 +428,8 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
 
                 // parse result
                 $parcelNumber = null;
-                if ($shipmentDataInfo->labelV2Response) {
-                    $parcelNumber = $shipmentDataInfo->labelV2Response->parcelNumber;
+                if ($shipmentDataInfo->$contentResponseName) {
+                    $parcelNumber = $shipmentDataInfo->$contentResponseName->parcelNumber;
                 }
 
                 //store return label in our custom field

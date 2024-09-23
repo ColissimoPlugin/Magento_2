@@ -31,12 +31,12 @@ class Feedback implements MessageInterface
 
     public function isDisplayed(): bool
     {
-        $deadline = new \DateTime('2024-08-01');
+        $deadline = new \DateTime('2025-01-01');
         $now = new \DateTime();
 
-        if ($now >= $deadline) {
-            return false;
-        }
+        // if ($now >= $deadline) {
+        // return false;
+        // }
 
         $markers = $this->helperData->getMarkers();
         if (!empty($markers['feedback'])) {

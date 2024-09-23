@@ -3,7 +3,6 @@
 
     <?php $initialShippingAddress = $this->getShipment()->getShippingAddress(); ?>
 
-
     <h2 class="lpc_balreturn_subtitle"><?php echo __('Retrieval address'); ?></h2>
     <div class="lpc_balreturn_shipping lpc_balreturn_withseparator">
         <div>
@@ -18,6 +17,7 @@
         <div><?php echo __('You may change the address the return will be made from via the following fields:'); ?></div>
         <form method="POST" action="<?php echo $this->getUrl('*/*/checkAvailibility'); ?>">
             <input type="hidden" id="lpc_bal_shipmentId" name="shipmentId" value="<?php echo $this->getShipment()->getId(); ?>" />
+            <input type="hidden" id="productIds" name="productIds" value="<?php echo $this->getProducts(); ?>" />
             <div>
                 <label for="lpc_bal_companyName"><?php echo __('Name') ?></label>
                 <input type="text" id="lpc_bal_companyName" name="address[companyName]" value="<?php echo $initialShippingAddress->getName() ?>" />
@@ -39,7 +39,6 @@
                 <input type="text" id="lpc_bal_country" name="address[country]" value="FR" readonly="true" disabled="true">
                 <i><?php echo __('Only France is allowed'); ?></i>
             </div>
-
 
             <div class="lpc_balreturn_btn">
                 <button type="submit"><?php echo __('Check that this address is allowed for MailBox picking return'); ?></button>

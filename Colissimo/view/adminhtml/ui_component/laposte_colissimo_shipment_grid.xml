@@ -75,7 +75,7 @@
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
                         <item name="type" xsi:type="string">generate_outward_shipping_labels</item>
-                        <item name="label" xsi:type="string" translate="true">Generate Outward Shipping Labels</item>
+                        <item name="label" xsi:type="string" translate="true">Generate outward shipping label</item>
                         <item name="url" xsi:type="url" path="laposte_colissimo/shipment/massGenerationOutwardLabel"/>
                     </item>
                 </argument>
@@ -84,7 +84,7 @@
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
                         <item name="type" xsi:type="string">generate_inward_shipping_labels</item>
-                        <item name="label" xsi:type="string" translate="true">Generate Inward Shipping Labels</item>
+                        <item name="label" xsi:type="string" translate="true">Generate inward shipping label</item>
                         <item name="url" xsi:type="url" path="laposte_colissimo/shipment/massGenerationInwardLabel"/>
                     </item>
                 </argument>

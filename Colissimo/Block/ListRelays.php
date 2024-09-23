@@ -8,7 +8,7 @@ use Magento\Framework\View\Element\Template\Context;
 
 class ListRelays extends Template
 {
-    protected $_template = "list_relays.phtml";
+    protected $_template = 'list_relays.phtml';
 
     private $listRelays;
     private $overWarning = false;

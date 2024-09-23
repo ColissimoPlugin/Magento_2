@@ -74,7 +74,8 @@ class ReturnLabelGenerator
 
     public function createReturnLabel(
         \Magento\Sales\Model\Order\Shipment $shipment,
-        RequestInterface $request
+        RequestInterface $request,
+        bool $isSecuredReturn = false
     ) {
         $order = $shipment->getOrder();
         $carrier = $this->carrierFactory->create($order->getShippingMethod(true)->getCarrierCode());
@@ -82,7 +83,7 @@ class ReturnLabelGenerator
             throw new \Magento\Framework\Exception\LocalizedException(__('Shipping label is not available.'));
         }
         $shipment->setPackages($request->getParam('packages'));
-        $response = $this->labelFactory->create()->returnOfShipment($shipment); // That's the only line being overriden
+        $response = $this->labelFactory->create()->returnOfShipment($shipment, $isSecuredReturn); // That's the only line being overriden
 
         if ($response->hasErrors()) {
             throw new \Magento\Framework\Exception\LocalizedException(__($response->getErrors()));

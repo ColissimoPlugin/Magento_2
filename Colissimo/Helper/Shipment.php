@@ -111,4 +111,53 @@ class Shipment extends AbstractHelper
 
         return [$package];
     }
+
+    // Used for partial return from the front
+    public function partialShipmentToPackages(\Magento\Sales\Model\Order $order, array $productsToReturn)
+    {
+        $package = [
+            'params' => [
+                'weight'        => 0,
+                'customs_value' => 0,
+                'container'     => '',
+                'length'        => '',
+                'width'         => '',
+                'height'        => '',
+            ],
+            'items'  => [],
+        ];
+
+        foreach ($order->getAllItems() as $item) {
+            // Only take order products selected for return
+            if (!array_key_exists($item['product_id'], $productsToReturn) || $productsToReturn[$item['product_id']] === 0) {
+                continue;
+            }
+
+            $qtyShipped = $item->getQtyShipped();
+            $qtyToReturn = $productsToReturn[$item['product_id']];
+            if ($qtyToReturn > $qtyShipped) {
+                throw new \Magento\Framework\Exception\LocalizedException(__('Quantity to return exceeding quantity ordered'));
+            }
+
+            $package['params']['weight'] += $qtyToReturn * $item->getWeight();
+            $package['params']['customs_value'] += $qtyToReturn * $item->getPrice();
+
+            $package['items'][] = [
+                'qty'                    => (int) $qtyToReturn,
+                'weight'                 => (int) $item->getWeight(),
+                'customs_value'          => $item->getPrice(),
+                'price'                  => $item->getPrice(),
+                'name'                   => $item->getName(),
+                'product_id'             => $item->getProductId(),
+                'order_item_id'          => $item->getOrderItemId(),
+                'currency'               => $order->getOrderCurrencyCode(),
+                'sku'                    => $item->getSku(),
+                'row_weight'             => $item->getWeight() * $qtyToReturn,
+                'country_of_manufacture' => $item->getProduct()->getCountryOfManufacture(),
+                'lpc_hs_code'            => $item->getProduct()->getLpcHsCode(),
+            ];
+        }
+
+        return [$package];
+    }
 }

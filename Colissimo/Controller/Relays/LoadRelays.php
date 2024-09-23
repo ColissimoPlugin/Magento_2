@@ -57,13 +57,15 @@ class LoadRelays extends Action
 
     public function execute()
     {
+        $request = $this->getRequest();
+
         $address = [
-            "address"     => $this->getRequest()->getParam('address'),
-            "zipCode"     => $this->getRequest()->getParam('zipCode'),
-            "city"        => $this->getRequest()->getParam('city'),
-            "countryCode" => $this->getRequest()->getParam('countryId'),
+            "address"     => $request->getParam('address'),
+            "zipCode"     => $request->getParam('zipCode'),
+            "city"        => $request->getParam('city'),
+            "countryCode" => $request->getParam('countryId'),
         ];
-        $loadMore = $this->getRequest()->getParam('loadMore') === '1';
+        $loadMore = $request->getParam('loadMore') === '1';
 
         $errorCodesWSClientSide = [
             "104",

@@ -1,0 +1,59 @@
+<?php /** @var  $block \LaPoste\Colissimo\Block\Frontend\Order\ReturnalContent */ ?>
+
+<div class="order-details-items lpcreturn">
+    <h3 id="lpcreturn_header">
+        <?= __('Choose the products to return'); ?>
+    </h3>
+
+    <table class="data table table-order-items shipment">
+        <thead>
+            <tr>
+                <th class="col products">
+                    <input type="checkbox" id="lpcreturn_header_selectall" title="<?= __('Select all products'); ?>">
+                    <?= __('Product'); ?>
+                </th>
+                <th class="col quantity"><?= __('Quantity'); ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php $products = $block->getShippedProducts(); ?>
+            <?php foreach ($products as $productId => $oneProduct): ?>
+                <tr>
+                    <td class="col product-name" data-th="<?= __('Product'); ?>">
+                        <label>
+                            <input type="checkbox" class="lpcreturn_selection" value="<?= intval($productId); ?>">
+                            <?= $oneProduct['name']; ?>
+                        </label>
+                    </td>
+                    <td class="col product-quantity" data-th="<?= __('Quantity'); ?>">
+                        <select class="lpcreturn_quantity" data-product-id="<?= intval($productId); ?>">
+                            <?php for ($i = 1; $i <= $oneProduct['quantity']; $i ++): ?>
+                                <option value="<?= $i; ?>" <?php echo $i === $oneProduct['quantity'] ? 'selected="selected"' : ''; ?>><?= $i; ?></option>
+                            <?php endfor; ?>
+                        </select>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+
+    <button type="button"
+            title="<?= __('Generate inward shipping label'); ?>"
+            class="action"
+            id="lpcreturn_download">
+        <span><?php echo $block->getReturnButtonLabel(); ?></span>
+    </button>
+    <?php
+    $balReturnLink = $block->mailBoxPickUpLink();
+    if (!empty($balReturnLink)) {
+        ?>
+        <button title="<?= __('MailBox picking return'); ?>"
+                class="action"
+                id="lpcbalreturn">
+            <span><?= __('MailBox picking return'); ?></span>
+        </button>
+    <?php } ?>
+    <input type="hidden" value="<?= $block->getReturnLabelDownloadUrl(); ?>" id="returnLabelDownloadUrl" />
+    <input type="hidden" value="<?php echo $balReturnLink; ?>" id="balReturnUrl" />
+    <input type="hidden" value="<?= $block->getOrder()->getId(); ?>" id="lpcOrderId" />
+</div>

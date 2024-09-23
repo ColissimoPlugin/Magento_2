@@ -19,9 +19,6 @@
         for="LaPoste\Colissimo\Api\ColissimoStatus"
         type="LaPoste\Colissimo\Model\ColissimoStatus"/>
     <preference
-        for="Magento\Shipping\Block\Items"
-        type="LaPoste\Colissimo\Block\BalReturnLink"/>
-    <preference
         for="LaPoste\Colissimo\Api\BordereauGeneratorApi"
         type="LaPoste\Colissimo\Model\BordereauGeneratorApi"/>
     <preference

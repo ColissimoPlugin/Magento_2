@@ -82,7 +82,7 @@ class AccountApi extends RestApi implements \LaPoste\Colissimo\Api\AccountApi
         $accountInformation = $this->getAccountInformation();
 
         // We couldn't get the account information, we can't check the CGV
-        if (empty($accountInformation)) {
+        if (empty($accountInformation['contractType'])) {
             return true;
         }
 

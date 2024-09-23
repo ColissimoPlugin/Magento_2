@@ -21,6 +21,9 @@
             <lpc_shipping>
                 <domicileas_block_code_min>0</domicileas_block_code_min>
             </lpc_shipping>
+            <lpc_return_labels>
+                <availableToCustomerDays>14</availableToCustomerDays>
+            </lpc_return_labels>
             <lpc_pr_front>
                 <prAutoSelect>0</prAutoSelect>
                 <choosePRDisplayMode>widget</choosePRDisplayMode>

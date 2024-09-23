@@ -419,32 +419,36 @@
             </group>
             <group id="lpc_return_labels" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="5" translate="label">
                 <label>Return labels</label>
-                <field id="returnLabelPrintFormat" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="securedReturn" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Activate secured return</label>
+                    <frontend_model>\LaPoste\Colissimo\Block\System\Config\Field\SecuredReturn</frontend_model>
+                </field>
+                <field id="returnLabelPrintFormat" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Return label print format</label>
                     <comment>Return labels for International shipments are only available in PDF A4 format and will ignore this option.</comment>
                     <source_model>LaPoste\Colissimo\Model\Config\Source\PrintFormats</source_model>
                 </field>
-                <field id="createReturnLabelWithOutward" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="createReturnLabelWithOutward" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Automatically create return label at the same time as the outward label</label>
                     <comment>If you don't activate this option, you can still manually create return labels on order shipping page</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="showServiceInformation" translate="label comment" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="showServiceInformation" translate="label comment" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Show service information on return label</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="serviceInformation" translate="label" type="text" sortOrder="4" showInStore="1" showInWebsite="1" showInDefault="1">
+                <field id="serviceInformation" translate="label" type="text" sortOrder="20" showInStore="1" showInWebsite="1" showInDefault="1">
                     <label>Service information</label>
                     <depends>
                         <field id="showServiceInformation">1</field>
                     </depends>
                     <validate>required-entry</validate>
                 </field>
-                <field id="showOrderRef" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="showOrderRef" translate="label" type="select" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Show order reference on return label</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="isUsingInsuranceInward" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="6" translate="label comment" type="select">
+                <field id="isUsingInsuranceInward" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="30" translate="label comment" type="select">
                     <label>Use Colissimo Insurance for inward label?</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>If enabled, each inward label generation will use Colissimo Insurance feature by default.</comment>
@@ -452,18 +456,24 @@
                         <field id="isUsingColiShip">0</field>
                     </depends>
                 </field>
-                <field id="nbDaysForPurge" translate="label comment" type="text" sortOrder="7" showInDefault="1" showInWebsite="0" showInStore="0">
-                    <label>Number of days to consider a return label for purging (days)</label>
-                    <comment>Delay before deleting return label BLOB from database. Use 0 or leave empty to disable this purge.</comment>
-                </field>
-                <field id="availableToCustomer" translate="label" type="select" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Label creation is available to client</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
-                <field id="sendReturnLabelEmail" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="9" translate="label comment" type="select">
+                <field id="sendReturnLabelEmail" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="35" translate="label comment" type="select">
                     <label>Send return label email</label>
                     <comment>Send label in an email to customer on return label generation.</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="nbDaysForPurge" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Number of days to consider a return label for purging (days)</label>
+                    <comment>Delay before deleting return label BLOB from database. Use 0 or leave empty to disable this purge.</comment>
+                </field>
+                <field id="availableToCustomer" translate="label" type="select" sortOrder="45" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Return label creation is available for the client</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="availableToCustomerDays" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Number of days during which the customers can download the return label</label>
+                    <depends>
+                        <field id="availableToCustomer">1</field>
+                    </depends>
                 </field>
             </group>
             <group id="lpc_pr_front" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="6" translate="label">

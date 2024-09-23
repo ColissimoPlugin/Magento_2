@@ -10,14 +10,17 @@
 
 namespace LaPoste\Colissimo\Controller\Shipment;
 
+use LaPoste\Colissimo\Helper\Data;
 use LaPoste\Colissimo\Helper\Pdf;
 use LaPoste\Colissimo\Logger\Colissimo;
+use LaPoste\Colissimo\Model\AccountApi;
 use LaPoste\Colissimo\Model\Shipping\ReturnLabelGenerator;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\Response\Http\FileFactory;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use \Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Sales\Model\Order\ShipmentRepository;
 use Magento\Shipping\Model\Shipping\LabelGenerator;
 
@@ -53,6 +56,9 @@ class PrintReturnLabel extends \Magento\Framework\App\Action\Action
      * @var \LaPoste\Colissimo\Helper\Pdf
      */
     protected $helperPdf;
+    protected $helperData;
+    protected $accountApi;
+    protected $orderRepository;
 
     /**
      * PrintReturnLabel constructor.
@@ -73,7 +79,10 @@ class PrintReturnLabel extends \Magento\Framework\App\Action\Action
         ShipmentRepository $shipmentRepository,
         ReturnLabelGenerator $returnLabelGenerator,
         \LaPoste\Colissimo\Helper\Shipment $shipmentHelper,
-        Pdf $helperPdf
+        Pdf $helperPdf,
+        Data $helperData,
+        AccountApi $accountApi,
+        OrderRepositoryInterface $orderRepository
     ) {
         parent::__construct($context);
         $this->labelGenerator = $labelGenerator;
@@ -84,6 +93,9 @@ class PrintReturnLabel extends \Magento\Framework\App\Action\Action
         $this->returnLabelGenerator = $returnLabelGenerator;
         $this->shipmentHelper = $shipmentHelper;
         $this->helperPdf = $helperPdf;
+        $this->helperData = $helperData;
+        $this->accountApi = $accountApi;
+        $this->orderRepository = $orderRepository;
     }
 
     /**
@@ -93,27 +105,45 @@ class PrintReturnLabel extends \Magento\Framework\App\Action\Action
      */
     public function execute()
     {
+        $orderId = $this->getRequest()->getParam('orderId');
+        $order = $this->orderRepository->get($orderId);
+
+        // Get products to return
+        $productQtyIds = json_decode($this->getRequest()->getParam('productIds'));
+        $productToReturn = [];
+        foreach ($productQtyIds as $oneProductQtyId) {
+            $oneProductWithQty = explode('_', $oneProductQtyId);
+            $productToReturn[$oneProductWithQty[0]] = $oneProductWithQty[1];
+        }
+
+        // Get option secured return
+        $accountInformation = $this->accountApi->getAccountInformation();
+        $isSecuredReturnEnabled = '1' === $this->helperData->getAdvancedConfigValue('lpc_return_labels/securedReturn') ? true : false;
+
+        $isSecuredReturn = false;
+        if (!empty($accountInformation['optionRetourToken']) && $isSecuredReturnEnabled) {
+            // Should generate token to return in La Poste office
+            $isSecuredReturn = true;
+        }
+
+        // Need one shipment from the order to generate a label
+        $shipments = $order->getShipmentsCollection();
+        foreach ($shipments as $oneShipment) {
+            unset($oneShipment['shipping_label']);
+            $shipment = $oneShipment;
+        }
+        if (empty($shipment)) {
+            return $this->_redirect('sales/order/history');
+        }
+
         try {
-            $shipment = $this->shipmentRepository->get(
-                $this->getRequest()->getParam('shipment_id')
-            );
+            $packages = $this->shipmentHelper->partialShipmentToPackages($order, $productToReturn);
+            $this->request->setParams(['packages' => $packages]);
+
+            $this->returnLabelGenerator->createReturnLabel($shipment, $this->request, $isSecuredReturn);
 
             $labelContent = $shipment->getLpcReturnLabel();
 
-            if (null === $labelContent) {
-                $packages = $this->shipmentHelper
-                    ->shipmentToPackages($shipment);
-
-                $this->request->setParams([
-                                              'packages' => $packages,
-                                          ]);
-
-                $this->returnLabelGenerator->createReturnLabel($shipment, $this->request);
-
-                $labelContent = $shipment->getLpcReturnLabel();
-            }
-
-            $pdfContent = null;
             if (stripos($labelContent, '%PDF-') !== false) {
                 $pdfContent = $labelContent;
             } else {

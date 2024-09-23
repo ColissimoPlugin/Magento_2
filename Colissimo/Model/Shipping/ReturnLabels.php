@@ -84,13 +84,14 @@ class ReturnLabels extends \Magento\Shipping\Model\Shipping
      * @return \Magento\Framework\DataObject
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function returnOfShipment(Shipment $orderShipment)
+    public function returnOfShipment(Shipment $orderShipment, bool $isSecuredReturn = false)
     {
         $admin = $this->_authSession->getUser();
         if (null === $admin) {
             // this is used in frontend when building mailbox pick-up.
             $admin = $this->currentCustomer->getCustomer();
         }
+        // TODO : pourquoi on récupère l'adresse du customer si on est en front ? on va mettre son nom et son email dans l'adresse de destination
         $order = $orderShipment->getOrder();
 
         $shippingMethod = $order->getShippingMethod(true);
@@ -160,12 +161,14 @@ class ReturnLabels extends \Magento\Shipping\Model\Shipping
         $this->setRecipientDetails($request, $admin, $storeInfo, $shipmentStoreId, $shipperRegionCode, $originStreet1);
 
         $request->setShippingMethod($shippingMethod->getMethod());
-        $request->setPackageWeight($order->getWeight());
-        $request->setPackages($orderShipment->getPackages());
+        $packageToReturn = $orderShipment->getPackages();
+        $request->setPackageWeight($packageToReturn[0]['params']['weight']);
+        $request->setPackages($packageToReturn);
         $request->setBaseCurrencyCode($baseCurrencyCode);
         $request->setStoreId($shipmentStoreId);
 
         $request->setIsReturnLabel(true);
+        $request->setIsSecuredReturn($isSecuredReturn);
 
         return $shipmentCarrier->returnOfShipment($request);
     }

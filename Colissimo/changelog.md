@@ -1,5 +1,19 @@
 # Colissimo Magento 2 Changelog
 
+# 1.6.0
+
+### Fonctionnalités
+
+- Une nouvelle option a été ajoutée pour que vous puissiez permettre à vos clients d'effectuer un retour sécurisé en bureau de poste
+
+### Améliorations
+
+- Des sécurités ont été ajoutées pour éviter les erreurs qui pouvaient se présenter avec le widget Colissimo
+
+### Correctifs
+
+- Une erreur pouvant survenir lors de la récupération des informations du compte a été corrigée lorsqu'un utilisateur avancé est utilisé
+
 # 1.5.1
 
 ### Améliorations
@@ -16,7 +30,7 @@
 
 ### Fonctionnalités
 
-- Il est à présent possible de s'autentifier avec une clé de connexion Colissimo
+- Il est à présent possible de s'authentifier avec une clé de connexion Colissimo
 - La fonctionnalité de code sécurisé à la livraison est maintenant paramétrable par commande ou globalement en se basant sur le prix de commande
 - Un lien a été ajouté dans la configuration pour vous rendre sur la page de gestion de vos services Colissimo
 

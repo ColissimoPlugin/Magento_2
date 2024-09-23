@@ -17,8 +17,9 @@ interface LabellingApi
      * Calls the generateLabel service.
      *
      * @param $payload \LaPoste\Colissimo\Api\Carrier\GenerateLabelPayload
+     * @param $isSecuredReturn bool
      *
      * @return array [shipmentDataInfo, binary]
      */
-    public function generateLabel(\LaPoste\Colissimo\Api\Carrier\GenerateLabelPayload $payload);
+    public function generateLabel(\LaPoste\Colissimo\Api\Carrier\GenerateLabelPayload $payload, bool $isSecuredReturn = false);
 }

@@ -2,6 +2,8 @@
 
 namespace LaPoste\Colissimo\Block;
 
+use \Magento\Sales\Api\OrderRepositoryInterface;
+
 class BalReturn extends \Magento\Framework\View\Element\Template
 {
     protected $addressRenderer;
@@ -18,6 +20,8 @@ class BalReturn extends \Magento\Framework\View\Element\Template
     private $listMailBoxPickingDatesResponse;
     private $returnTrackingNumber;
     private $pickUpConfirmation;
+    protected $orderRepository;
+
 
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
@@ -27,7 +31,8 @@ class BalReturn extends \Magento\Framework\View\Element\Template
         \Magento\Sales\Model\Order\Address\Renderer $addressRenderer,
         \LaPoste\Colissimo\Model\Shipping\ReturnLabelGenerator $labelGenerator,
         \Magento\Customer\Model\Session $customerSession,
-        \LaPoste\Colissimo\Helper\Shipment $shipmentHelper
+        \LaPoste\Colissimo\Helper\Shipment $shipmentHelper,
+        OrderRepositoryInterface $orderRepository
     ) {
         parent::__construct($context);
 
@@ -39,21 +44,33 @@ class BalReturn extends \Magento\Framework\View\Element\Template
         $this->request = $context->getRequest();
         $this->labelGenerator = $labelGenerator;
         $this->shipmentHelper = $shipmentHelper;
+        $this->orderRepository = $orderRepository;
     }
 
     public function getShipment()
     {
         if (null === $this->shipment) {
             $shipmentId = $this->getRequest()->getParam('shipmentId');
+            if (null !== $shipmentId) {
+                $this->shipment = $this->shipmentRepository->get($shipmentId);
+            } else {
+                $orderId = $this->getRequest()->getParam('orderId');
+                $order = $this->orderRepository->get($orderId);
+                $shipments = $order->getShipmentsCollection();
+                foreach ($shipments as $oneShipment) {
+                    unset($oneShipment['shipping_label']);
+                    $this->shipment = $oneShipment;
+                }
+            }
+        }
 
-            $this->shipment = $this->shipmentRepository
-                ->get($shipmentId);
+        if (null === $this->shipment) {
+            throw new \Exception('Shipment not found');
         }
 
         if ($this->shipment->getOrder()->getCustomerId() != $this->customerSession->getCustomer()->getId()) {
             throw new \Exception('You are not allowed to access this resource!');
         }
-
 
         return $this->shipment;
     }
@@ -140,7 +157,6 @@ END_HTML;
                 ->withSender($sender)
                 ->assemble();
 
-
             $payload['sender'] = $payload['letter']['sender']['address'];
             unset($payload['letter']);
             $payload['mailBoxPickingDate'] = $this->getRequest()->getParam('pickingDate');
@@ -162,19 +178,22 @@ END_HTML;
         if (null === $this->returnTrackingNumber) {
             $shipment = $this->getShipment();
 
+            // Get products to return
+            $productQtyIds = explode(',', $this->getProducts());
+            $productToReturn = [];
+            foreach ($productQtyIds as $oneProductQtyId) {
+                $oneProductWithQty = explode('_', $oneProductQtyId);
+                $productToReturn[$oneProductWithQty[0]] = $oneProductWithQty[1];
+            }
+
+            // Prepare package depending on selected products
+            $packages = $this->shipmentHelper->partialShipmentToPackages($shipment->getOrder(), $productToReturn);
+            $this->request->setParam('packages', $packages);
 
             // Generate the return label
-            $packages = $this->shipmentHelper
-                ->shipmentToPackages($shipment);
-
-
-            $this->request
-                ->setParam('packages', $packages);
-
             try {
                 $trackingNumbers = $this->labelGenerator->createReturnLabel($shipment, $this->request);
                 $shipment->save();
-
 
                 $this->returnTrackingNumber = $trackingNumbers[0];
             } catch (\LaPoste\Colissimo\Exception\ApiException $e) {
@@ -183,5 +202,16 @@ END_HTML;
         }
 
         return $this->returnTrackingNumber;
+    }
+
+    public function getProducts(): string
+    {
+        $request = $this->getRequest();
+        $productIds = json_decode($this->getRequest()->getParam('productIds'));
+        if (!empty($productIds)) {
+            return implode(',', $productIds);
+        } else {
+            return $request->getPostValue('productIds');
+        }
     }
 }

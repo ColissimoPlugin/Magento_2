@@ -489,7 +489,8 @@ define([
                 return;
             }
 
-            if ($('#lpc_layer_relays').length) {
+            const $divPopupLpc = $('#lpc_layer_relays');
+            if ($divPopupLpc.length) {
                 lpcModePR = 'lpc_layer_relays';
 
                 const modalOptions = {
@@ -498,21 +499,22 @@ define([
                     innerScroll: true
                 };
 
-                const $divPopupLpc = $('#lpc_layer_relays');
                 const popup = modal(modalOptions, $divPopupLpc);
 
                 popup.openModal();
 
                 $('#lpc_modal_relays_search_address').val(function () {
-                    return shippingAddress.street == undefined || !shippingAddress.street['0'] || shippingAddress.street['0'].length === 0 ? '' : shippingAddress.street['0'];
+                    return shippingAddress.street === undefined || !shippingAddress.street['0'] || shippingAddress.street['0'].length === 0
+                           ? ''
+                           : shippingAddress.street['0'];
                 });
 
                 $('#lpc_modal_relays_search_zipcode').val(function () {
-                    return shippingAddress.postcode == undefined || shippingAddress.postcode.length === 0 ? '' : shippingAddress.postcode;
+                    return shippingAddress.postcode === undefined || shippingAddress.postcode.length === 0 ? '' : shippingAddress.postcode;
                 });
 
                 $('#lpc_modal_relays_search_city').val(function () {
-                    return shippingAddress.city == undefined || shippingAddress.city.length === 0 ? '' : shippingAddress.city;
+                    return shippingAddress.city === undefined || shippingAddress.city.length === 0 ? '' : shippingAddress.city;
                 });
 
                 $('#lpc_layer_button_search').click();
@@ -542,22 +544,24 @@ define([
 
                 popup.openModal();
 
+                const averagePreparation = $('#lpc_average_preparation_delay').val();
                 const widgetOptions = {
-                    'ceLang': 'FR',
-                    'ceCountryList': lpcWidgetRelayCountries,
-                    'ceCountry': shippingAddress.countryId.length === 0 ? '' : shippingAddress.countryId,
-                    'dyPreparationTime': $('#lpc_average_preparation_delay').val() == '' ? '1' : $('#lpc_average_preparation_delay').val(),
-                    'ceAddress': shippingAddress.street.length === 0 ? '' : shippingAddress.street['0'],
-                    'ceZipCode': shippingAddress.postcode.length === 0 ? '' : shippingAddress.postcode,
-                    'ceTown': shippingAddress.city.length === 0 ? '' : shippingAddress.city,
-                    'token': $('#lpc_token_widget').val(),
-                    'URLColissimo': 'https://ws.colissimo.fr',
-                    'callBackFrame': 'lpcCallBackFrame',
-                    'dyWeight': '19000'
+                    ceLang: 'FR',
+                    ceCountryList: lpcWidgetRelayCountries,
+                    ceCountry: !shippingAddress.countryId || shippingAddress.countryId.length === 0 ? 'FR' : shippingAddress.countryId,
+                    dyPreparationTime: averagePreparation === '' ? '1' : averagePreparation,
+                    ceAddress: !shippingAddress.street || shippingAddress.street.length === 0 || !shippingAddress.street[0] ? '' : shippingAddress.street[0],
+                    ceZipCode: !shippingAddress.postcode || shippingAddress.postcode.length === 0 ? '' : shippingAddress.postcode,
+                    ceTown: !shippingAddress.city || shippingAddress.city.length === 0 ? '' : shippingAddress.city,
+                    token: $('#lpc_token_widget').val(),
+                    URLColissimo: 'https://ws.colissimo.fr',
+                    callBackFrame: 'lpcCallBackFrame',
+                    dyWeight: '19000'
                 };
 
-                if ($('#lpc_color_1').length > 0) {
-                    widgetOptions.couleur1 = $('#lpc_color_1').val();
+                const $lpcColor1 = $('#lpc_color_1');
+                if ($lpcColor1.length > 0) {
+                    widgetOptions.couleur1 = $lpcColor1.val();
                     widgetOptions.couleur2 = $('#lpc_color_2').val();
                     widgetOptions.font = $('#lpc_font').val();
                 }
@@ -592,6 +596,9 @@ define([
                 zipcode = $('#lpc_modal_relays_search_zipcode').val();
                 city = $('#lpc_modal_relays_search_city').val();
                 countryId = quote.shippingAddress().countryId;
+                if (!countryId) {
+                    countryId = 'FR';
+                }
             } else if ($selectedAddress.length > 0) {
                 const regex = /address\(\)\.street[^>]*-->([^<]+)<!--[\s\S]*address\(\).city[^>]*-->([^<]+)<!--[\s\S]*address\(\).postcode[^>]*-->([^<]+)<!--[\s\S]*address\(\).countryId[^>]*-->([^<]+)<!--/igm;
                 const matches = regex.exec($selectedAddress.html());

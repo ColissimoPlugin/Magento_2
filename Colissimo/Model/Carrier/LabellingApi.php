@@ -308,11 +308,12 @@ class LabellingApi implements \LaPoste\Colissimo\Api\Carrier\LabellingApi
      * @return array|mixed
      * @throws \LaPoste\Colissimo\Exception\ApiException
      */
-    public function generateLabel(\LaPoste\Colissimo\Api\Carrier\GenerateLabelPayload $payload)
+    public function generateLabel(\LaPoste\Colissimo\Api\Carrier\GenerateLabelPayload $payload, bool $isSecuredReturn = false)
     {
         $this->logger->debug('Label generation query', ['payload' => $payload->getPayloadWithoutPassword(), 'method' => __METHOD__]);
         $currentPayload = $payload->assemble();
-        $res = $this->query('generateLabel', [$this, 'handleMultipartResponse'], $currentPayload);
+        $queryAction = $isSecuredReturn ? 'generateToken' : 'generateLabel';
+        $res = $this->query($queryAction, [$this, 'handleMultipartResponse'], $currentPayload);
         $this->logger->debug('Label generation response', ['response' => $res[0], 'method' => __METHOD__]);
         if (empty($currentPayload['letter']['service']['orderNumber'])) {
             $this->logger->error('Error while generating label: order ID not found.');
@@ -320,6 +321,9 @@ class LabellingApi implements \LaPoste\Colissimo\Api\Carrier\LabellingApi
             return $res;
         }
 
+        if ($isSecuredReturn) {
+            return $res;
+        }
         $orderId = $currentPayload['letter']['service']['orderNumber'];
         // Return label : send it to customer. Else send tracking link
         if ($payload->getIsReturnLabel()) {
