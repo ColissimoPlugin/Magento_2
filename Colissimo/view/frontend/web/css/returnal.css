@@ -5,3 +5,29 @@
 .lpcreturn_quantity{
     max-width: 100px;
 }
+
+#lpc_return_label_confirmation{
+    display: none;
+    margin-bottom: 2rem;
+}
+
+#lpc_return_instructions_container{
+    display: none;
+    padding: 1.5rem 2rem;
+    background-color: #efefef;
+    width: fit-content;
+    margin-top: 2rem;
+}
+
+#lpc_return_instructions_container li{
+    margin-bottom: 1rem;
+}
+
+#lpc_return_instructions_container li::marker{
+    font-weight: bold;
+}
+
+#lpc_return_instructions_container #instructions_title{
+    margin-top: 0;
+    font-weight: bold;
+}

@@ -40,6 +40,7 @@ class Collection extends \Magento\Framework\View\Element\UiComponent\DataProvide
                 'shipment_status',
                 'entity_id AS shipment_entity_id',
                 'increment_id AS shipment_increment_id',
+                'created_at AS shipment_created_at',
             ]
         );
 
@@ -77,6 +78,9 @@ class Collection extends \Magento\Framework\View\Element\UiComponent\DataProvide
 
             case 'shipment_status':
                 return 'sales_shipment.shipment_status';
+
+            case 'shipment_created_at':
+                return 'sales_shipment.created_at';
 
             case 'store_id':
                 return 'main_table.store_id';

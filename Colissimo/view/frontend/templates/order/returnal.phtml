@@ -1,58 +1,99 @@
 <?php /** @var  $block \LaPoste\Colissimo\Block\Frontend\Order\ReturnalContent */ ?>
 
 <div class="order-details-items lpcreturn">
-    <h3 id="lpcreturn_header">
-        <?= __('Choose the products to return'); ?>
-    </h3>
+    <div id="lpc_products_selection">
+        <h3 id="lpcreturn_header">
+            <?= __('Choose the products to return'); ?>
+        </h3>
 
-    <table class="data table table-order-items shipment">
-        <thead>
-            <tr>
-                <th class="col products">
-                    <input type="checkbox" id="lpcreturn_header_selectall" title="<?= __('Select all products'); ?>">
-                    <?= __('Product'); ?>
-                </th>
-                <th class="col quantity"><?= __('Quantity'); ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php $products = $block->getShippedProducts(); ?>
-            <?php foreach ($products as $productId => $oneProduct): ?>
+        <table class="data table table-order-items shipment">
+            <thead>
                 <tr>
-                    <td class="col product-name" data-th="<?= __('Product'); ?>">
-                        <label>
-                            <input type="checkbox" class="lpcreturn_selection" value="<?= intval($productId); ?>">
-                            <?= $oneProduct['name']; ?>
-                        </label>
-                    </td>
-                    <td class="col product-quantity" data-th="<?= __('Quantity'); ?>">
-                        <select class="lpcreturn_quantity" data-product-id="<?= intval($productId); ?>">
-                            <?php for ($i = 1; $i <= $oneProduct['quantity']; $i ++): ?>
-                                <option value="<?= $i; ?>" <?php echo $i === $oneProduct['quantity'] ? 'selected="selected"' : ''; ?>><?= $i; ?></option>
-                            <?php endfor; ?>
-                        </select>
-                    </td>
+                    <th class="col products">
+                        <input type="checkbox" id="lpcreturn_header_selectall" title="<?= __('Select all products'); ?>">
+                        <?= __('Product'); ?>
+                    </th>
+                    <th class="col quantity"><?= __('Quantity'); ?></th>
                 </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <?php $products = $block->getShippedProducts(); ?>
+                <?php foreach ($products as $productId => $oneProduct): ?>
+                    <tr>
+                        <td class="col product-name" data-th="<?= __('Product'); ?>">
+                            <label>
+                                <input type="checkbox" class="lpcreturn_selection" value="<?= intval($productId); ?>">
+                                <?= $oneProduct['name']; ?>
+                            </label>
+                        </td>
+                        <td class="col product-quantity" data-th="<?= __('Quantity'); ?>">
+                            <select class="lpcreturn_quantity" data-product-id="<?= intval($productId); ?>">
+                                <?php for ($i = 1; $i <= $oneProduct['quantity']; $i ++): ?>
+                                    <option value="<?= $i; ?>" <?php echo $i === $oneProduct['quantity'] ? 'selected="selected"' : ''; ?>><?= $i; ?></option>
+                                <?php endfor; ?>
+                            </select>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
 
-    <button type="button"
-            title="<?= __('Generate inward shipping label'); ?>"
-            class="action"
-            id="lpcreturn_download">
-        <span><?php echo $block->getReturnButtonLabel(); ?></span>
-    </button>
-    <?php
-    $balReturnLink = $block->mailBoxPickUpLink();
-    if (!empty($balReturnLink)) {
-        ?>
-        <button title="<?= __('MailBox picking return'); ?>"
+        <button type="button"
+                title="<?= __('Generate inward shipping label'); ?>"
                 class="action"
-                id="lpcbalreturn">
-            <span><?= __('MailBox picking return'); ?></span>
+                id="lpcreturn_download">
+            <span><?php echo $block->getReturnButtonLabel(); ?></span>
         </button>
-    <?php } ?>
+        <?php
+        $balReturnLink = $block->mailBoxPickUpLink();
+        if (!empty($balReturnLink)) {
+            ?>
+            <button title="<?= __('MailBox picking return'); ?>"
+                    class="action"
+                    id="lpcbalreturn">
+                <span><?= __('MailBox picking return'); ?></span>
+            </button>
+        <?php } ?>
+    </div>
+    <div id="lpc_return_label_confirmation">
+        <?php
+        printf(
+            __($block->isSecuredReturn() ? 'Your secured code for the return label %s has been generated.' : 'Your label %s has been generated'),
+            '<span id="lpc_return_label_confirmation_tracking_number"></span>'
+        );
+        ?>
+    </div>
+    <div id="lpc_return_instructions_container">
+        <p id="instructions_title"><?php echo __('How to return your parcel?'); ?></p>
+        <ol>
+            <li><?php echo __('Pack your products.'); ?></li>
+
+            <?php if ($block->isSecuredReturn()) { ?>
+                <li>
+                    <?php echo __('Go to the post office of your choice:'); ?>
+                    <a target="_blank" href="https://localiser.laposte.fr/?jesuis=particulier&contact=vente&qp=<?php echo $block->getShippingPostcode(); ?>">https://localiser.laposte.fr</a>
+                </li>
+                <li>
+                    <?php echo __('At the drop-off point, present your barcode to your contact or to the machine (or your 9-character code) to have your label printed and make your deposit.'); ?>
+                </li>
+            <?php } else { ?>
+                <li><?php echo __('Print your label and stick it on your parcel.'); ?></li>
+                <li>
+                    <?php echo __('Drop off your parcel at the post office of your choice:'); ?>
+                    <a target="_blank" href="https://localiser.laposte.fr/?jesuis=particulier&contact=vente&qp=<?php echo $block->getShippingPostcode(); ?>">https://localiser.laposte.fr</a>
+                </li>
+            <?php } ?>
+
+            <li>
+                <?php
+                printf(
+                    __('Track your parcel shipment on %s'),
+                    '<a target="_blank" href="https://laposte.fr/outils/suivre-vos-envois">https://laposte.fr/suivi</a>'
+                )
+                ?>
+            </li>
+        </ol>
+    </div>
     <input type="hidden" value="<?= $block->getReturnLabelDownloadUrl(); ?>" id="returnLabelDownloadUrl" />
     <input type="hidden" value="<?php echo $balReturnLink; ?>" id="balReturnUrl" />
     <input type="hidden" value="<?= $block->getOrder()->getId(); ?>" id="lpcOrderId" />

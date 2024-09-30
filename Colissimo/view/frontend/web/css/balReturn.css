@@ -21,3 +21,27 @@
 .lpc_balreturn_btn{
     margin: 15px 0 10px 0;
 }
+
+#lpc_bal_confirmation{
+    margin-top: 1rem;
+}
+
+#lpc_return_instructions_container{
+    padding: 1.5rem 2rem;
+    background-color: #efefef;
+    width: fit-content;
+    margin-top: 2rem;
+}
+
+#lpc_return_instructions_container li{
+    margin-bottom: 1rem;
+}
+
+#lpc_return_instructions_container li::marker{
+    font-weight: bold;
+}
+
+#lpc_return_instructions_container #instructions_title{
+    margin-top: 0;
+    font-weight: bold;
+}

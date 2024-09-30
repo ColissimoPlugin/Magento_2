@@ -8,17 +8,32 @@
             <?php echo $this->formatFormAddress(); ?>
         </div>
 
-        <?php if ($this->sendPickUpConfirmation()) {
-            ?>
-            <div>
+        <?php if ($this->sendPickUpConfirmation()) { ?>
+            <div id="lpc_bal_confirmation">
                 <b><?php echo __('Your PickUp has been confirmed.'); ?></b>
             </div>
             <div>
                 <?php echo __('Your return tracking number is:'); ?>
                 <?php echo $this->getReturnTrackingNumber(); ?>
             </div>
-            <?php
-        } ?>
 
+            <input type="hidden" value="<?= $this->getReturnLabelDownloadUrl(); ?>" id="lpcReturnLabelDownloadUrl" />
+            <div id="lpc_return_instructions_container">
+                <p id="instructions_title"><?php echo __('How to return your parcel?'); ?></p>
+                <ol>
+                    <li><?php echo __('Pack your products.'); ?></li>
+                    <li><?php echo __('Print your label and stick it on your parcel.'); ?></li>
+                    <li><?php echo __('Put your parcel in your mailbox before the appointment time.'); ?></li>
+                    <li>
+                        <?php
+                        printf(
+                            __('Track your parcel shipment on %s'),
+                            '<a target="_blank" href="https://laposte.fr/outils/suivre-vos-envois?code=' . $this->getReturnTrackingNumber() . '">https://laposte.fr/suivi</a>'
+                        );
+                        ?>
+                    </li>
+                </ol>
+            </div>
+        <?php } ?>
     </div>
 </div>

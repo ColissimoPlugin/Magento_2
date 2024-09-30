@@ -83,7 +83,7 @@ class ReturnLabelGenerator
             throw new \Magento\Framework\Exception\LocalizedException(__('Shipping label is not available.'));
         }
         $shipment->setPackages($request->getParam('packages'));
-        $response = $this->labelFactory->create()->returnOfShipment($shipment, $isSecuredReturn); // That's the only line being overriden
+        $response = $this->labelFactory->create()->returnOfShipment($shipment, $isSecuredReturn);
 
         if ($response->hasErrors()) {
             throw new \Magento\Framework\Exception\LocalizedException(__($response->getErrors()));
@@ -102,6 +102,7 @@ class ReturnLabelGenerator
         }
         $outputPdf = $this->helperPdf->combineLabelsPdf($labelsContent);
         $shipment->setLpcReturnLabel($outputPdf->render());
+        $shipment->save();
         $carrierCode = $carrier->getCarrierCode();
         $carrierTitle = $this->scopeConfig->getValue(
             'carriers/' . $carrierCode . '/title',

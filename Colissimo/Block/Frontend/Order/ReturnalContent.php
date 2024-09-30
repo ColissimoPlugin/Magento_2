@@ -104,9 +104,26 @@ class ReturnalContent extends Current
     {
         $accountInformation = $this->accountApi->getAccountInformation();
         if (!empty($accountInformation['optionRetourToken']) && $this->_scopeConfig->getValue('lpc_advanced/lpc_return_labels/securedReturn')) {
-            return __('Return from a post office or relay');
+            return __('Return from a post office');
         } else {
             return __('Generate inward shipping label');
         }
+    }
+
+    public function isSecuredReturn(): bool
+    {
+        $accountInformation = $this->accountApi->getAccountInformation();
+
+        return !empty($accountInformation['optionRetourToken']) && $this->_scopeConfig->getValue('lpc_advanced/lpc_return_labels/securedReturn');
+    }
+
+    public function getShippingPostcode(): string
+    {
+        $order = $this->getOrder();
+        if (empty($order)) {
+            return '';
+        }
+
+        return $order->getShippingAddress()->getPostcode();
     }
 }

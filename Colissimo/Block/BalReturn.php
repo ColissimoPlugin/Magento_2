@@ -6,6 +6,8 @@ use \Magento\Sales\Api\OrderRepositoryInterface;
 
 class BalReturn extends \Magento\Framework\View\Element\Template
 {
+    const PATH_TO_CONTROLLER = 'lpc/shipment/printreturnlabel';
+
     protected $addressRenderer;
     protected $customerSession;
     protected $shipmentRepository;
@@ -163,10 +165,9 @@ END_HTML;
             $payload['parcelNumber'] = $returnTrackingNumber;
 
             try {
-                $this->pickUpConfirmation = $this->labellingApi
-                    ->planPickUp($payload);
+                $this->pickUpConfirmation = $this->labellingApi->planPickUp($payload);
             } catch (\LaPoste\Colissimo\Exception\ApiException $e) {
-                $this->pickUpConfirmation = __('An error occured while confirming this pick-up!');
+                $this->pickUpConfirmation = __('An error occurred while confirming this pick-up!');
             }
         }
 
@@ -213,5 +214,12 @@ END_HTML;
         } else {
             return $request->getPostValue('productIds');
         }
+    }
+
+    public function getReturnLabelDownloadUrl(): string
+    {
+        $shipment = $this->getShipment();
+
+        return $this->getUrl(self::PATH_TO_CONTROLLER) . '?shipmentId=' . (empty($shipment) ? '' : $shipment->getId());
     }
 }

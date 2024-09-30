@@ -12,6 +12,7 @@ namespace LaPoste\Colissimo\Controller\Shipment;
 
 use LaPoste\Colissimo\Helper\Data;
 use LaPoste\Colissimo\Helper\Pdf;
+use LaPoste\Colissimo\Helper\Shipment;
 use LaPoste\Colissimo\Logger\Colissimo;
 use LaPoste\Colissimo\Model\AccountApi;
 use LaPoste\Colissimo\Model\Shipping\ReturnLabelGenerator;
@@ -23,6 +24,7 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 use \Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Sales\Model\Order\ShipmentRepository;
 use Magento\Shipping\Model\Shipping\LabelGenerator;
+use Magento\Framework\Controller\Result\JsonFactory;
 
 class PrintReturnLabel extends \Magento\Framework\App\Action\Action
 {
@@ -59,17 +61,25 @@ class PrintReturnLabel extends \Magento\Framework\App\Action\Action
     protected $helperData;
     protected $accountApi;
     protected $orderRepository;
+    /**
+     * @var JsonFactory
+     */
+    protected $resultJsonFactory;
 
     /**
      * PrintReturnLabel constructor.
-     * @param Context                            $context
-     * @param LabelGenerator                     $labelGenerator
-     * @param FileFactory                        $fileFactory
-     * @param Colissimo                          $logger
-     * @param ShipmentRepository                 $shipmentRepository
-     * @param ReturnLabelGenerator               $returnLabelGenerator
-     * @param \LaPoste\Colissimo\Helper\Shipment $shipmentHelper
-     * @param \LaPoste\Colissimo\Helper\Pdf      $helperPdf
+     * @param Context                  $context
+     * @param LabelGenerator           $labelGenerator
+     * @param FileFactory              $fileFactory
+     * @param Colissimo                $logger
+     * @param ShipmentRepository       $shipmentRepository
+     * @param ReturnLabelGenerator     $returnLabelGenerator
+     * @param Shipment                 $shipmentHelper
+     * @param Pdf                      $helperPdf
+     * @param Data                     $helperData
+     * @param AccountApi               $accountApi
+     * @param OrderRepositoryInterface $orderRepository
+     * @param JsonFactory              $resultJsonFactory
      */
     public function __construct(
         Context $context,
@@ -82,7 +92,8 @@ class PrintReturnLabel extends \Magento\Framework\App\Action\Action
         Pdf $helperPdf,
         Data $helperData,
         AccountApi $accountApi,
-        OrderRepositoryInterface $orderRepository
+        OrderRepositoryInterface $orderRepository,
+        JsonFactory $resultJsonFactory
     ) {
         parent::__construct($context);
         $this->labelGenerator = $labelGenerator;
@@ -96,6 +107,7 @@ class PrintReturnLabel extends \Magento\Framework\App\Action\Action
         $this->helperData = $helperData;
         $this->accountApi = $accountApi;
         $this->orderRepository = $orderRepository;
+        $this->resultJsonFactory = $resultJsonFactory;
     }
 
     /**
@@ -105,6 +117,15 @@ class PrintReturnLabel extends \Magento\Framework\App\Action\Action
      */
     public function execute()
     {
+        $shipmentId = $this->getRequest()->getParam('shipmentId');
+        if (!empty($shipmentId)) {
+            $shipment = $this->shipmentRepository->get($shipmentId);
+
+            return $this->downloadLabel($shipment);
+        }
+
+        $resultJson = $this->resultJsonFactory->create();
+
         $orderId = $this->getRequest()->getParam('orderId');
         $order = $this->orderRepository->get($orderId);
 
@@ -118,7 +139,7 @@ class PrintReturnLabel extends \Magento\Framework\App\Action\Action
 
         // Get option secured return
         $accountInformation = $this->accountApi->getAccountInformation();
-        $isSecuredReturnEnabled = '1' === $this->helperData->getAdvancedConfigValue('lpc_return_labels/securedReturn') ? true : false;
+        $isSecuredReturnEnabled = '1' === $this->helperData->getAdvancedConfigValue('lpc_return_labels/securedReturn');
 
         $isSecuredReturn = false;
         if (!empty($accountInformation['optionRetourToken']) && $isSecuredReturnEnabled) {
@@ -133,39 +154,26 @@ class PrintReturnLabel extends \Magento\Framework\App\Action\Action
             $shipment = $oneShipment;
         }
         if (empty($shipment)) {
-            return $this->_redirect('sales/order/history');
+            return $resultJson->setData(
+                [
+                    'success' => false,
+                    'error'   => __('Shipment not found'),
+                ]
+            );
         }
 
         try {
             $packages = $this->shipmentHelper->partialShipmentToPackages($order, $productToReturn);
             $this->request->setParams(['packages' => $packages]);
 
-            $this->returnLabelGenerator->createReturnLabel($shipment, $this->request, $isSecuredReturn);
+            $trackingNumbers = $this->returnLabelGenerator->createReturnLabel($shipment, $this->request, $isSecuredReturn);
 
-            $labelContent = $shipment->getLpcReturnLabel();
-
-            if (stripos($labelContent, '%PDF-') !== false) {
-                $pdfContent = $labelContent;
-            } else {
-                $pdf = new \Zend_Pdf();
-                $page = $this->helperPdf->createPdfPageFromImageString($labelContent);
-                if (!$page) {
-                    $this->messageManager->addErrorMessage(
-                        __(
-                            'We don\'t recognize or support the file extension in this shipment: %1.',
-                            $shipment->getIncrementId()
-                        )
-                    );
-                }
-                $pdf->pages[] = $page;
-                $pdfContent = $pdf->render();
-            }
-
-            return $this->fileFactory->create(
-                'ReturnShippingLabel(' . $shipment->getIncrementId() . ').pdf',
-                $pdfContent,
-                DirectoryList::VAR_DIR,
-                'application/pdf'
+            return $resultJson->setData(
+                [
+                    'success'        => true,
+                    'trackingNumber' => array_pop($trackingNumbers),
+                    'shipmentId'     => $shipment->getId(),
+                ]
             );
         } catch (\Magento\Framework\Exception\LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
@@ -180,6 +188,40 @@ class PrintReturnLabel extends \Magento\Framework\App\Action\Action
             $this->messageManager->addErrorMessage(__('An error occurred while creating shipping label.'));
         }
 
-        return $this->_redirect('sales/order/history');
+        return $resultJson->setData(
+            [
+                'success' => false,
+                'error'   => __('An error occurred while creating shipping label.'),
+            ]
+        );
+    }
+
+    private function downloadLabel($shipment)
+    {
+        $labelContent = $shipment->getLpcReturnLabel();
+
+        if (stripos($labelContent, '%PDF-') !== false) {
+            $pdfContent = $labelContent;
+        } else {
+            $pdf = new \Zend_Pdf();
+            $page = $this->helperPdf->createPdfPageFromImageString($labelContent);
+            if (!$page) {
+                $this->messageManager->addErrorMessage(
+                    __(
+                        'We don\'t recognize or support the file extension in this shipment: %1.',
+                        $shipment->getIncrementId()
+                    )
+                );
+            }
+            $pdf->pages[] = $page;
+            $pdfContent = $pdf->render();
+        }
+
+        return $this->fileFactory->create(
+            'ReturnShippingLabel(' . $shipment->getIncrementId() . ').pdf',
+            $pdfContent,
+            DirectoryList::VAR_DIR,
+            'application/pdf'
+        );
     }
 }
