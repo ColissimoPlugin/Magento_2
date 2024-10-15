@@ -179,6 +179,16 @@ class Export extends \Magento\Backend\App\Action
                 $originCountryId,
                 false);
 
+            // Retrieve the selected HS Code attribute from the configuration
+            $hsCodeAttribute = $this->helperData->getConfigValue(
+                'lpc_advanced/lpc_labels/hs_code_attribute',
+                $order->getStoreId()
+            );
+            // Set default attribute if configuration value is empty
+            if (!$hsCodeAttribute) {
+                $hsCodeAttribute = 'lpc_hs_code';
+            }
+
             foreach ($order->getAllItems() as $item) {
                 $totalWeight += $item->getWeight() * $item->getQtyToShip();
                 // Prepare CN23 data
@@ -193,7 +203,7 @@ class Export extends \Magento\Backend\App\Action
                     $itemData['valeurArticle'] = $item->getPrice();
                     $itemData['devise'] = $order->getOrderCurrencyCode();
                     $itemData['referenceArticle'] = $item->getSku();
-                    $itemData['numTarifaire'] = $item->getProduct()->getLpcHsCode();
+                    $itemData['numTarifaire'] = $item->getProduct()->getData($hsCodeAttribute);
                     $cn23Data[] = $itemData;
                 }
             }

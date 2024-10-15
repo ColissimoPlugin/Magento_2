@@ -14,6 +14,7 @@ namespace LaPoste\Colissimo\Helper;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
 use Magento\Sales\Model\Convert\Order;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 
 class Shipment extends AbstractHelper
 {
@@ -22,6 +23,7 @@ class Shipment extends AbstractHelper
      */
     protected $convertOrder;
 
+    protected $scopeInterface;
     /**
      * Shipment constructor.
      * @param \Magento\Framework\App\Helper\Context $context
@@ -29,9 +31,11 @@ class Shipment extends AbstractHelper
      */
     public function __construct(
         Context $context,
-        Order $convertOrder
+        Order $convertOrder,
+        ScopeConfigInterface $scopeInterface
     ) {
         parent::__construct($context);
+        $this->scopeInterface = $scopeInterface;
         $this->convertOrder = $convertOrder;
     }
 
@@ -81,6 +85,14 @@ class Shipment extends AbstractHelper
             'items'  => [],
         ];
 
+        // Retrieve the selected HS Code attribute from the configuration
+        $hsCodeAttribute = $this->scopeInterface->getValue('lpc_advanced/lpc_labels/hs_code_attribute', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+
+        // Set default attribute if configuration value is empty
+        if (!$hsCodeAttribute) {
+            $hsCodeAttribute = 'lpc_hs_code';
+        }
+
         $order = $shipment->getOrder();
         foreach ($shipment->getAllItems() as $item) {
             $qtyToShip = $item->getQty();
@@ -92,6 +104,8 @@ class Shipment extends AbstractHelper
             if (empty($order)) {
                 $order = $orderItem->getOrder();
             }
+            // Fetch the HS code using the selected attribute from the product
+            $hsCodeValue = $orderItem->getProduct()->getData($hsCodeAttribute);
 
             $package['items'][] = [
                 'qty'                    => (int) $qtyToShip,
@@ -105,7 +119,7 @@ class Shipment extends AbstractHelper
                 'sku'                    => $item->getSku(),
                 'row_weight'             => $item->getWeight() * $qtyToShip,
                 'country_of_manufacture' => $orderItem->getProduct()->getCountryOfManufacture(),
-                'lpc_hs_code'            => $orderItem->getProduct()->getLpcHsCode(),
+                'lpc_hs_code' => $hsCodeValue,
             ];
         }
 

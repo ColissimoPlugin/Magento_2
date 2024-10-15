@@ -354,6 +354,13 @@
                         <field id="isUsingCustomsDeclarations">1</field>
                     </depends>
                 </field>
+                <!-- Adding a dropdown field for selecting the HS Code attribute -->
+                <field id="hs_code_attribute" translate="label" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>HS Code Attribute</label>
+                    <!-- Source model to populate the dropdown with attributes starting with '%hs_%' -->
+                    <source_model>LaPoste\Colissimo\Model\Config\Source\HSCodeAttributes</source_model>
+
+                </field>
                 <field id="defaultCustomsCategory" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="13" translate="label comment" type="select">
                     <label>Default customs Category</label>
                     <source_model>LaPoste\Colissimo\Model\Config\Source\CustomsCategory</source_model>

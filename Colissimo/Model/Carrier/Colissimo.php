@@ -571,6 +571,16 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
         }
 
         if ($shippingType === GenerateLabelPayload::LABEL_TYPE_MASTER) {
+
+            // Retrieve the selected HS Code attribute from the configuration
+            $hsCodeAttribute = $this->helperData->getConfigValue(
+                'lpc_advanced/lpc_labels/hs_code_attribute',
+                $request->getStoreId()
+            );
+            // Set default attribute if configuration value is empty
+            if (!$hsCodeAttribute) {
+                $hsCodeAttribute = 'lpc_hs_code';
+            }
             $itemsForCn23 = [];
 
             $orderItems = $order->getAllItems();
@@ -583,6 +593,8 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
                         continue;
                     }
                 }
+                // Fetch the HS code using the selected attribute from the product
+                $hsCodeValue = $item->getProduct()->getData($hsCodeAttribute);
 
                 $itemsForCn23[] = [
                     'weight'                 => $item->getWeight(),
@@ -594,7 +606,7 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
                     'row_weight'             => $item->getProduct()->getRowWeight(),
                     'currency'               => $item->getProduct()->getCurrency(),
                     'country_of_manufacture' => $item->getProduct()->getCountryOfManufacture(),
-                    'lpc_hs_code'            => $item->getProduct()->getLpcHsCode(),
+                    'lpc_hs_code'            => $hsCodeValue,
                 ];
             }
         }

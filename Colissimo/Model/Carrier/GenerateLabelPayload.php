@@ -507,10 +507,20 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
         $customsArticles = [];
         $this->articleDescriptions = [];
 
+        // Retrieve the selected HS Code attribute from the configuration
+        $hsCodeAttribute = $this->helperData->getAdvancedConfigValue(
+            'lpc_labels/hs_code_attribute',
+            $storeId
+        );
+        // Set default attribute if configuration value is empty
+        if (!$hsCodeAttribute) {
+            $hsCodeAttribute = 'lpc_hs_code';
+        }
+
         foreach ($items as $piece) {
             if (empty($piece['currency'])) {
                 // this happens when packages have been created by main magento process
-                $piece = $this->rebuildPiece($piece);
+                $piece = $this->rebuildPiece($piece, $storeId);
             }
 
             $fromWeight = number_format($piece['weight'], 2, '.', '');
@@ -528,13 +538,13 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
                 'artref'        => substr($piece['sku'], 0, 44),
                 'originalIdent' => self::FORCED_ORIGINAL_IDENT,
                 'originCountry' => $piece['country_of_manufacture'],
-                'hsCode'        => $piece['lpc_hs_code'],
+                'hsCode' => $piece[$hsCodeAttribute],
             ];
 
             // Set specific HS code if defined on the product
-            if (empty($customsArticle['hsCode'])) {
-                $customsArticle['hsCode'] = $defaultHsCode;
-            }
+//            if (empty($customsArticle['hsCode'])) {
+//                $customsArticle['hsCode'] = $defaultHsCode;
+//            }
 
             $customsArticles[] = $customsArticle;
         }
@@ -927,7 +937,7 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
         foreach ($items as $piece) {
             if (empty($piece['currency'])) {
                 // this happens when packages have been created by main magento process
-                $piece = $this->rebuildPiece($piece);
+                $piece = $this->rebuildPiece($piece, $storeId);
             }
 
             $orderValue += $piece['qty'] * floatval($piece['customs_value']);
@@ -1097,7 +1107,7 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
         }
     }
 
-    protected function rebuildPiece(array $piece)
+    protected function rebuildPiece(array $piece, $storeId = null)
     {
         $orderItem = $this->orderItemRepository->get($piece['order_item_id']);
         $order = $orderItem->getOrder();
@@ -1110,7 +1120,18 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
         $piece['currency'] = $order->getOrderCurrencyCode();
         $piece['sku'] = $orderItem->getSku();
         $piece['country_of_manufacture'] = $product->getCountryOfManufacture();
-        $piece['lpc_hs_code'] = $product->getLpcHsCode();
+
+        // Retrieve the selected HS Code attribute from the configuration
+        $hsCodeAttribute = $this->helperData->getAdvancedConfigValue(
+            'lpc_labels/hs_code_attribute',
+            $storeId
+        );
+        // Set default attribute if configuration value is empty
+        if (!$hsCodeAttribute) {
+            $hsCodeAttribute = 'lpc_hs_code';
+        }
+
+        $piece[$hsCodeAttribute] = $product->getData($hsCodeAttribute);
 
         return $piece;
     }
