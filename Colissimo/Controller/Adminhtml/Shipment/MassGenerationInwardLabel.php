@@ -1,18 +1,10 @@
 <?php
-/**
- * ******************************************************
- *  * Copyright (C) 2018 La Poste.
- *  *
- *  * This file is part of La Poste - Colissimo module.
- *  *
- *  * La Poste - Colissimo module can not be copied and/or distributed without the express
- *  * permission of La Poste.
- *  ******************************************************
- *
- */
 
 namespace LaPoste\Colissimo\Controller\Adminhtml\Shipment;
 
+use LaPoste\Colissimo\Helper\Data;
+use LaPoste\Colissimo\Helper\Shipment;
+use LaPoste\Colissimo\Model\Shipping\ReturnLabelGenerator;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Sales\Model\ResourceModel\Order\Shipment\CollectionFactory;
@@ -28,35 +20,51 @@ class MassGenerationInwardLabel extends Action
      */
     const ADMIN_RESOURCE = 'LaPoste_Colissimo::shipment';
 
-    protected $shipmentCollection;
     protected $request;
-    protected $labelGenerator;
-    protected $shipmentHelper;
-    protected $filter;
+    protected CollectionFactory $shipmentCollection;
+    protected ReturnLabelGenerator $labelGenerator;
+    protected Shipment $shipmentHelper;
+    protected Filter $filter;
+    protected Data $helperData;
 
     /**
-     * @param Context                                                             $context
-     * @param \Magento\Sales\Model\ResourceModel\Order\Shipment\CollectionFactory $shipmentCollection
-     * @param \LaPoste\Colissimo\Model\Shipping\ReturnLabelGenerator              $labelGenerator
-     * @param \LaPoste\Colissimo\Helper\Shipment                                  $shipmentHelper
+     * @param Context              $context
+     * @param CollectionFactory    $shipmentCollection
+     * @param ReturnLabelGenerator $labelGenerator
+     * @param Shipment             $shipmentHelper
+     * @param Filter               $filter
+     * @param Data                 $helperData
      */
     public function __construct(
         Context $context,
         CollectionFactory $shipmentCollection,
-        \LaPoste\Colissimo\Model\Shipping\ReturnLabelGenerator $labelGenerator,
-        \LaPoste\Colissimo\Helper\Shipment $shipmentHelper,
-        Filter $filter
+        ReturnLabelGenerator $labelGenerator,
+        Shipment $shipmentHelper,
+        Filter $filter,
+        Data $helperData
     ) {
-        $this->shipmentCollection = $shipmentCollection;
         $this->request = $context->getRequest();
+        $this->shipmentCollection = $shipmentCollection;
         $this->labelGenerator = $labelGenerator;
         $this->shipmentHelper = $shipmentHelper;
         $this->filter = $filter;
+        $this->helperData = $helperData;
         parent::__construct($context);
     }
 
     public function execute()
     {
+        $customersCanSelfReturn = $this->helperData->getAdvancedConfigValue('lpc_return_labels/availableToCustomer');
+        $securedReturn = $this->helperData->getAdvancedConfigValue('lpc_return_labels/securedReturn');
+
+        if ($customersCanSelfReturn && $securedReturn) {
+            $this->messageManager->addErrorMessage(
+                __('You cannot generate return labels while the secured return is active, only customers can generate them from their account.')
+            );
+
+            return $this->resultRedirectFactory->create()->setPath('laposte_colissimo/shipment/');
+        }
+
         $shipments = $this->filter->getCollection($this->shipmentCollection->create());
 
         // Magento 2.1 returns null for param selected if all selected

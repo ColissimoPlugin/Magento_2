@@ -89,21 +89,21 @@
                     </item>
                 </argument>
             </action>
-            <action name="bordereau_generation">
-                <argument name="data" xsi:type="array">
-                    <item name="config" xsi:type="array">
-                        <item name="type" xsi:type="string">generate_bordereau</item>
-                        <item name="label" xsi:type="string" translate="true">Generate a Delivery docket</item>
-                        <item name="url" xsi:type="url" path="laposte_colissimo/shipment/massBordereauGeneration"/>
-                    </item>
-                </argument>
-            </action>
             <action name="shipment_download">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
                         <item name="type" xsi:type="string">download_shipment</item>
                         <item name="label" xsi:type="string" translate="true">Download shipment related informations</item>
                         <item name="url" xsi:type="url" path="laposte_colissimo/shipment/massDownloadShipment"/>
+                    </item>
+                </argument>
+            </action>
+            <action name="shipment_print">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">print_shipment</item>
+                        <item name="label" xsi:type="string" translate="true">Print shipment related informations</item>
+                        <item name="url" xsi:type="url" path="laposte_colissimo/shipment/massPrintLabels"/>
                     </item>
                 </argument>
             </action>
@@ -125,21 +125,21 @@
                     </item>
                 </argument>
             </action>
-            <action name="shipment_print">
-                <argument name="data" xsi:type="array">
-                    <item name="config" xsi:type="array">
-                        <item name="type" xsi:type="string">print_shipment</item>
-                        <item name="label" xsi:type="string" translate="true">Print shipment related informations</item>
-                        <item name="url" xsi:type="url" path="laposte_colissimo/shipment/massPrintLabels"/>
-                    </item>
-                </argument>
-            </action>
             <action name="label_delete">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
                         <item name="type" xsi:type="string">delete_label</item>
                         <item name="label" xsi:type="string" translate="true">Delete labels</item>
                         <item name="url" xsi:type="url" path="laposte_colissimo/shipment/massDeleteLabels"/>
+                    </item>
+                </argument>
+            </action>
+            <action name="bordereau_generation">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">generate_bordereau</item>
+                        <item name="label" xsi:type="string" translate="true">Generate a Delivery docket</item>
+                        <item name="url" xsi:type="url" path="laposte_colissimo/shipment/massBordereauGeneration"/>
                     </item>
                 </argument>
             </action>

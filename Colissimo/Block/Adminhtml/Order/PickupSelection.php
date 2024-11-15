@@ -144,7 +144,7 @@ class PickupSelection extends Template
     {
         $apiKey = $this->helperData->getAdvancedConfigValue('lpc_pr_front/lpc_google_maps_api_key');
 
-        return empty($apiKey) || $apiKey == '0' ? '' : 'https://maps.googleapis.com/maps/api/js?key=' . $apiKey;
+        return empty($apiKey) || $apiKey == '0' ? '' : 'https://maps.googleapis.com/maps/api/js?loading=async&libraries=marker&key=' . $apiKey;
     }
 
     public function lpcGetAveragePreparationDelay()

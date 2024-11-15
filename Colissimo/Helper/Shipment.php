@@ -1,14 +1,5 @@
 <?php
 
-/*******************************************************
- * Copyright (C) 2018 La Poste.
- *
- * This file is part of La Poste - Colissimo module.
- *
- * La Poste - Colissimo module can not be copied and/or distributed without the express
- * permission of La Poste.
- *******************************************************/
-
 namespace LaPoste\Colissimo\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
@@ -17,24 +8,24 @@ use Magento\Sales\Model\Convert\Order;
 
 class Shipment extends AbstractHelper
 {
-    /**
-     * @var \Magento\Sales\Model\Convert\Order
-     */
-    protected $convertOrder;
+    protected Order $convertOrder;
+    protected Data $helperData;
 
     /**
      * Shipment constructor.
-     * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Sales\Model\Convert\Order    $convertOrder
+     * @param Context $context
+     * @param Order   $convertOrder
+     * @param Data    $helperData
      */
     public function __construct(
         Context $context,
-        Order $convertOrder
+        Order $convertOrder,
+        Data $helperData
     ) {
         parent::__construct($context);
         $this->convertOrder = $convertOrder;
+        $this->helperData = $helperData;
     }
-
 
     /**
      * @param \Magento\Sales\Api\Data\OrderInterface $order
@@ -82,6 +73,12 @@ class Shipment extends AbstractHelper
         ];
 
         $order = $shipment->getOrder();
+
+        $hsCodeAttribute = $this->helperData->getAdvancedConfigValue('lpc_labels/hsCodeAttribute', $order->getStoreId());
+        if (empty($hsCodeAttribute)) {
+            $hsCodeAttribute = 'lpc_hs_code';
+        }
+
         foreach ($shipment->getAllItems() as $item) {
             $qtyToShip = $item->getQty();
 
@@ -105,7 +102,7 @@ class Shipment extends AbstractHelper
                 'sku'                    => $item->getSku(),
                 'row_weight'             => $item->getWeight() * $qtyToShip,
                 'country_of_manufacture' => $orderItem->getProduct()->getCountryOfManufacture(),
-                'lpc_hs_code'            => $orderItem->getProduct()->getLpcHsCode(),
+                'lpc_hs_code'            => $orderItem->getProduct()->getData($hsCodeAttribute),
             ];
         }
 
@@ -126,6 +123,11 @@ class Shipment extends AbstractHelper
             ],
             'items'  => [],
         ];
+
+        $hsCodeAttribute = $this->helperData->getAdvancedConfigValue('lpc_labels/hsCodeAttribute', $order->getStoreId());
+        if (empty($hsCodeAttribute)) {
+            $hsCodeAttribute = 'lpc_hs_code';
+        }
 
         foreach ($order->getAllItems() as $item) {
             // Only take order products selected for return
@@ -154,7 +156,7 @@ class Shipment extends AbstractHelper
                 'sku'                    => $item->getSku(),
                 'row_weight'             => $item->getWeight() * $qtyToReturn,
                 'country_of_manufacture' => $item->getProduct()->getCountryOfManufacture(),
-                'lpc_hs_code'            => $item->getProduct()->getLpcHsCode(),
+                'lpc_hs_code'            => $item->getProduct()->getData($hsCodeAttribute),
             ];
         }
 

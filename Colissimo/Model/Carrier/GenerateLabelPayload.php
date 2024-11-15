@@ -508,9 +508,9 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
         $this->articleDescriptions = [];
 
         foreach ($items as $piece) {
-            if (empty($piece['currency'])) {
+            if (empty($piece['currency']) || empty($piece['weight']) || empty($piece['qty']) || empty($piece['customs_value'])) {
                 // this happens when packages have been created by main magento process
-                $piece = $this->rebuildPiece($piece);
+                $piece = $this->rebuildPiece($piece, $storeId);
             }
 
             $fromWeight = number_format($piece['weight'], 2, '.', '');
@@ -771,7 +771,7 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
 
             $this->messageManager->addNoticeMessage(
                 sprintf(
-                    __("The insurance value has been lowered to the maximum value authorized for this sending method: %s"),
+                    __('The insurance value has been lowered to the maximum value authorized for this sending method: %s'),
                     $maxInsuranceAmount
                 )
             );
@@ -927,7 +927,7 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
         foreach ($items as $piece) {
             if (empty($piece['currency'])) {
                 // this happens when packages have been created by main magento process
-                $piece = $this->rebuildPiece($piece);
+                $piece = $this->rebuildPiece($piece, $storeId);
             }
 
             $orderValue += $piece['qty'] * floatval($piece['customs_value']);
@@ -1097,7 +1097,7 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
         }
     }
 
-    protected function rebuildPiece(array $piece)
+    protected function rebuildPiece(array $piece, $storeId = null)
     {
         $orderItem = $this->orderItemRepository->get($piece['order_item_id']);
         $order = $orderItem->getOrder();
@@ -1110,7 +1110,12 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
         $piece['currency'] = $order->getOrderCurrencyCode();
         $piece['sku'] = $orderItem->getSku();
         $piece['country_of_manufacture'] = $product->getCountryOfManufacture();
-        $piece['lpc_hs_code'] = $product->getLpcHsCode();
+
+        $hsCodeAttribute = $this->helperData->getAdvancedConfigValue('lpc_labels/hsCodeAttribute', $storeId);
+        if (empty($hsCodeAttribute)) {
+            $hsCodeAttribute = 'lpc_hs_code';
+        }
+        $piece['lpc_hs_code'] = $product->getData($hsCodeAttribute);
 
         return $piece;
     }

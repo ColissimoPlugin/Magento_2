@@ -50,17 +50,8 @@ class SetRelayInformationSession extends Action
             'country'   => $request->getParam('relayCountry', ''),
         ];
 
-        if (!empty($this->_checkoutSession->getLpcRelayInformation())) {
-            $this->_checkoutSession->setLpcRelayInformation([]);
-        }
-
         if (!in_array('', $relayInformation)) {
             $this->_checkoutSession->setLpcRelayInformation($relayInformation);
-            if (empty(session_id()) || session_status() !== PHP_SESSION_ACTIVE) {
-                session_start();
-            }
-            $session = '_SESSION';
-            $$session['lpc_pickup_information'] = $relayInformation;
         } else {
             $this->colissimoLogger->error(
                 __METHOD__,

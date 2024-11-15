@@ -58,6 +58,7 @@
             </lpc_ddp>
             <lpc_labels>
                 <cn23Number>4</cn23Number>
+                <hsCodeAttribute>lpc_hs_code</hsCodeAttribute>
             </lpc_labels>
         </lpc_advanced>
     </default>

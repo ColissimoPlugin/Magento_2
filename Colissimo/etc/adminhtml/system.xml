@@ -239,11 +239,11 @@
                 </field>
                 <field id="parent_id_webservices" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="5" translate="label" type="text">
                     <label>Parent account user name</label>
-                    <comment>The 6 digits number of the parent account, if you are using an advanced Colissimo user or to add customs documents.</comment>
+                    <comment>The User Name of the parent account, if you are using an advanced Colissimo user or to add customs documents.</comment>
                 </field>
                 <!--<field id="idCheck" translate="label comment" type="button" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
                     <frontend_model>LaPoste\Colissimo\Block\System\Config\IdCheck</frontend_model>
-                    <label>ID validation</label>
+                    <label>User Name validation</label>
                     <comment>Check that IDs are valid.</comment>
                 </field>-->
                 <field id="coliship_link" translate="label comment" type="label" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">
@@ -262,37 +262,37 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>If enabled, this module will not automatically generate label for each Colissimo shipment.</comment>
                 </field>
-                <field id="fmtFileExample" translate="label comment" type="button" showInDefault="1" sortOrder="1.5" showInWebsite="0" showInStore="0">
+                <field id="fmtFileExample" translate="label comment" type="button" showInDefault="1" sortOrder="5" showInWebsite="0" showInStore="0">
                     <frontend_model>LaPoste\Colissimo\Block\System\Config\Field\FmtFileExample</frontend_model>
                     <label>Retrieve an example of Colissimo FMT file.</label>
                     <depends>
                         <field id="lpc_advanced/lpc_labels/isUsingColiShip">1</field>
                     </depends>
                 </field>
-                <field id="outwardPrintFormat" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="outwardPrintFormat" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Outward label print format</label>
                     <source_model>LaPoste\Colissimo\Model\Config\Source\PrintFormats</source_model>
                     <depends>
                         <field id="isUsingColiShip">0</field>
                     </depends>
                 </field>
-                <field id="orderStatusForGeneration" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="3" translate="label comment" type="multiselect">
+                <field id="orderStatusForGeneration" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="15" translate="label comment" type="multiselect">
                     <label>Order status to generate label</label>
                     <source_model>LaPoste\Colissimo\Model\Config\Source\OrderStatusWithoutNew</source_model>
                     <comment>Order status where a label can be generated.</comment>
                 </field>
-                <field id="orderStatusAfterGeneration" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="4" translate="label comment" type="select">
+                <field id="orderStatusAfterGeneration" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label comment" type="select">
                     <label>Order status after label generation</label>
                     <source_model>LaPoste\Colissimo\Model\Config\Source\OrderStatus</source_model>
                     <comment>Order status to apply after successful final label generation (be sure to use a status with COMPLETE state)</comment>
                 </field>
-                <field id="orderStatusAfterPartialExpedition" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="4" translate="label comment" type="select">
+                <field id="orderStatusAfterPartialExpedition" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="25" translate="label comment" type="select">
                     <label>Order status when order is partially shipped</label>
                     <source_model>LaPoste\Colissimo\Model\Config\Source\OrderStatus</source_model>
                     <comment>Order status to apply after successful label generation for partial shipping.</comment>
                 </field>
                 <!--
-                <field id="orderStatusAfterCarrierSend" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="5" translate="label comment" type="select">
+                <field id="orderStatusAfterCarrierSend" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="30" translate="label comment" type="select">
                     <label>Order status after giving parcel to carrier</label>
                     <source_model>LaPoste\Colissimo\Model\Config\Source\OrderStatus</source_model>
                     <comment>Order status to apply when the parcel has been delivered to the carrier.</comment>
@@ -300,7 +300,7 @@
                         <field id="isUsingColiShip">0</field>
                     </depends>
                 </field>-->
-                <field id="sendTrackingEmail" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="6" translate="label comment" type="select">
+                <field id="sendTrackingEmail" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="35" translate="label comment" type="select">
                     <label>Send tracking email</label>
                     <comment>Send the tracking link in an email to customer on label or bordereau generation.</comment>
                     <source_model>LaPoste\Colissimo\Model\Config\Source\TrackingEmail</source_model>
@@ -308,7 +308,7 @@
                         <field id="isUsingColiship">0</field>
                     </depends>
                 </field>
-                <field id="isUsingCashOnDelivery" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="7" translate="label comment" type="select">
+                <field id="isUsingCashOnDelivery" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="40" translate="label comment" type="select">
                     <label>Use cash on delivery?</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>If enabled, each label generation will use cash on delivery feature by default.</comment>
@@ -316,15 +316,12 @@
                         <field id="isUsingColiShip">0</field>
                     </depends>
                 </field>
-                <field id="isUsingInsurance" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="8" translate="label comment" type="select">
+                <field id="isUsingInsurance" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="45" translate="label comment" type="select">
                     <label>Use Colissimo Insurance for outward label?</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>If enabled, each outward label generation will use Colissimo Insurance feature by default.</comment>
-                    <depends>
-                        <field id="isUsingColiShip">0</field>
-                    </depends>
                 </field>
-                <field id="averagePreparationDelay" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="9" translate="label comment" type="text">
+                <field id="averagePreparationDelay" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="50" translate="label comment" type="text">
                     <label>Average preparation delay</label>
                     <comment>Your average delay for preparation of a shipment, in days.</comment>
                     <validate>validate-number validate-zero-or-greater</validate>
@@ -332,14 +329,14 @@
                         <field id="isUsingColiShip">0</field>
                     </depends>
                 </field>
-                <field id="registeredMailLevel" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label comment" type="select">
+                <field id="registeredMailLevel" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="55" translate="label comment" type="select">
                     <label>Registered mail level</label>
                     <source_model>LaPoste\Colissimo\Model\Config\Source\RegisteredMailLevel</source_model>
                     <depends>
                         <field id="isUsingColiShip">0</field>
                     </depends>
                 </field>
-                <field id="isUsingCustomsDeclarations" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="11" translate="label comment" type="select">
+                <field id="isUsingCustomsDeclarations" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="60" translate="label comment" type="select">
                     <label>Use Customs Declarations?</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>If enabled, each label generation will ask Colissimo to generate and handle the Customs Declarations by default.</comment>
@@ -347,14 +344,19 @@
                         <field id="isUsingColiShip">0</field>
                     </depends>
                 </field>
-                <field id="defaultHsCode" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="12" translate="label comment" type="text">
+                <field id="defaultHsCode" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="65" translate="label comment" type="text">
                     <label>Default HS code</label>
                     <comment>You can define specific HS code per product in the product attribute 'Product HS Code'. If not, the default code will be used.</comment>
                     <depends>
                         <field id="isUsingCustomsDeclarations">1</field>
                     </depends>
                 </field>
-                <field id="defaultCustomsCategory" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="13" translate="label comment" type="select">
+                <field id="hsCodeAttribute" translate="label comment" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>HS code attribute</label>
+                    <comment>Choose the product attribute containing the HS code to use in customs declaration.</comment>
+                    <source_model>LaPoste\Colissimo\Model\Config\Source\HSCodeAttributes</source_model>
+                </field>
+                <field id="defaultCustomsCategory" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="75" translate="label comment" type="select">
                     <label>Default customs Category</label>
                     <source_model>LaPoste\Colissimo\Model\Config\Source\CustomsCategory</source_model>
                     <comment>Define the nature of the shipment</comment>
@@ -362,7 +364,7 @@
                         <field id="isUsingCustomsDeclarations">1</field>
                     </depends>
                 </field>
-                <field id="isFtd" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="14" translate="label comment" type="select">
+                <field id="isFtd" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="80" translate="label comment" type="select">
                     <label>Are parcels free of taxes and fees?</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>For french overseas destinations only (except St-Pierre-et-Miquelon)</comment>
@@ -370,20 +372,20 @@
                         <field id="isUsingCustomsDeclarations">1</field>
                     </depends>
                 </field>
-                <field id="eoriNumber" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="15" translate="label" type="text">
+                <field id="eoriNumber" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="85" translate="label" type="text">
                     <label>EORI number</label>
                     <depends>
                         <field id="isUsingCustomsDeclarations">1</field>
                     </depends>
                 </field>
-                <field id="eoriUkNumber" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="16" translate="label comment" type="text">
+                <field id="eoriUkNumber" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="90" translate="label comment" type="text">
                     <label>UK EORI number</label>
                     <comment>EORI number for delivery to United Kingdom</comment>
                     <depends>
                         <field id="isUsingCustomsDeclarations">1</field>
                     </depends>
                 </field>
-                <field id="cn23Number" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="17" translate="label comment" type="text">
+                <field id="cn23Number" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="95" translate="label comment" type="text">
                     <label>Number of CN23 documents to generate</label>
                     <comment>Please enter a number between 1 and 4</comment>
                     <validate>validate-no-empty validate-digits validate-not-negative-number validate-digits-range digits-range-1-4</validate>
@@ -391,7 +393,7 @@
                         <field id="isUsingCustomsDeclarations">1</field>
                     </depends>
                 </field>
-                <field id="cn23PrintFormat" translate="label" type="select" sortOrder="18" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="cn23PrintFormat" translate="label" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>CN23 print format</label>
                     <source_model>LaPoste\Colissimo\Model\Config\Source\PrintFormatsCN23</source_model>
                     <depends>
@@ -419,19 +421,32 @@
             </group>
             <group id="lpc_return_labels" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="5" translate="label">
                 <label>Return labels</label>
-                <field id="securedReturn" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="availableToCustomer" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Return label creation is available for the client</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="availableToCustomerDays" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Number of days during which the customers can download the return label</label>
+                    <depends>
+                        <field id="availableToCustomer">1</field>
+                    </depends>
+                </field>
+                <field id="securedReturn" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Activate secured return</label>
                     <frontend_model>\LaPoste\Colissimo\Block\System\Config\Field\SecuredReturn</frontend_model>
+                    <depends>
+                        <field id="availableToCustomer">1</field>
+                    </depends>
+                </field>
+                <field id="createReturnLabelWithOutward" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Automatically create return label at the same time as the outward label</label>
+                    <comment>If you don't activate this option, you can still manually create return labels on order shipping page</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="returnLabelPrintFormat" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Return label print format</label>
                     <comment>Return labels for International shipments are only available in PDF A4 format and will ignore this option.</comment>
                     <source_model>LaPoste\Colissimo\Model\Config\Source\PrintFormats</source_model>
-                </field>
-                <field id="createReturnLabelWithOutward" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Automatically create return label at the same time as the outward label</label>
-                    <comment>If you don't activate this option, you can still manually create return labels on order shipping page</comment>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="showServiceInformation" translate="label comment" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Show service information on return label</label>
@@ -464,16 +479,6 @@
                 <field id="nbDaysForPurge" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Number of days to consider a return label for purging (days)</label>
                     <comment>Delay before deleting return label BLOB from database. Use 0 or leave empty to disable this purge.</comment>
-                </field>
-                <field id="availableToCustomer" translate="label" type="select" sortOrder="45" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Return label creation is available for the client</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
-                <field id="availableToCustomerDays" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Number of days during which the customers can download the return label</label>
-                    <depends>
-                        <field id="availableToCustomer">1</field>
-                    </depends>
                 </field>
             </group>
             <group id="lpc_pr_front" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="6" translate="label">

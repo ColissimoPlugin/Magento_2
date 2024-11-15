@@ -6,7 +6,34 @@
     <?php echo !$block->isOptionAuthorized() ? ' disabled="disabled"' : ''; ?>
     <?php echo $block->isOptionActive() ? ' checked="checked"' : ''; ?>/>
 
-<p class="note"><span><?php echo $block->escapeHtml(__('Generate a QR Code that your customers can scan at the post office to print a label. This format is used to secure the return parcel. This option requires activation of the service in your Colissimo customer area.')); ?> <a
+<p class="note">
+    <span>
+        <?php echo $block->escapeHtml(__('If the secured return is enabled, only your customers will be able to generate return labels.')); ?><br>
+        <?php echo $block->escapeHtml(__('Generate a QR Code that your customers can scan at the post office to print a label. This format is used to secure the return parcel. This option requires activation of the service in your Colissimo customer area.')); ?> <a
             target="_blank"
-            href="<?php echo $block->getAccountServiceUrl(); ?>"><?php echo $block->escapeHtml(__('Activate service')); ?></a></span>
+            href="<?php echo $block->getAccountServiceUrl(); ?>"><?php echo $block->escapeHtml(__('Activate service')); ?></a>
+    </span>
 </p>
+
+<script>
+    require([
+        'jquery'
+    ], function ($) {
+        const $autoReturnContainer = $('#row_lpc_advanced_lpc_return_labels_createReturnLabelWithOutward');
+        const $customerReturn = $('#lpc_advanced_lpc_return_labels_availableToCustomer');
+        const $securedReturn = $('#lpc_advanced_lpc_return_labels_securedReturn_securedReturn');
+
+        const toggleAutoReturn = function () {
+            if ('0' === $customerReturn.val() || false === $securedReturn.prop('checked')) {
+                $autoReturnContainer.show();
+            } else {
+                $autoReturnContainer.hide();
+            }
+        };
+
+        toggleAutoReturn();
+
+        $customerReturn.on('change', toggleAutoReturn);
+        $securedReturn.on('change', toggleAutoReturn);
+    });
+</script>

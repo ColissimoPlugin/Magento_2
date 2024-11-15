@@ -29,6 +29,9 @@ class MassPrintInwardLabel extends MassPrintLabels
 
     public function getPdf()
     {
-        $this->pages[] = $this->shipment->getDataUsingMethod('lpc_return_label');
+        $pdfData = $this->shipment->getDataUsingMethod('lpc_return_label');
+        if (!empty($pdfData)) {
+            $this->pages[] = $pdfData;
+        }
     }
 }

@@ -167,7 +167,7 @@ class Import extends Action
             )->getItems();
 
             if (count($order) != 1) {
-                $this->onError(sprintf(__("Cannot find order %s"), $orderIncrementId));
+                $this->onError(sprintf(__('Cannot find order %s'), $orderIncrementId));
                 continue;
             }
 

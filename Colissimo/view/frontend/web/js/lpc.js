@@ -40,29 +40,21 @@ define([
 
         if ('gmaps' === lpcMapType) {
             const bounds = new google.maps.LatLngBounds();
-            const gmapsIcon = {
-                url: lpcMapMarker,
-                size: new google.maps.Size(36, 58),
-                origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(9, 32),
-                scaledSize: new google.maps.Size(18, 32)
-            };
 
             markers.each(function (index, element) {
                 const relayPosition = new google.maps.LatLng($(this).find('.lpc_layer_relay_latitude').text(),
                     $(this).find('.lpc_layer_relay_longitude').text()
                 );
 
-                const markerLpc = new google.maps.Marker({
+                const markerLpc = new google.maps.marker.AdvancedMarkerElement({
                     map: lpcGoogleMap,
                     position: relayPosition,
                     title: $(this).find('.lpc_layer_relay_name').text(),
-                    icon: gmapsIcon
+                    gmpClickable: true
                 });
 
                 const infowindowLpc = new google.maps.InfoWindow({
-                    content: lpcGetRelayInfo($(this)),
-                    pixelOffset: new google.maps.Size(-9, -5)
+                    content: lpcGetRelayInfo($(this))
                 });
                 lpcAttachClickInfoWindow(markerLpc, infowindowLpc, index);
                 lpcAttachClickChooseRelay(element);
@@ -206,7 +198,7 @@ define([
 
     // Add display relay detail click event (Gmaps)
     var lpcAttachClickInfoWindow = function (marker, infoWindow, index) {
-        marker.addListener('click', function () {
+        google.maps.event.addListener(marker, 'click', function () {
             lpcGmapsClickHandler(marker, infoWindow);
         });
 
@@ -465,7 +457,8 @@ define([
                         lat: 48.866667,
                         lng: 2.333333
                     },
-                    disableDefaultUI: true
+                    disableDefaultUI: true,
+                    mapId: 'Colissimo'
                 });
             } else if ('leaflet' === lpcMapType) {
                 lpcMap = L.map('lpc_map').setView([
@@ -556,7 +549,8 @@ define([
                     token: $('#lpc_token_widget').val(),
                     URLColissimo: 'https://ws.colissimo.fr',
                     callBackFrame: 'lpcCallBackFrame',
-                    dyWeight: '19000'
+                    dyWeight: '19000',
+                    origin: 'CMS'
                 };
 
                 const $lpcColor1 = $('#lpc_color_1');

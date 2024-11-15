@@ -22,6 +22,7 @@ use LaPoste\Colissimo\Model\Shipping\ReturnLabelGenerator;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Filesystem;
 use Magento\Framework\Filesystem\Directory\WriteInterface;
@@ -29,21 +30,20 @@ use Magento\Framework\UrlInterface;
 use Magento\Framework\View\Result\PageFactory;
 use Magento\Sales\Model\Order\Pdf\Invoice;
 use Magento\Sales\Model\ResourceModel\Order\Shipment\CollectionFactory;
-use LaPoste\Colissimo\Model\Carrier\Colissimo;
+use LaPoste\Colissimo\Logger\Colissimo;
 use LaPoste\Colissimo\Helper\Pdf;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Ui\Component\MassAction\Filter;
 
 class MassPrintLabels extends Action
 {
-
     const ADMIN_RESOURCE = 'LaPoste_Colissimo::shipment';
     /**
      * @var CollectionFactory
      */
     protected $shipmentCollection;
     /**
-     * @var \Magento\Framework\App\RequestInterface
+     * @var RequestInterface
      */
     protected $request;
     /**
@@ -67,7 +67,7 @@ class MassPrintLabels extends Action
      */
     protected $tmpDirectory;
     /**
-     * @var \LaPoste\Colissimo\Logger\Colissimo
+     * @var Colissimo
      */
     protected $logger;
     /**
@@ -107,8 +107,7 @@ class MassPrintLabels extends Action
      * @param Colissimo             $logger
      * @param Invoice               $pdfInvoice
      * @param StoreManagerInterface $storeManager
-     *
-     * @throws \Magento\Framework\Exception\FileSystemException
+     * @param Filter                $filter
      */
     public function __construct(
         Context $context,
@@ -168,6 +167,10 @@ class MassPrintLabels extends Action
                 $this->shipment = $shipment;
 
                 $this->getPdf();
+            }
+
+            if (empty($this->pages)) {
+                return $this->onError(__('No labels found.'));
             }
 
             $this->pdfFile = $this->pdfHelper->combineLabelsPdf($this->pages);
@@ -243,10 +246,19 @@ class MassPrintLabels extends Action
      */
     public function getPdf()
     {
-        $this->pages[] = $this->shipment->getDataUsingMethod('shipping_label');
-        $this->pages[] = $this->shipment->getDataUsingMethod('lpc_return_label');
+        $pdfData = $this->shipment->getDataUsingMethod('shipping_label');
+        if (!empty($pdfData)) {
+            $this->pages[] = $pdfData;
+        }
+
+        $pdfData = $this->shipment->getDataUsingMethod('lpc_return_label');
+        if (!empty($pdfData)) {
+            $this->pages[] = $pdfData;
+        }
+
         $this->pages[] = $this->getInvoicePdfContent();
 
+        // We want 2 invoices when there's a CN23
         if ($this->shipment->getDataUsingMethod('lpc_label_cn_23')) {
             $this->pages[] = $this->getInvoicePdfContent();
         }

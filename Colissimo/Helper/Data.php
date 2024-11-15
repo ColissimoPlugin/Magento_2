@@ -146,6 +146,10 @@ class Data extends AbstractHelper
      */
     public function decodeFromConfig($valueEncoded)
     {
+        if (empty($valueEncoded)) {
+            return [];
+        }
+
         if (version_compare($this->getMgVersion(), '2.2.0', '>=')) {
             $decodedValue = json_decode($valueEncoded, true);
         } else {

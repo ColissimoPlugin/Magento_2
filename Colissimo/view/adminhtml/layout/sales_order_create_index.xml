@@ -4,6 +4,7 @@
     <head>
         <css src="LaPoste_Colissimo::css/orderCreate.css"/>
         <css src="LaPoste_Colissimo::css/tooltip.css"/>
+        <script src="LaPoste_Colissimo::js/orderCreate.js"/>
     </head>
     <body>
         <referenceBlock name="content">

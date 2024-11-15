@@ -1,5 +1,26 @@
 # Colissimo Magento 2 Changelog
 
+# 1.7.0
+
+### Fonctionnalités
+
+- Une nouvelle option a été ajoutée pour vous permettre de sélectionner l'attribut produit à regarder pour le code SH
+
+### Améliorations
+
+- L'export pour Coliship a été mis à jour afin d'ajouter plus d'informations
+- La carte des points de retrait avec Google Maps a été mise à jour afin d'être compatible avec leurs dernières fonctionnalités
+- Les textes relatifs aux identifiants Colissimo ont été mis à jour
+- La génération d'étiquettes retour par l'admin n'est plus possible lorsque le retour sécurisé est activé
+
+### Correctifs
+
+- Une sécurité a été ajoutée lors de la génération automatique d'étiquettes sur un statut de commande spécifique
+- La sélection automatique du point de retrait le plus proche a été corrigée, elle n'est plus active si l'option est désactivée
+- Un correctif a été appliqué sur l'application des prix par défaut pour PHP 8.3
+- Le changement automatique du statut de commande après génération d'une étiquette a été corrigé pour les versions récentes de Magento
+- L'enregistrement du point de retrait sélectionné a été modifié afin de corriger certains cas où le point de retrait n'était pas enregistré
+
 # 1.6.0
 
 ### Fonctionnalités

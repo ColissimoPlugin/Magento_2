@@ -16,51 +16,59 @@ use LaPoste\Colissimo\Helper\Shipment;
 use LaPoste\Colissimo\Logger\Colissimo;
 use Magento\Framework\App\RequestInterface;
 use Magento\Shipping\Model\Shipping\LabelGenerator;
+use Magento\Backend\Model\Auth\Session;
 
 class GenerateLabelOnOrderStateChange implements \Magento\Framework\Event\ObserverInterface
 {
     /**
-     * @var \LaPoste\Colissimo\Helper\Data
+     * @var Data
      */
     protected $helperData;
     /**
-     * @var \LaPoste\Colissimo\Logger\Colissimo
+     * @var Colissimo
      */
     protected $logger;
     /**
-     * @var \Magento\Framework\App\RequestInterface
+     * @var RequestInterface
      */
     protected $request;
     /**
-     * @var \Magento\Shipping\Model\Shipping\LabelGenerator
+     * @var LabelGenerator
      */
     protected $labelGenerator;
     /**
-     * @var \LaPoste\Colissimo\Helper\Shipment
+     * @var Shipment
      */
     protected $shipmentHelper;
+    /**
+     * @var Session
+     */
+    protected $authSession;
 
     /**
      * GenerateLabelOnOrderStateChange constructor.
      *
-     * @param \LaPoste\Colissimo\Helper\Data                  $helperData
-     * @param \LaPoste\Colissimo\Logger\Colissimo             $logger
-     * @param \Magento\Framework\App\RequestInterface         $request
-     * @param \Magento\Shipping\Model\Shipping\LabelGenerator $labelGenerator
-     * @param \LaPoste\Colissimo\Helper\Shipment              $shipmentHelper
+     * @param Data             $helperData
+     * @param Colissimo        $logger
+     * @param RequestInterface $request
+     * @param LabelGenerator   $labelGenerator
+     * @param Shipment         $shipmentHelper
+     * @param Session          $authSession
      */
     public function __construct(
         Data $helperData,
         Colissimo $logger,
         RequestInterface $request,
         LabelGenerator $labelGenerator,
-        Shipment $shipmentHelper
+        Shipment $shipmentHelper,
+        Session $authSession
     ) {
         $this->helperData = $helperData;
         $this->logger = $logger;
         $this->request = $request;
         $this->labelGenerator = $labelGenerator;
         $this->shipmentHelper = $shipmentHelper;
+        $this->authSession = $authSession;
     }
 
     public function execute(\Magento\Framework\Event\Observer $observer)
@@ -107,6 +115,12 @@ class GenerateLabelOnOrderStateChange implements \Magento\Framework\Event\Observ
             );
 
             if ($order->canShip()) {
+                // We ensure that this user exists because Magento uses it without checking in createShipment
+                $admin = $this->authSession->getUser();
+                if (empty($admin)) {
+                    return $this;
+                }
+
                 // generate the whole shipment
                 $shipment = $this->shipmentHelper->createShipment($order);
 
@@ -143,7 +157,6 @@ class GenerateLabelOnOrderStateChange implements \Magento\Framework\Event\Observ
     {
         $packages = $this->shipmentHelper
             ->shipmentToPackages($shipment);
-
 
         $this->request
             ->setParam('packages', $packages);

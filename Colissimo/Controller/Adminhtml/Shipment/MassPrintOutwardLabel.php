@@ -29,6 +29,9 @@ class MassPrintOutwardLabel extends MassPrintLabels
 
     public function getPdf()
     {
-        $this->pages[] = $this->shipment->getDataUsingMethod('shipping_label');
+        $pdfData = $this->shipment->getDataUsingMethod('shipping_label');
+        if (!empty($pdfData)) {
+            $this->pages[] = $pdfData;
+        }
     }
 }

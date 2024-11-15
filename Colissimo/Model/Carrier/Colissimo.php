@@ -282,21 +282,23 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
         $isReturnLabel = $request->getIsReturnLabel();
 
         try {
+            $returnLabelGenerationPayload = null;
+
             if ($isReturnLabel) {
                 // Directly creates return label
                 $labelGenerationPayload = $this->mapRequestToReturn($request);
-                $returnLabelGenerationPayload = null;
             } else {
                 // Creates label
                 $labelGenerationPayload = clone $this->mapRequestToShipment($request);
 
-                // If needed will create return label at the same time
-                // In this case, we need to revert sender data to correctly build return payload
-                $returnLabelGenerationPayload = null;
-                if ($this->helperData->getConfigValue(
-                    'lpc_advanced/lpc_return_labels/createReturnLabelWithOutward',
-                    $request->getStoreId()
-                )) {
+                $storeId = $request->getStoreId();
+                $customersCanSelfReturn = $this->helperData->getAdvancedConfigValue('lpc_return_labels/availableToCustomer', $storeId);
+                $securedReturn = $this->helperData->getAdvancedConfigValue('lpc_return_labels/securedReturn', $storeId);
+                $returnLabelWithOutward = $this->helperData->getAdvancedConfigValue('lpc_return_labels/createReturnLabelWithOutward', $storeId);
+
+                // If needed, create return label at the same time
+                if ($returnLabelWithOutward && (!$customersCanSelfReturn || !$securedReturn)) {
+                    // In this case, we need to revert sender data to correctly build return payload
                     $revertedRequest = $this->revertSenderInfo($request);
                     $returnLabelGenerationPayload = $this->mapRequestToReturn($revertedRequest);
                 }
@@ -499,10 +501,12 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
         if ($nbShippedItems === $totalQtyOrdered) {
             if (null !== $defaultStatusAfterLabelling) {
                 $order->setState(Order::STATE_COMPLETE)
-                      ->setStatus($defaultStatusAfterLabelling);
+                      ->setStatus($defaultStatusAfterLabelling)
+                      ->save();
             }
         } elseif (null !== $statusAfterPartialShipping) {
-            $order->setStatus($statusAfterPartialShipping);
+            $order->setStatus($statusAfterPartialShipping)
+                  ->save();
         }
     }
 
@@ -571,6 +575,11 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
         }
 
         if ($shippingType === GenerateLabelPayload::LABEL_TYPE_MASTER) {
+            $hsCodeAttribute = $this->helperData->getAdvancedConfigValue('lpc_labels/hsCodeAttribute', $request->getStoreId());
+            if (empty($hsCodeAttribute)) {
+                $hsCodeAttribute = 'lpc_hs_code';
+            }
+
             $itemsForCn23 = [];
 
             $orderItems = $order->getAllItems();
@@ -594,7 +603,7 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
                     'row_weight'             => $item->getProduct()->getRowWeight(),
                     'currency'               => $item->getProduct()->getCurrency(),
                     'country_of_manufacture' => $item->getProduct()->getCountryOfManufacture(),
-                    'lpc_hs_code'            => $item->getProduct()->getLpcHsCode(),
+                    'lpc_hs_code'            => $item->getProduct()->getData($hsCodeAttribute),
                 ];
             }
         }
@@ -647,14 +656,10 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
             $customAmount = $postData['lpcInsurance']['lpc_insurance_amount'];
             $insuranceParam = 'on' === $postData['lpcInsurance']['lpc_use_insurance'];
         }
-        $insuranceConfig = $this->helperData->getConfigValue(
-            'lpc_advanced/lpc_labels/isUsingInsurance',
-            $request->getStoreId()
-        );
+        $insuranceConfig = $this->helperData->getConfigValue('lpc_advanced/lpc_labels/isUsingInsurance', $request->getStoreId());
 
         // Use insurance if option checked (when in order edition). In other cases only if option enabled in config
         if ((isset($insuranceParam) && $insuranceParam) || (!isset($insuranceParam) && $insuranceConfig)) {
-            $shipment = $shipment;
             $total = 0;
             foreach ($shipment->getAllItems() as $item) {
                 $orderItem = $item->getOrderItem();
