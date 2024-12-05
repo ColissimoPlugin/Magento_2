@@ -97,6 +97,6 @@ class SetRelayInformationOrder implements ObserverInterface
             $relayInformation = $this->_checkoutSession->getLpcRelayInformation();
         }
 
-        return $relayInformation;
+        return $relayInformation ?? [];
     }
 }

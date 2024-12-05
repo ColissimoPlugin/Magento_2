@@ -18,6 +18,7 @@
                 <value id="colissimows" type="host">https://ws.colissimo.fr</value>
                 <value id="pickupleafletmap" type="host">https://*.tile.openstreetmap.fr</value>
                 <value id="colissimowidgetonyourmap" type="host">https://*.onyourmap.com</value>
+                <value id="colissimowidgetgoogle" type="host">https://google.fr</value>
             </values>
         </policy>
         <policy id="style-src">
