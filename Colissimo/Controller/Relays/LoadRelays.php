@@ -60,36 +60,51 @@ class LoadRelays extends Action
         $request = $this->getRequest();
 
         $address = [
-            "address"     => $request->getParam('address'),
-            "zipCode"     => $request->getParam('zipCode'),
-            "city"        => $request->getParam('city'),
-            "countryCode" => $request->getParam('countryId'),
+            'address'     => $request->getParam('address'),
+            'zipCode'     => $request->getParam('zipCode'),
+            'city'        => $request->getParam('city'),
+            'countryCode' => $request->getParam('countryId'),
         ];
         $loadMore = $request->getParam('loadMore') === '1';
 
         $errorCodesWSClientSide = [
-            "104",
-            "105",
-            "117",
-            "125",
-            "129",
-            "143",
-            "144",
-            "145",
-            "146",
+            '104',
+            '105',
+            '117',
+            '125',
+            '129',
+            '143',
+            '144',
+            '145',
+            '146',
         ];
 
         $resultJson = $this->_resultJsonFactory->create();
 
         try {
-            $this->_generateRelaysPayload->withCredentials()->withAddress($address)->withShippingDate()->withOptionInter()->checkConsistency();
+            // Force Post office type if cart weight > 20kg
+            $items = $this->cartModel->getQuote()->getAllItems();
+            $cartWeight = 0;
+            foreach ($items as $item) {
+                $cartWeight += ($item->getWeight() * $item->getQty());
+            }
+            $storeId = $this->storeManager->getStore()->getId();
+            $cartWeight = $this->helperData->convertWeightToKilogram($cartWeight, null, $storeId);
+
+            $this->_generateRelaysPayload
+                ->withCredentials()
+                ->withAddress($address)
+                ->withShippingDate()
+                ->withOptionInter()
+                ->withRelayTypeFilter($cartWeight, $storeId)
+                ->checkConsistency();
             $relaysPayload = $this->_generateRelaysPayload->assemble();
 
             $resultWs = $this->relaysApi->getRelays($relaysPayload);
         } catch (\SoapFault $fault) {
             $this->_logger->error($fault);
 
-            return $resultJson->setData(['error' => "Error", 'success' => 0]);
+            return $resultJson->setData(['error' => 'Error', 'success' => 0]);
         } catch (\Magento\Framework\Exception\LocalizedException $exception) {
             $this->_logger->error($exception);
 
@@ -107,28 +122,6 @@ class LoadRelays extends Action
 
             $listRelaysWS = $return->listePointRetraitAcheminement;
 
-            // Choose displayed relay types
-            $relayTypesList = $this->helperData->getAdvancedConfigValue('lpc_pr_front/chooseRelayType');
-
-            // Force Post office type if cart weight > 20kg
-            $items = $this->cartModel->getQuote()->getAllItems();
-            $cartWeight = 0;
-            foreach ($items as $item) {
-                $cartWeight += ($item->getWeight() * $item->getQty());
-            }
-            $storeId = $this->storeManager->getStore()->getId();
-            $cartWeight = $this->helperData->convertWeightToKilogram($cartWeight, null, $storeId);
-            if ($cartWeight > 20) {
-                $relayTypesList = 'BDP,BPR';
-            }
-
-            if (!empty($relayTypesList)) {
-                $relayTypes = explode(',', $relayTypesList);
-                $listRelaysWS = array_filter($listRelaysWS, function ($relay) use ($relayTypes) {
-                    return in_array($relay->typeDePoint, $relayTypes);
-                });
-            }
-
             // Limit number of displayed relays
             $maxRelayPoint = $loadMore ? 20 : (int) $this->helperData->getAdvancedConfigValue('lpc_pr_front/maxRelayPoint');
             if (empty($maxRelayPoint)) {
@@ -144,27 +137,27 @@ class LoadRelays extends Action
             }
 
             $resultPage = $this->_resultPageFactory->create();
-            $block = $resultPage->getLayout()->createBlock('LaPoste\Colissimo\Block\ListRelays')->setTemplate("LaPoste_Colissimo::list_relays.phtml");
+            $block = $resultPage->getLayout()->createBlock('LaPoste\Colissimo\Block\ListRelays')->setTemplate('LaPoste_Colissimo::list_relays.phtml');
             $block->setListRelays($listRelaysWS);
             $block->setOverWarning($cartWeight);
             $listRelaysHtml = $block->toHtml();
 
             return $resultJson->setData(['html' => $listRelaysHtml, 'success' => 1, 'loadMore' => $loadMore]);
         } elseif ($return->errorCode == 301 || $return->errorCode == 300 || $return->errorCode == 203) {
-            $this->_logger->warning($return->errorCode . " : " . $return->errorMessage);
+            $this->_logger->warning($return->errorCode . ' : ' . $return->errorMessage);
 
             return $resultJson->setData(['error' => __('No relay available'), 'success' => 0]);
         } else {
             //Error to display To client
             if (in_array($return->errorCode, $errorCodesWSClientSide)) {
-                $this->_logger->error($return->errorCode . " : " . $return->errorMessage);
+                $this->_logger->error($return->errorCode . ' : ' . $return->errorMessage);
 
                 return $resultJson->setData(['error' => $return->errorMessage, 'success' => 0]);
             } //Error to hide to the client
             else {
-                $this->_logger->error($return->errorCode . " : " . $return->errorMessage);
+                $this->_logger->error($return->errorCode . ' : ' . $return->errorMessage);
 
-                return $resultJson->setData(['error' => "Error", 'success' => 0]);
+                return $resultJson->setData(['error' => 'Error', 'success' => 0]);
             }
         }
     }

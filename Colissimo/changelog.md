@@ -1,6 +1,24 @@
 # Colissimo Magento 2 Changelog
 
-# 1.7.0
+# 1.8.0 - 30/04/2025
+
+### Fonctionnalités
+
+- L'option FTD pour les DOM-TOM a été transformée en DDP, et une option supplémentaire a été ajoutée pour permettre la configuration d'un surcoût pour les DOM-TOM
+- L'option de filtre des types de point de retrait a été remplacée au profit d'une option plus complète
+
+### Améliorations
+
+- Les tarifs par défaut ont été mis à jour pour prendre en compte les nouvelles grilles tarifaires 2025
+- La compatibilité avec Mageworx a été améliorée pour les points de retrait
+- Un lien a été ajouté dans la configuration pour vous permettre de vous rendre sur la page du matériel d'emballage Colissimo
+- Un formulaire de satisfation a été ajouté dans la configuration pour vous permettre de nous faire part de vos retours sur le module
+
+### Correctifs
+
+- Le numéro de commande a été modifié dans l'email de suivi pour bien être le numéro de commande et non son identifiant
+
+# 1.7.0 - 15/11/2024
 
 ### Fonctionnalités
 
@@ -21,7 +39,7 @@
 - Le changement automatique du statut de commande après génération d'une étiquette a été corrigé pour les versions récentes de Magento
 - L'enregistrement du point de retrait sélectionné a été modifié afin de corriger certains cas où le point de retrait n'était pas enregistré
 
-# 1.6.0
+# 1.6.0 - 30/09/2024
 
 ### Fonctionnalités
 
@@ -39,7 +57,7 @@
 - Le stock des commandes passées avec une autre méthode de livraison ne sont plus impactés
 - Le nom du client est maintenant bien utilisé dans l'email de suivi à la place de son adresse email
 
-# 1.5.0
+# 1.5.0 - 24/07/2024
 
 ### Fonctionnalités
 
@@ -57,19 +75,19 @@
 
 - L'affichage de la carte des points de retrait en mode Google Maps et Leaflet a été corrigé pour Magento 2.4.7 en modifiant les règles CSP
 
-# 1.4.2
+# 1.4.2 - 21/05/2024
 
 ### Correctifs
 
 - Un formulaire a été ajouté dans les réglages afin de vous permettre de nous fournir un retour sur le module
 
-# 1.4.1
+# 1.4.1 - 03/05/2024
 
 ### Améliorations
 
 - La vérification des identifiants Colissimo dans les réglages et l'affichage du widget Colissimo ont été corrigés
 
-# 1.4.0
+# 1.4.0 - 24/04/2024
 
 ### Fonctionnalités
 
@@ -91,7 +109,7 @@
 - Lors d'une livraison en point de retrait pour un panier de plus de 20kg, les points non éligibles ne sont plus proposés
 - Le champs du numéro de téléphone n'est plus obligatoire pour certaines commandes si la livraison n'est pas en point de retrait
 
-# 1.3.5
+# 1.3.5 - 15/01/2024
 
 ### Fonctionnalités
 
@@ -114,7 +132,7 @@
 
 - L'affichage de l'icône du marqueur a été corrigé lorsque la sélection automatique du point de retrait le plus proche est activée
 
-# 1.3.4
+# 1.3.4 - 13/10/2023
 
 ### Fonctionnalités
 
@@ -129,7 +147,7 @@
 
 - L'inclusion de scripts a été corrigée pour certaines configurations système sur la page de modification d'une commande
 
-# 1.3.3
+# 1.3.3 - 25/07/2023
 
 ### Fonctionnalités
 
@@ -144,7 +162,7 @@
 - Préparation de compatibilité avec PHP 8.3
 - Les coupons rendant la livraison gratuite sont à présent pris en compte
 
-# 1.3.2
+# 1.3.2 - 21/03/2023
 
 ### Correctifs
 
@@ -152,14 +170,14 @@
 - Correction d'un message de warning lors de la génération manuelle d'une étiquette, sans multi-colis
 - Correction de l'affichage du nom et de l'adresse du destinataire sur l'étiquette lorsque des caractères accentués sont utilisés
 
-# 1.3.1
+# 1.3.1 - 26/01/2023
 
 ### Correctifs
 
 - Correction d'un message de warning lors de la génération manuelle d'une étiquette en même temps que l'expédition, sans assurance
 - Correction d'un message de warning lors de la génération manuelle d'une étiquette en même temps que l'expédition, sans multi-colis
 
-# 1.3.0
+# 1.3.0 - 09/01/2023
 
 ### Fonctionnalités
 

@@ -78,7 +78,22 @@ class LoadRelaysAdmin extends Action
         $resultJson = $this->resultJsonFactory->create();
 
         try {
-            $this->generateRelaysPayload->withCredentials()->withAddress($address)->withShippingDate()->withOptionInter()->checkConsistency();
+            // Force Post office type if cart weight > 20kg
+            $storeId = $this->sessionQuote->getQuote()->getStoreId();
+            $items = $this->sessionQuote->getQuote()->getAllItems();
+            $cartWeight = 0;
+            foreach ($items as $item) {
+                $cartWeight += ($item->getWeight() * $item->getQty());
+            }
+            $cartWeight = $this->helperData->convertWeightToKilogram($cartWeight, null, $storeId);
+
+            $this->generateRelaysPayload
+                ->withCredentials()
+                ->withAddress($address)
+                ->withShippingDate()
+                ->withOptionInter()
+                ->withRelayTypeFilter($cartWeight, $storeId)
+                ->checkConsistency();
             $relaysPayload = $this->generateRelaysPayload->assemble();
 
             $resultWs = $this->relaysApi->getRelays($relaysPayload);
@@ -102,28 +117,6 @@ class LoadRelaysAdmin extends Action
             }
 
             $listRelaysWS = $return->listePointRetraitAcheminement;
-
-            // Choose displayed relay types
-            $relayTypesList = $this->helperData->getAdvancedConfigValue('lpc_pr_front/chooseRelayType');
-
-            // Force Post office type if cart weight > 20kg
-            $storeId = $this->sessionQuote->getQuote()->getStoreId();
-            $items = $this->sessionQuote->getQuote()->getAllItems();
-            $cartWeight = 0;
-            foreach ($items as $item) {
-                $cartWeight += ($item->getWeight() * $item->getQty());
-            }
-            $cartWeight = $this->helperData->convertWeightToKilogram($cartWeight, null, $storeId);
-            if ($cartWeight > 20) {
-                $relayTypesList = 'BDP,BPR';
-            }
-
-            if (!empty($relayTypesList)) {
-                $relayTypes = explode(',', $relayTypesList);
-                $listRelaysWS = array_filter($listRelaysWS, function ($relay) use ($relayTypes) {
-                    return in_array($relay->typeDePoint, $relayTypes);
-                });
-            }
 
             // Limit number of displayed relays
             $maxRelayPoint = $loadMore ? 20 : (int) $this->helperData->getAdvancedConfigValue('lpc_pr_front/maxRelayPoint');

@@ -16,7 +16,7 @@ use LaPoste\Colissimo\Helper\CountryOffer;
 
 class Selector extends Template
 {
-    protected $_template = "selector.phtml";
+    protected $_template = 'selector.phtml';
     protected $helperData;
     public $colissimoLogger;
     protected $_pickUpPointApi;
@@ -53,12 +53,12 @@ class Selector extends Template
 
     public function lpcAjaxUrlLoadRelaysList()
     {
-        return $this->getUrl("lpc/relays/LoadRelays");
+        return $this->getUrl('lpc/relays/LoadRelays');
     }
 
     public function getAjaxSetInformationRelayUrl()
     {
-        return $this->getUrl("lpc/relays/SetRelayInformationSession");
+        return $this->getUrl('lpc/relays/SetRelayInformationSession');
     }
 
     public function getGoogleMapsUrl()
@@ -70,12 +70,12 @@ class Selector extends Template
 
     public function lpcPrView()
     {
-        return $this->helperData->getConfigValue("lpc_advanced/lpc_pr_front/choosePRDisplayMode");
+        return $this->helperData->getAdvancedConfigValue('lpc_pr_front/choosePRDisplayMode');
     }
 
     public function lpcIsAutoRelay()
     {
-        return $this->helperData->getConfigValue('lpc_advanced/lpc_pr_front/prAutoSelect');
+        return $this->helperData->getAdvancedConfigValue('lpc_pr_front/prAutoSelect');
     }
 
     public function lpcGetAuthenticationToken()
@@ -91,42 +91,47 @@ class Selector extends Template
 
     public function lpcGetAveragePreparationDelay()
     {
-        return $this->helperData->getConfigValue("lpc_advanced/lpc_pr_front/averagePreparationDelay");
+        return $this->helperData->getAdvancedConfigValue('lpc_pr_front/averagePreparationDelay');
+    }
+
+    public function lpcGetRelayTypes()
+    {
+        return $this->helperData->getAdvancedConfigValue('lpc_pr_front/relayTypes');
     }
 
     public function lpcWidgetUrl()
     {
-        return $this->helperData->getConfigValue("lpc_advanced/lpc_pr_front/prWidgetUrl");
+        return $this->helperData->getAdvancedConfigValue('lpc_pr_front/prWidgetUrl');
     }
 
     public function lpcGetAddressTextColor()
     {
-        return $this->helperData->getConfigValue("lpc_advanced/lpc_pr_front/prAddressTextColor");
+        return $this->helperData->getAdvancedConfigValue('lpc_pr_front/prAddressTextColor');
     }
 
     public function lpcGetListTextColor()
     {
-        return $this->helperData->getConfigValue("lpc_advanced/lpc_pr_front/prListTextColor");
+        return $this->helperData->getAdvancedConfigValue('lpc_pr_front/prListTextColor');
     }
 
     public function lpcGetCustomizeWidget()
     {
-        return $this->helperData->getConfigValue("lpc_advanced/lpc_pr_front/prCustomizeWidget");
+        return $this->helperData->getAdvancedConfigValue('lpc_pr_front/prCustomizeWidget');
     }
 
     public function lpcGetDefaultMobileDisplay()
     {
-        return $this->helperData->getConfigValue("lpc_advanced/lpc_pr_front/prDefaultMobileDisplay");
+        return $this->helperData->getAdvancedConfigValue('lpc_pr_front/prDefaultMobileDisplay');
     }
 
     public function lpcGetMaxRelayPoint()
     {
-        return $this->helperData->getConfigValue("lpc_advanced/lpc_pr_front/maxRelayPoint");
+        return $this->helperData->getAdvancedConfigValue('lpc_pr_front/maxRelayPoint');
     }
 
     public function lpcGetFontWidgetPr()
     {
-        $fontValue = $this->helperData->getConfigValue("lpc_advanced/lpc_pr_front/prDisplayFont");
+        $fontValue = $this->helperData->getAdvancedConfigValue('lpc_pr_front/prDisplayFont');
 
         $fontNames = [
             'georgia'       => 'Georgia, serif',

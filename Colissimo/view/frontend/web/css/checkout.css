@@ -178,8 +178,9 @@
     padding-left: 10px;
 }
 
-.content{
+#lpc_layer_relays .content{
     margin: 10px -15px 0 -15px;
+    padding: 0;
 }
 
 

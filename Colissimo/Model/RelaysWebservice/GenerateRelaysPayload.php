@@ -20,7 +20,9 @@ class GenerateRelaysPayload implements \LaPoste\Colissimo\Api\RelaysWebservice\G
 
     public function __construct(Data $helperData)
     {
-        $this->payload = [];
+        $this->payload = [
+            'origin' => 'CMS',
+        ];
         $this->helperData = $helperData;
     }
 
@@ -67,14 +69,14 @@ class GenerateRelaysPayload implements \LaPoste\Colissimo\Api\RelaysWebservice\G
     {
         if (null === $shippingDate) {
             $shippingDate = new \DateTime();
-            $numberOfDayPreparation = (int) $this->helperData->getAdvancedConfigValue("lpc_labels/averagePreparationDelay");
-            $shippingDate->add(new \DateInterval("P" . $numberOfDayPreparation . "D"));
+            $numberOfDayPreparation = (int) $this->helperData->getAdvancedConfigValue('lpc_labels/averagePreparationDelay');
+            $shippingDate->add(new \DateInterval('P' . $numberOfDayPreparation . 'D'));
         }
 
         if (empty($shippingDate)) {
             unset($this->payload['shippingDate']);
         } else {
-            $this->payload['shippingDate'] = $shippingDate->format("d/m/Y");
+            $this->payload['shippingDate'] = $shippingDate->format('d/m/Y');
         }
 
         return $this;
@@ -83,14 +85,27 @@ class GenerateRelaysPayload implements \LaPoste\Colissimo\Api\RelaysWebservice\G
     public function withOptionInter($optionInter = null)
     {
         if (null === $optionInter) {
-            $optionInter = $this->helperData->getAdvancedConfigValue("lpc_pr_front/showInternational");
+            $optionInter = $this->helperData->getAdvancedConfigValue('lpc_pr_front/showInternational');
         }
 
-        if (empty($optionInter) || $this->payload['countryCode'] == "FR") {
-            $this->payload['optionInter'] = "0";
+        if (empty($optionInter) || $this->payload['countryCode'] === 'FR') {
+            $this->payload['optionInter'] = '0';
         } else {
             $this->payload['optionInter'] = $optionInter;
         }
+
+        return $this;
+    }
+
+    public function withRelayTypeFilter($weight, $storeId)
+    {
+        if ($weight > 20) {
+            $this->payload['filterRelay'] = '0';
+
+            return $this;
+        }
+
+        $this->payload['filterRelay'] = $this->helperData->getAdvancedConfigValue('lpc_pr_front/relayTypes', $storeId);
 
         return $this;
     }
@@ -136,7 +151,7 @@ class GenerateRelaysPayload implements \LaPoste\Colissimo\Api\RelaysWebservice\G
             throw new \Magento\Framework\Exception\LocalizedException(__('Shipping date required to get relay points'));
         }
 
-        if (!empty($this->payload['optionInter']) && $this->payload['optionInter'] == "1" && $this->payload['countryCode'] == "FR") {
+        if (!empty($this->payload['optionInter']) && $this->payload['optionInter'] == '1' && $this->payload['countryCode'] === 'FR') {
             throw new \Magento\Framework\Exception\LocalizedException(__('The international option can\'t be enable if the country destination is France'));
         }
     }

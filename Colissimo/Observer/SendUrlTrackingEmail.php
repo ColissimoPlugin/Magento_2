@@ -131,6 +131,7 @@ class SendUrlTrackingEmail implements ObserverInterface
             }
             $storeId = $order->getStoreId();
             $orderId = $order->getId();
+            $incrementId = $order->getIncrementId();
             $recipientEmail = $order->getCustomerEmail();
             $recipientName = $order->getCustomerName();
             $senderName = $this->helperData->getConfigValue('trans_email/ident_sales/name', $storeId);
@@ -154,20 +155,26 @@ class SendUrlTrackingEmail implements ObserverInterface
                 $this->inlineTranslation->suspend();
                 $this->transportBuilder
                     ->setTemplateIdentifier('lpc_order_tracking')
-                    ->setTemplateOptions([
-                                             'area'  => \Magento\Framework\App\Area::AREA_FRONTEND,
-                                             'store' => $storeId,
-                                         ])->setTemplateVars([
-                                                                 'customerName'    => $recipientName,
-                                                                 'orderNumber'     => $orderId,
-                                                                 'createdAt'       => $order->getCreatedAt(),
+                    ->setTemplateOptions(
+                        [
+                            'area'  => \Magento\Framework\App\Area::AREA_FRONTEND,
+                            'store' => $storeId,
+                        ]
+                    )->setTemplateVars(
+                        [
+                            'customerName'    => $recipientName,
+                            'orderNumber'     => $incrementId,
+                            'createdAt'       => $order->getCreatedAt(),
                                                                  'trackingLink'    => $this->getTrackingActionUrl($orderId),
-                                                                 'shippingAddress' => $shippingAddressFormatted,
-                                                                 'parcelNumber'    => $parcelNumber,
-                                                             ])->setFromByScope([
-                                                                                    'email' => $senderEmail,
-                                                                                    'name'  => $senderName,
-                                                                                ])->addTo($recipientEmail, $recipientName)
+                            'shippingAddress' => $shippingAddressFormatted,
+                            'parcelNumber'    => $parcelNumber,
+                        ]
+                    )->setFromByScope(
+                        [
+                            'email' => $senderEmail,
+                            'name'  => $senderName,
+                        ]
+                    )->addTo($recipientEmail, $recipientName)
                     ->getTransport()
                     ->sendMessage();
                 $this->inlineTranslation->resume();

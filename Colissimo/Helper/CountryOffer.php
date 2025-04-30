@@ -24,6 +24,7 @@ class CountryOffer extends AbstractHelper
     const DOM1_COUNTRIES_CODE = ['BL', 'GF', 'GP', 'MQ', 'PM', 'RE', 'YT'];
     const DOM2_COUNTRIES_CODE = ['NC', 'PF', 'TF', 'WF'];
     const UNKNOWN_MG_COUNTRIES = ['BQ'];
+    const COUNTRIES_FTD = ['GF', 'GP', 'MQ', 'RE'];
 
     //Some region have a specific country code that is not handle by Magento. The pattern is $countryCodeSpecificsDestinations['MagentoCountryCode']['startOfPostCode'] = "CustomLpcCountryCode"
     protected $countryCodeSpecificsDestinations = [
@@ -304,13 +305,6 @@ class CountryOffer extends AbstractHelper
         $productInfo = $this->getProductInfoForDestination($destinationCountryId, $destinationPostcode, $originCountryId);
 
         return $productInfo['cn23'];
-    }
-
-    public function getFtdRequiredForDestination($destinationCountryId, $destinationPostcode, $originCountryId = 'fr')
-    {
-        $productInfo = $this->getProductInfoForDestination($destinationCountryId, $destinationPostcode, $originCountryId);
-
-        return $productInfo['ftd'];
     }
 
     public function getInsuranceAvailableForDestination($destinationCountryId, $destinationPostcode, $originCountryId = 'fr')

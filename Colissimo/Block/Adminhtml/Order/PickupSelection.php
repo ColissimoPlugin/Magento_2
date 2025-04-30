@@ -149,7 +149,12 @@ class PickupSelection extends Template
 
     public function lpcGetAveragePreparationDelay()
     {
-        return $this->helperData->getConfigValue('lpc_advanced/lpc_pr_front/averagePreparationDelay');
+        return $this->helperData->getAdvancedConfigValue('lpc_pr_front/averagePreparationDelay');
+    }
+
+    public function lpcGetRelayTypes()
+    {
+        return $this->helperData->getAdvancedConfigValue('lpc_pr_front/relayTypes');
     }
 
     public function lpcGetAuthenticationToken()

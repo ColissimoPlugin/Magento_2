@@ -220,8 +220,12 @@ class Export extends Action
                 continue;
             }
 
-            $row['ftd'] = $this->countryHelperOffer->getFtdRequiredForDestination($shippingAddress->getCountryId(), $shippingAddress->getPostcode(), $originCountryId) === true
-                          && $this->helperData->getAdvancedConfigValue('lpc_labels/isFtd', $storeId) ? 1 : 0;
+            $row['ftd'] = 0;
+            if ($this->helperData->getAdvancedConfigValue('lpc_labels/isFtd', $storeId)
+                && !in_array(strtoupper($originCountryId), CountryOffer::DOM1_COUNTRIES_CODE)
+                && in_array($shippingAddress->getCountryId(), CountryOffer::COUNTRIES_FTD)) {
+                $row['ftd'] = 1;
+            }
 
             $row['langue_notification'] = 'fr';
             $row['livraison_avec_signature'] = in_array(

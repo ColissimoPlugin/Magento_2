@@ -643,6 +643,7 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
                                                   $shippingMethodUsed,
                                                   $recipient
                                               )
+                                              ->withFtd($recipient['countryCode'], $request->getStoreId())
                                               ->withMultiShipping($order, $shipment, $multiShippingData, $shipmentData)
                                               ->withBlockingCode($shippingMethodUsed, $itemsForCn23, $order, $shipment, $postData, $request->getStoreId());
 
@@ -738,6 +739,7 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
                                               ->withCuserInfoText()
                                               ->withSender($sender, $request->getStoreId())
                                               ->withAddressee($recipient, null, $request->getStoreId())
+                                              ->withFtd($recipient['countryCode'], $request->getStoreId())
                                               ->withPreparationDelay($request->getPreparationDelay(), $request->getStoreId())
                                               ->withProductCode($productCode)
                                               ->withOutputFormat($request->getOutputFormat(), $request->getStoreId(), $productCode)
@@ -845,18 +847,20 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
             return null;
         }
 
+        // Handle DDP additional price
+        $extraCost = 0;
+        if (in_array($destCountryId, CountryOffer::COUNTRIES_FTD)
+            && $this->helperData->getAdvancedConfigValue('lpc_labels/isFtd')
+            && !in_array(strtoupper($originCountryId), CountryOffer::DOM1_COUNTRIES_CODE)) {
+            $extraCost = $this->helperData->getAdvancedConfigValue('lpc_labels/extracost_om');
+        } elseif (in_array($methodCode, [self::CODE_SHIPPING_METHOD_DOMICILE_AS_DDP, self::CODE_SHIPPING_METHOD_EXPERT_DDP]) && in_array($destCountryId, self::COUNTRIES_DDP)) {
+            $extraCost = $this->helperData->getAdvancedConfigValue('lpc_ddp/extracost_' . strtolower($destCountryId));
+        }
+
         // Free shipping set for the method
         if ($this->helperData->getConfigValue('carriers/lpc_group/' . $methodCode . '_free')) {
             $method = $this->getMethodStructure($methodCode);
-            $method->setPrice(0);
-
-            // Add DDP additional price
-            if (in_array($methodCode, [self::CODE_SHIPPING_METHOD_DOMICILE_AS_DDP, self::CODE_SHIPPING_METHOD_EXPERT_DDP]) && in_array($destCountryId, self::COUNTRIES_DDP)) {
-                $extraCost = $this->helperData->getAdvancedConfigValue('lpc_ddp/extracost_' . strtolower($destCountryId));
-                if (!empty($extraCost)) {
-                    $method->setPrice($extraCost);
-                }
-            }
+            $method->setPrice(empty($extraCost) ? 0 : $extraCost);
 
             return $method;
         }
@@ -881,16 +885,8 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
         if ($freeShipping == 1) {
             $methodPrice = 0;
         }
-        $method->setPrice($methodPrice);
 
-        // Handle DDP additional price
-        if (in_array($methodCode, [self::CODE_SHIPPING_METHOD_DOMICILE_AS_DDP, self::CODE_SHIPPING_METHOD_EXPERT_DDP]) && in_array($destCountryId, self::COUNTRIES_DDP)) {
-            $extraCost = $this->helperData->getAdvancedConfigValue('lpc_ddp/extracost_' . strtolower($destCountryId));
-            if (!empty($extraCost)) {
-                $newPrice = $methodPrice + $extraCost;
-                $method->setPrice($newPrice);
-            }
-        }
+        $method->setPrice(empty($extraCost) ? $methodPrice : $methodPrice + $extraCost);
 
         return $method;
     }

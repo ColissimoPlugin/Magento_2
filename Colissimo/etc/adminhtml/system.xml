@@ -365,11 +365,18 @@
                     </depends>
                 </field>
                 <field id="isFtd" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="80" translate="label comment" type="select">
-                    <label>Are parcels free of taxes and fees?</label>
+                    <label>French overseas parcels sent with DDP (Delivered Duty Paid)?</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>For french overseas destinations only (except St-Pierre-et-Miquelon)</comment>
+                    <comment>For French overseas destinations only (except St-Pierre-et-Miquelon and Mayotte)</comment>
                     <depends>
                         <field id="isUsingCustomsDeclarations">1</field>
+                    </depends>
+                </field>
+                <field id="extracost_om" translate="label" type="text" sortOrder="82" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <frontend_model>LaPoste\Colissimo\Block\System\Config\Field\ExtraCostOM</frontend_model>
+                    <label>Extra cost for French overseas</label>
+                    <depends>
+                        <field id="isFtd">1</field>
                     </depends>
                 </field>
                 <field id="eoriNumber" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="85" translate="label" type="text">
@@ -488,7 +495,12 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>When the user selects the relay method during the checkout, it will automatically propose a relay point based on the shipping address</comment>
                 </field>
-                <field id="choosePRDisplayMode" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="relayTypes" translate="label" type="select" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Types of displayed relays</label>
+                    <comment>If cart weight is higher than 20 kg, only post office relays will be available.</comment>
+                    <source_model>LaPoste\Colissimo\Model\Config\Source\RelayTypes</source_model>
+                </field>
+                <field id="choosePRDisplayMode" translate="label comment" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Display mode</label>
                     <comment>Choose between the standard display mode from Colissimo (Widget) and the customizable ones (Google Maps or Open Street Maps)</comment>
                     <source_model>LaPoste\Colissimo\Model\Config\Source\PRDisplayMode</source_model>
@@ -542,20 +554,6 @@
                 </field>
                 <field id="maxRelayPoint" translate="label" sortOrder="82" showInDefault="1" showInWebsite="1" showInStore="1" type="text">
                     <label>Maximum number of displayed relays</label>
-                    <depends>
-                        <field id="lpc_advanced/lpc_pr_front/choosePRDisplayMode" separator=",">gmaps,leaflet</field>
-                    </depends>
-                </field>
-                <field id="colissimoVersion" translate="label" type="label" sortOrder="83" showInDefault="1" showInWebsite="0" showInStore="0">
-                    <label>Relay types</label>
-                    <frontend_model>LaPoste\Colissimo\Block\System\Config\Field\RelayTypeInformation</frontend_model>
-                    <depends>
-                        <field id="lpc_advanced/lpc_pr_front/choosePRDisplayMode" separator=",">gmaps,leaflet</field>
-                    </depends>
-                </field>
-                <field id="chooseRelayType" translate="label" type="multiselect" sortOrder="84" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Type of displayed relays</label>
-                    <source_model>LaPoste\Colissimo\Model\Config\Source\ChooseRelayType</source_model>
                     <depends>
                         <field id="lpc_advanced/lpc_pr_front/choosePRDisplayMode" separator=",">gmaps,leaflet</field>
                     </depends>

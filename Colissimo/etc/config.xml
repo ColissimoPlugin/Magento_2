@@ -26,11 +26,11 @@
             </lpc_return_labels>
             <lpc_pr_front>
                 <prAutoSelect>0</prAutoSelect>
+                <relayTypes>1</relayTypes>
                 <choosePRDisplayMode>widget</choosePRDisplayMode>
                 <prCustomizeWidget>0</prCustomizeWidget>
                 <prDisplayFont>verdana</prDisplayFont>
                 <maxRelayPoint>20</maxRelayPoint>
-                <chooseRelayType>A2P,BPR,CMT,PCS,BDP</chooseRelayType>
                 <prDefaultMobileDisplay>maplist</prDefaultMobileDisplay>
             </lpc_pr_front>
             <lpc_ddp>

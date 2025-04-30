@@ -70,6 +70,13 @@ interface GenerateLabelPayload
     public function withProductCode($productCode);
 
     /**
+     * Associates parameter for the FTD
+     *
+     * @return GenerateLabelPayload
+     */
+    public function withFtd($destinationCountryId, $storeId = null);
+
+    /**
      * Associate the given DepositDate to this payload.
      *
      * @return GenerateLabelPayload

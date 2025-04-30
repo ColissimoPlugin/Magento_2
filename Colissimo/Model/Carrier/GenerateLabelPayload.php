@@ -11,6 +11,7 @@
 
 namespace LaPoste\Colissimo\Model\Carrier;
 
+use LaPoste\Colissimo\Helper\CountryOffer;
 use LaPoste\Colissimo\Model\Config\Source\CustomsCategory;
 use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\Message\ManagerInterface;
@@ -226,8 +227,6 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
             ],
         ];
 
-        $this->setFtdGivenCountryCodeId($addressee['countryCode'], $addressee['zipCode'], $storeId);
-
         if (!empty($addressee['street2'])) {
             $this->payload['letter']['addressee']['address']['line3'] = $addressee['street2'];
         }
@@ -318,18 +317,22 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
         return $this;
     }
 
-    protected function setFtdGivenCountryCodeId($destinationCountryId, $destinationPostcode, $storeId = null)
+    public function withFtd($destinationCountryId, $storeId = null)
     {
         $originCountryId = $this->helperData->getConfigValue(
             'shipping/origin/country_id',
             $storeId
         );
-        if ($this->countryOfferHelper->getFtdRequiredForDestination($destinationCountryId, $destinationPostcode, $originCountryId) === true
-            && $this->helperData->getAdvancedConfigValue('lpc_labels/isFtd', $storeId)) {
+
+        if ($this->helperData->getAdvancedConfigValue('lpc_labels/isFtd', $storeId)
+            && !in_array(strtoupper($originCountryId), CountryOffer::DOM1_COUNTRIES_CODE)
+            && in_array($destinationCountryId, CountryOffer::COUNTRIES_FTD)) {
             $this->payload['letter']['parcel']['ftd'] = true;
         } else {
             unset($this->payload['letter']['parcel']['ftd']);
         }
+
+        return $this;
     }
 
     public function withDepositDate(\DateTime $depositDate)

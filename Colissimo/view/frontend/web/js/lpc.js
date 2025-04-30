@@ -550,7 +550,8 @@ define([
                     URLColissimo: 'https://ws.colissimo.fr',
                     callBackFrame: 'lpcCallBackFrame',
                     dyWeight: '19000',
-                    origin: 'CMS'
+                    origin: 'CMS',
+                    filterRelay: $('#lpc_relay_types').val()
                 };
 
                 const $lpcColor1 = $('#lpc_color_1');

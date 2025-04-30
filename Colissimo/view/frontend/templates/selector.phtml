@@ -95,6 +95,7 @@ if (in_array($lpcPrView, ['gmaps', 'leaflet'])) {
         </div>
         <input type="hidden" id="lpc_token_widget" value="<?php echo $lpcToken ?>">
         <input type="hidden" id="lpc_average_preparation_delay" value="<?php echo $lpcAveragePreparationDelay ?>">
+        <input type="hidden" id="lpc_relay_types" value="<?php echo $block->lpcGetRelayTypes(); ?>">
         <?php if ($lpcCustomizeWidget) { ?>
             <input type="hidden" id="lpc_color_1" value="<?php echo $lpcAddressTextColor ?>">
             <input type="hidden" id="lpc_color_2" value="<?php echo $lpcListTextColor ?>">

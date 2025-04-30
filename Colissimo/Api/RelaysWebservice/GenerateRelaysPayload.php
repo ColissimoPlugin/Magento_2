@@ -34,6 +34,13 @@ interface GenerateRelaysPayload
     public function withOptionInter($optionInter = null);
 
     /**
+     * @param $weight
+     * @param $storeId
+     * @return mixed
+     */
+    public function withRelayTypeFilter($weight, $storeId);
+
+    /**
      * @return mixed
      */
     public function assemble();
