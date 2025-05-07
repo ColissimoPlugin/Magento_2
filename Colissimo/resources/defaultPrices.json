@@ -795,48 +795,78 @@
     ],
     "domicileasddp": [
       {
+        "weight_min": 0,
+        "weight_max": 501,
         "price": "10.72"
       },
       {
+        "weight_min": 501,
+        "weight_max": 1001,
         "price": "13.63"
       },
       {
+        "weight_min": 1001,
+        "weight_max": 2001,
         "price": "15.24"
       },
       {
+        "weight_min": 2001,
+        "weight_max": 3001,
         "price": "16.24"
       },
       {
+        "weight_min": 3001,
+        "weight_max": 4001,
         "price": "17.12"
       },
       {
+        "weight_min": 4001,
+        "weight_max": 5001,
         "price": "18.06"
       },
       {
+        "weight_min": 5001,
+        "weight_max": 6001,
         "price": "18.93"
       },
       {
+        "weight_min": 6001,
+        "weight_max": 7001,
         "price": "19.93"
       },
       {
+        "weight_min": 7001,
+        "weight_max": 8001,
         "price": "20.81"
       },
       {
+        "weight_min": 8001,
+        "weight_max": 9001,
         "price": "21.68"
       },
       {
+        "weight_min": 9001,
+        "weight_max": 10001,
         "price": "22.56"
       },
       {
+        "weight_min": 10001,
+        "weight_max": 15001,
         "price": "27.44"
       },
       {
+        "weight_min": 15001,
+        "weight_max": 20001,
         "price": "32.18"
       },
       {
+        "weight_min": 20001,
+        "weight_max": 25001,
         "price": "36.91"
       },
       {
+        "weight_min": 25001,
+        "weight_max": 30001,
         "price": "41.67"
       }
     ]
