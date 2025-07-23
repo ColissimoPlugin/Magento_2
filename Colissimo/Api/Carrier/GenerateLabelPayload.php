@@ -16,12 +16,12 @@ interface GenerateLabelPayload
     /**
      * Associate the given Sender to this payload
      *
-     * @param $sender  array if null, will use data from the configuration
+     * @param $sender  array|null if null, will use data from the configuration
      * @param $storeId the store to get default information from, if null defaults to current store
      *
      * @return GenerateLabelPayload
      */
-    public function withSender(array $sender = null, $storeId = null);
+    public function withSender(?array $sender = null, $storeId = null);
 
     /**
      * Associate the given CommercialName to this payload

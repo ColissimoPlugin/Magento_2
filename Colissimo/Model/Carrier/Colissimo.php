@@ -381,7 +381,7 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
     protected function makeRequest(
         DataObject $request,
         \LaPoste\Colissimo\Api\Carrier\GenerateLabelPayload $labelGenerationPayload,
-        \LaPoste\Colissimo\Api\Carrier\GenerateLabelPayload $returnLabelGenerationPayload = null
+        ?\LaPoste\Colissimo\Api\Carrier\GenerateLabelPayload $returnLabelGenerationPayload = null
     ) {
         $result = new DataObject();
         try {

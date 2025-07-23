@@ -58,7 +58,7 @@ class Collection extends BordereauCollection implements SearchResultInterface
         $resourceModel,
         $model = 'Magento\Framework\View\Element\UiComponent\DataProvider\Document',
         $connection = null,
-        AbstractDb|null $resource = null
+        ?AbstractDb $resource = null
     ) {
         parent::__construct(
             $entityFactory,
@@ -104,11 +104,11 @@ class Collection extends BordereauCollection implements SearchResultInterface
     /**
      * Set search criteria.
      *
-     * @param SearchCriteriaInterface $searchCriteria
+     * @param SearchCriteriaInterface|null $searchCriteria
      * @return $this
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function setSearchCriteria(SearchCriteriaInterface $searchCriteria = null)
+    public function setSearchCriteria(?SearchCriteriaInterface $searchCriteria = null)
     {
         return $this;
     }
@@ -138,11 +138,11 @@ class Collection extends BordereauCollection implements SearchResultInterface
     /**
      * Set items list.
      *
-     * @param \Magento\Framework\Api\ExtensibleDataInterface[] $items
+     * @param \Magento\Framework\Api\ExtensibleDataInterface[]|null $items
      * @return $this
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function setItems(array $items = null)
+    public function setItems(?array $items = null)
     {
         return $this;
     }

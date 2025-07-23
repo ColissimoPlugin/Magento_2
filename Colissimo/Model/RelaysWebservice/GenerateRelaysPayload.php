@@ -65,7 +65,7 @@ class GenerateRelaysPayload implements \LaPoste\Colissimo\Api\RelaysWebservice\G
         return $this;
     }
 
-    public function withShippingDate(\DateTime $shippingDate = null)
+    public function withShippingDate(?\DateTime $shippingDate = null)
     {
         if (null === $shippingDate) {
             $shippingDate = new \DateTime();

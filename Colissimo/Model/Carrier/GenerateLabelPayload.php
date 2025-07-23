@@ -103,7 +103,7 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
         $this->eoriAdded = false;
     }
 
-    public function withSender(array $sender = null, $storeId = null)
+    public function withSender(?array $sender = null, $storeId = null)
     {
         if (null === $sender) {
             $sender = [

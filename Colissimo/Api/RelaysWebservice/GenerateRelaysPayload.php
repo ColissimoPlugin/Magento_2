@@ -25,7 +25,7 @@ interface GenerateRelaysPayload
      * @param \DateTime|null $shippingDate
      * @return mixed
      */
-    public function withShippingDate(\DateTime $shippingDate = null);
+    public function withShippingDate(?\DateTime $shippingDate = null);
 
     /**
      * @return mixed

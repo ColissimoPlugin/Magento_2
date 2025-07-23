@@ -18,7 +18,7 @@ class RelaysApi extends SoapClient implements \LaPoste\Colissimo\Api\RelaysWebse
 
     public $logger;
 
-    public function __construct(\LaPoste\Colissimo\Logger\Colissimo $logger, array $options = null)
+    public function __construct(\LaPoste\Colissimo\Logger\Colissimo $logger, ?array $options = null)
     {
         $this->logger = $logger;
 
