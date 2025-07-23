@@ -58,7 +58,7 @@ class Collection extends BordereauCollection implements SearchResultInterface
         $resourceModel,
         $model = 'Magento\Framework\View\Element\UiComponent\DataProvider\Document',
         $connection = null,
-        AbstractDb $resource = null
+        AbstractDb|null $resource = null
     ) {
         parent::__construct(
             $entityFactory,
