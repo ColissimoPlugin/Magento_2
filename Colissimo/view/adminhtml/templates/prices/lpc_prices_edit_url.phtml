@@ -2,6 +2,6 @@
     require([
         'prototype'
     ], function () {
-        window.allOptions = JSON.parse('<?php echo $block->getAllOptions(); ?>');
+        window.allOptions = JSON.parse('<?= $block->escapeHtmlAttr($block->getAllOptions()); ?>');
     });
 </script>

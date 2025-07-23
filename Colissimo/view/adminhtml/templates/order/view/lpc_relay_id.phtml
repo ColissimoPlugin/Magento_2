@@ -1,19 +1,21 @@
 <?php $lpcRelayInformation = $block->lpcGetRelayInformation();
 if (!empty($lpcRelayInformation['relayId'])) { ?>
     <div class="admin__page-section-item-title">
-        <span class="title"><?php echo __('Colissimo relay') ?></span>
+        <span class="title"><?= $block->escapeHtml(__('Colissimo relay')); ?></span>
     </div>
 
     <div class="admin__page-section-item-content">
 
-        <?php if (!empty($lpcRelayInformation['relayName'])) {
-            echo $lpcRelayInformation['relayName'];
-            echo "<br>";
-        } ?>
+        <?php
+        if (!empty($lpcRelayInformation['relayName'])) {
+            echo $block->escapeHtml($lpcRelayInformation['relayName']);
+            echo '<br>';
+        }
+        ?>
 
         <?php
-        echo __('id') . ': ' . $lpcRelayInformation['relayId'] . '<br />';
-        echo ucfirst(__('type')) . ': ' . $lpcRelayInformation['relayType'];
+        echo $block->escapeHtml(__('id') . ': ' . $lpcRelayInformation['relayId']) . '<br />';
+        echo $block->escapeHtml(ucfirst(__('type')) . ': ' . $lpcRelayInformation['relayType']);
         ?>
     </div>
 

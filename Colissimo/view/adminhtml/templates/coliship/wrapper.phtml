@@ -8,7 +8,7 @@ $helperData = $this->helper('\LaPoste\Colissimo\Helper\Data')
 ?>
 
 <?php if (!$helperData->isUsingColiShip()): ?>
-    <?= __('ColiShip export functionalities are only available when ColiShip is used in the configuration.'); ?>
+    <?= $block->escapeHtml(__('ColiShip export functionalities are only available when ColiShip is used in the configuration.')); ?>
 <?php else: ?>
     <?= $block->getChildHtml(); ?>
 <?php endif; ?>

@@ -14,29 +14,29 @@ $insuranceOption = '1' === $block->getInsuranceOption() || !empty($insuranceDefa
 <section class="admin__page-section">
     <div id="colissimo_custom_insurance">
         <div class="admin__page-section-title">
-            <span class="title"><?php echo __('Colissimo insurance'); ?></span>
+            <span class="title"><?= $block->escapeHtml(__('Colissimo insurance')); ?></span>
         </div>
         <div class="admin__field">
-            <label for="lpc_use_insurance"><?php echo __('Use Colissimo Insurance?'); ?></label>
-            <input type="checkbox" name="lpcInsurance[lpc_use_insurance]" id="lpc_use_insurance" <?php echo $insuranceOption ? 'checked' : ''; ?>><br />
+            <label for="lpc_use_insurance"><?= $block->escapeHtml(__('Use Colissimo Insurance?')); ?></label>
+            <input type="checkbox" name="lpcInsurance[lpc_use_insurance]" id="lpc_use_insurance" <?= $block->escapeHtmlAttr($insuranceOption ? 'checked' : ''); ?>><br />
             <label for="lpc_insurance_amount">
-                <span><?php echo __('Personalized amount of insurance'); ?></span>
+                <span><?= $block->escapeHtml(__('Personalized amount of insurance')); ?></span>
             </label>
             <select id="lpc_insurance_amount" class="admin__field-select" name="lpcInsurance[lpc_insurance_amount]">
-                <option value="0" <?php echo empty($insuranceDefaultValue) ? 'selected' : ''; ?>>
-                    <?php echo __('Choose an amount'); ?>
+                <option value="0" <?= $block->escapeHtmlAttr(empty($insuranceDefaultValue) ? 'selected' : ''); ?>>
+                    <?= $block->escapeHtml(__('Choose an amount')); ?>
                 </option>
                 <?php foreach ($block->getInsurancePrices() as $onePrice) { ?>
-                    <option value="<?php echo $onePrice; ?>"
-                        <?php echo $onePrice === $insuranceDefaultValue ? 'selected' : ''; ?>
-                    ><?php echo $onePrice; ?>€
+                    <option value="<?= $block->escapeHtmlAttr($onePrice); ?>"
+                        <?= $block->escapeHtmlAttr($onePrice === $insuranceDefaultValue ? 'selected' : ''); ?>
+                    ><?= $block->escapeHtml($onePrice); ?>€
                     </option>
                 <?php } ?>
             </select>
         </div>
         <?php if (!empty($block->getShipment()->getId())) { ?>
             <div class="lpc_add_data_button admin__field">
-                <input type="hidden" name="lpcInsurance[shipment_id]" value="<?php echo $block->getShipment()->getId(); ?>">
+                <input type="hidden" name="lpcInsurance[shipment_id]" value="<?= $block->escapeHtmlAttr($block->getShipment()->getId()); ?>">
                 <?= $block->getChildHtml('submit_insurance') ?>
             </div>
         <?php } ?>
@@ -45,7 +45,7 @@ $insuranceOption = '1' === $block->getInsuranceOption() || !empty($insuranceDefa
     <script>
         require(['prototype'], function () {
             submitInsurance = function () {
-                submitAndReloadArea($('colissimo_custom_insurance').parentNode, '<?php echo $block->escapeJs($block->getSubmitUrl()); ?>');
+                submitAndReloadArea($('colissimo_custom_insurance').parentNode, '<?= $block->escapeJs($block->getSubmitUrl()); ?>');
             };
             if ($('submit_insurance_button')) {
                 $('submit_insurance_button').observe('click', submitInsurance);

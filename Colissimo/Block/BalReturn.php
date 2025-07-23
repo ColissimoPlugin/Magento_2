@@ -77,13 +77,13 @@ class BalReturn extends \Magento\Framework\View\Element\Template
         return $this->shipment;
     }
 
-    public function addressFormatter(\Magento\Sales\Model\Order\Address $address, $type = 'html')
+    public function addressFormatterHtml(\Magento\Sales\Model\Order\Address $address, $type = 'html')
     {
         return $this->addressRenderer->format($address, $type);
     }
 
 
-    public function formatFormAddress()
+    public function formatFormAddressHtml()
     {
         $address = $this->getRequest()->getParam('address');
 

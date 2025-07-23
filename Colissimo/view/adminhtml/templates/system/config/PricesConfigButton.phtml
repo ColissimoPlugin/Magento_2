@@ -7,10 +7,10 @@
     ], function (jQuery) {
 
         jQuery('#PricesConfigBtn').click(function () {
-            window.location = '<?php echo $block->urlConfigPrices; ?>';
+            window.location = '<?= $block->escapeUrl($block->urlConfigPrices); ?>';
         });
 
     });
 </script>
 
-<?php echo $block->getButtonHtml(); ?>
+<?= $block->getButtonHtml(); ?>

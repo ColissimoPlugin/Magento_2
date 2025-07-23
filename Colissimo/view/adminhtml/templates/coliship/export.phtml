@@ -4,14 +4,14 @@
  */
 ?>
 <div id="lpc_coliship_export">
-    <form action="<?php echo $block->getExportUrl(); ?>" method="GET">
+    <form action="<?= $block->escapeUrl($block->getExportUrl()); ?>" method="GET">
         <fieldset class="fiedset admin__fieldset">
-            <legend class="admin__legend legend"><?= __('Export'); ?></legend>
+            <legend class="admin__legend legend"><?= $block->escapeHtml(__('Export')); ?></legend>
             <div class="admin__field field">
                 <div class="admin__field-control control">
                     <button type="submit"
                             class="action export primary lpc_coliship">
-                        <?php echo __('Generate ColiShip export'); ?>
+                        <?= $block->escapeHtml(__('Generate ColiShip export')); ?>
                     </button>
                 </div>
             </div>

@@ -36,12 +36,12 @@
         <div class="lpc_video_tutorial">
             <iframe width="500"
                     height="280"
-                    src="https://www.youtube.com/embed/<?php echo $videoCode; ?>"
-                    title="<?php echo $videoLabel; ?>"
+                    src="https://www.youtube.com/embed/<?= $block->escapeHtmlAttr($videoCode); ?>"
+                    title="<?= $block->escapeHtmlAttr($videoLabel); ?>"
                     allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowfullscreen>
             </iframe>
-            <div class="lpc_video_label"><?php echo $i . '. ' . $videoLabel; ?></div>
+            <div class="lpc_video_label"><?= $block->escapeHtml($i . '. ' . $videoLabel); ?></div>
         </div>
         <?php
         $i ++;

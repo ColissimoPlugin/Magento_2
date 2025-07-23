@@ -16,25 +16,24 @@ $lpcAutoSelectRelay = $block->lpcIsAutoRelay();
 //TODO The Colissimo widget generates CSP errors, and the Google Maps API v3 can't be used because Magento modifies Array.from()
 $lpcPrView = 'leaflet';
 ?>
-    <input type="hidden" id="lpc_relay_mode" value="<?php echo $lpcPrView; ?>">
-    <input type="hidden" id="lpc_webservice_relay_url" value="<?php echo $lpcUrlLoadRelaysList; ?>">
-    <input type="hidden" id="lpc_auto_select_relay" value="<?php echo empty($lpcAutoSelectRelay) ? 'false' : 'true'; ?>">
-    <input type="hidden" id="lpc_pickup_carrier_code" value="<?php echo $block->getPickupCarrierCode(); ?>">
+    <input type="hidden" id="lpc_relay_mode" value="<?= $block->escapeHtmlAttr($lpcPrView); ?>">
+    <input type="hidden" id="lpc_webservice_relay_url" value="<?= $block->escapeHtmlAttr($lpcUrlLoadRelaysList); ?>">
+    <input type="hidden" id="lpc_auto_select_relay" value="<?= $block->escapeHtmlAttr(empty($lpcAutoSelectRelay) ? 'false' : 'true'); ?>">
+    <input type="hidden" id="lpc_pickup_carrier_code" value="<?= $block->escapeHtmlAttr($block->getPickupCarrierCode()); ?>">
     <template id="lpc_choose_relay_button_template">
         <section id="order-lpc-pickup" class="admin__page-section lpc-pickup" style="display: none; margin-top: -2rem;">
             <div id="colissimo_pickup_button_section" style="margin-left: calc(50% + 30px);">
                 <div class="admin__page-section-title" style="display:none;"></div>
                 <div class="lpc_add_data_button admin__field">
                     <div id="lpc_chosen_relay"></div>
-                    <?php echo $block->getChildHtml('lpc_choose_relay_button') ?>
+                    <?= $block->getChildHtml('lpc_choose_relay_button'); ?>
                 </div>
             </div>
         </section>
     </template>
+    <input type="hidden" id="lpc_map_marker" value="<?= $block->escapeUrl($block->getViewFileUrl('LaPoste_Colissimo::images/map_marker.png')); ?>">
+    <input type="hidden" id="lpc_ajax_set_information_relay_url" value="<?= $block->escapeUrl($lpcAjaxSetInformationRelayUrl); ?>">
 <?php
-
-echo '<input type="hidden" id="lpc_map_marker" value="' . $block->getViewFileUrl('LaPoste_Colissimo::images/map_marker.png') . '">';
-echo '<input type="hidden" id="lpc_ajax_set_information_relay_url" value="' . $lpcAjaxSetInformationRelayUrl . '">';
 
 if (in_array($lpcPrView, ['gmaps', 'leaflet'])) {
     $prDefaultMobileDisplay = $block->lpcGetDefaultMobileDisplay();
@@ -46,17 +45,17 @@ if (in_array($lpcPrView, ['gmaps', 'leaflet'])) {
         if (empty($lpcGoogleMapsUrl)) {
             $block->colissimoLogger->error('Error: no Google Maps API Key defined');
         } else {
-            echo '<script src="' . $lpcGoogleMapsUrl . '"></script>';
+            echo '<script src="' . $block->escapeUrl($lpcGoogleMapsUrl) . '"></script>';
         }
         ?>
     <?php } elseif ('leaflet' === $lpcPrView) { ?>
-        <link rel="stylesheet" type="text/css" href="<?php echo $block->getViewFileUrl('LaPoste_Colissimo::css/leaflet.css'); ?>">
+        <link rel="stylesheet" type="text/css" href="<?= $block->escapeUrl($block->getViewFileUrl('LaPoste_Colissimo::css/leaflet.css')); ?>">
     <?php }
     $classMap = '';
     if ($prDefaultMobileDisplay == 'list') {
         $classList = 'lpc_layer_list_active';
         $classMapList = 'lpc_layer_list_inactive';
-        $classMap = 'class="lpc_mobile_display_none"';
+        $classMap = 'lpc_mobile_display_none';
     } else {
         $classList = 'lpc_layer_list_inactive';
         $classMapList = 'lpc_layer_list_active';
@@ -65,22 +64,25 @@ if (in_array($lpcPrView, ['gmaps', 'leaflet'])) {
     <div id="lpc_layer_relays" style="display:none;">
         <div class="content">
             <span id="lpc_layer_relay_switch_mobile">
-                <img alt="Switch to list mode icon" class="lpc_layer_relay_switch_mobile_icon lpc_layer_list <?php echo $classList; ?>"
-                     src="<?php echo $this->getViewFileUrl('LaPoste_Colissimo::images/list.png'); ?>">
-                <img alt="Switch to map mode icon" class="lpc_layer_relay_switch_mobile_icon lpc_layer_map <?php echo $classMapList; ?>"
-                     src="<?php echo $this->getViewFileUrl('LaPoste_Colissimo::images/map.png'); ?>">
+                <img alt="Switch to list mode icon" class="lpc_layer_relay_switch_mobile_icon lpc_layer_list <?= $block->escapeHtmlAttr($classList); ?>"
+                     src="<?= $block->escapeUrl($this->getViewFileUrl('LaPoste_Colissimo::images/list.png')); ?>">
+                <img alt="Switch to map mode icon" class="lpc_layer_relay_switch_mobile_icon lpc_layer_map <?= $block->escapeHtmlAttr($classMapList); ?>"
+                     src="<?= $block->escapeUrl($this->getViewFileUrl('LaPoste_Colissimo::images/map.png')); ?>">
             </span>
             <div>
-                <input type="text" id="lpc_modal_relays_search_address" class="lpc_modal_relays_search_input" placeholder="<?php echo __('Address'); ?>">
-                <input type="text" id="lpc_modal_relays_search_zipcode" class="lpc_modal_relays_search_input" placeholder="<?php echo __('Zipcode'); ?>">
-                <input type="text" id="lpc_modal_relays_search_city" class="lpc_modal_relays_search_input" placeholder="<?php echo __('City'); ?>">
-                <button id="lpc_layer_button_search" type="button"><?php echo __('Search'); ?></button>
-                <img id="lpc_layer_relays_loader" src="<?php echo $this->getViewFileUrl('LaPoste_Colissimo::images/loading.gif'); ?>" alt="Loading..." style="display: none">
+                <input type="text" id="lpc_modal_relays_search_address" class="lpc_modal_relays_search_input" placeholder="<?= $block->escapeHtmlAttr(__('Address')); ?>">
+                <input type="text" id="lpc_modal_relays_search_zipcode" class="lpc_modal_relays_search_input" placeholder="<?= $block->escapeHtmlAttr(__('Zipcode')); ?>">
+                <input type="text" id="lpc_modal_relays_search_city" class="lpc_modal_relays_search_input" placeholder="<?= $block->escapeHtmlAttr(__('City')); ?>">
+                <button id="lpc_layer_button_search" type="button"><?= $block->escapeHtml(__('Search')); ?></button>
+                <img id="lpc_layer_relays_loader"
+                     src="<?= $block->escapeUrl($this->getViewFileUrl('LaPoste_Colissimo::images/loading.gif')); ?>"
+                     alt="Loading..."
+                     style="display: none">
                 <?php if ($maxRelayPoint < 20) { ?>
-                    <div id="lpc_modal_relays_display_more"><a href="#"><?php echo __('Display more pickup points'); ?></a></div>
+                    <div id="lpc_modal_relays_display_more"><a href="#"><?= $block->escapeHtml(__('Display more pickup points')); ?></a></div>
                 <?php } ?>
             </div>
-            <div id="lpc_left" <?php echo $classMap; ?>>
+            <div id="lpc_left" class="<?= $block->escapeHtmlAttr($classMap); ?>">
                 <div id="lpc_map"></div>
             </div>
             <div id="lpc_right">
@@ -95,25 +97,25 @@ if (in_array($lpcPrView, ['gmaps', 'leaflet'])) {
     $lpcToken = $block->lpcGetAuthenticationToken();
     if ($lpcToken !== false) {
         ?>
-        <input type="hidden" id="lpc_widget_list_country" value="<?php echo $block->getWidgetListCountry(); ?>">
-        <input type="hidden" id="lpc_mapbox_script" value="<?php echo $block->getViewFileUrl('LaPoste_Colissimo::js/widget/mapbox.min.js'); ?>">
+        <input type="hidden" id="lpc_widget_list_country" value="<?= $block->escapeHtmlAttr($block->getWidgetListCountry()); ?>">
+        <input type="hidden" id="lpc_mapbox_script" value="<?= $block->escapeUrl($block->getViewFileUrl('LaPoste_Colissimo::js/widget/mapbox.min.js')); ?>">
         <link rel="stylesheet" type="text/css" href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css">
-        <link rel="stylesheet" type="text/css" href="<?php echo $block->getViewFileUrl('LaPoste_Colissimo::css/widget.css'); ?>">
+        <link rel="stylesheet" type="text/css" href="<?= $block->escapeUrl($block->getViewFileUrl('LaPoste_Colissimo::css/widget.css')); ?>">
 
         <div id="lpc_layer_widget" style="display: none">
             <div id="lpc_widget_container" class="widget_colissimo"></div>
         </div>
-        <input type="hidden" id="lpc_token_widget" value="<?php echo $lpcToken ?>">
-        <input type="hidden" id="lpc_average_preparation_delay" value="<?php echo $block->lpcGetAveragePreparationDelay() ?>">
-        <input type="hidden" id="lpc_relay_types" value="<?php echo $block->lpcGetRelayTypes(); ?>">
+        <input type="hidden" id="lpc_token_widget" value="<?= $block->escapeHtmlAttr($lpcToken) ?>">
+        <input type="hidden" id="lpc_average_preparation_delay" value="<?= $block->escapeHtmlAttr($block->lpcGetAveragePreparationDelay()) ?>">
+        <input type="hidden" id="lpc_relay_types" value="<?= $block->escapeHtmlAttr($block->lpcGetRelayTypes()); ?>">
         <?php if ($lpcCustomizeWidget) { ?>
-            <input type="hidden" id="lpc_color_1" value="<?php echo $lpcAddressTextColor ?>">
-            <input type="hidden" id="lpc_color_2" value="<?php echo $lpcListTextColor ?>">
-            <input type="hidden" id="lpc_font" value="<?php echo $block->escapeHtmlAttr($lpcWidgetFont) ?>">
+            <input type="hidden" id="lpc_color_1" value="<?= $block->escapeHtmlAttr($lpcAddressTextColor) ?>">
+            <input type="hidden" id="lpc_color_2" value="<?= $block->escapeHtmlAttr($lpcListTextColor) ?>">
+            <input type="hidden" id="lpc_font" value="<?= $block->escapeHtmlAttr($lpcWidgetFont) ?>">
         <?php } ?>
     <?php } else { ?>
         <div id="lpc_error_pr" style="display: none">
-            <p id="lpc_error_message_pr"><?php echo __('The window to choose your pickup point is currently unavailable. Please refresh the page and try again. If the problem persists, please contact the website administrator.') ?></p>
+            <p id="lpc_error_message_pr"><?= $block->escapeHtml(__('The window to choose your pickup point is currently unavailable. Please refresh the page and try again. If the problem persists, please contact the website administrator.')) ?></p>
         </div>
     <?php }
 }

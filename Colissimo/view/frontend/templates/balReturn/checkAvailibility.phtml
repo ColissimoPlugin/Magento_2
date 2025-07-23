@@ -1,35 +1,35 @@
 <div class="lpc_balreturn">
-    <h1 class="page-title"><?php echo __('MailBox picking return'); ?></h1>
+    <h1 class="page-title"><?= $block->escapeHtml(__('MailBox picking return')); ?></h1>
 
-    <h2 class="lpc_balreturn_subtitle"><?php echo __('Retrieval address'); ?></h2>
+    <h2 class="lpc_balreturn_subtitle"><?= $block->escapeHtml(__('Retrieval address')); ?></h2>
     <div>
-        <?php echo __('Address from which the return will be from:'); ?>
-        <form method="POST" action="<?php echo $this->getUrl('*/*/confirm'); ?>">
+        <?= $block->escapeHtml(__('Address from which the return will be from:')); ?>
+        <form method="POST" action="<?= $block->escapeUrl($this->getUrl('*/*/confirm')); ?>">
             <div class="lpc_balreturn_withseparator">
-                <?php echo $this->formatFormAddress(); ?>
+                <?= $this->formatFormAddressHtml(); ?>
             </div>
             <?php if ($this->getListMailBoxPickingDatesResponse()) {
                 $address = $this->getRequest()->getParam('address'); ?>
-                <input type="hidden" id="lpc_bal_companyName" name="address[companyName]" value="<?php echo $this->escapeHtmlAttr($address['companyName']); ?>" />
-                <input type="hidden" id="lpc_bal_street" name="address[street]" value="<?php echo $this->escapeHtmlAttr($address['street']); ?>" />
-                <input type="hidden" id="lpc_bal_zipCode" name="address[zipCode]" value="<?php echo $this->escapeHtmlAttr($address['zipCode']); ?>" />
-                <input type="hidden" id="lpc_bal_city" name="address[city]" value="<?php echo $this->escapeHtmlAttr($address['city']); ?>" />
-                <input type="hidden" id="lpc_bal_pickingDate" name="pickingDate" value="<?php echo $this->getListMailBoxPickingDatesResponse()->mailBoxPickingDates[0]; ?>" />
-                <input type="hidden" id="lpc_bal_shipmentId" name="shipmentId" value="<?php echo $this->getShipment()->getId(); ?>" />
-                <input type="hidden" id="productIds" name="productIds" value="<?php echo $this->getProducts(); ?>" />
-                <p><?php echo sprintf(
+                <input type="hidden" id="lpc_bal_companyName" name="address[companyName]" value="<?= $this->escapeHtmlAttr($address['companyName']); ?>" />
+                <input type="hidden" id="lpc_bal_street" name="address[street]" value="<?= $this->escapeHtmlAttr($address['street']); ?>" />
+                <input type="hidden" id="lpc_bal_zipCode" name="address[zipCode]" value="<?= $this->escapeHtmlAttr($address['zipCode']); ?>" />
+                <input type="hidden" id="lpc_bal_city" name="address[city]" value="<?= $this->escapeHtmlAttr($address['city']); ?>" />
+                <input type="hidden" id="lpc_bal_pickingDate" name="pickingDate" value="<?= $block->escapeHtmlAttr($this->getListMailBoxPickingDatesResponse()->mailBoxPickingDates[0]); ?>" />
+                <input type="hidden" id="lpc_bal_shipmentId" name="shipmentId" value="<?= $block->escapeHtmlAttr($this->getShipment()->getId()); ?>" />
+                <input type="hidden" id="productIds" name="productIds" value="<?= $block->escapeHtmlAttr($this->getProducts()); ?>" />
+                <p><?= $block->escapeHtml(sprintf(
                         __('Please confirm before today %s that you will put the parcel in the MailBox described previously, before the %s at %s.'),
                         $this->getListMailBoxPickingDatesResponse()->validityTime,
                         $this->getMailBoxPickingDate(),
                         $this->getListMailBoxPickingDatesResponse()->mailBoxPickingDateMaxHour
-                    ); ?></p>
+                    )); ?></p>
                 <div>
-                    <button class="lpc_balreturn_btn action primary" type="submit"><?php echo __('Confirm Pick-Up'); ?></button>
+                    <button class="lpc_balreturn_btn action primary" type="submit"><?= $block->escapeHtml(__('Confirm Pick-Up')); ?></button>
                 </div>
                 <?php
             } else {
                 ?>
-                <p><b><?php echo __('This address is not eligible for MailBox pick-up.'); ?></b></p>
+                <p><b><?= $block->escapeHtml(__('This address is not eligible for MailBox pick-up.')); ?></b></p>
                 <?php
             } ?>
 

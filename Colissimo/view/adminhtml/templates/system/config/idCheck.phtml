@@ -23,7 +23,7 @@
                 login: jQuery('#lpc_advanced_lpc_general_id_webservices').val(),
                 password: jQuery('#lpc_advanced_lpc_general_pwd_webservices').val()
             };
-            new Ajax.Request('<?php echo $block->getAjaxUrl() ?>', {
+            new Ajax.Request('<?= $block->escapeUrl($block->getAjaxUrl()) ?>', {
                 parameters: params,
                 loaderArea: false,
                 asynchronous: true,
@@ -59,10 +59,10 @@
     });
 </script>
 
-<?php echo $block->getButtonHtml() ?>
+<?= $block->getButtonHtml() ?>
 <span class="idCheck-indicator" id="idCheck_span">
-    <img class="processing" hidden="hidden" alt="idChecking" style="margin:0 5px" src="<?php echo $block->getViewFileUrl('images/process_spinner.gif') ?>" />
-    <img class="idChecked" hidden="hidden" alt="idChecked" style="margin:-3px 5px" src="<?php echo $block->getViewFileUrl('images/rule_component_apply.gif') ?>" />
-    <img class="idBad" hidden="hidden" alt="idBad" style="margin:-3px 5px" src="<?php echo $block->getViewFileUrl('images/rule_component_remove.gif') ?>" />
+    <img class="processing" hidden="hidden" alt="idChecking" style="margin:0 5px" src="<?= $block->escapeUrl($block->getViewFileUrl('images/process_spinner.gif')) ?>" />
+    <img class="idChecked" hidden="hidden" alt="idChecked" style="margin:-3px 5px" src="<?= $block->escapeUrl($block->getViewFileUrl('images/rule_component_apply.gif')) ?>" />
+    <img class="idBad" hidden="hidden" alt="idBad" style="margin:-3px 5px" src="<?= $block->escapeUrl($block->getViewFileUrl('images/rule_component_remove.gif')) ?>" />
     <span id="idCheck_message_span"></span>
 </span>

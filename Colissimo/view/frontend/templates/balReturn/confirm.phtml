@@ -1,34 +1,34 @@
 <div class="lpc_balreturn">
-    <h1 class="page-title"><?php echo __('MailBox picking return'); ?></h1>
+    <h1 class="page-title"><?= $block->escapeHtml(__('MailBox picking return')); ?></h1>
 
-    <h2 class="lpc_balreturn_subtitle"><?php echo __('Retrieval address'); ?></h2>
+    <h2 class="lpc_balreturn_subtitle"><?= $block->escapeHtml(__('Retrieval address')); ?></h2>
     <div>
-        <?php echo __('Address from which the return will be from:'); ?>
+        <?= $block->escapeHtml(__('Address from which the return will be from:')); ?>
         <div>
-            <?php echo $this->formatFormAddress(); ?>
+            <?= $this->formatFormAddressHtml(); ?>
         </div>
 
         <?php if ($this->sendPickUpConfirmation()) { ?>
             <div id="lpc_bal_confirmation">
-                <b><?php echo __('Your PickUp has been confirmed.'); ?></b>
+                <b><?= $block->escapeHtml(__('Your PickUp has been confirmed.')); ?></b>
             </div>
             <div>
-                <?php echo __('Your return tracking number is:'); ?>
-                <?php echo $this->getReturnTrackingNumber(); ?>
+                <?= $block->escapeHtml(__('Your return tracking number is:')); ?>
+                <?= $block->escapeHtml($this->getReturnTrackingNumber()); ?>
             </div>
 
-            <input type="hidden" value="<?= $this->getReturnLabelDownloadUrl(); ?>" id="lpcReturnLabelDownloadUrl" />
+            <input type="hidden" value="<?= $block->escapeUrl($this->getReturnLabelDownloadUrl()); ?>" id="lpcReturnLabelDownloadUrl" />
             <div id="lpc_return_instructions_container">
-                <p id="instructions_title"><?php echo __('How to return your parcel?'); ?></p>
+                <p id="instructions_title"><?= $block->escapeHtml(__('How to return your parcel?')); ?></p>
                 <ol>
-                    <li><?php echo __('Pack your products.'); ?></li>
-                    <li><?php echo __('Print your label and stick it on your parcel.'); ?></li>
-                    <li><?php echo __('Put your parcel in your mailbox before the appointment time.'); ?></li>
+                    <li><?= $block->escapeHtml(__('Pack your products.')); ?></li>
+                    <li><?= $block->escapeHtml(__('Print your label and stick it on your parcel.')); ?></li>
+                    <li><?= $block->escapeHtml(__('Put your parcel in your mailbox before the appointment time.')); ?></li>
                     <li>
                         <?php
                         printf(
                             __('Track your parcel shipment on %s'),
-                            '<a target="_blank" href="https://laposte.fr/outils/suivre-vos-envois?code=' . $this->getReturnTrackingNumber() . '">https://laposte.fr/suivi</a>'
+                            '<a target="_blank" href="https://laposte.fr/outils/suivre-vos-envois?code=' . $block->escapeHtmlAttr($this->getReturnTrackingNumber()) . '">https://laposte.fr/suivi</a>'
                         );
                         ?>
                     </li>

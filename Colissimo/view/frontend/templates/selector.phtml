@@ -9,11 +9,11 @@ $lpcUrlLoadRelaysList = $block->lpcAjaxUrlLoadRelaysList();
 $lpcAutoSelectRelay = $block->lpcIsAutoRelay();
 
 ?>
-    <input type="hidden" id="lpc_pickup_ajax_relays_url" value="<?php echo $lpcUrlLoadRelaysList; ?>">
-    <input type="hidden" id="lpc_pickup_auto_select" value="<?php echo empty($lpcAutoSelectRelay) ? 'false' : 'true'; ?>">
-    <input type="hidden" id="lpc_pickup_marker_url" value="<?php echo $block->getViewFileUrl('LaPoste_Colissimo::images/map_marker.png'); ?>">
-    <input type="hidden" id="lpc_pickup_set_pickup_url" value="<?php echo $lpcAjaxSetInformationRelayUrl; ?>">
-    <script type="text/javascript" src="<?php echo $block->getViewFileUrl('LaPoste_Colissimo::js/pickup-init.js'); ?>"></script>
+    <input type="hidden" id="lpc_pickup_ajax_relays_url" value="<?= $block->escapeUrl($lpcUrlLoadRelaysList); ?>">
+    <input type="hidden" id="lpc_pickup_auto_select" value="<?= $block->escapeHtmlAttr(empty($lpcAutoSelectRelay) ? 'false' : 'true'); ?>">
+    <input type="hidden" id="lpc_pickup_marker_url" value="<?= $block->escapeUrl($block->getViewFileUrl('LaPoste_Colissimo::images/map_marker.png')); ?>">
+    <input type="hidden" id="lpc_pickup_set_pickup_url" value="<?= $block->escapeUrl($lpcAjaxSetInformationRelayUrl); ?>">
+    <script type="text/javascript" src="<?= $block->escapeUrl($block->getViewFileUrl('LaPoste_Colissimo::js/pickup-init.js')); ?>"></script>
 <?php
 
 if (in_array($lpcPrView, ['gmaps', 'leaflet'])) {
@@ -27,14 +27,14 @@ if (in_array($lpcPrView, ['gmaps', 'leaflet'])) {
         if (empty($lpcGoogleMapsUrl)) {
             $block->colissimoLogger->error('Error : no Google Maps API Key defined');
         } else {
-            echo '<script src="' . $lpcGoogleMapsUrl . '"></script>';
+            echo '<script src="' . $block->escapeUrl($lpcGoogleMapsUrl) . '"></script>';
         }
         ?>
 
-        <script type="text/javascript" src="<?php echo $block->getViewFileUrl('LaPoste_Colissimo::js/webservice/gmaps-init.js'); ?>"></script>
+        <script type="text/javascript" src="<?= $block->escapeUrl($block->getViewFileUrl('LaPoste_Colissimo::js/webservice/gmaps-init.js')); ?>"></script>
     <?php } elseif ('leaflet' === $lpcPrView) { ?>
-        <link rel="stylesheet" type="text/css" href="<?php echo $block->getViewFileUrl('LaPoste_Colissimo::css/leaflet.css'); ?>">
-        <script type="text/javascript" src="<?php echo $block->getViewFileUrl('LaPoste_Colissimo::js/webservice/leaflet-init.js'); ?>"></script>
+        <link rel="stylesheet" type="text/css" href="<?= $block->escapeUrl($block->getViewFileUrl('LaPoste_Colissimo::css/leaflet.css')); ?>">
+        <script type="text/javascript" src="<?= $block->escapeUrl($block->getViewFileUrl('LaPoste_Colissimo::js/webservice/leaflet-init.js')); ?>"></script>
     <?php }
     $classMap = '';
     if ($prDefaultMobileDisplay === 'list') {
@@ -49,22 +49,22 @@ if (in_array($lpcPrView, ['gmaps', 'leaflet'])) {
     <div id="lpc_layer_relays" style="display:none;">
         <div class="content">
             <span id="lpc_layer_relay_switch_mobile">
-                <img class="lpc_layer_relay_switch_mobile_icon lpc_layer_list <?php echo $classList; ?>"
-                     src="<?php echo $this->getViewFileUrl('LaPoste_Colissimo::images/list.png'); ?>" alt="Show map">
-                <img class="lpc_layer_relay_switch_mobile_icon lpc_layer_map <?php echo $classMapList; ?>"
-                     src="<?php echo $this->getViewFileUrl('LaPoste_Colissimo::images/map.png'); ?>" alt="Hide map">
+                <img class="lpc_layer_relay_switch_mobile_icon lpc_layer_list <?= $block->escapeHtmlAttr($classList); ?>"
+                     src="<?= $block->escapeUrl($this->getViewFileUrl('LaPoste_Colissimo::images/list.png')); ?>" alt="Show map">
+                <img class="lpc_layer_relay_switch_mobile_icon lpc_layer_map <?= $block->escapeHtmlAttr($classMapList); ?>"
+                     src="<?= $block->escapeUrl($this->getViewFileUrl('LaPoste_Colissimo::images/map.png')); ?>" alt="Hide map">
             </span>
             <div>
-                <input type="text" id="lpc_modal_relays_search_address" class="lpc_modal_relays_search_input" placeholder="<?php echo __('Address') ?>">
-                <input type="text" id="lpc_modal_relays_search_zipcode" class="lpc_modal_relays_search_input" placeholder="<?php echo __('Zipcode') ?>">
-                <input type="text" id="lpc_modal_relays_search_city" class="lpc_modal_relays_search_input" placeholder="<?php echo __('City') ?>">
-                <button id="lpc_layer_button_search" type="button"><?php echo __('Search') ?></button>
-                <img id="lpc_layer_relays_loader" src="<?php echo $this->getViewFileUrl('LaPoste_Colissimo::images/loading.gif'); ?>" alt="Loading..." style="display: none">
+                <input type="text" id="lpc_modal_relays_search_address" class="lpc_modal_relays_search_input" placeholder="<?= $block->escapeHtmlAttr(__('Address')) ?>">
+                <input type="text" id="lpc_modal_relays_search_zipcode" class="lpc_modal_relays_search_input" placeholder="<?= $block->escapeHtmlAttr(__('Zipcode')) ?>">
+                <input type="text" id="lpc_modal_relays_search_city" class="lpc_modal_relays_search_input" placeholder="<?= $block->escapeHtmlAttr(__('City')) ?>">
+                <button id="lpc_layer_button_search" type="button"><?= $block->escapeHtml(__('Search')) ?></button>
+                <img id="lpc_layer_relays_loader" src="<?= $block->escapeUrl($this->getViewFileUrl('LaPoste_Colissimo::images/loading.gif')); ?>" alt="Loading..." style="display: none">
                 <?php if ($maxRelayPoint < 20) { ?>
-                    <div id="lpc_modal_relays_display_more"><a href="#"><?php echo __('Display more pickup points'); ?></a></div>
+                    <div id="lpc_modal_relays_display_more"><a href="#"><?= $block->escapeHtml(__('Display more pickup points')); ?></a></div>
                 <?php } ?>
             </div>
-            <div id="lpc_left" <?php echo $classMap; ?>>
+            <div id="lpc_left" <?= $block->escapeHtmlAttr($classMap); ?>>
                 <div id="lpc_map"></div>
             </div>
             <div id="lpc_right">
@@ -82,26 +82,26 @@ if (in_array($lpcPrView, ['gmaps', 'leaflet'])) {
         $lpcAveragePreparationDelay = $block->lpcGetAveragePreparationDelay();
         ?>
         <link rel="stylesheet" type="text/css" href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css">
-        <link rel="stylesheet" type="text/css" href="<?php echo $block->getViewFileUrl('LaPoste_Colissimo::css/widget.css'); ?>">
+        <link rel="stylesheet" type="text/css" href="<?= $block->escapeUrl($block->getViewFileUrl('LaPoste_Colissimo::css/widget.css')); ?>">
 
-        <script type="text/javascript" src="<?php echo $block->getViewFileUrl('LaPoste_Colissimo::js/widget/mapbox.min.js'); ?>"></script>
-        <script type="text/javascript" src="<?php echo $block->getViewFileUrl('LaPoste_Colissimo::js/widget/init.js'); ?>"></script>
+        <script type="text/javascript" src="<?= $block->escapeUrl($block->getViewFileUrl('LaPoste_Colissimo::js/widget/mapbox.min.js')); ?>"></script>
+        <script type="text/javascript" src="<?= $block->escapeUrl($block->getViewFileUrl('LaPoste_Colissimo::js/widget/init.js')); ?>"></script>
 
         <div id="lpc_layer_widget" style="display: none">
             <div id="lpc_widget_container" class="widget_colissimo"></div>
         </div>
-        <input type="hidden" id="lpc_pickup_widget_country" value="<?php echo $lpcWidgetCountry; ?>">
-        <input type="hidden" id="lpc_token_widget" value="<?php echo $lpcToken; ?>">
-        <input type="hidden" id="lpc_average_preparation_delay" value="<?php echo $lpcAveragePreparationDelay; ?>">
-        <input type="hidden" id="lpc_relay_types" value="<?php echo $block->lpcGetRelayTypes(); ?>">
+        <input type="hidden" id="lpc_pickup_widget_country" value="<?= $block->escapeHtmlAttr($lpcWidgetCountry); ?>">
+        <input type="hidden" id="lpc_token_widget" value="<?= $block->escapeHtmlAttr($lpcToken); ?>">
+        <input type="hidden" id="lpc_average_preparation_delay" value="<?= $block->escapeHtmlAttr($lpcAveragePreparationDelay); ?>">
+        <input type="hidden" id="lpc_relay_types" value="<?= $block->escapeHtmlAttr($block->lpcGetRelayTypes()); ?>">
         <?php if ($lpcCustomizeWidget) { ?>
-            <input type="hidden" id="lpc_color_1" value="<?php echo $lpcAddressTextColor ?>">
-            <input type="hidden" id="lpc_color_2" value="<?php echo $lpcListTextColor ?>">
-            <input type="hidden" id="lpc_font" value="<?php echo $block->escapeHtmlAttr($lpcWidgetFont) ?>">
+            <input type="hidden" id="lpc_color_1" value="<?= $block->escapeHtmlAttr($lpcAddressTextColor) ?>">
+            <input type="hidden" id="lpc_color_2" value="<?= $block->escapeHtmlAttr($lpcListTextColor) ?>">
+            <input type="hidden" id="lpc_font" value="<?= $block->escapeHtmlAttr($lpcWidgetFont) ?>">
         <?php } ?>
     <?php } else { ?>
         <div id="lpc_error_pr" style="display: none">
-            <p id="lpc_error_message_pr"><?php echo __('The window to choose your pickup point is currently unavailable. Please refresh the page and try again. If the problem persists, please contact the website administrator.') ?></p>
+            <p id="lpc_error_message_pr"><?= $block->escapeHtml(__('The window to choose your pickup point is currently unavailable. Please refresh the page and try again. If the problem persists, please contact the website administrator.')) ?></p>
         </div>
     <?php }
 }

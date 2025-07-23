@@ -7,10 +7,10 @@
     ], function (jQuery) {
 
         jQuery('#LaPosteConfigBtn').click(function () {
-            window.location = '<?php echo $block->urlLaPoste; ?>';
+            window.location = '<?= $block->escapeUrl($block->urlLaPoste); ?>';
         });
 
     });
 </script>
 
-<?php echo $block->getButtonHtml(); ?>
+<?= $block->getButtonHtml(); ?>

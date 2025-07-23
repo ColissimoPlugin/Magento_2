@@ -31,10 +31,10 @@
     });
 </script>
 
-<?php echo $block->getButtonHtml(); ?>
+<?= $block->getButtonHtml(); ?>
 
 <div id="lpc_last_logs" style="display: none;">
     <pre>
-        <?php echo $this->getLastLines(); ?>
+        <?= $block->escapeHtml($this->getLastLines()); ?>
     </pre>
 </div>

@@ -15,13 +15,13 @@ if ($customsNeeded) {
     ?>
 
     <div>
-        <h2><?php echo __('Customs documents'); ?></h2>
+        <h2><?= $block->escapeHtml(__('Customs documents')); ?></h2>
     </div>
     <div class="lpc__admin__order_banner__content lpc__admin__order_banner__send_documents">
         <div style="margin-bottom: 1rem;">
-            <?php echo __('In accordance with the customs regulation, it is necessary to provide documents related to the parcels for the customs.'); ?>
+            <?= $block->escapeHtml(__('In accordance with the customs regulation, it is necessary to provide documents related to the parcels for the customs.')); ?>
             <br />
-            <?php echo __('It is possible to send these documents through the parcel tracking tool or using the module from here.'); ?>
+            <?= $block->escapeHtml(__('It is possible to send these documents through the parcel tracking tool or using the module from here.')); ?>
         </div>
         <template id="lpc__admin__order_banner__send_documents__template">
             <tr>
@@ -29,7 +29,7 @@ if ($customsNeeded) {
                     <select class="lpc__admin__order_banner__document__type">
                         <?php
                         foreach ($documentsTypes as $documentType => $description) {
-                            echo '<option value="' . $documentType . '">' . $description . '</option>';
+                            echo '<option value="' . $block->escapeHtmlAttr($documentType) . '">' . $block->escapeHtml($description) . '</option>';
                         }
                         ?>
                     </select>
@@ -47,16 +47,16 @@ if ($customsNeeded) {
             <thead>
                 <?php foreach ($trackingNumbers as $outwardTrackingNumber) { ?>
                     <tr>
-                        <th><?php echo $outwardTrackingNumber; ?></th>
+                        <th><?= $block->escapeHtml($outwardTrackingNumber); ?></th>
                         <td class="lpc__admin__order_banner__send_documents__container">
                             <img class="processing"
                                  style="display: none;"
                                  alt="Send customs documents spinner"
-                                 src="<?php echo $block->getViewFileUrl('images/process_spinner.gif') ?>" />
+                                 src="<?= $block->escapeUrl($block->getViewFileUrl('images/process_spinner.gif')); ?>" />
 
-                            <form data-lpc-formkey="<?php echo $block->getFormKey(); ?>"
-                                  data-lpc-ajaxurl="<?php echo $ajaxUrl; ?>"
-                                  data-lpc-shipmentid="<?php echo intval($parcelShipmentRelations[$outwardTrackingNumber]); ?>">
+                            <form data-lpc-formkey="<?= $block->escapeHtmlAttr($block->getFormKey()); ?>"
+                                  data-lpc-ajaxurl="<?= $block->escapeUrl($ajaxUrl); ?>"
+                                  data-lpc-shipmentid="<?= $block->escapeHtmlAttr(intval($parcelShipmentRelations[$outwardTrackingNumber])); ?>">
                                 <table>
                                     <tbody class="lpc__admin__order_banner__send_documents__listing">
                                         <?php
@@ -65,10 +65,10 @@ if ($customsNeeded) {
                                                 ?>
                                                 <tr class="lpc__customs__sent__document">
                                                     <td>
-                                                        <?php echo $documentsTypes[$oneDocument['documentType']]; ?>
+                                                        <?= $block->escapeHtml($documentsTypes[$oneDocument['documentType']]); ?>
                                                     </td>
                                                     <td>
-                                                        <?php echo $oneDocument['documentName']; ?>
+                                                        <?= $block->escapeHtml($oneDocument['documentName']); ?>
                                                     </td>
                                                 </tr>
                                                 <?php
@@ -80,11 +80,11 @@ if ($customsNeeded) {
                                 <div class="lpc__buttons__container">
                                     <button type="button"
                                             class="lpc__admin__order_banner__send_documents__more"
-                                            data-lpc-parcelnumber="<?php echo $outwardTrackingNumber; ?>">
-                                        <?php echo __('Add an other document'); ?>
+                                            data-lpc-parcelnumber="<?= $block->escapeHtmlAttr($outwardTrackingNumber); ?>">
+                                        <?= $block->escapeHtml(__('Add an other document')); ?>
                                     </button>
                                     <button type="submit" class="action-secondary lpc__admin__order_banner__send_documents__listing__send_button">
-                                        <?php echo __('Submit the documents'); ?>
+                                        <?= $block->escapeHtml(__('Submit the documents')); ?>
                                     </button>
                                 </div>
                             </form>

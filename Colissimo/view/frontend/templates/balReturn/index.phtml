@@ -1,47 +1,47 @@
 <div class="lpc_balreturn">
-    <h1 class="page-title"><?php echo __('MailBox picking return'); ?></h1>
+    <h1 class="page-title"><?= $block->escapeHtml(__('MailBox picking return')); ?></h1>
 
     <?php $initialShippingAddress = $this->getShipment()->getShippingAddress(); ?>
 
-    <h2 class="lpc_balreturn_subtitle"><?php echo __('Retrieval address'); ?></h2>
+    <h2 class="lpc_balreturn_subtitle"><?= $block->escapeHtml(__('Retrieval address')); ?></h2>
     <div class="lpc_balreturn_shipping lpc_balreturn_withseparator">
         <div>
-            <?php echo __('Your shipment was initially sent to the following address:'); ?>
+            <?= $block->escapeHtml(__('Your shipment was initially sent to the following address:')); ?>
         </div>
         <div class="lpc_balreturn_shipping_address">
-            <?php echo $this->addressFormatter($initialShippingAddress); ?>
+            <?= $this->addressFormatterHtml($initialShippingAddress); ?>
         </div>
     </div>
 
     <div class="lpc_balreturn_address">
-        <div><?php echo __('You may change the address the return will be made from via the following fields:'); ?></div>
-        <form method="POST" action="<?php echo $this->getUrl('*/*/checkAvailibility'); ?>">
-            <input type="hidden" id="lpc_bal_shipmentId" name="shipmentId" value="<?php echo $this->getShipment()->getId(); ?>" />
-            <input type="hidden" id="productIds" name="productIds" value="<?php echo $this->getProducts(); ?>" />
+        <div><?= $block->escapeHtml(__('You may change the address the return will be made from via the following fields:')); ?></div>
+        <form method="POST" action="<?= $block->escapeUrl($this->getUrl('*/*/checkAvailibility')); ?>">
+            <input type="hidden" id="lpc_bal_shipmentId" name="shipmentId" value="<?= $block->escapeHtmlAttr($this->getShipment()->getId()); ?>" />
+            <input type="hidden" id="productIds" name="productIds" value="<?= $block->escapeHtmlAttr($this->getProducts()); ?>" />
             <div>
-                <label for="lpc_bal_companyName"><?php echo __('Name') ?></label>
-                <input type="text" id="lpc_bal_companyName" name="address[companyName]" value="<?php echo $initialShippingAddress->getName() ?>" />
+                <label for="lpc_bal_companyName"><?= $block->escapeHtml(__('Name')) ?></label>
+                <input type="text" id="lpc_bal_companyName" name="address[companyName]" value="<?= $block->escapeHtmlAttr($initialShippingAddress->getName()) ?>" />
             </div>
             <div>
-                <label for="lpc_bal_street"><?php echo __('Street') ?></label>
-                <input type="text" id="lpc_bal_street" name="address[street]" value="<?php echo implode(', ', $initialShippingAddress->getStreet()); ?>" />
+                <label for="lpc_bal_street"><?= $block->escapeHtml(__('Street')) ?></label>
+                <input type="text" id="lpc_bal_street" name="address[street]" value="<?= $block->escapeHtmlAttr(implode(', ', $initialShippingAddress->getStreet())); ?>" />
             </div>
             <div>
-                <label for="lpc_bal_zipCode"><?php echo __('Zip code') ?></label>
-                <input type="text" id="lpc_bal_zipCode" name="address[zipCode]" value="<?php echo $initialShippingAddress->getPostCode() ?>" />
+                <label for="lpc_bal_zipCode"><?= $block->escapeHtml(__('Zip code')) ?></label>
+                <input type="text" id="lpc_bal_zipCode" name="address[zipCode]" value="<?= $block->escapeHtmlAttr($initialShippingAddress->getPostCode()) ?>" />
             </div>
             <div>
-                <label for="lpc_bal_city"><?php echo __('City') ?></label>
-                <input type="text" id="lpc_bal_city" name="address[city]" value="<?php echo $initialShippingAddress->getCity() ?>" />
+                <label for="lpc_bal_city"><?= $block->escapeHtml(__('City')) ?></label>
+                <input type="text" id="lpc_bal_city" name="address[city]" value="<?= $block->escapeHtmlAttr($initialShippingAddress->getCity()) ?>" />
             </div>
             <div>
-                <label for="lpc_bal_country"><?php echo __('Country') ?></label>
+                <label for="lpc_bal_country"><?= $block->escapeHtml(__('Country')) ?></label>
                 <input type="text" id="lpc_bal_country" name="address[country]" value="FR" readonly="true" disabled="true">
-                <i><?php echo __('Only France is allowed'); ?></i>
+                <i><?= $block->escapeHtml(__('Only France is allowed')); ?></i>
             </div>
 
             <div class="lpc_balreturn_btn">
-                <button type="submit" class="action primary"><?php echo __('Check that this address is allowed for MailBox picking return'); ?></button>
+                <button type="submit" class="action primary"><?= $block->escapeHtml(__('Check that this address is allowed for MailBox picking return')); ?></button>
             </div>
         </form>
     </div>

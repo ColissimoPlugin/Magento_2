@@ -1,12 +1,12 @@
 <div class="lpc_tracking_logo">
-    <img src="<?php echo $this->getViewFileUrl('LaPoste_Colissimo::images/Colissimo_logo.png'); ?>"
+    <img src="<?= $block->escapeUrl($this->getViewFileUrl('LaPoste_Colissimo::images/Colissimo_logo.png')); ?>"
          alt="Logo colissimo" />
 </div>
 
-<h2 class="lpc_tracking_title"><?php echo __('Tracking information for order'); ?>
-    <b>#<?php echo $this->getOrder()->getIncrementId(); ?></b></h2>
+<h2 class="lpc_tracking_title"><?= $block->escapeHtml(__('Tracking information for order')); ?>
+    <b>#<?= $block->escapeHtml($this->getOrder()->getIncrementId()); ?></b></h2>
 <p class="lpc_tracking_method">
-    <?php echo __('Shipping method:'); ?> <b><?php echo $this->getOrder()->getShippingDescription(); ?></b>
+    <?= $block->escapeHtml(__('Shipping method:')); ?> <b><?= $block->escapeHtml($this->getOrder()->getShippingDescription()); ?></b>
 </p>
 
 <?php foreach ($this->getTracks() as $track) {
@@ -19,18 +19,18 @@
         <table>
             <thead>
                 <tr>
-                    <th><?php echo __('Tracking number'); ?></th>
-                    <th><?php echo __('Status'); ?></th>
+                    <th><?= $block->escapeHtml(__('Tracking number')); ?></th>
+                    <th><?= $block->escapeHtml(__('Status')); ?></th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td class="lpc_tracking_tracknumber"><?php echo $trackingNumber; ?></td>
-                    <td><?php echo $this->getMainStatus($status); ?></td>
+                    <td class="lpc_tracking_tracknumber"><?= $block->escapeHtml($trackingNumber); ?></td>
+                    <td><?= $block->escapeHtml($this->getMainStatus($status)); ?></td>
                     <td>
                         <a target="_blank"
-                           href="https://www.laposte.fr/particulier/modification-livraison?code=<?php echo $trackingNumber; ?>"><?php echo __('Change your shipping information and options'); ?></a>
+                           href="https://www.laposte.fr/particulier/modification-livraison?code=<?= $block->escapeHtmlAttr($trackingNumber); ?>"><?= $block->escapeHtml(__('Change your shipping information and options')); ?></a>
                     </td>
                 </tr>
             </tbody>
@@ -38,17 +38,17 @@
     </div>
 
     <div class="lpc_tracking_message">
-        <?php echo !empty($status->message->message) ? $status->message->message : ''; ?>
+        <?= $block->escapeHtml(!empty($status->message->message) ? $status->message->message : ''); ?>
     </div>
 
-    <h3><?php echo __('Status history'); ?></h3>
+    <h3><?= $block->escapeHtml(__('Status history')); ?></h3>
     <div class="lpc_tracking_events">
         <table>
             <thead>
                 <tr>
-                    <th><?php echo __('Status Date'); ?></th>
-                    <th><?php echo __('Status'); ?></th>
-                    <th><?php echo __('Localisation'); ?></th>
+                    <th><?= $block->escapeHtml(__('Status Date')); ?></th>
+                    <th><?= $block->escapeHtml(__('Status')); ?></th>
+                    <th><?= $block->escapeHtml(__('Localisation')); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -56,9 +56,9 @@
                 foreach ($status->parcel->event as $event) {
                     ?>
                     <tr>
-                        <td><?php echo $this->formatDate($event->date, IntlDateFormatter::SHORT); ?></td>
-                        <td><?php echo $event->labelLong; ?></td>
-                        <td><?php echo isset($event->siteCity) ? $event->siteCity : '-'; ?></td>
+                        <td><?= $block->escapeHtml($this->formatDate($event->date, IntlDateFormatter::SHORT)); ?></td>
+                        <td><?= $block->escapeHtml($event->labelLong); ?></td>
+                        <td><?= $block->escapeHtml($event->siteCity ?? '-'); ?></td>
                     </tr>
                     <?php
                 } // foreach $event
@@ -67,13 +67,13 @@
         </table>
     </div>
 
-    <h3><?php echo __('Timeline'); ?></h3>
+    <h3><?= $block->escapeHtml(__('Timeline')); ?></h3>
     <div class="lpc_tracking_events lpc_tracking_timeline">
         <table>
             <thead>
                 <tr>
-                    <th><?php echo __('Step number'); ?></th>
-                    <th><?php echo __('Status'); ?></th>
+                    <th><?= $block->escapeHtml(__('Step number')); ?></th>
+                    <th><?= $block->escapeHtml(__('Status')); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -89,9 +89,9 @@
                     }
                     $stepNumber ++;
                     ?>
-                    <tr class="<?php echo $classActive; ?>">
-                        <td><?php echo $stepNumber; ?></td>
-                        <td><?php echo empty($step->labelLong) ? $step->labelShort : $step->labelLong; ?></td>
+                    <tr class="<?= $block->escapeHtmlAttr($classActive); ?>">
+                        <td><?= $block->escapeHtml($stepNumber); ?></td>
+                        <td><?= $block->escapeHtml(empty($step->labelLong) ? $step->labelShort : $step->labelLong); ?></td>
                     </tr>
                     <?php
                 }

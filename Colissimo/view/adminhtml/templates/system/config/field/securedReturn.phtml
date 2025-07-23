@@ -1,17 +1,17 @@
 <?php /* @var $block \LaPoste\Colissimo\Block\System\Config\Field\SecuredReturn */ ?>
 
-<input type="hidden" name="<?php echo $block->getNamePrefix() ?>" value="" /><!-- this is sent if nothing is checked -->
-<input type="checkbox" value="1" name="<?php echo $block->getNamePrefix() ?>[]"
-       id="<?php echo $block->getHtmlId() . '_securedReturn' ?>"
-    <?php echo !$block->isOptionAuthorized() ? ' disabled="disabled"' : ''; ?>
-    <?php echo $block->isOptionActive() ? ' checked="checked"' : ''; ?>/>
+<input type="hidden" name="<?= $block->escapeHtmlAttr($block->getNamePrefix()) ?>" value="" /><!-- this is sent if nothing is checked -->
+<input type="checkbox" value="1" name="<?= $block->escapeHtmlAttr($block->getNamePrefix()) ?>[]"
+       id="<?= $block->getHtmlId() . '_securedReturn' ?>"
+    <?= !$block->isOptionAuthorized() ? ' disabled="disabled"' : ''; ?>
+    <?= $block->isOptionActive() ? ' checked="checked"' : ''; ?>/>
 
 <p class="note">
     <span>
-        <?php echo $block->escapeHtml(__('If the secured return is enabled, only your customers will be able to generate return labels.')); ?><br>
-        <?php echo $block->escapeHtml(__('Generate a QR Code that your customers can scan at the post office to print a label. This format is used to secure the return parcel. This option requires activation of the service in your Colissimo customer area.')); ?> <a
+        <?= $block->escapeHtml(__('If the secured return is enabled, only your customers will be able to generate return labels.')); ?><br>
+        <?= $block->escapeHtml(__('Generate a QR Code that your customers can scan at the post office to print a label. This format is used to secure the return parcel. This option requires activation of the service in your Colissimo customer area.')); ?> <a
             target="_blank"
-            href="<?php echo $block->getAccountServiceUrl(); ?>"><?php echo $block->escapeHtml(__('Activate service')); ?></a>
+            href="<?= $block->escapeUrl($block->getAccountServiceUrl()); ?>"><?= $block->escapeHtml(__('Activate service')); ?></a>
     </span>
 </p>
 

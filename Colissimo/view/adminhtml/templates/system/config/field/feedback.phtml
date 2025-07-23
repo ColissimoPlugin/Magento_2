@@ -1,6 +1,6 @@
 <?php /* @var $block \LaPoste\Colissimo\Block\System\Config\Field\Feedback */ ?>
 
-<div data-tf-widget="<?php echo $block->getFormId(); ?>"></div>
+<div data-tf-widget="<?= $block->escapeHtmlAttr($block->getFormId()); ?>"></div>
 <script src="https://embed.typeform.com/next/embed.js"></script>
 
 <style>
