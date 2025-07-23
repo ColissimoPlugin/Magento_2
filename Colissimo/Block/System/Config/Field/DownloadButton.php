@@ -16,12 +16,12 @@ use Magento\Backend\Block\Template\Context;
 use Magento\Config\Block\System\Config\Form\Field;
 use Magento\Framework\Data\Form\Element\AbstractElement;
 
-class DownloadLogButton extends Field
+class DownloadButton extends Field
 {
     /**
      * @var string
      */
-    protected $_template = 'LaPoste_Colissimo::system/config/field/downloadLog.phtml';
+    protected $_template = 'LaPoste_Colissimo::system/config/field/download.phtml';
 
     /**
      * @var Data
@@ -63,6 +63,8 @@ class DownloadLogButton extends Field
      */
     protected function _getElementHtml(AbstractElement $element)
     {
+        $this->setData('field_id', $element->getId());
+
         return $this->_toHtml();
     }
 
@@ -71,10 +73,13 @@ class DownloadLogButton extends Field
      *
      * @return string
      */
-    public function getLogFileUrl()
+    public function getDownloadFileUrl(string $type)
     {
         return $this->getUrl(
-            $this->helperData->getAdminRoute('log', 'downloadLogButton')
+            $this->helperData->getAdminRoute('configuration', 'downloadButton'),
+            [
+                'type' => $type,
+            ]
         );
     }
 
@@ -86,13 +91,21 @@ class DownloadLogButton extends Field
      */
     public function getButtonHtml()
     {
+        if ('lpc_advanced_lpc_debug_downloadLogs' === $this->getData('field_id')) {
+            $id = 'downloadLog_button';
+            $downloadUrl = $this->getDownloadFileUrl('logs');
+        } else {
+            $id = 'downloadDoc_button';
+            $downloadUrl = $this->getDownloadFileUrl('doc');
+        }
+
         $button = $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
             [
-                'id'      => 'downloadLog_button',
+                'id'      => $id,
                 'label'   => __('Download'),
-                'onclick' => 'window.open(\'' . $this->getLogFileUrl() . '\');',
+                'onclick' => 'window.open(\'' . $downloadUrl . '\');',
             ]
         );
 

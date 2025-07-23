@@ -596,20 +596,18 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
             $originalInvoiceDate = \DateTime::createFromFormat(
                 'Y-m-d H:i:s',
                 $invoice->getCreatedAt()
-            )
-                                            ->format('Y-m-d');
+            )->format('Y-m-d');
 
             $originalParcelNumber = $this->getOriginalParcelNumberFromInvoice($invoice);
 
-            $this->payload['letter']['customsDeclarations']['contents']['original'] =
+            $this->payload['letter']['customsDeclarations']['contents']['original'] = [
                 [
-                    [
-                        'originalIdent'         => self::FORCED_ORIGINAL_IDENT,
-                        'originalInvoiceNumber' => $invoice->getIncrementId(),
-                        'originalInvoiceDate'   => $originalInvoiceDate,
-                        'originalParcelNumber'  => $originalParcelNumber,
-                    ],
-                ];
+                    'originalIdent'         => self::FORCED_ORIGINAL_IDENT,
+                    'originalInvoiceNumber' => $invoice->getIncrementId(),
+                    'originalInvoiceDate'   => $originalInvoiceDate,
+                    'originalParcelNumber'  => $originalParcelNumber,
+                ],
+            ];
         }
 
         if ('GB' === $destinationCountryId) {
@@ -831,9 +829,23 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
         return $this;
     }
 
-    public function withCODAmount($amount)
+    public function withCODAmount(string $productCode, array $items, $storeId = null)
     {
-        $amount = (double) $amount;
+        $cashOnDelivery = $this->helperData->getAdvancedConfigValue('lpc_labels/isUsingCashOnDelivery', $storeId);
+        if (empty($cashOnDelivery) || !in_array($productCode, [Colissimo::PRODUCT_CODE_WITH_SIGNATURE, Colissimo::PRODUCT_CODE_WITH_SIGNATURE_INTRA_DOM])) {
+            return $this;
+        }
+
+        $amount = 0;
+
+        foreach ($items as $piece) {
+            if (empty($piece['qty']) || empty($piece['customs_value'])) {
+                // this happens when packages have been created by main magento process
+                $piece = $this->rebuildPiece($piece, $storeId);
+            }
+
+            $amount += (double) $piece['customs_value'] * (double) $piece['qty'];
+        }
 
         if ($amount > 0) {
             $this->payload['letter']['parcel']['COD'] = true;
@@ -892,10 +904,11 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
             $this->payload['fields']['field'] = [];
         }
 
+        $moduleVersion = $this->helperData->getModuleVersion();
         $this->payload['fields']['field'][] = $customField;
         $this->payload['fields']['field'][] = [
             'key'   => 'CUSER_INFO_TEXT_3',
-            'value' => 'MAGENTO2',
+            'value' => 'MAGENTO2;' . $moduleVersion,
         ];
 
         return $this;

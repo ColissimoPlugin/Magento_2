@@ -250,7 +250,11 @@
                     <label></label>
                     <frontend_model>LaPoste\Colissimo\Block\System\Config\ColishipLink</frontend_model>
                 </field>
-                <field id="cgv" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="6" translate="label comment" type="text">
+                <field id="account_information" translate="label comment" type="label" sortOrder="6" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Your contract information</label>
+                    <frontend_model>LaPoste\Colissimo\Block\System\Config\AccountInformation</frontend_model>
+                </field>
+                <field id="cgv" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="7" translate="label comment" type="text">
                     <label></label>
                     <frontend_model>LaPoste\Colissimo\Block\System\Config\Cgv</frontend_model>
                 </field>
@@ -386,7 +390,7 @@
                     </depends>
                 </field>
                 <field id="eoriUkNumber" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="90" translate="label comment" type="text">
-                    <label>UK EORI number</label>
+                    <label>United Kingdom EORI number</label>
                     <comment>EORI number for delivery to United Kingdom</comment>
                     <depends>
                         <field id="isUsingCustomsDeclarations">1</field>
@@ -538,13 +542,6 @@
                         <field id="lpc_advanced/lpc_pr_front/choosePRDisplayMode">widget</field>
                     </depends>
                 </field>
-                <field id="showInternational" translate="label" sortOrder="70" showInWebsite="1" showInStore="1" showInDefault="1" type="select">
-                    <label>Show international Relay Points</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <depends>
-                        <field id="lpc_advanced/lpc_pr_front/choosePRDisplayMode" separator=",">gmaps,leaflet</field>
-                    </depends>
-                </field>
                 <field id="lpc_google_maps_api_key" translate="label comment" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1" type="text">
                     <label>Google Maps API Key</label>
                     <comment>This key is needed to display the selection map</comment>
@@ -660,23 +657,27 @@
                     <frontend_model>LaPoste\Colissimo\Block\System\Config\Field\SeeLastLogsButton</frontend_model>
                 </field>
                 <field id="downloadLogs" translate="label comment" type="button" showInDefault="1" sortOrder="4" showInWebsite="0" showInStore="0">
-                    <frontend_model>LaPoste\Colissimo\Block\System\Config\Field\DownloadLogButton</frontend_model>
+                    <frontend_model>LaPoste\Colissimo\Block\System\Config\Field\DownloadButton</frontend_model>
                     <label>Download full log</label>
                 </field>
-                <field id="colissimoVersion" translate="label" type="label" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="downloadDoc" translate="label comment" type="button" showInDefault="1" sortOrder="5" showInWebsite="0" showInStore="0">
+                    <frontend_model>LaPoste\Colissimo\Block\System\Config\Field\DownloadButton</frontend_model>
+                    <label>Documentation</label>
+                </field>
+                <field id="colissimoVersion" translate="label" type="label" sortOrder="6" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Colissimo module version</label>
                     <frontend_model>LaPoste\Colissimo\Block\System\Config\Field\ColissimoVersion</frontend_model>
                 </field>
-                <field id="lpc_status_page" translate="label" type="label" sortOrder="6" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="lpc_status_page" translate="label" type="label" sortOrder="7" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Colissimo services</label>
                     <frontend_model>LaPoste\Colissimo\Block\System\Config\StatusPageLink</frontend_model>
                 </field>
-                <field id="colissimoSupport" translate="label" type="label" sortOrder="7" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="colissimoSupport" translate="label" type="label" sortOrder="8" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Colissimo support</label>
                     <frontend_model>LaPoste\Colissimo\Block\System\Config\Field\ColissimoSupport</frontend_model>
                 </field>
-                <field id="contactUs" translate="label" type="button" sortOrder="8" showInDefault="1" showInWebsite="0" showInStore="0">
-                    <label>Plugin support</label>
+                <field id="contactUs" translate="label" type="button" sortOrder="9" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Module support</label>
                     <frontend_model>LaPoste\Colissimo\Block\System\Config\Field\ContactUsButton</frontend_model>
                 </field>
             </group>

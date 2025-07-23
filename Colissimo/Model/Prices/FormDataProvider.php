@@ -54,6 +54,9 @@ class FormDataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         foreach ($items as $model) {
             $this->loadedData[$model->getId()] = $model->getData();
 
+            if (!empty($this->loadedData[$model->getId()]['category_ids'])) {
+                $this->loadedData[$model->getId()]['category_ids'] = array_filter(explode(',', $this->loadedData[$model->getId()]['category_ids']));
+            }
             if (empty($this->loadedData[$model->getId()]['weight_max'])) {
                 $this->loadedData[$model->getId()]['weight_max'] = '-';
             }

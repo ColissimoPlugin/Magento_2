@@ -13,6 +13,7 @@ interface PricesInterface extends \Magento\Framework\Api\ExtensibleDataInterface
     const WEIGHT_MAX = 'weight_max';
     const PRICE_MIN = 'price_min';
     const PRICE_MAX = 'price_max';
+    const CATEGORY_IDS = 'category_ids';
 
     /**
      * Get entity_id
@@ -117,6 +118,19 @@ interface PricesInterface extends \Magento\Framework\Api\ExtensibleDataInterface
      * @return \LaPoste\Colissimo\Api\Data\PricesInterface
      */
     public function setPriceMax($weightMax);
+
+    /**
+     * Get category_ids
+     * @return string|null
+     */
+    public function getCategoryIds();
+
+    /**
+     * Set category_ids
+     * @param string $categoryIds
+     * @return \LaPoste\Colissimo\Api\Data\PricesInterface
+     */
+    public function setCategoryIds($categoryIds);
 
 
     /**

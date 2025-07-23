@@ -28,10 +28,9 @@ interface GenerateRelaysPayload
     public function withShippingDate(\DateTime $shippingDate = null);
 
     /**
-     * @param null $optionInter
      * @return mixed
      */
-    public function withOptionInter($optionInter = null);
+    public function withOptionInter();
 
     /**
      * @param $weight

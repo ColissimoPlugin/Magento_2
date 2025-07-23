@@ -35,10 +35,8 @@ class CountryOffer extends AbstractHelper
     ];
 
     private $productInfoByDestination;
-
     private $countriesPerZone;
 
-    protected $countryInformation;
     protected $cache;
     protected $helperData;
     protected $countryInformationAcquirer;
@@ -86,21 +84,28 @@ class CountryOffer extends AbstractHelper
     /**
      * Get only slices of the correct destination (either country or area containing the country)
      * Warning : specific case for some spanish territories (country code still ES but some region code are not in the same Colissimo area and pricing)
-     * @param     $methodCode      : shipping method code
-     * @param     $destCountryId   : destination country code
-     * @param     $priceItems      : configuration of the shipping method
-     * @param     $destPostCode    : destination postcode
-     * @param int $cartPrice       : cart price
-     * @param int $cartWeight      : cart weight
-     * @param     $originCountryId : country code of origin
+     * @param       $methodCode              : shipping method code
+     * @param       $destCountryId           : destination country code
+     * @param       $priceItems              : configuration of the shipping method
+     * @param       $destPostCode            : destination postcode
+     * @param int   $cartPrice               : cart price
+     * @param int   $cartWeight              : cart weight
+     * @param       $originCountryId         : country code of origin
+     * @param array $cartCategoriesByProduct : array of arrays => each product categories
      * @return array of slices ordered by price asc
      */
-    public function getSlicesForDestination($methodCode, $destCountryId, $priceItems, $destPostCode, $cartPrice, $cartWeight = 0, $originCountryId = 'fr')
-    {
+    public function getSlicesForDestination(
+        $methodCode,
+        $destCountryId,
+        $priceItems,
+        $destPostCode,
+        $cartPrice,
+        $cartWeight = 0,
+        $originCountryId = 'fr',
+        $cartCategoriesByProduct = []
+    ) {
         $countriesPerZone = $this->getCountriesPerZone($originCountryId);
-
         $slicesDest = [];
-
         $maxPerArea = [];
 
         $lpcCountryCodeSpecificDestination = $this->getLpcCountryCodeSpecificDestination($destCountryId, $destPostCode);
@@ -111,6 +116,22 @@ class CountryOffer extends AbstractHelper
             $oneSliceWeightMax = $oneItem->getWeightMax();
             $oneSlicePriceMin = $oneItem->getPriceMin();
             $oneSlicePriceMax = $oneItem->getPriceMax();
+
+            $sliceCategories = $oneItem->getCategoryIds();
+            $oneSliceCategoryIds = trim(empty($sliceCategories) ? '' : $sliceCategories, ',');
+
+            // We should filter prices based on product categories
+            // If no categories in cart then don't filter
+            if (!empty($oneSliceCategoryIds) && !empty($cartCategoriesByProduct)) {
+                $sliceAllowedCategories = array_unique(array_filter(explode(',', $oneSliceCategoryIds)));
+
+                foreach ($cartCategoriesByProduct as $oneCartProductCategories) {
+                    if (empty(array_intersect($sliceAllowedCategories, $oneCartProductCategories))) {
+                        // The product doesn't have at least one whitelisted category, ignore this slice
+                        continue 2;
+                    }
+                }
+            }
 
             if ($methodCode != $oneItem->getMethod()) {
                 continue;

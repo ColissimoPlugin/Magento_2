@@ -25,6 +25,8 @@ class CustomConfigProvider implements ConfigProviderInterface
             $colissimoIconUrl = $this->assetRepository->getUrl('LaPoste_Colissimo::images/colissimo_icon.png');
         }
 
-        return ['colissimoIconUrl' => $colissimoIconUrl];
+        return [
+            'colissimoIconUrl' => $colissimoIconUrl,
+        ];
     }
 }

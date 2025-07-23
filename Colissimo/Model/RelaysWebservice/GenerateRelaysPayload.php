@@ -82,16 +82,12 @@ class GenerateRelaysPayload implements \LaPoste\Colissimo\Api\RelaysWebservice\G
         return $this;
     }
 
-    public function withOptionInter($optionInter = null)
+    public function withOptionInter()
     {
-        if (null === $optionInter) {
-            $optionInter = $this->helperData->getAdvancedConfigValue('lpc_pr_front/showInternational');
-        }
-
-        if (empty($optionInter) || $this->payload['countryCode'] === 'FR') {
+        if ($this->payload['countryCode'] === 'FR') {
             $this->payload['optionInter'] = '0';
         } else {
-            $this->payload['optionInter'] = $optionInter;
+            $this->payload['optionInter'] = '1';
         }
 
         return $this;

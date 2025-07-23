@@ -1502,7 +1502,7 @@ class ColissimoStatus implements \LaPoste\Colissimo\Api\ColissimoStatus
             'typo'                => 'ACH',
             'change_order_state'  => null,
             'change_order_status' => null,
-            'label'               => 'Votre colis sera présenté le prochain jour ouvré et nécessite une remise en mains propres. Si vous êtes absent, vous pouvez nous donner vos instructions sur wwww.colissimo.fr/monchoix.',
+            'label'               => 'Votre colis sera présenté le prochain jour ouvré et nécessite une remise en mains propres. Si vous êtes absent, vous pouvez nous donner vos instructions sur www.colissimo.fr/monchoix.',
         ],
         186                                => [
             'clp'                 => 'QINDIV',
@@ -1846,7 +1846,7 @@ class ColissimoStatus implements \LaPoste\Colissimo\Api\ColissimoStatus
             'typo'                => 'RDT',
             'change_order_state'  => null,
             'change_order_status' => null,
-            'label'               => 'Votre colis n\'a pu être livré car le destinataire était absent. Il sera remis en livraison le prochain jour ouvré. Le destinataire peut se rendre sur http://www.colissimo.fr/monchoix pour donner de nouvelles instructions.',
+            'label'               => 'Votre colis n\'a pu être livré car le destinataire était absent. Il sera remis en livraison le prochain jour ouvré. Le destinataire peut se rendre sur https://www.colissimo.fr/monchoix pour donner de nouvelles instructions.',
         ],
         229                                => [
             'clp'                 => 'RENAVA',

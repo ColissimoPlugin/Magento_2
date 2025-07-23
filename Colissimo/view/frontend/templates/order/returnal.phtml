@@ -40,7 +40,7 @@
 
         <button type="button"
                 title="<?= __('Generate inward shipping label'); ?>"
-                class="action"
+                class="action primary"
                 id="lpcreturn_download">
             <span><?php echo $block->getReturnButtonLabel(); ?></span>
         </button>
@@ -58,7 +58,7 @@
     <div id="lpc_return_label_confirmation">
         <?php
         printf(
-            __($block->isSecuredReturn() ? 'Your secured code for the return label %s has been generated.' : 'Your label %s has been generated'),
+            __($block->isSecuredReturn() ? 'Your secured code for the return label %s has been generated.' : 'Your label %s has been generated.'),
             '<span id="lpc_return_label_confirmation_tracking_number"></span>'
         );
         ?>

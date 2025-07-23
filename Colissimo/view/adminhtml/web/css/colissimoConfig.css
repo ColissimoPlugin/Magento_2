@@ -1,3 +1,11 @@
 #lpc_advanced_lpc_labels_orderStatusForGeneration{
     height: 230px;
 }
+
+.colissimo-account-information-label{
+    font-weight: bold;
+}
+
+#row_lpc_advanced_lpc_general_account_information ul{
+    list-style-type: none;
+}

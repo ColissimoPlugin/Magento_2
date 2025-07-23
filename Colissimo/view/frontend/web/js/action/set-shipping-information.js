@@ -8,12 +8,12 @@ define([
     return function (setShippingInformationAction) {
 
         function isLpcRelay() {
-            return quote.shippingMethod() !== null && quote.shippingMethod().method_code == 'pr' && quote.shippingMethod().carrier_code == 'colissimo';
+            return quote.shippingMethod() !== null && quote.shippingMethod().method_code === 'pr' && quote.shippingMethod().carrier_code === 'colissimo';
         }
 
         return wrapper.wrap(setShippingInformationAction, function (originalAction) {
             if (isLpcRelay()) {
-                var shippingAddress = quote.shippingAddress();
+                const shippingAddress = quote.shippingAddress();
                 if (shippingAddress) {
                     shippingAddress['company'] = lpc.lpcGetRelayName();
                     shippingAddress['city'] = lpc.lpcGetRelayCity();

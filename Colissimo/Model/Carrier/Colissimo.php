@@ -559,7 +559,7 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
         }
 
         $shippingMethodUsed = $request->getShippingMethod();
-        $itemsForCn23 = $request->getPackageItems();
+        $packageItems = $request->getPackageItems();
         $shipment = $request->getOrderShipment();
         $order = $shipment->getOrder();
         $shippingType = $shipment->getLpcShippingType();
@@ -580,7 +580,7 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
                 $hsCodeAttribute = 'lpc_hs_code';
             }
 
-            $itemsForCn23 = [];
+            $packageItems = [];
 
             $orderItems = $order->getAllItems();
             foreach ($orderItems as $item) {
@@ -593,7 +593,7 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
                     }
                 }
 
-                $itemsForCn23[] = [
+                $packageItems[] = [
                     'weight'                 => $item->getWeight(),
                     'qty'                    => (int) $item->getQtyOrdered(),
                     'name'                   => $item->getName(),
@@ -616,24 +616,26 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
             $shippingInstructions = $request->getInstructions();
         }
 
+        $storeId = $request->getStoreId();
+
         $payload = $this->generateLabelPayload->resetPayload()
-                                              ->withCredentials($request->getStoreId())
-                                              ->withCommercialName(null, $request->getStoreId())
+                                              ->withCredentials($storeId)
+                                              ->withCommercialName(null, $storeId)
                                               ->withCuserInfoText()
-                                              ->withSender($sender, $request->getStoreId())
-                                              ->withAddressee($recipient, null, $request->getStoreId(), $shippingMethodUsed)
-                                              ->withPreparationDelay($request->getPreparationDelay(), $request->getStoreId())
+                                              ->withSender($sender, $storeId)
+                                              ->withAddressee($recipient, null, $storeId, $shippingMethodUsed)
+                                              ->withPreparationDelay($request->getPreparationDelay(), $storeId)
                                               ->withProductCode($productCode)
-                                              ->withOutputFormat($request->getOutputFormat(), $request->getStoreId())
+                                              ->withOutputFormat($request->getOutputFormat(), $storeId)
                                               ->withInstructions($shippingInstructions)
                                               ->withOrderNumber($order->getIncrementId())
                                               ->withPackage($request->getPackageParams(), $request->getPackageItems())
                                               ->withCustomsDeclaration(
                                                   $shipment,
-                                                  $itemsForCn23,
+                                                  $packageItems,
                                                   $recipient['countryCode'],
                                                   $recipient['zipCode'],
-                                                  $request->getStoreId(),
+                                                  $storeId,
                                                   $originCountryId,
                                                   $shippingType
                                               )
@@ -643,9 +645,10 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
                                                   $shippingMethodUsed,
                                                   $recipient
                                               )
-                                              ->withFtd($recipient['countryCode'], $request->getStoreId())
+                                              ->withFtd($recipient['countryCode'], $storeId)
                                               ->withMultiShipping($order, $shipment, $multiShippingData, $shipmentData)
-                                              ->withBlockingCode($shippingMethodUsed, $itemsForCn23, $order, $shipment, $postData, $request->getStoreId());
+                                              ->withBlockingCode($shippingMethodUsed, $packageItems, $order, $shipment, $postData, $storeId)
+                                              ->withCODAmount($productCode, $packageItems, $storeId);
 
         if ($shippingMethodUsed == self::CODE_SHIPPING_METHOD_RELAY) {
             $payload->withPickupLocationId($order->getLpcRelayId());
@@ -657,7 +660,7 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
             $customAmount = $postData['lpcInsurance']['lpc_insurance_amount'];
             $insuranceParam = 'on' === $postData['lpcInsurance']['lpc_use_insurance'];
         }
-        $insuranceConfig = $this->helperData->getConfigValue('lpc_advanced/lpc_labels/isUsingInsurance', $request->getStoreId());
+        $insuranceConfig = $this->helperData->getConfigValue('lpc_advanced/lpc_labels/isUsingInsurance', $storeId);
 
         // Use insurance if option checked (when in order edition). In other cases only if option enabled in config
         if ((isset($insuranceParam) && $insuranceParam) || (!isset($insuranceParam) && $insuranceConfig)) {
@@ -672,10 +675,7 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
             $payload->withInsuranceValue($total, $productCode, $recipient['countryCode'], $shippingMethodUsed, $recipient['zipCode'], $shipment, $originCountryId, $customAmount);
         }
 
-        $registeredMailLevel = $this->helperData->getConfigValue(
-            'lpc_advanced/lpc_labels/registeredMailLevel',
-            $request->getStoreId()
-        );
+        $registeredMailLevel = $this->helperData->getConfigValue('lpc_advanced/lpc_labels/registeredMailLevel', $storeId);
         if (!empty($registeredMailLevel)) {
             $payload->withRecommendationLevel($registeredMailLevel);
         }
@@ -731,18 +731,19 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
         }
 
         $shippingMethodUsed = $request->getShippingMethod();
+        $storeId = $request->getStoreId();
 
         $payload = $this->generateLabelPayload->resetPayload()
                                               ->isReturnLabel()
-                                              ->withCredentials($request->getStoreId())
-                                              ->withCommercialName(null, $request->getStoreId())
+                                              ->withCredentials($storeId)
+                                              ->withCommercialName(null, $storeId)
                                               ->withCuserInfoText()
-                                              ->withSender($sender, $request->getStoreId())
-                                              ->withAddressee($recipient, null, $request->getStoreId())
-                                              ->withFtd($recipient['countryCode'], $request->getStoreId())
-                                              ->withPreparationDelay($request->getPreparationDelay(), $request->getStoreId())
+                                              ->withSender($sender, $storeId)
+                                              ->withAddressee($recipient, null, $storeId)
+                                              ->withFtd($recipient['countryCode'], $storeId)
+                                              ->withPreparationDelay($request->getPreparationDelay(), $storeId)
                                               ->withProductCode($productCode)
-                                              ->withOutputFormat($request->getOutputFormat(), $request->getStoreId(), $productCode)
+                                              ->withOutputFormat($request->getOutputFormat(), $storeId, $productCode)
                                               ->withInstructions($shippingInstructions)
                                               ->withOrderNumber($request->getOrderShipment()->getOrder()->getIncrementId())
                                               ->withPackage($request->getPackageParams(), $request->getPackageItems())
@@ -751,15 +752,12 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
                                                   $request->getPackageItems(),
                                                   $sender['countryCode'],
                                                   $sender['zipCode'],
-                                                  $request->getStoreId(),
+                                                  $storeId,
                                                   $originCountryId
                                               );
 
         // Insurance
-        $insuranceConfig = $this->helperData->getConfigValue(
-            'lpc_advanced/lpc_return_labels/isUsingInsuranceInward',
-            $request->getStoreId()
-        );
+        $insuranceConfig = $this->helperData->getAdvancedConfigValue('lpc_return_labels/isUsingInsuranceInward', $storeId);
         if ($insuranceConfig) {
             $shipment = $request->getOrderShipment();
             $total = 0;
@@ -795,9 +793,15 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
         $cartWeight = $request->getPackageWeight();
         $cartPrice = $request->getPackageValue();
 
+        $allItems = $request->getAllItems();
+        $cartCategoriesByProduct = [];
+        foreach ($allItems as $item) {
+            $product = $item->getProduct();
+            $cartCategoriesByProduct[] = $product->getCategoryIds();
+        }
+
         $beforeCoupons = $this->helperData->getConfigValue('carriers/lpc_group/price_before_coupons');
         if (!$beforeCoupons) {
-            $allItems = $request->getAllItems();
             if (!empty($allItems[0])) {
                 $quote = $allItems[0]->getQuote();
                 $quote->collectTotals();
@@ -815,7 +819,14 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
 
         foreach (self::METHODS_CODES_TRANSLATIONS as $oneMethodCode => $methodName) {
             if ($this->helperData->getConfigValue('carriers/lpc_group/' . $oneMethodCode . '_enable')) {
-                $method = $this->getLpcShippingMethod($oneMethodCode, $destCountryId, $destPostCode, $cartPrice, $cartWeight, $originCountryId, $freeShipping);
+                $method = $this->getLpcShippingMethod($oneMethodCode,
+                                                      $destCountryId,
+                                                      $destPostCode,
+                                                      $cartPrice,
+                                                      $cartWeight,
+                                                      $originCountryId,
+                                                      $freeShipping,
+                                                      $cartCategoriesByProduct);
                 if (!empty($method)) {
                     $result->append($method);
                 }
@@ -835,11 +846,20 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
      * @param $cartWeight
      * @param $originCountryId
      * @param $freeShipping
+     * @param $cartCategoriesByProduct
      *
      * @return \Magento\Quote\Model\Quote\Address\RateResult\Method|null
      */
-    private function getLpcShippingMethod($methodCode, $destCountryId, $destPostCode, $cartPrice, $cartWeight, $originCountryId, $freeShipping)
-    {
+    private function getLpcShippingMethod(
+        $methodCode,
+        $destCountryId,
+        $destPostCode,
+        $cartPrice,
+        $cartWeight,
+        $originCountryId,
+        $freeShipping,
+        $cartCategoriesByProduct = []
+    ) {
         // DDP for GB must be commercial and between 160€ and 1050€
         $customsCategory = $this->helperData->getAdvancedConfigValue('lpc_labels/defaultCustomsCategory');
         $isCommercialSend = CustomsCategory::COMMERCIAL_SHIPMENT === intval($customsCategory);
@@ -872,7 +892,16 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
         if (empty($pricesItems)) {
             return null;
         }
-        $slices = $this->helperCountryOffer->getSlicesForDestination($methodCode, $destCountryId, $pricesItems, $destPostCode, $cartPrice, $cartWeight, $originCountryId);
+        $slices = $this->helperCountryOffer->getSlicesForDestination(
+            $methodCode,
+            $destCountryId,
+            $pricesItems,
+            $destPostCode,
+            $cartPrice,
+            $cartWeight,
+            $originCountryId,
+            $cartCategoriesByProduct
+        );
 
         if (empty($slices)) {
             return null;

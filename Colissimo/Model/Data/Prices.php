@@ -159,6 +159,29 @@ class Prices extends \Magento\Framework\Api\AbstractExtensibleObject implements 
         return $this->setData(self::PRICE_MAX, $priceMax);
     }
 
+    /**
+     * Get category_ids
+     * @return string|null
+     */
+    public function getCategoryIds()
+    {
+        return $this->_get(self::CATEGORY_IDS);
+    }
+
+    /**
+     * Set category_ids
+     * @param $categoryIds
+     * @return \LaPoste\Colissimo\Api\Data\PricesInterface
+     */
+    public function setCategoryIds($categoryIds)
+    {
+        if (is_array($categoryIds)) {
+            $categoryIds = implode(',', array_filter(array_unique($categoryIds)));
+        }
+
+        return $this->setData(self::CATEGORY_IDS, $categoryIds);
+    }
+
 
     /**
      * Retrieve existing extension attributes object or create a new one.

@@ -84,17 +84,15 @@ if (in_array($lpcPrView, ['gmaps', 'leaflet'])) {
         <link rel="stylesheet" type="text/css" href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css">
         <link rel="stylesheet" type="text/css" href="<?php echo $block->getViewFileUrl('LaPoste_Colissimo::css/widget.css'); ?>">
 
-        <input type="hidden" id="lpc_pickup_widget_nonce" value="<?php echo $block->getNonce(); ?>">
-        <input type="hidden" id="lpc_pickup_widget_country" value="<?php echo $lpcWidgetCountry; ?>">
-        <input type="hidden" id="lpc_pickup_mapbox_script_url" value="<?php echo $block->getViewFileUrl('LaPoste_Colissimo::js/widget/mapbox.min.js'); ?>">
         <script type="text/javascript" src="<?php echo $block->getViewFileUrl('LaPoste_Colissimo::js/widget/mapbox.min.js'); ?>"></script>
         <script type="text/javascript" src="<?php echo $block->getViewFileUrl('LaPoste_Colissimo::js/widget/init.js'); ?>"></script>
 
         <div id="lpc_layer_widget" style="display: none">
             <div id="lpc_widget_container" class="widget_colissimo"></div>
         </div>
-        <input type="hidden" id="lpc_token_widget" value="<?php echo $lpcToken ?>">
-        <input type="hidden" id="lpc_average_preparation_delay" value="<?php echo $lpcAveragePreparationDelay ?>">
+        <input type="hidden" id="lpc_pickup_widget_country" value="<?php echo $lpcWidgetCountry; ?>">
+        <input type="hidden" id="lpc_token_widget" value="<?php echo $lpcToken; ?>">
+        <input type="hidden" id="lpc_average_preparation_delay" value="<?php echo $lpcAveragePreparationDelay; ?>">
         <input type="hidden" id="lpc_relay_types" value="<?php echo $block->lpcGetRelayTypes(); ?>">
         <?php if ($lpcCustomizeWidget) { ?>
             <input type="hidden" id="lpc_color_1" value="<?php echo $lpcAddressTextColor ?>">

@@ -137,11 +137,11 @@ interface GenerateLabelPayload
     /**
      * Associate the given COD to this payload.
      *
-     * It will automaticaly makes this payload COD.
+     * It will automatically make this payload Cash On Delivery.
      *
      * @return GenerateLabelPayload
      */
-    public function withCODAmount($amount);
+    public function withCODAmount(string $productCode, array $items, $storeId = null);
 
     /**
      * Flag this payload for ReturnReceipt.

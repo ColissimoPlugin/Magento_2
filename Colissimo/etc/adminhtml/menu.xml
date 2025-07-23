@@ -63,7 +63,7 @@
             action="laposte_colissimo/prices/index"/>
         <add
             id="LaPoste_Colissimo::coliship"
-            title="Coliship"
+            title="ColiShip"
             translate="title"
             module="LaPoste_Colissimo"
             sortOrder="50"

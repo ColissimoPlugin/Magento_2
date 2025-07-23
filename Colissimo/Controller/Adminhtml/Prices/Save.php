@@ -42,6 +42,13 @@ class Save extends \Magento\Backend\App\Action
                 return $resultRedirect->setPath('*/*/');
             }
 
+            // Prepare category Ids for saving (add extra ',' to be able to filter using like %,catId,%)
+            if (!empty($data['category_ids'])) {
+                $data['category_ids'] = ',' . implode(',', array_filter(array_unique($data['category_ids']))) . ',';
+            } else {
+                $data['category_ids'] = '';
+            }
+
             $model->setData($data);
 
             try {

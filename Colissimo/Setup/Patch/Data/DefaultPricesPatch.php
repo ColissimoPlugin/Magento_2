@@ -114,12 +114,13 @@ class DefaultPricesPatch implements DataPatchInterface
                     }
 
                     $data = [
-                        PricesInterface::AREA       => $regionCode,
-                        PricesInterface::METHOD     => $methodCode,
-                        PricesInterface::PRICE      => $oneRow['price'],
-                        PricesInterface::WEIGHT_MIN => $weightMin,
-                        PricesInterface::WEIGHT_MAX => $weightMax,
-                        PricesInterface::PRICE_MIN  => 0,
+                        PricesInterface::AREA         => $regionCode,
+                        PricesInterface::METHOD       => $methodCode,
+                        PricesInterface::PRICE        => $oneRow['price'],
+                        PricesInterface::WEIGHT_MIN   => $weightMin,
+                        PricesInterface::WEIGHT_MAX   => $weightMax,
+                        PricesInterface::PRICE_MIN    => 0,
+                        PricesInterface::CATEGORY_IDS => '',
                     ];
 
                     $newModelPrices->setData($data);

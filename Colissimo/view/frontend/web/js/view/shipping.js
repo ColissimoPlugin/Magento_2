@@ -117,7 +117,7 @@ define([
                 return '';
             }
 
-            return '<img src="' + window.checkoutConfig.colissimoIconUrl + '" width="40" class="lpc_method_icon">';
+            return '<img alt="Logo Colissimo" src="' + window.checkoutConfig.colissimoIconUrl + '" width="40" class="lpc_method_icon">';
         },
 
         initAutoSelectPickup: function () {

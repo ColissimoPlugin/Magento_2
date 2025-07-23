@@ -195,6 +195,17 @@
                 </editor>
             </settings>
         </column>
+        <column name="category_ids">
+            <settings>
+                <options class="LaPoste\Colissimo\Ui\Component\Create\Form\Prices\CategoryIds"/>
+                <filter>select</filter>
+                <editor>
+                    <editorType>false</editorType>
+                </editor>
+                <dataType>select</dataType>
+                <label translate="true">Product categories</label>
+            </settings>
+        </column>
         <actionsColumn name="actions" class="LaPoste\Colissimo\Ui\Component\Listing\Column\PricesActions">
             <settings>
                 <indexField>entity_id</indexField>

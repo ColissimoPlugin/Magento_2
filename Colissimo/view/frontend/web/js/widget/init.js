@@ -1,14 +1,13 @@
 require([
     'lpc',
     'jquery',
-    'jquery/ui'
-], function (lpc, $) {
-    window.lpcCallBackFrame = lpc.lpcCallBackFrame;
-    lpc.lpcSetWidgetRelayCountries(document.getElementById('lpc_pickup_widget_country').value);
+    'jquery/ui',
+    'jquery.plugin.colissimo'
+], function (lpc) {
+    const countryInput = document.getElementById('lpc_pickup_widget_country');
 
-    const widgetScript = document.createElement('script');
-    widgetScript.type = 'text/javascript';
-    widgetScript.nonce = document.getElementById('lpc_pickup_widget_nonce').value;
-    widgetScript.src = 'https://ws.colissimo.fr/widget-colissimo/js/jquery.plugin.colissimo.js';
-    $('body').append(widgetScript);
+    if (countryInput) {
+        window.lpcCallBackFrame = lpc.lpcCallBackFrame;
+        lpc.lpcSetWidgetRelayCountries(countryInput.value);
+    }
 });
