@@ -60,9 +60,7 @@ class DefaultPricesEntity implements DataPatchInterface
      */
     public static function getDependencies()
     {
-        return [
-
-        ];
+        return [];
     }
 }
 

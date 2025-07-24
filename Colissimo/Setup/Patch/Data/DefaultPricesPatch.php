@@ -60,7 +60,9 @@ class DefaultPricesPatch implements DataPatchInterface
 
     public static function getDependencies()
     {
-        return [];
+        return [
+            EavPatch::class,
+        ];
     }
 
     public function getAliases()
