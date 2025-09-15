@@ -27,6 +27,7 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
 
     const US_COUNTRY_CODE = 'US';
     const COUNTRIES_NEEDING_STATE = ['CA', self::US_COUNTRY_CODE];
+    const COUNTRIES_WITH_PARTNER_SHIPPING = ['AT', 'BE', 'DE', 'IT', 'LU'];
 
     const LABEL_TYPE_CLASSIC = 'CLASSIC';
     const LABEL_TYPE_MASTER = 'MASTER';
@@ -1167,12 +1168,8 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
 
     public function withPostalNetwork($countryCode, $productCode, $shippingMethod)
     {
-        if (in_array($countryCode, ['AT', 'DE', 'IT', 'LU']) && Colissimo::PRODUCT_CODE_WITH_SIGNATURE === $productCode) {
-            if (in_array($shippingMethod, [Colissimo::CODE_SHIPPING_METHOD_EXPERT, Colissimo::CODE_SHIPPING_METHOD_EXPERT_DDP])) {
-                $network = $this->helperData->getConfigValue('carriers/lpc_group/expert_sendingservice_' . $countryCode);
-            } else {
-                $network = $this->helperData->getConfigValue('carriers/lpc_group/domicileas_sendingservice_' . $countryCode);
-            }
+        if (in_array($countryCode, self::COUNTRIES_WITH_PARTNER_SHIPPING) && Colissimo::PRODUCT_CODE_WITH_SIGNATURE === $productCode) {
+            $network = $this->helperData->getConfigValue('carriers/lpc_group/domicileas_sendingservice_' . $countryCode);
             $this->payload['letter']['service']['reseauPostal'] = 'partner' === $network ? 1 : 0;
         }
 

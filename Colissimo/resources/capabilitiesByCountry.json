@@ -99,7 +99,7 @@
             "SG": {"domiciless": false, "domicileas": "DOS", "domicileasddp": "DOS", "pr": false, "expert": "DOS", "expertddp": "DOS", "return": false, "cn23": true, "insurance": true},
             "TH": {"domiciless": false, "domicileas": "DOS", "domicileasddp": "DOS", "pr": false, "expert": "DOS", "expertddp": "DOS", "return": false, "cn23": true, "insurance": true},
             "TW": {"domiciless": false, "domicileas": "DOS", "domicileasddp": false, "pr": false, "expert": "DOS", "expertddp": false, "return": false, "cn23": true, "insurance": true},
-            "US": {"domiciless": false, "domicileas": "DOS", "domicileasddp": "DOS", "pr": false, "expert": "DOS", "expertddp": "DOS", "return": false, "cn23": true, "insurance": true},
+            "US": {"domiciless": false, "domicileas": false, "domicileasddp": "DOS", "pr": false, "expert": false, "expertddp": "DOS", "return": false, "cn23": true, "insurance": true},
             "VN": {"domiciless": false, "domicileas": "DOS", "domicileasddp": false, "pr": false, "expert": "DOS", "expertddp": false, "return": false, "cn23": true, "insurance": true}
         }
     },

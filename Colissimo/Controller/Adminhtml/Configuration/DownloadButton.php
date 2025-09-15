@@ -21,6 +21,7 @@ class DownloadButton extends Action
 {
     protected const DEBUG_RELATIVE_FILEPATH = '/colissimo/debug.log';
     protected const DOC_RELATIVE_FILEPATH = __DIR__ . '/../../../resources/doc.pdf';
+    protected const DOC_EN_RELATIVE_FILEPATH = __DIR__ . '/../../../resources/docEN.pdf';
 
     protected Data $helperData;
 
@@ -48,20 +49,23 @@ class DownloadButton extends Action
             $logFilePath = $this->directoryList->getPath(DirectoryList::LOG);
             $logFilePath .= self::DEBUG_RELATIVE_FILEPATH;
             $content = file_get_contents($logFilePath);
-
-            return $this->fileFactory->create(
-                'colissimo.log',
-                $content,
-                DirectoryList::VAR_DIR,
-                'text/plain'
-            );
+            $name = 'colissimo.log';
+            $type = 'text/plain';
+        } elseif ('doc' === $type) {
+            $name = 'Guide Colissimo pour Magento 2.pdf';
+            $content = file_get_contents(self::DOC_RELATIVE_FILEPATH);
+            $type = 'application/pdf';
+        } else {
+            $name = 'Colissimo Guide for Magento 2.pdf';
+            $content = file_get_contents(self::DOC_EN_RELATIVE_FILEPATH);
+            $type = 'application/pdf';
         }
 
         return $this->fileFactory->create(
-            'Guide Colissimo pour Magento 2.pdf',
-            file_get_contents(self::DOC_RELATIVE_FILEPATH),
+            $name,
+            $content,
             DirectoryList::VAR_DIR,
-            'application/pdf'
+            $type
         );
     }
 }

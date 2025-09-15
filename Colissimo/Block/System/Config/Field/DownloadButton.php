@@ -92,19 +92,24 @@ class DownloadButton extends Field
     public function getButtonHtml()
     {
         if ('lpc_advanced_lpc_debug_downloadLogs' === $this->getData('field_id')) {
-            $id = 'downloadLog_button';
-            $downloadUrl = $this->getDownloadFileUrl('logs');
+            $button = $this->createBtn('downloadLog_button', 'Download', $this->getDownloadFileUrl('logs'));
         } else {
-            $id = 'downloadDoc_button';
-            $downloadUrl = $this->getDownloadFileUrl('doc');
+            $buttonFR = $this->createBtn('downloadDoc_button', 'Download FR', $this->getDownloadFileUrl('doc'));
+            $buttonEN = $this->createBtn('downloadDocEN_button', 'Download EN', $this->getDownloadFileUrl('docEN'));
+            $button = $buttonFR . $buttonEN;
         }
 
+        return $button;
+    }
+
+    private function createBtn(string $id, string $label, string $downloadUrl): string
+    {
         $button = $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
             [
                 'id'      => $id,
-                'label'   => __('Download'),
+                'label'   => __($label),
                 'onclick' => 'window.open(\'' . $downloadUrl . '\');',
             ]
         );

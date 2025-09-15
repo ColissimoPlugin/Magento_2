@@ -63,28 +63,35 @@
                         <field id="carriers/lpc_group/domicileas_enable">1</field>
                     </depends>
                 </field>
-                <field id="domicileas_sendingservice_AT" translate="label comment" type="select" sortOrder="23" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Sending service for Austria</label>
-                    <source_model>\LaPoste\Colissimo\Model\Config\Source\SendingService</source_model>
-                    <depends>
-                        <field id="carriers/lpc_group/domicileas_enable">1</field>
-                    </depends>
-                </field>
-                <field id="domicileas_sendingservice_DE" translate="label comment" type="select" sortOrder="24" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="domicileas_sendingservice_DE" translate="label comment" type="select" sortOrder="23" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Sending service for Germany</label>
                     <source_model>\LaPoste\Colissimo\Model\Config\Source\SendingService</source_model>
                     <depends>
                         <field id="carriers/lpc_group/domicileas_enable">1</field>
                     </depends>
                 </field>
-                <field id="domicileas_sendingservice_IT" translate="label comment" type="select" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="domicileas_sendingservice_AT" translate="label comment" type="select" sortOrder="24" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sending service for Austria</label>
+                    <source_model>\LaPoste\Colissimo\Model\Config\Source\SendingService</source_model>
+                    <depends>
+                        <field id="carriers/lpc_group/domicileas_enable">1</field>
+                    </depends>
+                </field>
+                <field id="domicileas_sendingservice_BE" translate="label comment" type="select" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sending service for Belgium</label>
+                    <source_model>\LaPoste\Colissimo\Model\Config\Source\SendingService</source_model>
+                    <depends>
+                        <field id="carriers/lpc_group/domicileas_enable">1</field>
+                    </depends>
+                </field>
+                <field id="domicileas_sendingservice_IT" translate="label comment" type="select" sortOrder="26" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Sending service for Italy</label>
                     <source_model>\LaPoste\Colissimo\Model\Config\Source\SendingService</source_model>
                     <depends>
                         <field id="carriers/lpc_group/domicileas_enable">1</field>
                     </depends>
                 </field>
-                <field id="domicileas_sendingservice_LU" translate="label comment" type="select" sortOrder="26" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="domicileas_sendingservice_LU" translate="label comment" type="select" sortOrder="27" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Sending service for Luxembourg</label>
                     <source_model>\LaPoste\Colissimo\Model\Config\Source\SendingService</source_model>
                     <depends>
@@ -144,34 +151,6 @@
                     <label>Free shipping</label>
                     <comment>Should the shipping method be free</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <depends>
-                        <field id="carriers/lpc_group/expert_enable">1</field>
-                    </depends>
-                </field>
-                <field id="expert_sendingservice_AT" translate="label comment" type="select" sortOrder="43" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Sending service for Austria</label>
-                    <source_model>\LaPoste\Colissimo\Model\Config\Source\SendingService</source_model>
-                    <depends>
-                        <field id="carriers/lpc_group/expert_enable">1</field>
-                    </depends>
-                </field>
-                <field id="expert_sendingservice_DE" translate="label comment" type="select" sortOrder="44" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Sending service for Germany</label>
-                    <source_model>\LaPoste\Colissimo\Model\Config\Source\SendingService</source_model>
-                    <depends>
-                        <field id="carriers/lpc_group/expert_enable">1</field>
-                    </depends>
-                </field>
-                <field id="expert_sendingservice_IT" translate="label comment" type="select" sortOrder="45" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Sending service for Italy</label>
-                    <source_model>\LaPoste\Colissimo\Model\Config\Source\SendingService</source_model>
-                    <depends>
-                        <field id="carriers/lpc_group/expert_enable">1</field>
-                    </depends>
-                </field>
-                <field id="expert_sendingservice_LU" translate="label comment" type="select" sortOrder="46" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Sending service for Luxembourg</label>
-                    <source_model>\LaPoste\Colissimo\Model\Config\Source\SendingService</source_model>
                     <depends>
                         <field id="carriers/lpc_group/expert_enable">1</field>
                     </depends>
