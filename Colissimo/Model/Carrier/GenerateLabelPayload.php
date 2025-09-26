@@ -232,6 +232,8 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
             $this->payload['letter']['addressee']['address']['line3'] = $addressee['street2'];
         }
 
+        $payloadCountryCode = $this->payload['letter']['addressee']['address']['countryCode'];
+
         if ($this->isReturnLabel) {
             if ($this->helperData->getConfigValue(
                 'lpc_advanced/lpc_return_labels/showServiceInformation',
@@ -261,14 +263,9 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
 
             $this->payload['letter']['addressee']['address']['mobileNumber'] = $addressee['mobileNumber'] ?? '';
         } else {
-            if (Colissimo::CODE_SHIPPING_METHOD_RELAY === $shippingMethodUsed) {
-                $this->payload['letter']['addressee']['address']['mobileNumber'] = $addressee['mobileNumber'] ?? '';
-            } else {
-                $this->payload['letter']['addressee']['address']['phoneNumber'] = $addressee['mobileNumber'] ?? '';
-            }
+            $phoneField = Colissimo::CODE_SHIPPING_METHOD_RELAY === $shippingMethodUsed || self::US_COUNTRY_CODE === $payloadCountryCode ? 'mobileNumber' : 'phoneNumber';
+            $this->payload['letter']['addressee']['address'][$phoneField] = $addressee['mobileNumber'] ?? '';
         }
-
-        $payloadCountryCode = $this->payload['letter']['addressee']['address']['countryCode'];
 
         $this->payload['letter']['addressee']['address']['countryCode'] = $this->countryOfferHelper->getMagentoCountryCodeFromSpecificDestination($payloadCountryCode) === false
             ? $payloadCountryCode
