@@ -63,53 +63,95 @@
                         <field id="carriers/lpc_group/domicileas_enable">1</field>
                     </depends>
                 </field>
-                <field id="domicileas_sendingservice_DE" translate="label comment" type="select" sortOrder="23" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="domicileas_sendingservice_DE" translate="label comment" type="select" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Sending service for Germany</label>
                     <source_model>\LaPoste\Colissimo\Model\Config\Source\SendingService</source_model>
                     <depends>
                         <field id="carriers/lpc_group/domicileas_enable">1</field>
                     </depends>
                 </field>
-                <field id="domicileas_sendingservice_AT" translate="label comment" type="select" sortOrder="24" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="domicileas_sendingservice_AT" translate="label comment" type="select" sortOrder="27" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Sending service for Austria</label>
                     <source_model>\LaPoste\Colissimo\Model\Config\Source\SendingService</source_model>
                     <depends>
                         <field id="carriers/lpc_group/domicileas_enable">1</field>
                     </depends>
                 </field>
-                <field id="domicileas_sendingservice_BE" translate="label comment" type="select" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="domicileas_sendingservice_BE" translate="label comment" type="select" sortOrder="29" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Sending service for Belgium</label>
                     <source_model>\LaPoste\Colissimo\Model\Config\Source\SendingService</source_model>
                     <depends>
                         <field id="carriers/lpc_group/domicileas_enable">1</field>
                     </depends>
                 </field>
-                <field id="domicileas_sendingservice_IT" translate="label comment" type="select" sortOrder="26" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="domicileas_sendingservice_DK" translate="label comment" type="select" sortOrder="31" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sending service for Denmark</label>
+                    <source_model>\LaPoste\Colissimo\Model\Config\Source\SendingService</source_model>
+                    <depends>
+                        <field id="carriers/lpc_group/domicileas_enable">1</field>
+                    </depends>
+                </field>
+                <field id="domicileas_sendingservice_ES" translate="label comment" type="select" sortOrder="32" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sending service for Spain</label>
+                    <source_model>\LaPoste\Colissimo\Model\Config\Source\SendingService</source_model>
+                    <depends>
+                        <field id="carriers/lpc_group/domicileas_enable">1</field>
+                    </depends>
+                </field>
+                <field id="domicileas_sendingservice_EE" translate="label comment" type="select" sortOrder="33" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sending service for Estonia</label>
+                    <source_model>\LaPoste\Colissimo\Model\Config\Source\SendingService</source_model>
+                    <depends>
+                        <field id="carriers/lpc_group/domicileas_enable">1</field>
+                    </depends>
+                </field>
+                <field id="domicileas_sendingservice_FI" translate="label comment" type="select" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sending service for Finland</label>
+                    <source_model>\LaPoste\Colissimo\Model\Config\Source\SendingService</source_model>
+                    <depends>
+                        <field id="carriers/lpc_group/domicileas_enable">1</field>
+                    </depends>
+                </field>
+                <field id="domicileas_sendingservice_IT" translate="label comment" type="select" sortOrder="37" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Sending service for Italy</label>
                     <source_model>\LaPoste\Colissimo\Model\Config\Source\SendingService</source_model>
                     <depends>
                         <field id="carriers/lpc_group/domicileas_enable">1</field>
                     </depends>
                 </field>
-                <field id="domicileas_sendingservice_LU" translate="label comment" type="select" sortOrder="27" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="domicileas_sendingservice_LU" translate="label comment" type="select" sortOrder="39" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Sending service for Luxembourg</label>
                     <source_model>\LaPoste\Colissimo\Model\Config\Source\SendingService</source_model>
                     <depends>
                         <field id="carriers/lpc_group/domicileas_enable">1</field>
                     </depends>
                 </field>
-                <field id="domicileasddp_enable" translate="label comment" type="select" sortOrder="28" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="domicileas_sendingservice_NL" translate="label comment" type="select" sortOrder="41" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sending service for Netherlands</label>
+                    <source_model>\LaPoste\Colissimo\Model\Config\Source\SendingService</source_model>
+                    <depends>
+                        <field id="carriers/lpc_group/domicileas_enable">1</field>
+                    </depends>
+                </field>
+                <field id="domicileas_sendingservice_PL" translate="label comment" type="select" sortOrder="43" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sending service for Poland</label>
+                    <source_model>\LaPoste\Colissimo\Model\Config\Source\SendingService</source_model>
+                    <depends>
+                        <field id="carriers/lpc_group/domicileas_enable">1</field>
+                    </depends>
+                </field>
+                <field id="domicileasddp_enable" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Colissimo Domicile with signature - DDP Option</label>
                     <comment>This delivery method will allow you to set the shipment "Colissimo with Signature with DDP" which is only valid and will be displayed for Australia, Bahrain, Canada, China, Egypt, Hong Kong, Indonesia, Japan, Kuwait, Mexico, Oman, Philippines, Saudi Arabia, Singapore, South Africa, South Korea, Switzerland, Thailand, United Arab Emirates, United Kingdom, United States (USA). For the United Kingdom, it is restricted to commercial shipments between 160€ and 1050€ included.</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="domicileasddp_label" translate="label" type="text" sortOrder="29" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="domicileasddp_label" translate="label" type="text" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Name</label>
                     <depends>
                         <field id="carriers/lpc_group/domicileasddp_enable">1</field>
                     </depends>
                 </field>
-                <field id="domicileasddp_free" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="domicileasddp_free" translate="label comment" type="select" sortOrder="52" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Free shipping</label>
                     <comment>Should the shipping method be free</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -117,18 +159,18 @@
                         <field id="carriers/lpc_group/domicileasddp_enable">1</field>
                     </depends>
                 </field>
-                <field id="pr_enable" translate="label comment" type="select" sortOrder="31" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="pr_enable" translate="label comment" type="select" sortOrder="53" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Colissimo Point Retrait</label>
                     <comment>Enable the Colissimo Point Retrait mode</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="pr_label" translate="label" type="text" sortOrder="32" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="pr_label" translate="label" type="text" sortOrder="54" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Name</label>
                     <depends>
                         <field id="carriers/lpc_group/pr_enable">1</field>
                     </depends>
                 </field>
-                <field id="pr_free" translate="label comment" type="select" sortOrder="33" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="pr_free" translate="label comment" type="select" sortOrder="55" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Free shipping</label>
                     <comment>Should the shipping method be free</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -136,18 +178,18 @@
                         <field id="carriers/lpc_group/pr_enable">1</field>
                     </depends>
                 </field>
-                <field id="expert_enable" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="expert_enable" translate="label comment" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Colissimo International (Deprecated)</label>
                     <comment>Enable the Colissimo International mode</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="expert_label" translate="label" type="text" sortOrder="41" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="expert_label" translate="label" type="text" sortOrder="61" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Name</label>
                     <depends>
                         <field id="carriers/lpc_group/expert_enable">1</field>
                     </depends>
                 </field>
-                <field id="expert_free" translate="label comment" type="select" sortOrder="42" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="expert_free" translate="label comment" type="select" sortOrder="62" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Free shipping</label>
                     <comment>Should the shipping method be free</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -155,18 +197,18 @@
                         <field id="carriers/lpc_group/expert_enable">1</field>
                     </depends>
                 </field>
-                <field id="expertddp_enable" translate="label comment" type="select" sortOrder="47" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="expertddp_enable" translate="label comment" type="select" sortOrder="63" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Colissimo International - DDP Option (Deprecated)</label>
                     <comment>This delivery method will allow you to set the shipment "Colissimo International - DDP Option" which is valid and will be displayed only for the following countries: Australia, Bahrain, Canada, China, Egypt, Hong Kong, Indonesia, Japan, Kuwait, Mexico, Oman, Philippines, Saudi Arabia, Singapore, South Africa, South Korea, Switzerland, Thailand, United Arab Emirates, United Kingdom, USA</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="expertddp_label" translate="label" type="text" sortOrder="48" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="expertddp_label" translate="label" type="text" sortOrder="64" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Name</label>
                     <depends>
                         <field id="carriers/lpc_group/expertddp_enable">1</field>
                     </depends>
                 </field>
-                <field id="expertddp_free" translate="label comment" type="select" sortOrder="49" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="expertddp_free" translate="label comment" type="select" sortOrder="65" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Free shipping</label>
                     <comment>Should the shipping method be free</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -394,6 +436,9 @@
                     <label>HS code attribute</label>
                     <comment>Choose the product attribute containing the HS code to use in customs declaration.</comment>
                     <source_model>LaPoste\Colissimo\Model\Config\Source\HSCodeAttributes</source_model>
+                    <depends>
+                        <field id="isUsingCustomsDeclarations">1</field>
+                    </depends>
                 </field>
                 <field id="defaultCustomsCategory" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="75" translate="label comment" type="select">
                     <label>Default customs Category</label>
@@ -463,9 +508,8 @@
             </group>
             <group id="lpc_hazmat" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="4" translate="label">
                 <label>Hazardous materials</label>
-                <field id="extraCost" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="1" translate="label comment" type="select">
-                    <label>Add the extra cost to shipping price</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                <field id="extraCostValue" translate="label comment" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Extra cost for hazardous materials</label>
                     <comment>The clients will pay the extra cost for hazardous materials along with the shipping price.</comment>
                 </field>
                 <field id="presentation" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">

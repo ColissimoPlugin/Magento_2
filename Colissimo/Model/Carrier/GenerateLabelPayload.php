@@ -35,7 +35,7 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
     const US_COUNTRY_CODE = 'US';
     const GB_COUNTRY_CODE = 'GB';
     const COUNTRIES_NEEDING_STATE = ['CA', self::US_COUNTRY_CODE];
-    const COUNTRIES_WITH_PARTNER_SHIPPING = ['AT', 'BE', 'DE', 'IT', 'LU'];
+    const COUNTRIES_WITH_PARTNER_SHIPPING = ['AT', 'BE', 'DE', 'DK', 'EE', 'ES', 'FI', 'IT', 'LU', 'NL', 'PL'];
 
     const LABEL_TYPE_CLASSIC = 'CLASSIC';
     const LABEL_TYPE_MASTER = 'MASTER';
@@ -445,9 +445,9 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
 
             foreach ($items as $piece) {
                 if (!empty($piece['row_weight'])) {
-                    $weight = (double) $piece['row_weight'];
+                    $weight = (float) $piece['row_weight'];
                 } else {
-                    $weight = (double) $piece['weight'] * $piece['qty'];
+                    $weight = (float) $piece['weight'] * $piece['qty'];
                 }
                 if ($weight < 0) {
                     throw new \Magento\Framework\Exception\LocalizedException(
@@ -517,10 +517,9 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
 
         $invoice = $invoiceCollection->getLastItem();
 
-        $defaultHsCode = $this->helperData->getAdvancedConfigValue(
-            'lpc_labels/defaultHsCode',
-            $storeId
-        );
+        $defaultHsCode = $this->helperData->getAdvancedConfigValue('lpc_labels/defaultHsCode', $storeId);
+        $defaultMidCode = $this->helperData->getAdvancedConfigValue('lpc_labels/midCode', $storeId);
+        $lastMidCode = $defaultMidCode;
 
         $customsArticles = [];
         $this->articleDescriptions = [];
@@ -534,7 +533,20 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
             $fromWeight = number_format($piece['weight'], 2, '.', '');
             $pieceWeightInKG = $this->helperData->convertWeightToKilogram($fromWeight, null, $storeId);
 
-            $description = substr($piece['name'], 0, 64);
+            $midCode = $defaultMidCode;
+            if (!empty($piece['lpc_mid_code'])) {
+                $midCode = $piece['lpc_mid_code'];
+            }
+            $lastMidCode = $midCode;
+
+            if (self::US_COUNTRY_CODE === $destinationCountryId && !empty($midCode)) {
+                $midCode = ' - MID: ' . $midCode;
+                $description = substr($piece['name'], 0, 64 - strlen($midCode));
+                $description .= $midCode;
+            } else {
+                $description = substr($piece['name'], 0, 64);
+            }
+
             $this->articleDescriptions[] = $description;
 
             $customsArticle = [
@@ -597,9 +609,8 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
             'value' => $customsCategory,
         ];
 
-        $midCode = $this->helperData->getAdvancedConfigValue('lpc_labels/midCode', $storeId);
-        if (!empty($midCode) && self::US_COUNTRY_CODE === $destinationCountryId) {
-            $this->payload['letter']['customsDeclarations']['comments'] = 'MID: ' . $midCode;
+        if (self::US_COUNTRY_CODE === $destinationCountryId && !empty($lastMidCode) && count($items) === 1) {
+            $this->payload['letter']['customsDeclarations']['comments'] = 'MID: ' . $lastMidCode;
         }
 
         if (self::GB_COUNTRY_CODE === $destinationCountryId && !$this->isReturnLabel) {
@@ -772,14 +783,14 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
             );
         }
 
-        $amount = (double) $amount;
+        $amount = (float) $amount;
         // No amount value directly from POST so check amount value saved on the shipment
         if (empty($customAmount) && !empty($shipment->getLpcInsuranceAmount())) {
             $customAmount = $shipment->getLpcInsuranceAmount();
         }
 
         if (!empty($customAmount)) {
-            $amount = (double) $customAmount;
+            $amount = (float) $customAmount;
         }
 
         if (!in_array($productCode, Colissimo::PRODUCT_CODE_INSURANCE_AVAILABLE)) {
@@ -877,7 +888,7 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
                 $piece = $this->rebuildPiece($piece, $storeId);
             }
 
-            $amount += (double) $piece['customs_value'] * (double) $piece['qty'];
+            $amount += (float) $piece['customs_value'] * (float) $piece['qty'];
         }
 
         if ($amount > 0) {
@@ -1165,6 +1176,7 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
             $hsCodeAttribute = 'lpc_hs_code';
         }
         $piece['lpc_hs_code'] = $product->getData($hsCodeAttribute);
+        $piece['lpc_mid_code'] = $product->getData('lpc_mid_code');
 
         return $piece;
     }
@@ -1356,7 +1368,7 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
         }
 
         $highestHazmatCategoryCode = 'A';
-        $lowestHazmatCategory = '';
+        $lowestHazmatLimit = 30000;
         foreach (HazmatCategories::HAZMAT_CATEGORIES as $slug => $category) {
             if (empty($hazardousMaterials[$slug])) {
                 continue;
@@ -1364,8 +1376,8 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
 
             $highestHazmatCategoryCode = $category['code'];
 
-            if (empty($lowestHazmatCategory)) {
-                $lowestHazmatCategory = $slug;
+            if (!empty($category['max_weight']) && $category['max_weight'] < $lowestHazmatLimit) {
+                $lowestHazmatLimit = $category['max_weight'];
             }
 
             if ($isAutomaticGeneration && !empty($category['max_weight']) && $hazardousMaterials[$slug] > $category['max_weight']) {
@@ -1382,18 +1394,16 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
 
         if (
             $isAutomaticGeneration
-            && !empty($hazmatCatsById[$lowestHazmatCategory]['max_weight'])
-            && $totalHazardousQuantity > $hazmatCatsById[$lowestHazmatCategory]['max_weight']
+            && $totalHazardousQuantity > $lowestHazmatLimit
         ) {
             throw new \Exception(
                 sprintf(
                     __('The total amount of hazardous materials exceeds the maximum allowed weight of %dg.'),
-                    $hazmatCatsById[$lowestHazmatCategory]['max_weight']
+                    $lowestHazmatLimit
                 ) . ' ' . __('Please ship this order in multiple parcels.')
             );
         }
 
-        // TODO to check, doc says boolean but gives "1" as the example, while hazmatPrintLogo has "true" in its example
         $this->payload['letter']['parcel']['hazmatFlag'] = true;
         $this->payload['letter']['parcel']['hazmatCategory'] = $highestHazmatCategoryCode;
         $this->payload['letter']['parcel']['hazmatPrintLogo'] = true;

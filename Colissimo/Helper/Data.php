@@ -255,7 +255,7 @@ class Data extends AbstractHelper
             $weight /= self::LBS_IN_ONE_KG;
         }
 
-        return (double) $weight;
+        return (float) $weight;
     }
 
     public function translateDate(string $date): string {

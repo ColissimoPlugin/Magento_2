@@ -13,11 +13,13 @@
 
 namespace LaPoste\Colissimo\Controller\Adminhtml\Shipment;
 
+use LaPoste\Colissimo\Helper\Shipment;
+use LaPoste\Colissimo\Model\Carrier\Colissimo;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
-use Magento\Shipping\Model\Shipping\LabelGenerator;
+use Magento\Framework\Message\ManagerInterface;
 use Magento\Sales\Model\ResourceModel\Order\Shipment\CollectionFactory;
-use LaPoste\Colissimo\Model\Carrier\Colissimo;
+use Magento\Shipping\Model\Shipping\LabelGenerator;
 use Magento\Ui\Component\MassAction\Filter;
 
 class MassGenerationOutwardLabel extends Action
@@ -34,26 +36,24 @@ class MassGenerationOutwardLabel extends Action
     protected $labelGenerator;
     protected $shipmentHelper;
     protected $filter;
+    protected $messageManager;
 
-    /**
-     * @param Context                            $context
-     * @param CollectionFactory                  $shipmentCollection
-     * @param LabelGenerator                     $labelGenerator
-     * @param \LaPoste\Colissimo\Helper\Shipment $shipmentHelper
-     */
     public function __construct(
         Context $context,
         CollectionFactory $shipmentCollection,
         LabelGenerator $labelGenerator,
-        \LaPoste\Colissimo\Helper\Shipment $shipmentHelper,
-        Filter $filter
+        Shipment $shipmentHelper,
+        Filter $filter,
+        ManagerInterface $messageManager
     ) {
+        parent::__construct($context);
+
         $this->shipmentCollection = $shipmentCollection;
         $this->request = $context->getRequest();
         $this->labelGenerator = $labelGenerator;
         $this->shipmentHelper = $shipmentHelper;
         $this->filter = $filter;
-        parent::__construct($context);
+        $this->messageManager = $messageManager;
     }
 
     public function execute()
@@ -65,7 +65,7 @@ class MassGenerationOutwardLabel extends Action
         /** @var \Magento\Sales\Model\Order\Shipment $shipment */
         foreach ($shipments as $shipment) {
             $shippingMethod = $shipment->getOrder()->getShippingMethod();
-            if (false === strpos($shippingMethod, Colissimo::CODE . '_')) {
+            if (!str_contains($shippingMethod, Colissimo::CODE . '_')) {
                 continue; // Remove non colissimo shipments
             }
 
@@ -74,8 +74,7 @@ class MassGenerationOutwardLabel extends Action
             } catch (\Exception $e) {
                 $isError = true;
                 $this->messageManager->addErrorMessage(
-                    __('While generating label for shipment #%1: ', $shipment->getIncrementId())
-                    . $e->getMessage()
+                    __('Could not generate label for shipment #%1: ', $shipment->getIncrementId()) . $e->getMessage()
                 );
             }
         }

@@ -35,7 +35,6 @@ use Exception;
  */
 class LpcMTOMSoapClient extends SoapClient
 {
-
     /**
      * Override SoapClient to add MTOM decoding on responses.
      *
@@ -51,13 +50,13 @@ class LpcMTOMSoapClient extends SoapClient
      * @param string $location
      * @param string $action
      * @param int    $version
-     * @param int    $one_way
+     * @param bool   $oneWay
      * @return string|null The XML SOAP response with <xop> tag replaced by base64 corresponding attachment
      * @throws Exception
      */
-    public function __doRequest($request, $location, $action, $version, $one_way = 0): ?string
+    public function __doRequest(string $request, string $location, string $action, int $version, bool $oneWay = false, ?string $uriParserClass = null): ?string
     {
-        $response = parent::__doRequest($request, $location, $action, $version, $one_way);
+        $response = parent::__doRequest($request, $location, $action, $version, $oneWay);
 
         $xml_response = null;
 
@@ -73,27 +72,32 @@ class LpcMTOMSoapClient extends SoapClient
         // Look if xop then replace by base64_encode(binary)
         $xop_elements = null;
         preg_match_all('/<xop[\s\S]*?\/>/', $response, $xop_elements);
-        $xop_elements = reset($xop_elements);
 
-        if (is_array($xop_elements) && count($xop_elements)) {
-            foreach ($xop_elements as $xop_element) {
-                // Get CID
-                $cid = null;
-                preg_match('/cid:([0-9a-zA-Z-]+)@/', $xop_element, $cid);
-                $cid = $cid[1];
+        if (is_array($xop_elements)) {
+            $xop_elements = reset($xop_elements);
 
-                // Get Binary
-                $binary = null;
-                preg_match('/Content-ID:[\s\S].+?' . $cid . '[\s\S].+?>([\s\S]*?)--uuid/', $response, $binary);
-                $binary = trim($binary[1]);
+            if (is_array($xop_elements) && count($xop_elements)) {
+                foreach ($xop_elements as $xop_element) {
+                    // Get CID
+                    $cid = null;
+                    preg_match('/cid:([0-9a-zA-Z-]+)@/', $xop_element, $cid);
+                    $cid = $cid[1];
 
-                $binary = base64_encode($binary);
+                    // Get Binary
+                    $binary = null;
+                    preg_match('/Content-ID:[\s\S].+?' . $cid . '[\s\S].+?>([\s\S]*?)--uuid/', $response, $binary);
+                    $binary = trim($binary[1]);
 
-                // Replace xop:Include tag by base64_encode(binary)
-                // Note: SoapClient will automatically base64_decode(binary)
-                $xml_response = preg_replace('/<xop:Include[\s\S]*cid:' . $cid . '@[\s\S]*?\/>/',
-                                             $binary,
-                                             $xml_response);
+                    $binary = base64_encode($binary);
+
+                    // Replace xop:Include tag by base64_encode(binary)
+                    // Note: SoapClient will automatically base64_decode(binary)
+                    $xml_response = preg_replace(
+                        '/<xop:Include[\s\S]*cid:' . $cid . '@[\s\S]*?\/>/',
+                        $binary,
+                        $xml_response
+                    );
+                }
             }
         }
 

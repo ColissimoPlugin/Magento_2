@@ -22,7 +22,7 @@ use LaPoste\Colissimo\Api\TrackingApi;
 
 class LabellingApi implements \LaPoste\Colissimo\Api\Carrier\LabellingApi
 {
-    const API_BASE_URL = 'https://ws.colissimo.fr/sls-ws/SlsServiceWSRest/2.0/';
+    const API_BASE_URL = 'https://ws.colissimo.fr/sls-ws/SlsServiceWSRest/3.1/';
 
     /**
      * @var \LaPoste\Colissimo\Logger\Colissimo
@@ -52,7 +52,6 @@ class LabellingApi implements \LaPoste\Colissimo\Api\Carrier\LabellingApi
      * @var \Magento\Framework\Event\Manager
      */
     protected $eventManager;
-
 
     /**
      * LabellingApi constructor.
@@ -125,7 +124,6 @@ class LabellingApi implements \LaPoste\Colissimo\Api\Carrier\LabellingApi
                 CURLOPT_POST           => 1,
                 CURLOPT_POSTFIELDS     => $dataJson,
                 CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_BINARYTRANSFER => 1,
             ]
         );
 
@@ -324,6 +322,7 @@ class LabellingApi implements \LaPoste\Colissimo\Api\Carrier\LabellingApi
         if ($isSecuredReturn) {
             return $res;
         }
+
         $orderId = $currentPayload['letter']['service']['orderNumber'];
         // Return label : send it to customer. Else send tracking link
         if ($payload->getIsReturnLabel()) {
@@ -340,7 +339,7 @@ class LabellingApi implements \LaPoste\Colissimo\Api\Carrier\LabellingApi
                 [
                     'orderIds'     => [$orderId],
                     'label'        => $res[1],
-                    'parcelNumber' => [$orderId => $res[0]->labelV2Response->parcelNumber],
+                    'parcelNumber' => [$orderId => $res[0]->labelV31Response->parcelNumber],
                 ]
             );
         }
@@ -384,7 +383,9 @@ class LabellingApi implements \LaPoste\Colissimo\Api\Carrier\LabellingApi
      */
     public function planPickup(array $payload)
     {
-        return ['id' => 0, 'messageContent' => 'by-passed for tests']; //DEV_CODE
+        if (defined('LPC_DEV_MODE')) {
+            return ['id' => 0, 'messageContent' => 'by-passed for tests'];
+        }
 
         $payloadWithoutPass = $payload;
         unset($payloadWithoutPass['password']);

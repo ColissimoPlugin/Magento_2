@@ -25,11 +25,13 @@
                 <deliveryDateSize>default</deliveryDateSize>
             </lpc_checkout>
             <lpc_labels>
+                <isUsingCustomsDeclarations>1</isUsingCustomsDeclarations>
                 <cn23Number>4</cn23Number>
                 <hsCodeAttribute>lpc_hs_code</hsCodeAttribute>
+                <defaultCustomsCategory>3</defaultCustomsCategory>
             </lpc_labels>
             <lpc_hazmat>
-                <extraCost>0</extraCost>
+                <extraCostValue>0.2</extraCostValue>
             </lpc_hazmat>
             <lpc_shipping>
                 <domicileas_block_code_min>0</domicileas_block_code_min>

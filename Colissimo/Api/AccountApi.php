@@ -19,5 +19,5 @@ interface AccountApi
 
     public function isHazmatOptionActive(): bool;
 
-    public function getAccountInformation();
+    public function getAccountInformation(bool $withTag = false);
 }

@@ -91,15 +91,21 @@ class AccountApi extends RestApi implements \LaPoste\Colissimo\Api\AccountApi
         return false;
     }
 
-    public function getAccountInformation()
+    public function getAccountInformation(bool $withTag = false)
     {
         static $accountInformation = null;
         if (!empty($accountInformation)) {
             return $accountInformation;
         }
 
+        $params = [];
+
+        if ($withTag) {
+            $params['tagInfoPartner'] = 'MAGENTO2';
+        }
+
         try {
-            $response = $this->query('additionalinformations');
+            $response = $this->query('additionalinformations', $params);
 
             if (!empty($response['messageErreur'])) {
                 $this->logger->error(
@@ -167,7 +173,6 @@ class AccountApi extends RestApi implements \LaPoste\Colissimo\Api\AccountApi
         $dataType = self::DATA_TYPE_JSON,
         $credentials = [],
         $credentialsIntoHeader = false,
-        $unsafeFileUpload = false,
         $throwError = true
     ) {
         if ('api' === $this->helperData->getAdvancedConfigValue('lpc_general/connectionMode')) {
@@ -182,15 +187,12 @@ class AccountApi extends RestApi implements \LaPoste\Colissimo\Api\AccountApi
             $params['partnerClientCode'] = $parentAccountId;
         }
 
-        $params['tagInfoPartner'] = 'MAGENTO2';
-
         return parent::query(
             $action,
             $params,
             $dataType,
             $credentials,
             $credentialsIntoHeader,
-            $unsafeFileUpload,
             $throwError
         );
     }

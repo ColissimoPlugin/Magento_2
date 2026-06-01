@@ -488,7 +488,9 @@ define([
                     buttons: [],
                     responsive: true,
                     innerScroll: true,
-                    modalClass: 'lpc_modal_relays'
+                    modalClass: 'lpc_modal_relays',
+                    wrapperClass: 'modals-wrapper lpc_modals-wrapper',
+                    modalVisibleClass: '_show _show_lpc_relay_ws'
                 };
 
                 const $divPopupLpc = $('#lpc_layer_relays');

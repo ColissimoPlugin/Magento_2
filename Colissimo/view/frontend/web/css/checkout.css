@@ -258,6 +258,11 @@
     }
 }
 
+/** Leaflet **/
+.checkout-index-index .lpc_modals-wrapper ._show_lpc_relay_ws .modal-inner-wrap{
+    max-width: 800px;
+}
+
 /** Widget **/
 @media all and (min-width: 1200px){
     .checkout-index-index .lpc_modals-wrapper ._show_lpc_relay .modal-inner-wrap{

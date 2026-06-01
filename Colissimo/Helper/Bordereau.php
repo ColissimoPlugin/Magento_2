@@ -70,7 +70,7 @@ class Bordereau extends AbstractHelper
 
             $bordereauHeader = $retrievedBordereau->bordereau->bordereauHeader;
             $bordereauId = $bordereauHeader->bordereauNumber;
-
+            
             $this->bordereauFactory->create()
                                    ->setBordereauNumber($bordereauId)
                                    ->setCodeSitePch($bordereauHeader->codeSitePCH)

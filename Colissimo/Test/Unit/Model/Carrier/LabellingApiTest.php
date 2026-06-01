@@ -51,12 +51,11 @@ class LabellingApiTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedLabel, $parts['<label>']['body']);
     }
 
-
     public function testGenerateLabel()
     {
         // we need this trick to override built-in curl functions
         // only for this test
-        require(__DIR__ . '/CurlMocker.php');
+        require_once __DIR__ . '/CurlMocker.php';
 
         $generateLabelPayload = $this->createMock(
             \LaPoste\Colissimo\Model\Carrier\GenerateLabelPayload::class
@@ -68,7 +67,6 @@ class LabellingApiTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('some-json', $jsonInfos->success);
         $this->assertEquals('some-binary-content', $label);
     }
-
 
     protected function generateMultipartBody()
     {

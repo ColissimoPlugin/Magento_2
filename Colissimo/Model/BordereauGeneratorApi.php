@@ -17,7 +17,7 @@ use Magento\Sales\Model\ResourceModel\Order\Shipment\Track\CollectionFactory;
 
 class BordereauGeneratorApi implements \LaPoste\Colissimo\Api\BordereauGeneratorApi
 {
-    const API_BASE_URL = 'https://ws.colissimo.fr/sls-ws/SlsServiceWS/2.0';
+    const API_BASE_URL = 'https://ws.colissimo.fr/sls-ws/SlsServiceWS/3.1';
 
     protected $logger;
 
@@ -55,7 +55,6 @@ class BordereauGeneratorApi implements \LaPoste\Colissimo\Api\BordereauGenerator
 
         if ('api' === $this->helperData->getAdvancedConfigValue('lpc_general/connectionMode')) {
             $apiKey = $this->helperData->getAdvancedConfigValue('lpc_general/api_key');
-            $dataLogger['apiKey'] = $apiKey;
             $request['stream_context'] = stream_context_create(
                 [
                     'http' => [

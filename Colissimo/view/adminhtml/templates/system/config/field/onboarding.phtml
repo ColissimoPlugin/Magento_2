@@ -5,124 +5,129 @@ $urls = $block->getOnboardingUrls();
 ?>
 
 <div id="lpc_onboarding">
-    <p>
-        <u><?= $block->escapeHtml(__('Not yet registered on Colissimo?')); ?></u> <?= $block->escapeHtml(__('Here is how to do it:')); ?>
-    </p>
-    <p>
-        - <?php
+	<p>
+		<u><?= $block->escapeHtml(__('Not yet registered on Colissimo?')); ?></u> <?= $block->escapeHtml(__('Here is how to do it:')); ?>
+	</p>
+	<p>
+		- <?php
         printf(
             __('Choose %s best matching your needs.'),
-            '<a target="_blank" href="' . $urls['contractTypes'] . '">' . __('the contract') . '</a>'
+            '<a target="_blank" href="'.$urls['contractTypes'].'">'.__('the contract').'</a>'
         );
         ?>
-    </p>
-    <p>
-        - <?php
+	</p>
+	<p>
+		- <?php
         printf(
-            __('To register for the <a target="_blank" href="%1$s">Colissimo Facilité</a> option, fill <a target="_blank" href="%2$s">this commercial contact form</a> to create an account and receive your ids within a few days.'),
+            __(
+                'To register for the <a target="_blank" href="%1$s">Colissimo Facilité</a> option, fill <a target="_blank" href="%2$s">this commercial contact form</a> to create an account and receive your ids within a few days.'
+            ),
             $urls['faciliteUrl'],
             $urls['faciliteForm']
         );
         ?>
-    </p>
-    <p>
-        - <?php
+	</p>
+	<p>
+		- <?php
         printf(
-            __('To register for the <a target="_blank" href="%1$s">Colissimo Privilège</a> option, fill <a target="_blank" href="%2$s">this commercial contact form</a> to be contacted by a sales representative.'),
+            __(
+                'To register for the <a target="_blank" href="%1$s">Colissimo Privilège</a> option, fill <a target="_blank" href="%2$s">this commercial contact form</a> to be contacted by a sales representative.'
+            ),
             $urls['privilegeUrl'],
             $urls['privilegeForm']
         );
         ?>
-    </p>
-    <br>
-    <p>
-        <u><?= $block->escapeHtml(__('Already registered on Colissimo?')); ?></u> <?= $block->escapeHtml(__('Here is how to configure your module:')); ?>
-    </p>
-    <br>
-    <b>1. <?= $block->escapeHtml(__('I associate my account to the Colissimo module')); ?></b>
-    <p>
+	</p>
+	<br>
+	<p>
+		<u><?= $block->escapeHtml(__('Already registered on Colissimo?')); ?></u> <?= $block->escapeHtml(__('Here is how to configure your module:')); ?>
+	</p>
+	<br>
+	<b>1. <?= $block->escapeHtml(__('I associate my account to the Colissimo module')); ?></b>
+	<p>
         <?php
         printf(
-            __('To connect the module, you must enter your Colissimo credentials in %s of this page.'),
-            '<a href="#lpc_advanced_lpc_general-head">' . __('the "General configuration" section') . '</a>');
+            __('To connect the module, you must enter your Colissimo application key in %s of this page.'),
+            '<a href="#lpc_advanced_lpc_general-head">'.__('the "General configuration" section').'</a>'
+        );
         echo '<br/>';
         printf(
-            __('The User Name must be the one you use to connect to <a target="_blank" href="%s">Colissimo Entreprise</a>.'),
-            $urls['urlConnectedCbox']
+            __('This application key must be generated from your account on %s on your user edit page.'),
+            '<a target="_blank" href="'.$urls['urlConnectedCbox'].'">Colissimo Box</a>'
         );
         ?>
-    </p>
-    <br>
-    <br>
-    <b>2. <?= $block->escapeHtml(__('I configure my settings to simplify my shipping preparations thanks to Colissimo features')); ?></b>
-    <p>- <?php
+	</p>
+	<br>
+	<br>
+	<b>2. <?= $block->escapeHtml(__('I configure my settings to simplify my shipping preparations thanks to Colissimo features')); ?></b>
+	<p>- <?php
         printf(
             __('Activate <a href="%s" target="_blank">the Colissimo shipping methods</a>, and customize their names for your customers'),
             $block->urlMethodsPage
         );
         ?>
-    </p>
-    <p>- <?php
+	</p>
+	<p>- <?php
         printf(
             __('%s of your labels under the "Labels" section'),
-            '<a href=""#lpc_advanced_lpc_labels-head"">' . __('Choose the format') . '</a>'
+            '<a href="#lpc_advanced_lpc_labels-head">'.__('Choose the format').'</a>'
         );
         ?>
-    </p>
-    <p>- <?php
+	</p>
+	<p>- <?php
         printf(
             __('Enter %s for your shipments outside the European Union'),
-            '<a href="#row_lpc_advanced_lpc_labels_registeredMailLevel">' . __('your customs formalities') . '</a>'
+            '<a href="#row_lpc_advanced_lpc_labels_registeredMailLevel">'.__('your customs formalities').'</a>'
         ); ?>
-    </p>
-    <br>
-    <br>
-    <b>3. <?= $block->escapeHtml(__('I make sure the Magento settings are complete')); ?></b>
-    <p>- <?php
+	</p>
+	<br>
+	<br>
+	<b>3. <?= $block->escapeHtml(__('I make sure the Magento settings are complete')); ?></b>
+	<p>- <?php
         printf(
             __('Enter <a target="_blank" href="%s">your origin address</a> to be able to generate labels'),
             $block->urlOriginAddress
         );
         ?>
-    </p>
-    <p>- <?= $block->escapeHtml(__('All the products must have a weight configured')); ?></p>
-    <p>- <?= $block->escapeHtml(__('The products may have a custom HS code and country of manufacture, or you can setup default values with the customs options')); ?></p>
-    <br>
-    <br>
-    <b>4. <?= $block->escapeHtml(__('I configure my shipping rates')); ?></b>
-    <p>- <?php
+	</p>
+	<p>- <?= $block->escapeHtml(__('All the products must have a weight configured')); ?></p>
+	<p>- <?= $block->escapeHtml(__('The products may have a custom HS code and country of manufacture, or you can setup default values with the customs options')); ?></p>
+	<br>
+	<br>
+	<b>4. <?= $block->escapeHtml(__('I configure my shipping rates')); ?></b>
+	<p>- <?php
         printf(
             __('Head to <a target="_blank" href="%s">the Colissimo prices page</a>'),
             $block->urlPricesPage
         );
         ?>
-    <p>- <?= $block->escapeHtml(__('The Colissimo module automatically creates its rules based on the current prices')); ?></p>
-    <p>- <?= $block->escapeHtml(__('You can customize the shipping prices of the delivery solutions for your customers')); ?></p>
-    <br>
-    <p>
+	<p>- <?= $block->escapeHtml(__('The Colissimo module automatically creates its rules based on the current prices')); ?></p>
+	<p>- <?= $block->escapeHtml(__('You can customize the shipping prices of the delivery solutions for your customers')); ?></p>
+	<br>
+	<p>
         <?= $block->escapeHtml(__('Beware: Colissimo doesn\'t handle parcels over 30kg. Be careful about the weight unit and when you modify the weight ranges.')); ?>
-    </p>
-    <p>
-        <br />
-        <b><?= $block->escapeHtml(__('Need help?')); ?></b>
-    </p>
-    <p>
+	</p>
+	<p>
+		<br />
+		<b><?= $block->escapeHtml(__('Need help?')); ?></b>
+	</p>
+	<p>
         <?php
         printf(
             __('You can also contact the Colissimo support by phone at %1$s or the technical support by email at %2$s'),
             '<a href="tel:0241742088">0241742088</a>',
             '<a href="mailto:ecommerce@acyba.com">ecommerce@acyba.com</a>'
         ); ?>
-    </p>
+	</p>
 </div>
 
 <style>
-    #row_lpc_advanced_lpc_onboarding_documentation .label{
-        display: none;
-    }
+	#row_lpc_advanced_lpc_onboarding_documentation .label{
+		display: none;
+	}
 
-    #row_lpc_advanced_lpc_onboarding_documentation .value{
-        width: 100%;
-        padding-left: 10rem;
-    }
+	#row_lpc_advanced_lpc_onboarding_documentation .value{
+		width: 100%;
+		padding-left: 10rem;
+	}
 </style>

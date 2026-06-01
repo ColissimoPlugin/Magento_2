@@ -86,7 +86,7 @@ class MassGenerationInwardLabel extends Action
             } catch (\Exception $e) {
                 $isError = true;
                 $this->messageManager->addErrorMessage(
-                    __('While generating label for shipment #%1: ', $shipment->getIncrementId())
+                    __('Could not generate label for shipment #%1: ', $shipment->getIncrementId())
                     . $e->getMessage()
                 );
             }

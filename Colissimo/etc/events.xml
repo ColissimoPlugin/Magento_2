@@ -3,6 +3,8 @@
     <event name="sales_order_save_after">
         <observer name="LaPoste_Colissimo::generateLabelOnOrderStateChange"
                   instance="LaPoste\Colissimo\Observer\GenerateLabelOnOrderStateChange"/>
+        <observer name="LaPoste_Colissimo::colissimoUsage"
+                  instance="LaPoste\Colissimo\Observer\ColissimoUsage"/>
     </event>
     <event name="sales_order_place_before">
         <observer name="setRelayInformationOrderLpc"
@@ -29,6 +31,11 @@
                   instance="LaPoste\Colissimo\Observer\ConfigChange"/>
     </event>
     <event name="sales_model_service_quote_submit_before">
-        <observer name="save_colissimo_note_to_order" instance="LaPoste\Colissimo\Observer\SaveToOrder"/>
+        <observer name="save_colissimo_note_to_order"
+                  instance="LaPoste\Colissimo\Observer\SaveToOrder"/>
+    </event>
+    <event name="sales_order_shipment_save_before">
+        <observer name="lpc_shipment_data_save"
+                  instance="LaPoste\Colissimo\Observer\SaveShipment"/>
     </event>
 </config>

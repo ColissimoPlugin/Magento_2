@@ -422,11 +422,11 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
         try {
             // Difference between label generation (inward/outward => generateLabel) and secured return (generateToken)
             $isSecuredReturn = false;
-            $contentResponseName = 'labelV2Response';
+            $contentResponseName = 'labelV31Response';
 
             if (!empty($request->getIsSecuredReturn())) {
                 $isSecuredReturn = true;
-                $contentResponseName = 'tokenV2Response';
+                $contentResponseName = 'tokenV3Response';
             }
 
             // call Api
@@ -639,6 +639,7 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
                     'currency'               => $item->getProduct()->getCurrency(),
                     'country_of_manufacture' => $item->getProduct()->getCountryOfManufacture(),
                     'lpc_hs_code'            => $item->getProduct()->getData($hsCodeAttribute),
+                    'lpc_mid_code'           => $item->getProduct()->getData('lpc_mid_code'),
                 ];
             }
         }
@@ -976,22 +977,17 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
             $extraCost = $this->helperData->getAdvancedConfigValue('lpc_ddp/extracost_' . strtolower($destCountryId));
         }
 
-        $isExtraCostHazmat = $this->helperData->getAdvancedConfigValue('lpc_hazmat/extraCost');
-        if ($isExtraCostHazmat && !empty($cartHazmatCategories)) {
-            $extraCostHazmat = 0;
-
+        $extraCostHazmat = $this->helperData->getAdvancedConfigValue('lpc_hazmat/extraCostValue');
+        if (!empty($extraCostHazmat) && !empty($cartHazmatCategories)) {
             $hazmatCategories = HazmatCategories::HAZMAT_CATEGORIES;
             foreach ($cartHazmatCategories as $hazmatCategorySlug) {
                 if (empty($hazmatCategories[$hazmatCategorySlug])) {
                     continue;
                 }
 
-                if ($extraCostHazmat < $hazmatCategories[$hazmatCategorySlug]['extra_cost']) {
-                    $extraCostHazmat = $hazmatCategories[$hazmatCategorySlug]['extra_cost'];
-                }
+                $extraCost += (float) str_replace(',', '.', $extraCostHazmat);
+                break;
             }
-
-            $extraCost += $extraCostHazmat;
         }
 
         // Free shipping set for the method

@@ -31,7 +31,6 @@ abstract class RestApi
      * @param string $dataType
      * @param array  $credentials
      * @param false  $credentialsIntoHeader
-     * @param false  $unsafeFileUpload
      * @param bool   $throwError
      *
      * @return array|mixed
@@ -43,7 +42,6 @@ abstract class RestApi
         $dataType = self::DATA_TYPE_JSON,
         $credentials = [],
         $credentialsIntoHeader = false,
-        $unsafeFileUpload = false,
         $throwError = true
     ) {
         switch ($dataType) {
@@ -79,13 +77,8 @@ abstract class RestApi
                 CURLOPT_POST           => 1,
                 CURLOPT_POSTFIELDS     => $data,
                 CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_BINARYTRANSFER => 1,
             ]
         );
-
-        if ($unsafeFileUpload) {
-            curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);
-        }
 
         $response = curl_exec($ch);
         if (!$response) {

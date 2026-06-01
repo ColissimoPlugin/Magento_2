@@ -31,20 +31,24 @@ $storedValues = $block->getValues();
                         <tr>
                             <th><?= $block->escapeHtml(__('Day')); ?></th>
                             <th><?= $block->escapeHtml(__('Cutt Off times for orders processing')); ?></th>
+                            <th><?= $block->escapeHtml(__('Preparation delay (days)')); ?></th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($days as $day) { ?>
-                            <tr>
+                            <tr data-day="<?= $block->escapeHtmlAttr($day); ?>">
                                 <td><?= $block->escapeHtml(__($day)); ?></td>
                                 <td>
-                                    <select class="day-select" data-day="<?= $block->escapeHtmlAttr($day); ?>">
+                                    <select class="day-select">
                                         <?php
                                         foreach ($hours as $value => $time) {
                                             echo '<option value="' . $block->escapeHtmlAttr($value) . '">' . $block->escapeHtml($time) . '</option>';
                                         }
                                         ?>
                                     </select>
+                                </td>
+                                <td>
+                                    <input type="number" step="1" min="0" class="preparation-delay" />
                                 </td>
                             </tr>
                         <?php } ?>
@@ -83,6 +87,9 @@ $storedValues = $block->getValues();
             $(document).on('change', '.day-select', function () {
                 updateJsonOutput();
             });
+            $(document).on('change', '.preparation-delay', function () {
+                updateJsonOutput();
+            });
         }
 
         function handleExceptions() {
@@ -116,7 +123,8 @@ $storedValues = $block->getValues();
 
                 // Set weekly schedule
                 for (const [weekDay, time] of Object.entries(data.weekly_schedule)) {
-                    $(`.day-select[data-day="${weekDay}"]`).val(time);
+                    $(`[data-day="${weekDay}"] .day-select`).val(time.cuttOff);
+                    $(`[data-day="${weekDay}"] .preparation-delay`).val(time.delay);
                 }
 
                 // Set exceptions
@@ -149,7 +157,10 @@ $storedValues = $block->getValues();
 
             // Collect weekly schedule
             days.forEach(day => {
-                schedule[day] = $(`.day-select[data-day="${day}"]`).val();
+                schedule[day] = {
+                    cuttOff: $(`[data-day="${day}"] .day-select`).val(),
+                    delay: $(`[data-day="${day}"] .preparation-delay`).val()
+                };
             });
 
             // Collect exceptions
@@ -215,6 +226,10 @@ $storedValues = $block->getValues();
 
     .weekly-schedule tr:last-child td{
         border-bottom: none;
+    }
+
+    .preparation-delay{
+        max-width: 130px;
     }
 
     /* Exceptions Styles */

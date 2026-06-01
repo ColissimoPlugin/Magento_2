@@ -116,14 +116,14 @@ define([
         getImage: function (carrierCode) {
             this.initAutoSelectPickup();
 
-            if ('colissimo' !== carrierCode || '' == window.checkoutConfig.colissimoIconUrl) {
+            if ('colissimo' !== carrierCode || '' == window.checkoutConfig.colissimo.iconUrl) {
                 return '';
             }
 
-            return '<img alt="Logo Colissimo" src="' + window.checkoutConfig.colissimoIconUrl + '" width="40" class="lpc_method_icon">';
+            return '<img alt="Logo Colissimo" src="' + window.checkoutConfig.colissimo.iconUrl + '" width="40" class="lpc_method_icon">';
         },
         initDeliveryDate: function () {
-            if (!quote.shippingAddress || !window.checkoutConfig.deliveryDate) {
+            if (!quote.shippingAddress || !window.checkoutConfig.colissimo.deliveryDate) {
                 return;
             }
 

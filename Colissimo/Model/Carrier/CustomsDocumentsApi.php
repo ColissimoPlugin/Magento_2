@@ -33,10 +33,8 @@ class CustomsDocumentsApi extends RestApi implements \LaPoste\Colissimo\Api\Carr
 
         if (function_exists('curl_file_create')) {
             $document = curl_file_create($document);
-            $unsafeFileUpload = false;
         } else {
             $document = '@' . realpath($document);
-            $unsafeFileUpload = true;
         }
 
         $payload = [
@@ -58,7 +56,13 @@ class CustomsDocumentsApi extends RestApi implements \LaPoste\Colissimo\Api\Carr
         $dataLogger['payload'] = $payload;
 
         try {
-            $response = $this->query('storedocument', $payload, self::DATA_TYPE_MULTIPART, $credentials, true, $unsafeFileUpload);
+            $response = $this->query(
+                'storedocument',
+                $payload,
+                self::DATA_TYPE_MULTIPART,
+                $credentials,
+                true
+            );
 
             $this->logger->debug(
                 'Customs Documents Sending Response',
@@ -127,7 +131,6 @@ class CustomsDocumentsApi extends RestApi implements \LaPoste\Colissimo\Api\Carr
                 $payload,
                 self::DATA_TYPE_JSON,
                 [],
-                false,
                 false,
                 false
             );

@@ -28,7 +28,7 @@ if (empty($hazmatData['hazmatCategories'])) {
         <thead>
             <tr>
                 <th><?= $block->escapeHtml(__('Category')); ?></th>
-                <th style="max-width: 90px; text-align: left;"><?= $block->escapeHtml(__('Maximum quantity per parcel')); ?></th>
+                <th style="max-width: 90px; text-align: left;"><?= $block->escapeHtml(__('Limited hazardous materials quantity')); ?></th>
                 <th><?= $block->escapeHtml(__('Extra cost')); ?></th>
                 <th><?= $block->escapeHtml(__('Activated')); ?></th>
             </tr>
@@ -37,8 +37,8 @@ if (empty($hazmatData['hazmatCategories'])) {
             <?php foreach ($hazmatData['hazmatCategories'] as $category) { ?>
                 <tr>
                     <td><?= $block->escapeHtml(__($category['label'])); ?></td>
-                    <td><?= empty($category['max_weight']) ? '-' : $block->escapeHtml($category['max_weight'] . 'g'); ?></td>
-                    <td><?= $block->escapeHtml($category['extra_cost']); ?> €</td>
+                    <td><?= $block->escapeHtml(__($category['max_weight_text'])); ?></td>
+                    <td>0,20€</td>
                     <td><?= $block->escapeHtml(__($category['active'] ? 'Yes' : 'No')); ?></td>
                 </tr>
             <?php } ?>

@@ -132,7 +132,4 @@
     <type name="Magento\Quote\Model\Quote\Address\Rate">
         <plugin name="add_description_to_method_rate" type="\LaPoste\Colissimo\Plugin\Quote\Address\Rate" disabled="false" sortOrder="3"/>
     </type>
-    <type name="Magento\Shipping\Controller\Adminhtml\Order\Shipment\Save">
-        <plugin name="save_ddp_extra_data" type="\LaPoste\Colissimo\Plugin\Adminhtml\Order\Shipment\Save" disabled="false"/>
-    </type>
 </config>

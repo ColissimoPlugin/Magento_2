@@ -491,11 +491,12 @@ define([
                 const modalOptions = {
                     buttons: [],
                     responsive: true,
-                    innerScroll: true
+                    innerScroll: true,
+                    wrapperClass: 'modals-wrapper lpc_modals-wrapper',
+                    modalVisibleClass: '_show _show_lpc_relay_ws'
                 };
 
                 const popup = modal(modalOptions, $divPopupLpc);
-
                 popup.openModal();
 
                 $('#lpc_modal_relays_search_address').val(function () {
@@ -598,7 +599,7 @@ define([
                 city = $('#lpc_modal_relays_search_city').val();
                 countryId = quote.shippingAddress().countryId;
                 if (!countryId) {
-                    countryId = 'FR';
+                    countryId = window.checkoutConfig?.colissimo?.defaultCountryCode || 'FR';
                 }
             } else if ($selectedAddress.length > 0) {
                 const regex = /address\(\)\.street[^>]*-->([^<]+)<!--[\s\S]*address\(\).city[^>]*-->([^<]+)<!--[\s\S]*address\(\).postcode[^>]*-->([^<]+)<!--[\s\S]*address\(\).countryId[^>]*-->([^<]+)<!--/igm;

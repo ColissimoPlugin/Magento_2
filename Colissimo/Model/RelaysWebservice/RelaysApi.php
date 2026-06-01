@@ -1,24 +1,17 @@
 <?php
-/*******************************************************
- * Copyright (C) 2018 La Poste.
- *
- * This file is part of La Poste - Colissimo module.
- *
- * La Poste - Colissimo module can not be copied and/or distributed without the express
- * permission of La Poste.
- *******************************************************/
 
 namespace LaPoste\Colissimo\Model\RelaysWebservice;
 
+use LaPoste\Colissimo\Logger\Colissimo;
 use SoapClient;
 
 class RelaysApi extends SoapClient implements \LaPoste\Colissimo\Api\RelaysWebservice\RelaysApi
 {
-    const API_RELAYS_WSDL_URL = "https://ws.colissimo.fr/pointretrait-ws-cxf/PointRetraitServiceWS/2.0?wsdl";
+    const API_RELAYS_WSDL_URL = 'https://ws.colissimo.fr/pointretrait-ws-cxf/PointRetraitServiceWS/2.0?wsdl';
 
-    public $logger;
+    public Colissimo $logger;
 
-    public function __construct(\LaPoste\Colissimo\Logger\Colissimo $logger, ?array $options = null)
+    public function __construct(Colissimo $logger, ?array $options = null)
     {
         $this->logger = $logger;
 
@@ -29,17 +22,25 @@ class RelaysApi extends SoapClient implements \LaPoste\Colissimo\Api\RelaysWebse
 
     protected function query($params)
     {
-        return $this->__soapCall("findRDVPointRetraitAcheminement", [$params]);
+        return $this->__soapCall('findRDVPointRetraitAcheminement', [$params]);
     }
 
     public function getRelays($params)
     {
-        $paramsWithoutPass = $params;
+        $paramsWithoutCredentials = $params;
 
-        unset($paramsWithoutPass['password']);
+        unset($paramsWithoutCredentials['apikey']);
+        unset($paramsWithoutCredentials['password']);
 
-        $this->logger->debug('Get relays',
-                             ['params' => $paramsWithoutPass, 'wsdlUrl' => self::API_RELAYS_WSDL_URL, 'functionName' => 'findRDVPointRetraitAcheminement', 'method' => __METHOD__]);
+        $this->logger->debug(
+            'Get relays',
+            [
+                'params'       => $paramsWithoutCredentials,
+                'wsdlUrl'      => self::API_RELAYS_WSDL_URL,
+                'functionName' => 'findRDVPointRetraitAcheminement',
+                'method'       => __METHOD__,
+            ]
+        );
 
         $response = $this->query($params);
 
