@@ -1,17 +1,10 @@
 <?php
 
-/*******************************************************
- * Copyright (C) 2018 La Poste.
- *
- * This file is part of La Poste - Colissimo module.
- *
- * La Poste - Colissimo module can not be copied and/or distributed without the express
- * permission of La Poste.
- *******************************************************/
-
 namespace LaPoste\Colissimo\Model;
 
+use LaPoste\Colissimo\Helper\Data;
 use \LaPoste\Colissimo\Helper\LpcMTOMSoapClient;
+use LaPoste\Colissimo\Logger\Colissimo;
 use Magento\Framework\Event\Manager;
 use Magento\Sales\Model\ResourceModel\Order\Shipment\Track\CollectionFactory;
 
@@ -19,24 +12,24 @@ class BordereauGeneratorApi implements \LaPoste\Colissimo\Api\BordereauGenerator
 {
     const API_BASE_URL = 'https://ws.colissimo.fr/sls-ws/SlsServiceWS/3.1';
 
-    protected $logger;
-
-    protected $helperData;
-
-    protected $eventManager;
-
-    private $shipmentTrackCollectionFactory;
+    protected Colissimo $logger;
+    protected Data $helperData;
+    protected Manager $eventManager;
+    private CollectionFactory $shipmentTrackCollectionFactory;
+    private AccountApi $accountApi;
 
     public function __construct(
-        \LaPoste\Colissimo\Helper\Data $helperData,
-        \LaPoste\Colissimo\Logger\Colissimo $logger,
+        Data $helperData,
+        Colissimo $logger,
         Manager $eventManager,
-        CollectionFactory $shipmentTrackCollectionFactory
+        CollectionFactory $shipmentTrackCollectionFactory,
+        AccountApi $accountApi
     ) {
         $this->helperData = $helperData;
         $this->logger = $logger;
         $this->eventManager = $eventManager;
         $this->shipmentTrackCollectionFactory = $shipmentTrackCollectionFactory;
+        $this->accountApi = $accountApi;
     }
 
 
@@ -69,6 +62,15 @@ class BordereauGeneratorApi implements \LaPoste\Colissimo\Api\BordereauGenerator
             $request['contractNumber'] = $login;
             $request['password'] = $password;
         }
+
+        $parentAccountId = $this->accountApi->getParentAccountId();
+        if (!empty($parentAccountId)) {
+            $request['fields']['field'][] = [
+                'key'   => 'ACCOUNT_NUMBER',
+                'value' => $parentAccountId,
+            ];
+        }
+
 
         $this->logger->debug(__METHOD__ . ' request', $dataLogger);
 

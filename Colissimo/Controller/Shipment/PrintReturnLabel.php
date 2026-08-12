@@ -203,9 +203,8 @@ class PrintReturnLabel extends \Magento\Framework\App\Action\Action
         if (stripos($labelContent, '%PDF-') !== false) {
             $pdfContent = $labelContent;
         } else {
-            $pdf = new \Zend_Pdf();
-            $page = $this->helperPdf->createPdfPageFromImageString($labelContent);
-            if (!$page) {
+            $pdfContent = $this->helperPdf->imageStringToPdf($labelContent);
+            if (!$pdfContent) {
                 $this->messageManager->addErrorMessage(
                     __(
                         'We don\'t recognize or support the file extension in this shipment: %1.',
@@ -213,8 +212,6 @@ class PrintReturnLabel extends \Magento\Framework\App\Action\Action
                     )
                 );
             }
-            $pdf->pages[] = $page;
-            $pdfContent = $pdf->render();
         }
 
         return $this->fileFactory->create(

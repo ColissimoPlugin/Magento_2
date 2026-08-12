@@ -12,6 +12,7 @@
             <lpc_group>
                 <display_logo>0</display_logo>
                 <price_before_coupons>1</price_before_coupons>
+                <ecoom_enable>0</ecoom_enable>
             </lpc_group>
         </carriers>
         <lpc_advanced>
@@ -20,6 +21,7 @@
             </lpc_general>
             <lpc_checkout>
                 <displayDeliveryDate>0</displayDeliveryDate>
+                <displayDeliveryDateOrderConfirm>0</displayDeliveryDateOrderConfirm>
                 <deliveryDateFormat>full</deliveryDateFormat>
                 <deliveryDateFont>default</deliveryDateFont>
                 <deliveryDateSize>default</deliveryDateSize>

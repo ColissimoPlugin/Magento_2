@@ -97,10 +97,34 @@ class Actions extends Column
                 ['shipment_id' => $item['shipment_entity_id']]
             );
 
+            $generateLabelActionUrl = $this->context->getUrl(
+                'laposte_colissimo/shipment/generateLabel',
+                [
+                    'shipment_id' => $item['shipment_entity_id'],
+                    'label_type'  => DownloadLabel::LABEL_TYPE_OUTWARD,
+                ]
+            );
+
+            $generateReturnLabelActionUrl = $this->context->getUrl(
+                'laposte_colissimo/shipment/generateLabel',
+                [
+                    'shipment_id' => $item['shipment_entity_id'],
+                    'label_type'  => DownloadLabel::LABEL_TYPE_INWARD,
+                ]
+            );
+
             $actions = [
                 'view'                   => [
                     'href'  => $viewShipmentActionUrl,
                     'label' => __('View'),
+                ],
+                'generate_outward_label' => [
+                    'href'  => $generateLabelActionUrl,
+                    'label' => __('Generate outward label'),
+                ],
+                'generate_return_label'  => [
+                    'href'  => $generateReturnLabelActionUrl,
+                    'label' => __('Generate inward label'),
                 ],
                 'print_outward_label'    => [
                     'href'  => $printLabelActionUrl,

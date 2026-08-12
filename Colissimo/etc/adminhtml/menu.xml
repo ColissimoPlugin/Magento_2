@@ -58,9 +58,18 @@
             translate="title"
             module="LaPoste_Colissimo"
             sortOrder="40"
-            resource="Magento_Backend::content"
+            resource="LaPoste_Colissimo::Prices"
             parent="LaPoste_Colissimo::Colissimo"
             action="laposte_colissimo/prices/index"/>
+        <add
+            id="LaPoste_Colissimo::simulation"
+            title="Price simulation"
+            translate="title"
+            module="LaPoste_Colissimo"
+            sortOrder="45"
+            parent="LaPoste_Colissimo::Colissimo"
+            action="laposte_colissimo/simulation"
+            resource="LaPoste_Colissimo::simulation"/>
         <add
             id="LaPoste_Colissimo::coliship"
             title="ColiShip"

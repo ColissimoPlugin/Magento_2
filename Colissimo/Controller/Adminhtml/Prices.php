@@ -5,7 +5,7 @@ namespace LaPoste\Colissimo\Controller\Adminhtml;
 abstract class Prices extends \Magento\Backend\App\Action
 {
 
-    const ADMIN_RESOURCE = 'LaPoste_Colissimo::top_level';
+    const ADMIN_RESOURCE = 'LaPoste_Colissimo::Prices';
     protected $_coreRegistry;
 
     /**
@@ -28,7 +28,7 @@ abstract class Prices extends \Magento\Backend\App\Action
      */
     public function initPage($resultPage)
     {
-        $resultPage->setActiveMenu(self::ADMIN_RESOURCE)
+        $resultPage->setActiveMenu('LaPoste_Colissimo::laposte_prices_entity')
                    ->addBreadcrumb(__('LaPoste'), __('LaPoste'))
                    ->addBreadcrumb(__('Prices'), __('Prices'));
 

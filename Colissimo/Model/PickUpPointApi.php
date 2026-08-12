@@ -19,18 +19,19 @@ class PickUpPointApi implements \LaPoste\Colissimo\Api\PickUpPointApi
 {
     const API_BASE_URL = 'https://ws.colissimo.fr/widget-colissimo/rest/';
 
-    protected $logger;
-
-    protected $helperData;
-
-    public $token;
+    public string $token = '';
+    protected Logger\Colissimo $logger;
+    protected Helper\Data $helperData;
+    protected AccountApi $accountApi;
 
     public function __construct(
         Helper\Data $helperData,
-        Logger\Colissimo $logger
+        Logger\Colissimo $logger,
+        AccountApi $accountApi
     ) {
         $this->helperData = $helperData;
         $this->logger = $logger;
+        $this->accountApi = $accountApi;
     }
 
     /**
@@ -75,7 +76,6 @@ class PickUpPointApi implements \LaPoste\Colissimo\Api\PickUpPointApi
                 'curl_errno' => $curlErrno,
                 'curl_error' => $curlError,
             ]);
-            curl_close($ch);
             throw new Exception\ApiException($curlError, $curlErrno);
         }
 
@@ -83,12 +83,10 @@ class PickUpPointApi implements \LaPoste\Colissimo\Api\PickUpPointApi
         switch ($returnStatus) {
             case 200:
                 $this->logger->debug(__METHOD__, ['response' => $response]);
-                curl_close($ch);
 
                 return json_decode($response);
 
             default:
-                curl_close($ch);
                 $this->logger->warning(__METHOD__, [
                     'returnStatus' => $returnStatus,
                 ]);
@@ -101,7 +99,7 @@ class PickUpPointApi implements \LaPoste\Colissimo\Api\PickUpPointApi
         $connectionMode = $this->helperData->getAdvancedConfigValue('lpc_general/connectionMode');
 
         $connectionData = [];
-        $parentAccount = $this->helperData->getAdvancedConfigValue('lpc_general/parent_id_webservices');
+        $parentAccount = $this->accountApi->getParentAccountId();
         if (!empty($parentAccount)) {
             $connectionData['partnerClientCode'] = $parentAccount;
         }

@@ -69,7 +69,7 @@ interface GenerateLabelPayload
      *
      * @return GenerateLabelPayload
      */
-    public function withProductCode($productCode);
+    public function withProductCode($productCode, $countryCode = null);
 
     /**
      * Associates parameter for the FTD
@@ -256,5 +256,5 @@ interface GenerateLabelPayload
      *
      * @return GenerateLabelPayload
      */
-    public function withPostalNetwork($countryCode, $productCode, $shippingMethod);
+    public function withPostalNetwork($countryCode, $productCode, $shippingMethod, $postCode);
 }

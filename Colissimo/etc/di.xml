@@ -24,6 +24,9 @@
     <preference
         for="LaPoste\Colissimo\Api\Carrier\OffersApi"
         type="\LaPoste\Colissimo\Model\Carrier\OffersApi"/>
+    <preference
+        for="LaPoste\Colissimo\Api\CotationApi"
+        type="LaPoste\Colissimo\Model\CotationApi"/>
 
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
         <arguments>

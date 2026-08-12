@@ -1,29 +1,25 @@
 <?php
-/*******************************************************
- * Copyright (C) 2018 La Poste.
- *
- * This file is part of La Poste - Colissimo module.
- *
- * La Poste - Colissimo module can not be copied and/or distributed without the express
- * permission of La Poste.
- *******************************************************/
 
 namespace LaPoste\Colissimo\Model\RelaysWebservice;
 
-use \LaPoste\Colissimo\Helper\Data;
+use LaPoste\Colissimo\Helper\Data;
+use LaPoste\Colissimo\Model\AccountApi;
 
 class GenerateRelaysPayload implements \LaPoste\Colissimo\Api\RelaysWebservice\GenerateRelaysPayload
 {
-    protected $payload;
+    protected array $payload;
+    protected Data $helperData;
+    protected AccountApi $accountApi;
 
-    protected $helperData;
-
-    public function __construct(Data $helperData)
-    {
+    public function __construct(
+        Data $helperData,
+        AccountApi $accountApi
+    ) {
         $this->payload = [
             'origin' => 'CMS',
         ];
         $this->helperData = $helperData;
+        $this->accountApi = $accountApi;
     }
 
     public function withCredentials()
@@ -36,7 +32,9 @@ class GenerateRelaysPayload implements \LaPoste\Colissimo\Api\RelaysWebservice\G
             $this->payload['password'] = $this->helperData->getAdvancedConfigValue('lpc_general/pwd_webservices');
         }
 
-        $parentAccountId = $this->helperData->getAdvancedConfigValue('lpc_general/parent_id_webservices');
+        //TODO doesn't work yet with new accounts
+        //$parentAccountId = $this->accountApi->getParentAccountId();
+        $parentAccountId = (string) $this->helperData->getAdvancedConfigValue('lpc_general/parent_id_webservices');
         if (!empty($parentAccountId)) {
             $this->payload['codTiersPourPartenaire'] = $parentAccountId;
         }
@@ -47,7 +45,7 @@ class GenerateRelaysPayload implements \LaPoste\Colissimo\Api\RelaysWebservice\G
     public function withAddress(array $address)
     {
         $this->payload['address'] = $address['address'];
-        $this->payload['zipCode'] = $address['zipCode'];
+        $this->payload['zipCode'] = preg_replace('#[^0-9a-zA-Z]#', '', $address['zipCode']);
         $this->payload['city'] = $address['city'];
         $this->payload['countryCode'] = $address['countryCode'];
 

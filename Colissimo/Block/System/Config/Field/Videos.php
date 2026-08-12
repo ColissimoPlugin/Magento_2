@@ -45,7 +45,7 @@ class Videos extends Field
             '1__ksj3hzLI' => __('Multi-parcels shipment'),
             'MLSEsosiBJk' => __('Multi-parcels shipment for overseas'),
             'Ud48ZbWWDHs' => __('Tracking parcels'),
-            'Aqtyubxztxc' => __('Delivery Duty Paid (DDP)'),
+            'Aqtyubxztxc' => __('Delivery Duty Paid'),
             'WWhFyU71PSw' => __('Customs documents'),
             'ONJVPDA01ls' => __('Delivery slip'),
             'JiEVjHuV3R4' => __('Parcels returnal'),

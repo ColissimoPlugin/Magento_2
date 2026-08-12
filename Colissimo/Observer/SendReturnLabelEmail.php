@@ -12,6 +12,7 @@ namespace LaPoste\Colissimo\Observer;
 
 
 use LaPoste\Colissimo\Helper\Data;
+use LaPoste\Colissimo\Helper\Pdf;
 use LaPoste\Colissimo\Logger\Colissimo;
 use LaPoste\Colissimo\Model\Mail\Template\TransportBuilder;
 use Magento\Framework\Event\Observer;
@@ -40,6 +41,10 @@ class SendReturnLabelEmail implements \Magento\Framework\Event\ObserverInterface
      * @var \Magento\Framework\Translate\Inline\StateInterface
      */
     protected $inlineTranslation;
+    /**
+     * @var \LaPoste\Colissimo\Helper\Pdf
+     */
+    protected $helperPdf;
 
     /**
      * SendReturnLabelEmail constructor.
@@ -48,19 +53,22 @@ class SendReturnLabelEmail implements \Magento\Framework\Event\ObserverInterface
      * @param \LaPoste\Colissimo\Model\Mail\Template\TransportBuilder    $transportBuilder
      * @param \Magento\Framework\Translate\Inline\StateInterface         $inlineTranslation
      * @param \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory
+     * @param \LaPoste\Colissimo\Helper\Pdf                              $helperPdf
      */
     public function __construct(
         Data $helperData,
         Colissimo $logger,
         StateInterface $inlineTranslation,
         TransportBuilder $transportBuilder,
-        CollectionFactory $orderCollectionFactory
+        CollectionFactory $orderCollectionFactory,
+        Pdf $helperPdf
     ) {
         $this->logger = $logger;
         $this->helperData = $helperData;
         $this->transportBuilder = $transportBuilder;
         $this->inlineTranslation = $inlineTranslation;
         $this->orderCollectionFactory = $orderCollectionFactory;
+        $this->helperPdf = $helperPdf;
     }
 
     /**
@@ -92,8 +100,8 @@ class SendReturnLabelEmail implements \Magento\Framework\Event\ObserverInterface
 
         // This seems to be necessary
         try {
-            $pdf = \Zend_Pdf::parse($label)->render();
-        } catch (\Zend_Pdf_Exception $e) {
+            $pdf = $this->helperPdf->combineLabelsPdf([$label]);
+        } catch (\Exception $e) {
             $this->logger->error('Error while sending return label email : ' . $e->getMessage());
 
             return;

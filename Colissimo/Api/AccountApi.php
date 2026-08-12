@@ -13,6 +13,14 @@ namespace LaPoste\Colissimo\Api;
 
 interface AccountApi
 {
+    public function getParentAccountId($storeId = null): string;
+
+    public function isNewAccount(): bool;
+
+    public function getAccountProvider(): string;
+
+    public function resetAccountProvider(): void;
+
     public function getAutologinURLs(): array;
 
     public function isCgvAccepted(): bool;

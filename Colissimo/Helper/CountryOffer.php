@@ -25,6 +25,9 @@ class CountryOffer extends AbstractHelper
     const DOM2_COUNTRIES_CODE = ['NC', 'PF', 'TF', 'WF'];
     const UNKNOWN_MG_COUNTRIES = ['BQ'];
     const COUNTRIES_FTD = ['GF', 'GP', 'MQ', 'RE'];
+    // The ECO Outre-Mer offer is limited to these destinations, shipping from mainland France or from these same territories
+    const ECO_OM_COUNTRIES_CODE = ['GF', 'GP', 'MQ', 'RE', 'YT'];
+    const ECO_OM_ORIGIN_COUNTRIES_CODE = ['FR', 'GF', 'GP', 'MQ', 'RE', 'YT'];
 
     //Some region have a specific country code that is not handle by Magento. The pattern is $countryCodeSpecificsDestinations['MagentoCountryCode']['startOfPostCode'] = "CustomLpcCountryCode"
     protected $countryCodeSpecificsDestinations = [
@@ -288,6 +291,13 @@ class CountryOffer extends AbstractHelper
             case Colissimo::CODE_SHIPPING_METHOD_EXPERT:
             case Colissimo::CODE_SHIPPING_METHOD_EXPERT_DDP:
                 return $productInfo[$methodCode] ? Colissimo::PRODUCT_CODE_WITH_SIGNATURE : false;
+            case Colissimo::CODE_SHIPPING_METHOD_ECO_OM:
+                if (empty($productInfo[$methodCode])
+                    || !in_array(strtoupper($originCountryId ?? ''), self::ECO_OM_ORIGIN_COUNTRIES_CODE)) {
+                    return false;
+                }
+
+                return Colissimo::PRODUCT_CODE_ECO_OM;
             case Colissimo::CODE_SHIPPING_METHOD_RELAY:
             default:
                 throw new \Exception('Shipping method not managed');

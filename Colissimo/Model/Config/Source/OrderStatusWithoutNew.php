@@ -37,7 +37,7 @@ class OrderStatusWithoutNew extends OrderStatus
         }
 
         foreach ($array as $key => $oneStatus) {
-            if (array_key_exists($oneStatus['value'], $this->newStateStatus)) {
+            if (!empty($oneStatus['value']) && array_key_exists($oneStatus['value'], $this->newStateStatus)) {
                 unset($array[$key]);
             }
         }

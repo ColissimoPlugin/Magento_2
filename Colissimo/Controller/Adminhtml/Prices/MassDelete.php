@@ -9,6 +9,8 @@ use LaPoste\Colissimo\Model\ResourceModel\Prices\CollectionFactory;
 
 class MassDelete extends \Magento\Backend\App\Action
 {
+    const ADMIN_RESOURCE = 'LaPoste_Colissimo::Prices_delete';
+
     /**
      * @var Filter
      */

@@ -18,6 +18,8 @@ use Magento\Framework\ObjectManagerInterface;
 
 class ImportAction extends Action
 {
+    const ADMIN_RESOURCE = 'LaPoste_Colissimo::Prices_update';
+
     const FILE_DELIMITER = ',';
 
     /**

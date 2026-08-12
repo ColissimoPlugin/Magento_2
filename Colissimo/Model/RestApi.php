@@ -11,9 +11,9 @@ abstract class RestApi
     const DATA_TYPE_JSON = 'json';
     const DATA_TYPE_URL = 'url';
     const DATA_TYPE_MULTIPART = 'multipart';
+
     /** @var bool|string */
     protected $lastResponse;
-
     protected $helperData;
     protected $logger;
 
@@ -91,14 +91,12 @@ abstract class RestApi
                     'curl_error' => $curlError,
                 ]
             );
-            curl_close($ch);
             throw new \Exception($curlError, $curlErrno);
         } else {
             $this->lastResponse = $response;
         }
 
         $returnStatus = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
-        curl_close($ch);
 
         return $this->parseResponse($returnStatus, $response, $throwError);
     }

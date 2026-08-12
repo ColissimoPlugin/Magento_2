@@ -101,7 +101,7 @@ class ReturnLabelGenerator
             }
         }
         $outputPdf = $this->helperPdf->combineLabelsPdf($labelsContent);
-        $shipment->setLpcReturnLabel($outputPdf->render());
+        $shipment->setLpcReturnLabel($outputPdf);
         $shipment->save();
         $carrierCode = $carrier->getCarrierCode();
         $carrierTitle = $this->scopeConfig->getValue(

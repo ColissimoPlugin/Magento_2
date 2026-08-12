@@ -135,7 +135,6 @@ class LabellingApi implements \LaPoste\Colissimo\Api\Carrier\LabellingApi
                 'curl_errno' => $curlErrno,
                 'curl_error' => $curlError,
             ]);
-            curl_close($ch);
             throw new Exception\ApiException($curlError, $curlErrno);
         }
 
@@ -196,8 +195,6 @@ class LabellingApi implements \LaPoste\Colissimo\Api\Carrier\LabellingApi
         $returnStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         switch ($returnStatus) {
             case 200:
-                curl_close($ch);
-
                 $parts = $this->parseMultipartBody($response);
 
                 if (!empty($parts['<jsonInfos>']) && !empty($parts['<label>'])) {
@@ -216,10 +213,7 @@ class LabellingApi implements \LaPoste\Colissimo\Api\Carrier\LabellingApi
                         Exception\ApiException::BAD_RESPONSE_FORMAT
                     );
                 }
-                break;
-
             default:
-                curl_close($ch);
                 $parts = $this->parseMultipartBody($response);
 
                 $body = empty($parts['<jsonInfos>']) ? 0 : json_decode($parts['<jsonInfos>']['body']);
@@ -260,7 +254,6 @@ class LabellingApi implements \LaPoste\Colissimo\Api\Carrier\LabellingApi
      */
     protected function handleCheckGenerateLabelResponse($ch, $response)
     {
-        curl_close($ch);
         $responseDecode = json_decode($response);
 
         if (isset($responseDecode->messages[0]) && isset($responseDecode->messages[0]->id) && isset($responseDecode->messages[0]->messageContent)) {
@@ -285,12 +278,10 @@ class LabellingApi implements \LaPoste\Colissimo\Api\Carrier\LabellingApi
         switch ($returnStatus) {
             case 200:
                 $this->logger->debug(__METHOD__, ['response' => $response]);
-                curl_close($ch);
 
                 return json_decode($response);
 
             default:
-                curl_close($ch);
                 $this->logger->warning(
                     __METHOD__,
                     [

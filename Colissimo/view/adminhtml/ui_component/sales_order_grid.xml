@@ -23,6 +23,13 @@
                     <label translate="true">Ship with: Colissimo Domicile with signature - DDP Option</label>
                 </settings>
             </action>
+            <action name="ship_with_ecoom">
+                <settings>
+                    <url path="laposte_colissimo/Orders/ChangeShipmentEcoom"/>
+                    <type>order_shipment_ecoom</type>
+                    <label translate="true">Ship with: Colissimo ECO Overseas</label>
+                </settings>
+            </action>
         </massaction>
     </listingToolbar>
 </listing>

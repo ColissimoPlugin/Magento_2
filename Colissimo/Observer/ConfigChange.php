@@ -2,6 +2,7 @@
 
 namespace LaPoste\Colissimo\Observer;
 
+use LaPoste\Colissimo\Model\AccountApi;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\App\RequestInterface;
@@ -13,31 +14,39 @@ class ConfigChange implements ObserverInterface
     private RequestInterface $request;
     private WriterInterface $configWriter;
     private Data $helperData;
+    private AccountApi $accountApi;
 
     /**
      * @param RequestInterface $request
      * @param WriterInterface  $configWriter
      * @param Data             $helperData
+     * @param AccountApi       $accountApi
      */
     public function __construct(
         RequestInterface $request,
         WriterInterface $configWriter,
-        Data $helperData
+        Data $helperData,
+        AccountApi $accountApi
     ) {
         $this->request = $request;
         $this->configWriter = $configWriter;
         $this->helperData = $helperData;
+        $this->accountApi = $accountApi;
     }
 
     public function execute(Observer $observer): ConfigChange
     {
         $submittedValues = $this->request->getParam('groups');
-        $connectionMode = $submittedValues['lpc_general']['fields']['connectionMode']['value'];
-        if ('api' === $connectionMode) {
+        $generalFields = $submittedValues['lpc_general']['fields'] ?? [];
+
+        $this->accountApi->resetAccountProvider();
+
+        $connectionMode = $generalFields['connectionMode']['value'] ?? null;
+        if ('api' === $connectionMode || !isset($generalFields['pwd_webservices']['value'])) {
             return $this;
         }
 
-        $newPassword = $submittedValues['lpc_general']['fields']['pwd_webservices']['value'];
+        $newPassword = $generalFields['pwd_webservices']['value'];
         $encodedNewPassword = base64_encode($newPassword);
 
         $markers = $this->helperData->getMarkers();

@@ -2653,6 +2653,43 @@
     ]
   },
   "OM1": {
+    "ecoom": [
+      {
+        "weight_min": 0,
+        "weight_max": 501,
+        "price": "8.41"
+      },
+      {
+        "weight_min": 501,
+        "weight_max": 1001,
+        "price": "11.73"
+      },
+      {
+        "weight_min": 1001,
+        "weight_max": 2001,
+        "price": "14.77"
+      },
+      {
+        "weight_min": 2001,
+        "weight_max": 5001,
+        "price": "24.80"
+      },
+      {
+        "weight_min": 5001,
+        "weight_max": 10001,
+        "price": "39.24"
+      },
+      {
+        "weight_min": 10001,
+        "weight_max": 15001,
+        "price": "79.42"
+      },
+      {
+        "weight_min": 15001,
+        "weight_max": 30001,
+        "price": "91.53"
+      }
+    ],
     "domiciless": [
       {
         "weight_min": 0,

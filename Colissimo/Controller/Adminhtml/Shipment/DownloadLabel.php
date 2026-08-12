@@ -115,9 +115,8 @@ class DownloadLabel extends Action
                 if (stripos($labelContent, '%PDF-') !== false) {
                     $pdfContent = $labelContent;
                 } else {
-                    $pdf = new \Zend_Pdf();
-                    $page = $this->helperPdf->createPdfPageFromImageString($labelContent);
-                    if (!$page) {
+                    $pdfContent = $this->helperPdf->imageStringToPdf($labelContent);
+                    if (!$pdfContent) {
                         $this->messageManager->addErrorMessage(
                             __(
                                 'We don\'t recognize or support the file extension in this shipment: %1.',
@@ -125,8 +124,6 @@ class DownloadLabel extends Action
                             )
                         );
                     }
-                    $pdf->pages[] = $page;
-                    $pdfContent = $pdf->render();
                 }
 
                 // Add invoices
@@ -168,7 +165,6 @@ class DownloadLabel extends Action
      * @param $shipment
      * @param $pdfContent
      * @return string
-     * @throws \Zend_Pdf_Exception
      */
     protected function addInvoiceToLabel($shipment, $pdfContent)
     {
@@ -183,7 +179,7 @@ class DownloadLabel extends Action
         }
 
         try {
-            $newPdfContent = $this->helperPdf->combineLabelsPdf($pdfLabels)->render();
+            $newPdfContent = $this->helperPdf->combineLabelsPdf($pdfLabels);
         } catch (\Exception $e) {
             $this->logger->warning($e->getMessage());
             $newPdfContent = $pdfContent;

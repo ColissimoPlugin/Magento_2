@@ -32,7 +32,7 @@ class TruncateLogs extends Command
         parent::configure();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
             $this->cronTruncate->execute();
@@ -40,5 +40,7 @@ class TruncateLogs extends Command
         } catch (\Exception $exc) {
             $output->writeln($exc->getMessage());
         }
+
+        return 0;
     }
 }

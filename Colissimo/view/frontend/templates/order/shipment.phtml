@@ -1,0 +1,19 @@
+<?php
+/**
+ * Overrides Magento_Shipping::order/shipment.phtml to display the Colissimo delivery
+ * date estimate inside the shipments box, next to the tracking information.
+ *
+ * @var \Magento\Shipping\Block\Order\Shipment $block
+ */
+?>
+<div class="order-details-items shipments">
+    <?= $block->getChildHtml('lpc.order.delivery.date') ?>
+    <?= $block->getChildHtml('shipment_items') ?>
+    <div class="actions-toolbar">
+        <div class="secondary">
+            <a href="<?= $block->escapeUrl($block->getBackUrl()) ?>" class="action back">
+                <span><?= $block->escapeHtml($block->getBackTitle()) ?></span>
+            </a>
+        </div>
+    </div>
+</div>

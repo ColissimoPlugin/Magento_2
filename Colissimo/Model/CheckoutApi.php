@@ -12,18 +12,19 @@ class CheckoutApi extends RestApi implements \LaPoste\Colissimo\Api\CheckoutApi
     const MAX_NB_TRIES_SCHEDULE = 14;
     const SECONDS_IN_A_DAY = 86400;
 
-    protected $logger;
-    protected $helperData;
-    protected $escaper;
+    protected Escaper $escaper;
+    private AccountApi $accountApi;
 
     public function __construct(
         Data $helperData,
         Colissimo $logger,
-        Escaper $escaper
+        Escaper $escaper,
+        AccountApi $accountApi
     ) {
         $this->helperData = $helperData;
         $this->logger = $logger;
         $this->escaper = $escaper;
+        $this->accountApi = $accountApi;
     }
 
     protected function getApiUrl($action)
@@ -47,7 +48,7 @@ class CheckoutApi extends RestApi implements \LaPoste\Colissimo\Api\CheckoutApi
             $params['credentials']['password'] = $this->helperData->getAdvancedConfigValue('lpc_general/pwd_webservices');
         }
 
-        $parentAccountId = $this->helperData->getAdvancedConfigValue('lpc_general/parent_id_webservices');
+        $parentAccountId = $this->accountApi->getParentAccountId();
         if (!empty($parentAccountId)) {
             $params['credentials']['partnerClientCode'] = $parentAccountId;
         }
@@ -65,9 +66,26 @@ class CheckoutApi extends RestApi implements \LaPoste\Colissimo\Api\CheckoutApi
 
     public function getDeliveryDate(string $postCode): ?string
     {
+        $deliveryDate = $this->fetchDeliveryDate($postCode);
+
+        return null !== $deliveryDate ? $this->formatDeliveryDate($deliveryDate) : null;
+    }
+
+    public function getDeliveryDatePlain(string $postCode, ?string $depositDate = null): ?string
+    {
+        $deliveryDate = $this->fetchDeliveryDate($postCode, $depositDate);
+
+        return null !== $deliveryDate ? $this->getFormattedDate($deliveryDate) : null;
+    }
+
+    /**
+     * Query the Colissimo API and return the raw delivery date (d/m/Y), or null on failure.
+     */
+    private function fetchDeliveryDate(string $postCode, ?string $depositDate = null): ?string
+    {
         $payload['data']['zipCodeDest'] = $postCode;
         $payload['data']['regateDepart'] = $this->helperData->getAdvancedConfigValue('lpc_checkout/deliveryDateDepositLocation');
-        $payload['data']['depositDate'] = $this->getDepositDate();
+        $payload['data']['depositDate'] = $depositDate ?? $this->getDepositDate();
 
         if (empty($payload['data']['depositDate'])) {
             return null;
@@ -107,7 +125,7 @@ class CheckoutApi extends RestApi implements \LaPoste\Colissimo\Api\CheckoutApi
             ]
         );
 
-        return !empty($response['deliveryDate']) ? $this->formatDeliveryDate($response['deliveryDate']) : null;
+        return !empty($response['deliveryDate']) ? $response['deliveryDate'] : null;
     }
 
     private function getDepositDate(): ?string
@@ -179,16 +197,11 @@ class CheckoutApi extends RestApi implements \LaPoste\Colissimo\Api\CheckoutApi
         return null;
     }
 
-    private function formatDeliveryDate(string $deliveryDate): ?string
+    private function getFormattedDate(string $deliveryDate): ?string
     {
         $dateTime = \DateTime::createFromFormat('d/m/Y', $deliveryDate);
         if (!$dateTime) {
             return null;
-        }
-
-        $text = $this->helperData->getAdvancedConfigValue('lpc_checkout/deliveryDateText');
-        if (empty($text) || strpos($text, '{date}') === false) {
-            $text = __('Delivery expected on {date}');
         }
 
         $format = $this->helperData->getAdvancedConfigValue('lpc_checkout/deliveryDateFormat');
@@ -211,7 +224,21 @@ class CheckoutApi extends RestApi implements \LaPoste\Colissimo\Api\CheckoutApi
         }
 
         $timestamp = $dateTime->getTimestamp();
-        $date = $this->helperData->translateDate(date($dateFormat, $timestamp));
+
+        return $this->helperData->translateDate(date($dateFormat, $timestamp));
+    }
+
+    private function formatDeliveryDate(string $deliveryDate): ?string
+    {
+        $date = $this->getFormattedDate($deliveryDate);
+        if (null === $date) {
+            return null;
+        }
+
+        $text = $this->helperData->getAdvancedConfigValue('lpc_checkout/deliveryDateText');
+        if (empty($text) || strpos($text, '{date}') === false) {
+            $text = __('Delivery expected on {date}');
+        }
 
         $styles = '';
         $textColor = $this->helperData->getAdvancedConfigValue('lpc_checkout/deliveryDateColor');

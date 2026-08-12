@@ -219,7 +219,7 @@ class MassPrintLabels extends Action
 
         $this->tmpDirectory->create(PurgeLabelFolder::FOLDER_PATH);
         if (!$this->tmpDirectory->isExist($filePath)) {
-            $this->tmpDirectory->writeFile($filePath, $pdfFile->render());
+            $this->tmpDirectory->writeFile($filePath, $pdfFile);
         }
 
         return $this->tmpDirectory->getRelativePath($filePath);

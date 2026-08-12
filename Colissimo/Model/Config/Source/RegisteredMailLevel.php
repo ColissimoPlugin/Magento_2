@@ -23,7 +23,7 @@ class RegisteredMailLevel implements \Magento\Framework\Option\ArrayInterface
     public function toOptionArray()
     {
         return [
-            ['value' => null, 'label' => __('(none)')],
+            ['value' => null, 'label' => __('None')],
             ['value' => 'R1', 'label' => 'R1'],
             ['value' => 'R2', 'label' => 'R2'],
             ['value' => 'R3', 'label' => 'R3'],
@@ -38,7 +38,7 @@ class RegisteredMailLevel implements \Magento\Framework\Option\ArrayInterface
     public function toArray()
     {
         return [
-            null => __('(none)'),
+            '' => __('(none)'),
             'R1' => 'R1',
             'R2' => 'R2',
             'R3' => 'R3',

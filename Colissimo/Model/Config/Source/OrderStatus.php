@@ -32,7 +32,10 @@ class OrderStatus implements \Magento\Framework\Data\OptionSourceInterface
     {
         $result = $this->statusCollectionFactory->create()->toOptionArray();
         $emptyValue = [
-            ['value' => null, 'label' => __('no change')],
+            [
+                'value' => null,
+                'label' => __('no change'),
+            ],
         ];
 
         return array_merge($emptyValue, $result);

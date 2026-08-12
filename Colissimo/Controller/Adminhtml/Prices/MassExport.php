@@ -15,6 +15,8 @@ use LaPoste\Colissimo\Api\Data\PricesInterface;
 
 class MassExport extends Action
 {
+    const ADMIN_RESOURCE = 'LaPoste_Colissimo::Prices_view';
+
     /**
      * @var Filter
      */

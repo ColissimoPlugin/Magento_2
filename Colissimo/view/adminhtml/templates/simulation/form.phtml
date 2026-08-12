@@ -1,0 +1,172 @@
+<?php
+/**
+ * @var \LaPoste\Colissimo\Block\Adminhtml\Simulation\Form $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+$countries = $block->getCountriesOptions();
+$originCountry = $block->getOriginCountry();
+$originPostcode = $block->getOriginPostcode();
+?>
+<div id="lpc_simulation" class="lpc-simulation">
+    <form id="lpc_simulation_form" class="admin__scope-old">
+        <div class="lpc-simulation-columns">
+            <fieldset class="admin__fieldset">
+                <legend class="admin__legend legend">
+                    <span><?= $escaper->escapeHtml(__('Sender')) ?></span>
+                </legend>
+
+                <div class="admin__field field">
+                    <label class="admin__field-label" for="codePaysExpediteur">
+                        <span><?= $escaper->escapeHtml(__('Country')) ?></span>
+                    </label>
+                    <div class="admin__field-control control">
+                        <select class="admin__control-select" id="codePaysExpediteur" name="codePaysExpediteur">
+                            <?php foreach ($countries as $country): ?>
+                                <?php if ('' === (string) $country['value']) { continue; } ?>
+                                <option value="<?= $escaper->escapeHtmlAttr($country['value']) ?>"
+                                    <?= $originCountry === $country['value'] ? 'selected="selected"' : '' ?>>
+                                    <?= $escaper->escapeHtml($country['label']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="admin__field field">
+                    <label class="admin__field-label" for="codePostalExpediteur">
+                        <span><?= $escaper->escapeHtml(__('Zipcode')) ?></span>
+                    </label>
+                    <div class="admin__field-control control">
+                        <input class="admin__control-text" type="text" id="codePostalExpediteur"
+                               name="codePostalExpediteur" value="<?= $escaper->escapeHtmlAttr($originPostcode) ?>"/>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset class="admin__fieldset">
+                <legend class="admin__legend legend">
+                    <span><?= $escaper->escapeHtml(__('Addressee')) ?></span>
+                </legend>
+
+                <div class="admin__field field">
+                    <label class="admin__field-label" for="codePaysDestinataire">
+                        <span><?= $escaper->escapeHtml(__('Country')) ?></span>
+                    </label>
+                    <div class="admin__field-control control">
+                        <select class="admin__control-select" id="codePaysDestinataire" name="codePaysDestinataire">
+                            <?php foreach ($countries as $country): ?>
+                                <?php if ('' === (string) $country['value']) { continue; } ?>
+                                <option value="<?= $escaper->escapeHtmlAttr($country['value']) ?>"
+                                    <?= 'FR' === $country['value'] ? 'selected="selected"' : '' ?>>
+                                    <?= $escaper->escapeHtml($country['label']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="admin__field field">
+                    <label class="admin__field-label" for="codePostalDestinataire">
+                        <span><?= $escaper->escapeHtml(__('Zipcode')) ?></span>
+                    </label>
+                    <div class="admin__field-control control">
+                        <input class="admin__control-text" type="text" id="codePostalDestinataire"
+                               name="codePostalDestinataire" value=""/>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+        <div class="lpc-simulation-columns">
+            <fieldset class="admin__fieldset">
+                <legend class="admin__legend legend">
+                    <span><?= $escaper->escapeHtml(__('Shipping method')) ?></span>
+                </legend>
+
+                <div class="admin__field field">
+                    <label class="admin__field-label" for="deliveryMode">
+                        <span><?= $escaper->escapeHtml(__('Delivery mode')) ?></span>
+                    </label>
+                    <div class="admin__field-control control">
+                        <select class="admin__control-select" id="deliveryMode" name="deliveryMode">
+                            <?php foreach ($block->getDeliveryModeOptions() as $option): ?>
+                                <option value="<?= $escaper->escapeHtmlAttr($option['value']) ?>">
+                                    <?= $escaper->escapeHtml($option['label']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="admin__field field">
+                    <label class="admin__field-label" for="typeTarif">
+                        <span><?= $escaper->escapeHtml(__('Tariff type')) ?></span>
+                    </label>
+                    <div class="admin__field-control control">
+                        <select class="admin__control-select" id="typeTarif" name="typeTarif">
+                            <?php foreach ($block->getTariffTypeOptions() as $option): ?>
+                                <option value="<?= $escaper->escapeHtmlAttr($option['value']) ?>">
+                                    <?= $escaper->escapeHtml($option['label']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset class="admin__fieldset">
+                <legend class="admin__legend legend">
+                    <span><?= $escaper->escapeHtml(__('Parcel')) ?></span>
+                </legend>
+
+                <div class="admin__field field">
+                    <label class="admin__field-label" for="poids">
+                        <span><?= $escaper->escapeHtml(__('Weight (kg)')) ?></span>
+                    </label>
+                    <div class="admin__field-control control">
+                        <input class="admin__control-text" type="number" step="0.001" min="0"
+                               id="poids" name="poids" value="1"/>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+        <fieldset class="admin__fieldset lpc-simulation-options-fieldset">
+            <legend class="admin__legend legend">
+                <span><?= $escaper->escapeHtml(__('Rate options')) ?></span>
+            </legend>
+
+            <div id="lpc_simulation_options"></div>
+
+            <div class="admin__field field">
+                <div class="admin__field-control control">
+                    <button type="button" id="lpc_simulation_add_option" class="action-secondary">
+                        <span><?= $escaper->escapeHtml(__('Add an option')) ?></span>
+                    </button>
+                </div>
+            </div>
+        </fieldset>
+
+        <div class="admin__field field">
+            <div class="admin__field-control control">
+                <button type="submit" id="lpc_simulation_submit" class="action-primary">
+                    <span><?= $escaper->escapeHtml(__('Simulate price')) ?></span>
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <div id="lpc_simulation_result" class="lpc-simulation-result" style="display:none;"></div>
+</div>
+
+<script type="text/x-magento-init">
+{
+    "#lpc_simulation": {
+        "LaPoste_Colissimo/js/simulation": {
+            "calculateUrl": "<?= $escaper->escapeJs($block->getCalculateUrl()) ?>",
+            "optionCodes": <?= /* @noEscape */ json_encode($block->getOptionCodes()) ?>,
+            "optionValueTypes": <?= /* @noEscape */ json_encode($block->getOptionValueTypes()) ?>
+        }
+    }
+}
+</script>

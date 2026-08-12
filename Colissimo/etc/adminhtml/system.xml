@@ -178,6 +178,25 @@
                         <field id="carriers/lpc_group/pr_enable">1</field>
                     </depends>
                 </field>
+                <field id="ecoom_enable" translate="label comment" type="select" sortOrder="56" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Colissimo ECO Overseas</label>
+                    <comment>This offer is only available for shipments to Guadeloupe, French Guiana, Reunion Island, Martinique and Mayotte, shipped from mainland France. Make sure this offer is enabled on your Colissimo account before activating it. Indicative delivery times: D+21 for Guadeloupe and Martinique, D+29 for French Guiana, D+31 for Reunion Island, D+48 for Mayotte.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="ecoom_label" translate="label" type="text" sortOrder="57" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Name</label>
+                    <depends>
+                        <field id="carriers/lpc_group/ecoom_enable">1</field>
+                    </depends>
+                </field>
+                <field id="ecoom_free" translate="label comment" type="select" sortOrder="58" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Free shipping</label>
+                    <comment>Should the shipping method be free</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="carriers/lpc_group/ecoom_enable">1</field>
+                    </depends>
+                </field>
                 <field id="expert_enable" translate="label comment" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Colissimo International (Deprecated)</label>
                     <comment>Enable the Colissimo International mode</comment>
@@ -251,14 +270,21 @@
                     </depends>
                     <validate>required-entry</validate>
                 </field>
-                <field id="api_key" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="4" translate="label" type="password">
+                <field id="account_id" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="4" translate="label" type="text">
+                    <label>Your Colissimo account User Name</label>
+                    <depends>
+                        <field id="connectionMode">api</field>
+                    </depends>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="api_key" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="5" translate="label" type="password">
                     <label>Web services application key</label>
                     <depends>
                         <field id="connectionMode">api</field>
                     </depends>
                     <validate>required-entry</validate>
                 </field>
-                <field id="parent_id_webservices" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="5" translate="label" type="text">
+                <field id="parent_id_webservices" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="6" translate="label comment" type="text">
                     <label>Parent account user name</label>
                     <comment>The User Name of the parent account, if you are using an advanced Colissimo user or to add customs documents.</comment>
                 </field>
@@ -267,15 +293,15 @@
                     <label>User Name validation</label>
                     <comment>Check that IDs are valid.</comment>
                 </field>-->
-                <field id="coliship_link" translate="label comment" type="label" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="coliship_link" translate="label comment" type="label" sortOrder="7" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label></label>
                     <frontend_model>LaPoste\Colissimo\Block\System\Config\ColishipLink</frontend_model>
                 </field>
-                <field id="account_information" translate="label comment" type="label" sortOrder="6" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="account_information" translate="label comment" type="label" sortOrder="8" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Your contract information</label>
                     <frontend_model>LaPoste\Colissimo\Block\System\Config\AccountInformation</frontend_model>
                 </field>
-                <field id="cgv" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="7" translate="label comment" type="text">
+                <field id="cgv" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="9" translate="label comment" type="text">
                     <label></label>
                     <frontend_model>LaPoste\Colissimo\Block\System\Config\Cgv</frontend_model>
                 </field>
@@ -292,7 +318,14 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>Choose to add the expected delivery date below the method name in the checkout.</comment>
                 </field>
-                <field id="deliveryDateDepositLocation" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="3" translate="label comment" type="select">
+                <field id="displayDeliveryDateOrderConfirm" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="3" translate="label" type="select">
+                    <label>Display the expected delivery date on the order confirmation page</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="lpc_advanced/lpc_checkout/displayDeliveryDate">1</field>
+                    </depends>
+                </field>
+                <field id="deliveryDateDepositLocation" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="4" translate="label comment" type="select">
                     <label>Deposit location</label>
                     <source_model>LaPoste\Colissimo\Model\Config\Source\DepositLocation</source_model>
                     <comment>Select the location used to deposit your parcels.</comment>
@@ -300,21 +333,21 @@
                         <field id="lpc_advanced/lpc_checkout/displayDeliveryDate">1</field>
                     </depends>
                 </field>
-                <field id="deliveryDateCuttoffTimes" type="text" sortOrder="4" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="deliveryDateCuttoffTimes" type="text" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Cut Off hours</label>
                     <frontend_model>LaPoste\Colissimo\Block\System\Config\Field\CuttOff</frontend_model>
                     <depends>
                         <field id="lpc_advanced/lpc_checkout/displayDeliveryDate">1</field>
                     </depends>
                 </field>
-                <field id="deliveryDateFormat" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="5" translate="label comment" type="select">
+                <field id="deliveryDateFormat" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="6" translate="label comment" type="select">
                     <label>Date format</label>
                     <source_model>LaPoste\Colissimo\Model\Config\Source\DateFormat</source_model>
                     <depends>
                         <field id="lpc_advanced/lpc_checkout/displayDeliveryDate">1</field>
                     </depends>
                 </field>
-                <field id="deliveryDateText" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="6" translate="label comment" type="text">
+                <field id="deliveryDateText" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="7" translate="label comment" type="text">
                     <label>Text to display</label>
                     <frontend_model>LaPoste\Colissimo\Block\System\Config\Field\DateText</frontend_model>
                     <comment>Please include {date} in your text where the date should be shown.</comment>
@@ -322,21 +355,21 @@
                         <field id="lpc_advanced/lpc_checkout/displayDeliveryDate">1</field>
                     </depends>
                 </field>
-                <field id="deliveryDateColor" translate="label" sortOrder="7" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="deliveryDateColor" translate="label" sortOrder="8" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Text color</label>
                     <frontend_model>LaPoste\Colissimo\Block\System\Config\ColorPicker</frontend_model>
                     <depends>
                         <field id="lpc_advanced/lpc_checkout/displayDeliveryDate">1</field>
                     </depends>
                 </field>
-                <field id="deliveryDateFont" translate="label comment" sortOrder="8" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="deliveryDateFont" translate="label comment" sortOrder="9" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Text font</label>
                     <source_model>LaPoste\Colissimo\Model\Config\Source\SelectFont</source_model>
                     <depends>
                         <field id="lpc_advanced/lpc_checkout/displayDeliveryDate">1</field>
                     </depends>
                 </field>
-                <field id="deliveryDateSize" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="9" translate="label comment" type="select">
+                <field id="deliveryDateSize" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label comment" type="select">
                     <label>Text size</label>
                     <source_model>LaPoste\Colissimo\Model\Config\Source\Size</source_model>
                     <depends>

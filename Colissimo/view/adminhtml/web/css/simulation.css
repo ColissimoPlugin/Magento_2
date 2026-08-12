@@ -1,0 +1,121 @@
+/* The admin "old scope" legend is floated, which pushes any following content
+   beside it. Force it to a full-width block so fields always stack below it. */
+.lpc-simulation .admin__legend{
+    float: none;
+    width: 100%;
+    clear: both;
+}
+
+.lpc-simulation-columns{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 0 30px;
+    margin-bottom: 10px;
+}
+
+.lpc-simulation-columns > .admin__fieldset{
+    min-width: 0;
+}
+
+/* Stack label above control so fields fit any column width. */
+.lpc-simulation .admin__field-label{
+    float: none;
+    width: auto;
+    text-align: left;
+    padding: 0 0 6px;
+}
+
+.lpc-simulation .admin__field-control{
+    width: 100%;
+    margin-left: 0;
+}
+
+.lpc-simulation .admin__control-text,
+.lpc-simulation .admin__control-select{
+    width: 100%;
+    max-width: 100%;
+}
+
+.lpc-simulation-options-fieldset{
+    clear: both;
+}
+
+.lpc-simulation #lpc_simulation_options{
+    clear: both;
+    width: 100%;
+}
+
+.lpc-simulation .lpc-option-row{
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.lpc-simulation .lpc-option-controls{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.lpc-simulation .lpc-option-controls .lpc-option-remove{
+    flex: 0 0 auto;
+    order: 1;
+}
+
+.lpc-simulation .lpc-option-controls .lpc-option-code{
+    flex: 0 1 260px;
+    width: auto;
+    min-width: 0;
+    order: 2;
+}
+
+.lpc-simulation .lpc-option-controls .lpc-option-value{
+    flex: 1 1 200px;
+    min-width: 0;
+    order: 3;
+    max-width: 150px;
+}
+
+.lpc-simulation .lpc-option-controls .lpc-option-value .admin__control-text,
+.lpc-simulation .lpc-option-controls .lpc-option-value .admin__control-select{
+    width: 100%;
+    min-width: 0;
+}
+
+/* Boolean options render only a hidden input: collapse the empty value slot. */
+.lpc-simulation .lpc-option-controls .lpc-option-value--hidden{
+    flex: 0 0 0;
+}
+
+.lpc-simulation-result{
+    margin-top: 25px;
+    max-width: 640px;
+}
+
+.lpc-simulation-table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.lpc-simulation-table th,
+.lpc-simulation-table td{
+    padding: 8px 12px;
+    border-bottom: 1px solid #e3e3e3;
+    text-align: left;
+}
+
+.lpc-simulation-table td{
+    text-align: right;
+}
+
+.lpc-simulation-table .lpc-simulation-total th,
+.lpc-simulation-table .lpc-simulation-total td{
+    font-weight: 700;
+    font-size: 1.4rem;
+    border-top: 2px solid #adadad;
+}
+
+.lpc-simulation-loading{
+    font-style: italic;
+    color: #555;
+}

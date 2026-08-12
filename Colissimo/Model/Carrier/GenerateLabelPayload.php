@@ -29,11 +29,14 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
     const MAX_INSURANCE_AMOUNT_RELAY = 1000;
     const FORCED_ORIGINAL_IDENT = 'A';
     const RETURN_LABEL_LETTER_MARK = 'R';
+    const RETURN_TYPE_CHOICE_RETURN = 2;
     const RETURN_TYPE_CHOICE_NO_RETURN = 3;
 
     const FR_COUNTRY_CODE = 'FR';
     const US_COUNTRY_CODE = 'US';
     const GB_COUNTRY_CODE = 'GB';
+    const ES_COUNTRY_CODE = 'ES';
+    const SPECIAL_ES_POSTCODE = [35, 38, 51, 52];
     const COUNTRIES_NEEDING_STATE = ['CA', self::US_COUNTRY_CODE];
     const COUNTRIES_WITH_PARTNER_SHIPPING = ['AT', 'BE', 'DE', 'DK', 'EE', 'ES', 'FI', 'IT', 'LU', 'NL', 'PL'];
 
@@ -218,7 +221,7 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
             }
         }
 
-        $parentAccountId = $this->helperData->getAdvancedConfigValue('lpc_general/parent_id_webservices', $storeId);
+        $parentAccountId = $this->accountApi->getParentAccountId($storeId);
         if (!empty($parentAccountId)) {
             $this->payload['fields']['field'][] = [
                 'key'   => 'ACCOUNT_NUMBER',
@@ -262,19 +265,9 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
                     );
             }
 
-            if ($this->helperData->getConfigValue(
-                'lpc_advanced/lpc_return_labels/showOrderRef',
-                $storeId
-            )) {
-                if (!empty($orderRef)) {
-                    $this->payload['letter']['addressee']['codeBarForReference'] = "true";
-                    $this->payload['letter']['addressee']['addresseeParcelRef'] = $orderRef;
-                } else {
-                    $this->logger->error(
-                        'Unknown orderRef',
-                        ['given' => $orderRef]
-                    );
-                }
+            if ($this->helperData->getAdvancedConfigValue('lpc_return_labels/showOrderRef', $storeId) && !empty($orderRef) && strlen($orderRef) <= 15) {
+                $this->payload['letter']['addressee']['codeBarForReference'] = "true";
+                $this->payload['letter']['addressee']['addresseeParcelRef'] = $orderRef;
             }
 
             $this->payload['letter']['addressee']['address']['mobileNumber'] = $addressee['mobileNumber'] ?? '';
@@ -311,7 +304,7 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
     }
 
 
-    public function withProductCode($productCode)
+    public function withProductCode($productCode, $countryCode = null)
     {
         if (!in_array($productCode, Colissimo::ALL_PRODUCT_CODES, true)) {
             $this->logger->error(
@@ -326,7 +319,11 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
 
         $this->payload['letter']['service']['productCode'] = $productCode;
 
-        $this->payload['letter']['service']['returnTypeChoice'] = self::RETURN_TYPE_CHOICE_NO_RETURN;
+        if ($countryCode === self::US_COUNTRY_CODE) {
+            $this->payload['letter']['service']['returnTypeChoice'] = self::RETURN_TYPE_CHOICE_RETURN;
+        } else {
+            $this->payload['letter']['service']['returnTypeChoice'] = self::RETURN_TYPE_CHOICE_NO_RETURN;
+        }
 
         return $this;
     }
@@ -379,11 +376,6 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
         $delay = (int) $delay;
         if ($delay > 0) {
             $depositDate->add(new \DateInterval("P{$delay}D"));
-        } else {
-            $this->logger->warning(
-                'Preparation delay was not applied because it was negative or zero!',
-                ['given' => $delay]
-            );
         }
 
         return $this->withDepositDate($depositDate);
@@ -1210,11 +1202,21 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
         return $payloadWithoutPass;
     }
 
-    public function withPostalNetwork($countryCode, $productCode, $shippingMethod)
+    public function withPostalNetwork($countryCode, $productCode, $shippingMethod, $postCode)
     {
+        // Get correct country code for specific destination (Canary Island...)
+        if ($this->countryOfferHelper->getMagentoCountryCodeFromSpecificDestination($countryCode) !== false) {
+            $countryCode = $this->countryOfferHelper->getMagentoCountryCodeFromSpecificDestination($countryCode);
+        }
+
         if (in_array($countryCode, self::COUNTRIES_WITH_PARTNER_SHIPPING) && Colissimo::PRODUCT_CODE_WITH_SIGNATURE === $productCode) {
-            $network = $this->helperData->getConfigValue('carriers/lpc_group/domicileas_sendingservice_' . $countryCode);
-            $this->payload['letter']['service']['reseauPostal'] = 'partner' === $network ? 1 : 0;
+            $shortPostCode = substr($postCode, 0, 2);
+            if (self::ES_COUNTRY_CODE === $countryCode && in_array($shortPostCode, self::SPECIAL_ES_POSTCODE)) {
+                $this->payload['letter']['service']['reseauPostal'] = 1;
+            } else {
+                $network = $this->helperData->getConfigValue('carriers/lpc_group/domicileas_sendingservice_' . $countryCode);
+                $this->payload['letter']['service']['reseauPostal'] = 'partner' === $network ? 1 : 0;
+            }
         }
 
         return $this;
@@ -1317,6 +1319,11 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
             return $this;
         }
 
+        // Only France to France
+        if (self::FR_COUNTRY_CODE !== $destinationCountryId || self::FR_COUNTRY_CODE !== $originCountryId) {
+            return $this;
+        }
+
         $hazardousMaterials = [];
         $totalHazardousQuantity = 0;
 
@@ -1352,13 +1359,6 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
 
         if (empty($hazardousMaterials)) {
             return $this;
-        }
-
-        // Only France to France
-        if (self::FR_COUNTRY_CODE !== $destinationCountryId || self::FR_COUNTRY_CODE !== $originCountryId) {
-            throw new \Exception(
-                __('Hazardous materials are not allowed outside France.')
-            );
         }
 
         if ($this->getIsReturnLabel()) {

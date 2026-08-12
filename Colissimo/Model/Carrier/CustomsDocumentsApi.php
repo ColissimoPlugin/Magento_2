@@ -3,11 +3,26 @@
 namespace LaPoste\Colissimo\Model\Carrier;
 
 
+use LaPoste\Colissimo\Helper\Data;
+use LaPoste\Colissimo\Logger;
+use LaPoste\Colissimo\Model\AccountApi;
 use LaPoste\Colissimo\Model\RestApi;
 
 class CustomsDocumentsApi extends RestApi implements \LaPoste\Colissimo\Api\Carrier\CustomsDocumentsApi
 {
     const API_BASE_URL = 'https://ws.colissimo.fr/api-document/rest/';
+
+    protected AccountApi $accountApi;
+
+    public function __construct(
+        Data $helperData,
+        Logger\Colissimo $logger,
+        AccountApi $accountApi
+    ) {
+        parent::__construct($helperData, $logger);
+
+        $this->accountApi = $accountApi;
+    }
 
     protected function getApiUrl($action)
     {
@@ -16,7 +31,7 @@ class CustomsDocumentsApi extends RestApi implements \LaPoste\Colissimo\Api\Carr
 
     public function storeDocument($documentType, $parcelNumber, $document, $documentName)
     {
-        $accountNumber = $this->helperData->getAdvancedConfigValue('lpc_general/parent_id_webservices');
+        $accountNumber = $this->accountApi->getParentAccountId();
         if ('api' === $this->helperData->getAdvancedConfigValue('lpc_general/connectionMode')) {
             $apiKey = $this->helperData->getAdvancedConfigValue('lpc_general/api_key');
             $credentials = ['apiKey: ' . $apiKey];

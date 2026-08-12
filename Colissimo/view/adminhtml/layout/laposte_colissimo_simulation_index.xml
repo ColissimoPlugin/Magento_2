@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="LaPoste_Colissimo::css/simulation.css"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block name="lpc.simulation.form"
+                   class="LaPoste\Colissimo\Block\Adminhtml\Simulation\Form"
+                   template="LaPoste_Colissimo::simulation/form.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

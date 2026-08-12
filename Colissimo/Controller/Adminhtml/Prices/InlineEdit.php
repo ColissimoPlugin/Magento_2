@@ -4,6 +4,7 @@ namespace LaPoste\Colissimo\Controller\Adminhtml\Prices;
 
 class InlineEdit extends \Magento\Backend\App\Action
 {
+    const ADMIN_RESOURCE = 'LaPoste_Colissimo::Prices_save';
 
     protected $jsonFactory;
 

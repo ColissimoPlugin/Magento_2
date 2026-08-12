@@ -58,6 +58,7 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
     const CODE_SHIPPING_METHOD_DOMICILE_AS_DDP = 'domicileasddp';
     const CODE_SHIPPING_METHOD_EXPERT = 'expert';
     const CODE_SHIPPING_METHOD_EXPERT_DDP = 'expertddp';
+    const CODE_SHIPPING_METHOD_ECO_OM = 'ecoom';
     const URL_SUIVI_COLISSIMO = "https://www.laposte.fr/outils/suivre-vos-envois?code={lpc_tracking_number}";
     const AUTOMATIC_LABEL_GENERATION = 'colissimo_automatic_label_generation';
 
@@ -68,6 +69,7 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
         self::CODE_SHIPPING_METHOD_RELAY           => 'Colissimo Point Retrait',
         self::CODE_SHIPPING_METHOD_EXPERT          => 'Colissimo International',
         self::CODE_SHIPPING_METHOD_EXPERT_DDP      => 'Colissimo International - DDP Option',
+        self::CODE_SHIPPING_METHOD_ECO_OM          => 'Colissimo ECO Overseas',
     ];
 
     const COUNTRIES_DDP = ['BH', 'CA', 'CN', 'EG', 'GB', 'HK', 'ID', 'JP', 'KW', 'MX', 'OM', 'PH', 'SA', 'SG', 'ZA', 'KR', 'CH', 'TH', 'AE', 'US'];
@@ -86,6 +88,7 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
     public const PRODUCT_CODE_WITH_SIGNATURE_INTRA_DOM = 'COL';
     public const PRODUCT_CODE_RETURN_FRANCE = 'CORE';
     public const PRODUCT_CODE_RETURN_INT = 'CORI';
+    public const PRODUCT_CODE_ECO_OM = 'ECO';
 
     public const ALL_PRODUCT_CODES = [
         self::PRODUCT_CODE_WITH_SIGNATURE_OM,
@@ -97,6 +100,7 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
         self::PRODUCT_CODE_WITHOUT_SIGNATURE,
         self::PRODUCT_CODE_WITH_SIGNATURE,
         self::PRODUCT_CODE_RELAY,
+        self::PRODUCT_CODE_ECO_OM,
     ];
 
     public const PRODUCT_CODE_INSURANCE_AVAILABLE = [
@@ -446,7 +450,7 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
                 $result->setTrackingNumber($parcelNumber);
                 $completeLabel = $labelBinary;
                 if (!empty($cn23Binary)) {
-                    $completeLabel = $this->helperPdf->combineLabelsPdf([$labelBinary, $cn23Binary])->render();
+                    $completeLabel = $this->helperPdf->combineLabelsPdf([$labelBinary, $cn23Binary]);
                 }
                 $result->setShippingLabelContent($completeLabel);
                 $result->setCn23Content($cn23Binary);
@@ -475,7 +479,7 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
                 } else {
                     $completeLabel = $labelBinary;
                     if (!empty($cn23Binary)) {
-                        $completeLabel = $this->helperPdf->combineLabelsPdf([$labelBinary, $cn23Binary])->render();
+                        $completeLabel = $this->helperPdf->combineLabelsPdf([$labelBinary, $cn23Binary]);
                     }
                     // Add the tracking to shipment
                     $shipment = $request->getOrderShipment();
@@ -662,7 +666,7 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
                                               ->withSender($sender, $storeId)
                                               ->withAddressee($recipient, null, $storeId, $shippingMethodUsed)
                                               ->withPreparationDelay($request->getPreparationDelay(), $storeId)
-                                              ->withProductCode($productCode)
+                                              ->withProductCode($productCode, $recipient['countryCode'])
                                               ->withOutputFormat($request->getOutputFormat(), $storeId)
                                               ->withInstructions($shippingInstructions)
                                               ->withOrderNumber($order->getIncrementId())
@@ -677,7 +681,7 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
                                                   $shippingType,
                                                   $shippingMethodUsed
                                               )
-                                              ->withPostalNetwork($recipient['countryCode'], $productCode, $shippingMethodUsed)
+                                              ->withPostalNetwork($recipient['countryCode'], $productCode, $shippingMethodUsed, $recipient['zipCode'])
                                               ->withDdp(
                                                   $shipment,
                                                   $shippingMethodUsed,
@@ -790,7 +794,7 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
                                               ->withCommercialName(null, $storeId)
                                               ->withCuserInfoText()
                                               ->withSender($sender, $storeId)
-                                              ->withAddressee($recipient, null, $storeId)
+                                              ->withAddressee($recipient, $orderShipment->getOrder()->getIncrementId(), $storeId)
                                               ->withFtd($recipient['countryCode'], $storeId)
                                               ->withPreparationDelay($request->getPreparationDelay(), $storeId)
                                               ->withProductCode($productCode)
@@ -960,6 +964,12 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
         array $cartCategoriesByProduct = [],
         array $cartHazmatCategories = []
     ) {
+        // ECO Outre-Mer is only available from mainland France or from the supported overseas territories
+        if (self::CODE_SHIPPING_METHOD_ECO_OM === $methodCode
+            && !in_array(strtoupper($originCountryId ?? ''), CountryOffer::ECO_OM_ORIGIN_COUNTRIES_CODE)) {
+            return null;
+        }
+
         // DDP for GB must be commercial and between 160€ and 1050€
         $customsCategory = $this->helperData->getAdvancedConfigValue('lpc_labels/defaultCustomsCategory');
         $isCommercialSend = CustomsCategory::COMMERCIAL_SHIPMENT === intval($customsCategory);

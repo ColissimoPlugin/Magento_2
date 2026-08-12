@@ -138,7 +138,7 @@ class MassDownloadShipment extends Action
 
                 $pdfs[] = [
                     'label'   => 'Order_' . $shipment->getOrderId() . '_shipment_' . $shipment->getIncrementId() . '.pdf',
-                    'content' => $this->getPdf()->render(),
+                    'content' => $this->getPdf(),
                 ];
             }
 
@@ -184,10 +184,9 @@ class MassDownloadShipment extends Action
     }
 
     /**
-     * @return \Zend_Pdf
+     * @return string
      * @throws \Magento\Framework\Exception\FileSystemException
      * @throws \Magento\Framework\Exception\LocalizedException
-     * @throws \Zend_Pdf_Exception
      */
     public function getPdf()
     {

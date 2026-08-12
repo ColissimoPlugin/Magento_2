@@ -1,0 +1,10 @@
+<?php
+/** @var \LaPoste\Colissimo\Block\Frontend\Order\DeliveryDate $block */
+$deliveryDate = $block->getDeliveryDate();
+?>
+<?php if (!empty($deliveryDate)): ?>
+    <dl class="order-tracking order-delivery-date">
+        <dt class="tracking-title"><?= $block->escapeHtml(__('Estimated delivery:')) ?></dt>
+        <dd class="tracking-content"><?= $block->escapeHtml($deliveryDate) ?></dd>
+    </dl>
+<?php endif; ?>

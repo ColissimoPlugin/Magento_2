@@ -4,6 +4,7 @@ namespace LaPoste\Colissimo\Controller\Adminhtml\Prices;
 
 class Delete extends \LaPoste\Colissimo\Controller\Adminhtml\Prices
 {
+    const ADMIN_RESOURCE = 'LaPoste_Colissimo::Prices_delete';
 
     /**
      * Delete action
