@@ -1,0 +1,46 @@
+<?php /* @var $block \LaPoste\Colissimo\Block\System\Config\Field\EoriInfo */ ?>
+
+
+<div id="lpc_eori_info">
+    <p>
+        <?= $block->escapeHtml(__('The EORI number for a French company consists of the code "FR" followed by the 9-digit SIREN number.')); ?>
+    </p>
+    <p>
+        <?php
+        printf(
+            __('To get your EORI SIREN number: %s'),
+            '<a target="_blank" href="https://www.douane.gouv.fr/service-en-ligne/demande-dautorisation-douaniere-et-fiscale-soprano">' . __('click here') . '</a>'
+        );
+        ?>
+    </p>
+    <p>
+        <?= $block->escapeHtml(__('The EORI SIREN number for the shipper is required:')); ?>
+    </p>
+    <p>
+    <ul>
+        <li>
+            <?= $block->escapeHtml(__('for international exports using DDP.')); ?>
+        </li>
+        <li>
+            <?= $block->escapeHtml(__('for DAP and DDP to the United States.')); ?>
+        </li>
+        <li>
+            <?= $block->escapeHtml(__('to overseas territories for packages valued at 1,000€ or more; the recipient\'s EORI number is required for imports into overseas territories.')); ?>
+        </li>
+    </ul>
+    </p>
+    <p>
+        <?php printf(
+            __('More regulatory information %1$s and %2$s.'),
+            '<a target="_blank" href="https://www.douane.gouv.fr/vers-un-eori-siren-unique-et-un-portail-europeen-pour-les-autorisations-douanieres">' . __('here') . '</a>',
+            '<a target="_blank" href="https://www.economie.gouv.fr/entreprises/developper-son-entreprise/importer-et-exporter-linternational/numero-eori-lidentifiant-indispensable-pour-vos-formalites-douanieres">' . __('here') . '</a>'
+        ); ?>
+    </p>
+</div>
+
+
+<style>
+    #row_lpc_advanced_lpc_labels_eoriinfo #lpc_eori_info ul{
+        padding-left: 30px;
+    }
+</style>

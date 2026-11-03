@@ -496,6 +496,10 @@
                         <field id="isFtd">1</field>
                     </depends>
                 </field>
+                <field id="eoriinfo" translate="label" type="text" sortOrder="83" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>EORI information</label>
+                    <frontend_model>LaPoste\Colissimo\Block\System\Config\Field\EoriInfo</frontend_model>
+                </field>
                 <field id="eoriNumber" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="85" translate="label" type="text">
                     <label>EORI number</label>
                     <depends>

@@ -188,10 +188,6 @@ class DownloadLabel extends Action
         return $newPdfContent;
     }
 
-    /**
-     * @param $shipment
-     * @return \Zend_Pdf
-     */
     protected function getInvoicePdf($shipment)
     {
         $invoiceCollection = $shipment->getOrder()->getInvoiceCollection();

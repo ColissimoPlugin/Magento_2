@@ -83,3 +83,16 @@ img.widget_colissimo_icone_img{
 .widget_colissimo_bouton_validation{
     box-sizing: content-box;
 }
+
+/** Drop-off widget search bar **/
+#lpc_layer_widget #widget_colissimo_table_adresse{
+    width: auto;
+}
+
+#lpc_layer_widget #widget_colissimo_table_adresse td{
+    background-color: white;
+}
+
+#lpc_layer_widget #widget_colissimo_table_adresse tr.widget_colissimo_padding td.widget_colissimo_padding{
+    vertical-align: middle;
+}

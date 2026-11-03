@@ -6,8 +6,10 @@ use LaPoste\Colissimo\Api\Data\PricesInterface;
 use LaPoste\Colissimo\Helper\Data;
 use LaPoste\Colissimo\Model\Carrier\Colissimo;
 use LaPoste\Colissimo\Model\Prices;
+use LaPoste\Colissimo\Model\Prices\DefaultPrices;
 use LaPoste\Colissimo\Model\PricesRepository;
 use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
 use Magento\Framework\Setup\Patch\DataPatchInterface;
@@ -18,34 +20,12 @@ use Magento\Framework\Setup\Patch\DataPatchInterface;
  */
 class EcoOmPricesPatch implements DataPatchInterface
 {
-    /**
-     * @var ModuleDataSetupInterface
-     */
-    private $moduleDataSetup;
-    /**
-     * @var Data
-     */
-    private $helperData;
-    /**
-     * @var ObjectManagerInterface
-     */
-    private $objectManager;
-    /**
-     * @var SearchCriteriaBuilder
-     */
-    private $searchCriteriaBuilder;
-    /**
-     * @var PricesRepository
-     */
-    private $pricesRepository;
+    private ModuleDataSetupInterface $moduleDataSetup;
+    private Data $helperData;
+    private ObjectManagerInterface $objectManager;
+    private SearchCriteriaBuilder $searchCriteriaBuilder;
+    private PricesRepository $pricesRepository;
 
-    /**
-     * @param ModuleDataSetupInterface $moduleDataSetup
-     * @param Data                     $helperData
-     * @param ObjectManagerInterface   $objectManager
-     * @param SearchCriteriaBuilder    $searchCriteriaBuilder
-     * @param PricesRepository         $pricesRepository
-     */
     public function __construct(
         ModuleDataSetupInterface $moduleDataSetup,
         Data $helperData,
@@ -60,31 +40,29 @@ class EcoOmPricesPatch implements DataPatchInterface
         $this->pricesRepository = $pricesRepository;
     }
 
-    public static function getDependencies()
+    public static function getDependencies(): array
     {
         return [
             DefaultPricesPatch::class,
         ];
     }
 
-    public function getAliases()
+    public function getAliases(): array
     {
         return [];
     }
 
-    public function apply()
+    public function apply(): void
     {
         $this->moduleDataSetup->getConnection()->startSetup();
-
         $this->addEcoOmDefaultPrices();
-
         $this->moduleDataSetup->getConnection()->endSetup();
     }
 
     /**
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
-    public function addEcoOmDefaultPrices()
+    public function addEcoOmDefaultPrices(): void
     {
         $searchCriteria = $this->searchCriteriaBuilder->create();
         $pricesItems = $this->pricesRepository
@@ -97,7 +75,7 @@ class EcoOmPricesPatch implements DataPatchInterface
         }
 
         $defaultPrices = json_decode(
-            file_get_contents(DefaultPricesPatch::DEFAULT_PRICES_PER_ZONE_JSON_FILE),
+            file_get_contents(DefaultPrices::DEFAULT_PRICES_PER_ZONE_JSON_FILE),
             \JSON_OBJECT_AS_ARRAY
         );
 
@@ -106,7 +84,7 @@ class EcoOmPricesPatch implements DataPatchInterface
         }
 
         $weightUnit = $this->helperData->getConfigValue('general/locale/weight_unit');
-        $conversion = DefaultPricesPatch::UNIT_LBS === $weightUnit;
+        $conversion = DefaultPrices::UNIT_LBS === $weightUnit;
 
         foreach ($defaultPrices as $regionCode => $methodsPrices) {
             if (empty($methodsPrices[Colissimo::CODE_SHIPPING_METHOD_ECO_OM])) {

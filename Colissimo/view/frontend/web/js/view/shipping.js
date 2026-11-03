@@ -120,7 +120,28 @@ define([
                 return '';
             }
 
-            return '<img alt="Logo Colissimo" src="' + window.checkoutConfig.colissimo.iconUrl + '" width="40" class="lpc_method_icon">';
+            let image = '<img alt="Logo Colissimo" src="' + window.checkoutConfig.colissimo.iconUrl + '" width="40" class="lpc_method_icon">';
+
+            const partnerLogo = this.getPartnerLogo();
+            if (partnerLogo) {
+                image = '<img alt="" src="' + partnerLogo.url + '" class="lpc_method_icon" style="width: ' + partnerLogo.width + 'px">';
+            }
+
+            return image;
+        },
+        getPartnerLogo: function () {
+            const shippingAddress = quote.shippingAddress && quote.shippingAddress();
+            if (!shippingAddress || !shippingAddress.countryId) {
+                return null;
+            }
+
+            const postcodePrefix = String(shippingAddress.postcode || '').substring(0, 2);
+            // Canary Islands, Ceuta and Melilla are served through the postal network, with no partner
+            if ('ES' === shippingAddress.countryId && -1 !== window.checkoutConfig.colissimo.postalNetworkEsPrefix.indexOf(postcodePrefix)) {
+                return null;
+            }
+
+            return window.checkoutConfig.colissimo.partnerLogos[shippingAddress.countryId] || null;
         },
         initDeliveryDate: function () {
             if (!quote.shippingAddress || !window.checkoutConfig.colissimo.deliveryDate) {

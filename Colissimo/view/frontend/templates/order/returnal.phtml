@@ -79,8 +79,24 @@
             <?php } else { ?>
                 <li><?= $block->escapeHtml(__('Print your label and stick it on your parcel.')); ?></li>
                 <li>
-                    <?= $block->escapeHtml(__('Drop off your parcel at the post office of your choice:')); ?>
-                    <a target="_blank" href="https://localiser.laposte.fr/?jesuis=particulier&contact=vente&qp=<?= $block->escapeHtmlAttr($block->getShippingPostcode()); ?>">https://localiser.laposte.fr</a>
+                    <?= $block->escapeHtml(__('Drop off your parcel at the post office of your choice:')); ?><br />
+
+                    <?php $dropOffWidgetOptions = $block->getDropOffWidgetOptions(); ?>
+                    <?php if (!empty($dropOffWidgetOptions)) { ?>
+                    <link rel="stylesheet" type="text/css" href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css">
+                    <link rel="stylesheet" type="text/css" href="<?= $block->escapeUrl($block->getViewFileUrl('LaPoste_Colissimo::css/widget.css')); ?>">
+                        <script type="text/javascript" src="<?= $block->escapeUrl($block->getViewFileUrl('LaPoste_Colissimo::js/widget/mapbox.min.js')); ?>"></script>
+
+                        <button type="button" class="action primary" id="lpc_drop_off_open">
+                            <span><?= $block->escapeHtml(__('Find a drop-off point')); ?></span>
+                        </button>
+                        <div id="lpc_drop_off_layer" style="display: none">
+                            <div id="lpc_drop_off_widget" class="widget_colissimo"></div>
+                        </div>
+                    <input type="hidden" id="lpc_drop_off_widget_options" value="<?= $block->escapeHtmlAttr(json_encode($dropOffWidgetOptions)); ?>">
+                    <?php }else{ ?>
+                        <a target="_blank" href="https://localiser.laposte.fr/?jesuis=particulier&contact=vente&qp=<?= $block->escapeHtmlAttr($block->getShippingPostcode()); ?>">https://localiser.laposte.fr</a>
+                    <?php } ?>
                 </li>
             <?php } ?>
 

@@ -290,11 +290,20 @@
 /** Icon **/
 .lpc_method_icon{
     width: 40px;
+    display: inline;
+    vertical-align: middle;
+}
+
+.lpc_method_icon_separator{
+    font-weight: normal;
+    font-size: 1rem;
+    vertical-align: middle;
 }
 
 .table-checkout-shipping-method tbody td.col-icon{
     padding: 0px;
     vertical-align: middle;
+    white-space: nowrap;
 }
 
 /** Shipping notes **/

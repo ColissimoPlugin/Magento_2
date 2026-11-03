@@ -220,10 +220,6 @@ class MassDownloadShipment extends Action
         return $this->shipment->getDataUsingMethod('shipping_label');
     }
 
-    /**
-     * @return string
-     * @throws \Zend_Pdf_Exception
-     */
     public function getInvoicePdfContent()
     {
         $invoiceCollection = $this->shipment->getOrder()->getInvoiceCollection();

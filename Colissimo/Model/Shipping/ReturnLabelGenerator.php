@@ -86,7 +86,7 @@ class ReturnLabelGenerator
         $response = $this->labelFactory->create()->returnOfShipment($shipment, $isSecuredReturn);
 
         if ($response->hasErrors()) {
-            throw new \Magento\Framework\Exception\LocalizedException(__($response->getErrors()));
+            throw new \Magento\Framework\Exception\LocalizedException(__($response->getErrors()[0]));
         }
         if (!$response->hasInfo()) {
             throw new \Magento\Framework\Exception\LocalizedException(__('Response info is not exist.'));

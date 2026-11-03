@@ -4,7 +4,7 @@
     <update handle="sales_order_info_links"/>
     <head>
         <css src="LaPoste_Colissimo::css/returnal.css"/>
-        <css src="LaPoste_Colissimo::js/order/returnal.js"/>
+        <script src="LaPoste_Colissimo::js/order/returnal.js"/>
     </head>
     <body>
         <referenceContainer name="page.main.title">

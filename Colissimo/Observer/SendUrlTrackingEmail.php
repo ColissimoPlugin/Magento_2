@@ -13,6 +13,7 @@ namespace LaPoste\Colissimo\Observer;
 use LaPoste\Colissimo\Api\UnifiedTrackingApi;
 use LaPoste\Colissimo\Helper\Data;
 use LaPoste\Colissimo\Logger\Colissimo;
+use \LaPoste\Colissimo\Model\Carrier\Colissimo as ColissimoCarrier;
 use Magento\Directory\Model\CountryFactory;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
@@ -142,6 +143,9 @@ class SendUrlTrackingEmail implements ObserverInterface
             $shippingAddress = $order->getShippingAddress();
 
             $shippingAddressFormatted = $shippingAddress['firstname'] . ' ' . $shippingAddress['lastname'] . '<br />';
+            if ($order->getShippingMethod() === ColissimoCarrier::CODE . '_' . ColissimoCarrier::CODE_SHIPPING_METHOD_RELAY) {
+                $shippingAddressFormatted .= $shippingAddress['company'] . '<br />';
+            }
             $shippingAddressFormatted .= nl2br($shippingAddress['street']) . '<br />';
             $shippingAddressFormatted .= $shippingAddress['postcode'] . ' ' . $shippingAddress['city'];
             if (!empty($shippingAddress['region'])) {
@@ -165,7 +169,7 @@ class SendUrlTrackingEmail implements ObserverInterface
                             'customerName'    => $recipientName,
                             'orderNumber'     => $incrementId,
                             'createdAt'       => $order->getCreatedAt(),
-                                                                 'trackingLink'    => $this->getTrackingActionUrl($orderId),
+                            'trackingLink'    => $this->getTrackingActionUrl($orderId),
                             'shippingAddress' => $shippingAddressFormatted,
                             'parcelNumber'    => $parcelNumber,
                         ]

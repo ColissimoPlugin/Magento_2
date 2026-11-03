@@ -11,11 +11,11 @@
 namespace LaPoste\Colissimo\Helper;
 
 
+use LaPoste\Colissimo\Model\Pdf\VersionedPdf;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
 use Magento\Framework\Filesystem;
-use setasign\Fpdi\Fpdi;
 use setasign\Fpdi\PdfParser\StreamReader;
 
 class Pdf extends AbstractHelper
@@ -61,6 +61,10 @@ class Pdf extends AbstractHelper
             }
         }
 
+        // Zend_Pdf, used by Magento to re-read the shipping label, only supports PDF versions up to 1.4.
+        // TODO: Once Magento handles PDF v2, drop this
+        $outputPdf->setPdfVersion('1.4');
+
         return $outputPdf->Output('S');
     }
 
@@ -83,11 +87,11 @@ class Pdf extends AbstractHelper
     }
 
     /**
-     * @return \setasign\Fpdi\Fpdi
+     * @return \LaPoste\Colissimo\Model\Pdf\VersionedPdf
      */
     protected function createPdfDocument()
     {
-        $pdf = new Fpdi('P', 'pt');
+        $pdf = new VersionedPdf('P', 'pt');
         $pdf->SetMargins(0, 0);
         $pdf->SetAutoPageBreak(false);
 
@@ -97,12 +101,12 @@ class Pdf extends AbstractHelper
     /**
      * Import all pages of a PDF binary string into the given document
      *
-     * @param \setasign\Fpdi\Fpdi $outputPdf
-     * @param string              $content
+     * @param \LaPoste\Colissimo\Model\Pdf\VersionedPdf $outputPdf
+     * @param string                                     $content
      * @return void
      * @throws \setasign\Fpdi\PdfParser\PdfParserException
      */
-    protected function addPdfPages(Fpdi $outputPdf, $content)
+    protected function addPdfPages(VersionedPdf $outputPdf, $content)
     {
         $pageCount = $outputPdf->setSourceFile(StreamReader::createByString($content));
         for ($pageNumber = 1; $pageNumber <= $pageCount; $pageNumber++) {
@@ -116,13 +120,13 @@ class Pdf extends AbstractHelper
     /**
      * Add a page containing the given image to the document. Supports JPEG, PNG, GIF, WBMP, and GD2 formats.
      *
-     * @param \setasign\Fpdi\Fpdi $outputPdf
-     * @param string              $imageString
+     * @param \LaPoste\Colissimo\Model\Pdf\VersionedPdf $outputPdf
+     * @param string                                     $imageString
      * @return bool
      * @throws \Magento\Framework\Exception\FileSystemException
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    protected function addImagePage(Fpdi $outputPdf, $imageString)
+    protected function addImagePage(VersionedPdf $outputPdf, $imageString)
     {
         /** @var \Magento\Framework\Filesystem\Directory\Write $directory */
         $directory = $this->filesystem->getDirectoryWrite(

@@ -21,6 +21,7 @@
                 <class>secondary</class>
                 <label translate="true">Import prices</label>
             </button>
+            <button name="reset_default" class="LaPoste\Colissimo\Block\Adminhtml\Prices\ResetDefaultButton"/>
             <button name="add">
                 <url path="*/*/new"/>
                 <class>primary</class>

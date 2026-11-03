@@ -1,6 +1,30 @@
 require([
-    'jquery'
-], function ($) {
+    'jquery',
+    'Magento_Ui/js/modal/modal',
+    'jquery.plugin.colissimo.pdd'
+], function ($, modal) {
+    let dropOffPopup;
+
+    $('#lpc_drop_off_open').on('click', function () {
+        if (!dropOffPopup) {
+            dropOffPopup = modal({
+                buttons: [],
+                responsive: true,
+                wrapperClass: 'modals-wrapper lpc_modals-wrapper',
+                modalVisibleClass: '_show _show_lpc_drop_off',
+                closed: function () {
+                    try {
+                        $('#lpc_drop_off_widget').frameColissimoClose();
+                    } catch (e) {
+                    }
+                }
+            }, $('#lpc_drop_off_layer'));
+        }
+
+        dropOffPopup.openModal();
+        $('#lpc_drop_off_widget').frameColissimoOpen(JSON.parse($('#lpc_drop_off_widget_options').val()));
+    });
+
     $('#lpcreturn_header_selectall').on('click', function () {
         $('.lpcreturn_selection').prop('checked', this.checked);
     });

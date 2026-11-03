@@ -345,7 +345,7 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
 
             $result = $this->makeRequest($request, $labelGenerationPayload, $returnLabelGenerationPayload);
             if ($result->hasErrors()) {
-                $this->handleLabelErrorMessages($shipment, $isReturnLabel, $result->getErrors());
+                $this->handleLabelErrorMessages($shipment, $isReturnLabel, implode(' ', $result->getErrors()));
             } else {
                 $this->handleLabelErrorMessages($shipment, $isReturnLabel);
             }
@@ -355,6 +355,16 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
         }
 
         return $result;
+    }
+
+    private function formatApiMessages($messages): array
+    {
+        $errors = [];
+        foreach ((array) $messages as $message) {
+            $errors[] = $message->id . ' : ' . $message->messageContent;
+        }
+
+        return $errors;
     }
 
     private function handleLabelErrorMessages($shipment, $isReturnLabel, $errorMessage = null)
@@ -445,13 +455,10 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
 
             // store info
             if (empty($parcelNumber)) {
-                $result->setErrors($shipmentDataInfo->messages);
+                $result->setErrors($this->formatApiMessages($shipmentDataInfo->messages));
             } else {
                 $result->setTrackingNumber($parcelNumber);
-                $completeLabel = $labelBinary;
-                if (!empty($cn23Binary)) {
-                    $completeLabel = $this->helperPdf->combineLabelsPdf([$labelBinary, $cn23Binary]);
-                }
+                $completeLabel = $this->helperPdf->combineLabelsPdf([$labelBinary, $cn23Binary]);
                 $result->setShippingLabelContent($completeLabel);
                 $result->setCn23Content($cn23Binary);
             }
@@ -475,12 +482,9 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
 
                 //store return label in our custom field
                 if (empty($parcelNumber)) {
-                    $result->setErrors($shipmentDataInfo->messages);
+                    $result->setErrors($this->formatApiMessages($shipmentDataInfo->messages));
                 } else {
-                    $completeLabel = $labelBinary;
-                    if (!empty($cn23Binary)) {
-                        $completeLabel = $this->helperPdf->combineLabelsPdf([$labelBinary, $cn23Binary]);
-                    }
+                    $completeLabel = $this->helperPdf->combineLabelsPdf([$labelBinary, $cn23Binary]);
                     // Add the tracking to shipment
                     $shipment = $request->getOrderShipment();
                     $carrierTitle = $this->getConfigData('title');
@@ -493,7 +497,7 @@ class Colissimo extends AbstractCarrierOnline implements CarrierInterface
                 'Error while generating Label',
                 ['request' => $request, 'message' => $e->getMessage()]
             );
-            $result->setErrors($e->getMessage());
+            $result->setErrors([$e->getMessage()]);
         }
 
         $this->changeOrderStatusIfNeeded($request);

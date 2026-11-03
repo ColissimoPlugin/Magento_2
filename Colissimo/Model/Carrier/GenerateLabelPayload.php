@@ -712,28 +712,26 @@ class GenerateLabelPayload implements \LaPoste\Colissimo\Api\Carrier\GenerateLab
             throw new \Magento\Framework\Exception\LocalizedException(__('Please define a mobile phone number for SMS notification tracking'));
         }
 
-        // Must have dimensions
+        // Optional dimensions for DDP sent only when all three are filled
         $length = $shipment->getLpcDdpLength();
         $width = $shipment->getLpcDdpWidth();
         $height = $shipment->getLpcDdpHeight();
-        if (empty($length) || empty($width) || empty($height)) {
-            $this->logger->error('Package dimensions missing for DDP label generation', ['shippingMethod' => $shippingMethod]);
-            throw new \Magento\Framework\Exception\LocalizedException(__('Please enter the package dimensions'));
+        if (!empty($length) && !empty($width) && !empty($height)) {
+            $dimensions = [(int) $length, (int) $width, (int) $height];
+            sort($dimensions);
+            $this->payload['fields']['field'][] = [
+                'key'   => 'LENGTH',
+                'value' => array_pop($dimensions),
+            ];
+            $this->payload['fields']['field'][] = [
+                'key'   => 'WIDTH',
+                'value' => array_pop($dimensions),
+            ];
+            $this->payload['fields']['field'][] = [
+                'key'   => 'HEIGHT',
+                'value' => array_pop($dimensions),
+            ];
         }
-        $dimensions = [(int) $length, (int) $width, (int) $height];
-        sort($dimensions);
-        $this->payload['fields']['field'][] = [
-            'key'   => 'LENGTH',
-            'value' => array_pop($dimensions),
-        ];
-        $this->payload['fields']['field'][] = [
-            'key'   => 'WIDTH',
-            'value' => array_pop($dimensions),
-        ];
-        $this->payload['fields']['field'][] = [
-            'key'   => 'HEIGHT',
-            'value' => array_pop($dimensions),
-        ];
 
         // Must have EORI
         if (!$this->eoriAdded) {

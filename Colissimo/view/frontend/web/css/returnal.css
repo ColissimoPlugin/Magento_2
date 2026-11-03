@@ -31,3 +31,38 @@
     margin-top: 0;
     font-weight: bold;
 }
+
+@media all and (min-width: 1200px){
+    .lpc_modals-wrapper ._show_lpc_drop_off .modal-inner-wrap{
+        margin-left: 0;
+        left: 10%;
+        min-width: 1080px;
+        min-height: 570px;
+    }
+}
+
+@media all and (max-width: 1199px){
+    .lpc_modals-wrapper ._show_lpc_drop_off .modal-inner-wrap{
+        width: 100%;
+        margin-left: 0;
+        left: 0;
+        min-height: 600px;
+    }
+}
+
+#lpc_drop_off_open{
+    margin-top: 1rem;
+}
+
+/** Drop-off widget search bar **/
+#lpc_drop_off_layer #widget_colissimo_table_adresse{
+    width: auto;
+}
+
+#lpc_drop_off_layer #widget_colissimo_table_adresse td{
+    background-color: white;
+}
+
+#lpc_drop_off_layer #widget_colissimo_table_adresse tr.widget_colissimo_padding td.widget_colissimo_padding{
+    vertical-align: middle;
+}

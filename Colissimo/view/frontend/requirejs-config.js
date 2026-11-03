@@ -13,10 +13,14 @@ var config = {
         }
     },
     paths: {
-        'jquery.plugin.colissimo': 'https://ws.colissimo.fr/widget-colissimo/js/jquery.plugin.colissimo'
+        'jquery.plugin.colissimo': 'https://ws.colissimo.fr/widget-colissimo/js/jquery.plugin.colissimo',
+        'jquery.plugin.colissimo.pdd': 'https://ws.colissimo.fr/widget-colissimo/js/jquery.plugin.colissimo.pdd'
     },
     shim: {
         'jquery.plugin.colissimo': {
+            deps: ['jquery']
+        },
+        'jquery.plugin.colissimo.pdd': {
             deps: ['jquery']
         }
     }

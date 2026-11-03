@@ -240,10 +240,6 @@ class MassPrintLabels extends Action
         return $this->resultRedirectFactory->create()->setPath('laposte_colissimo/shipment/index');
     }
 
-    /**
-     * @return bool
-     * @throws \Zend_Pdf_Exception
-     */
     public function getPdf()
     {
         $pdfData = $this->shipment->getDataUsingMethod('shipping_label');
@@ -266,10 +262,6 @@ class MassPrintLabels extends Action
         return true;
     }
 
-    /**
-     * @return string
-     * @throws \Zend_Pdf_Exception
-     */
     public function getInvoicePdfContent()
     {
         $invoiceCollection = $this->shipment->getOrder()->getInvoiceCollection();
